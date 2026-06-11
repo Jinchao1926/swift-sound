@@ -53,7 +53,7 @@ struct SidebarRowView: View {
     }
 
     private enum Layout {
-        static let cornerRadius: CGFloat = 8
+        static let cornerRadius: CGFloat = 6
         static let rowVerticalInset: CGFloat = 2
         static let highlightHeight: CGFloat = 38
         static let highlightHorizontalInset: CGFloat = 14
@@ -65,5 +65,6 @@ struct SidebarRowView: View {
 
 #Preview {
     SidebarRowView(route: .featured, selection: .constant(.featured))
+        .frame(minWidth: 203, maxWidth: 203)
         .padding()
 }

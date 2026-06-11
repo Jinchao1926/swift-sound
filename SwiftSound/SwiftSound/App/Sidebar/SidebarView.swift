@@ -12,7 +12,7 @@ struct SidebarView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            TitleBarReserveView()
+            LogoView()
 
             VStack(spacing: 0) {
                 ForEach(SidebarSection.allCases) { section in
@@ -44,4 +44,5 @@ struct SidebarView: View {
 
 #Preview {
     SidebarView(selection: .constant(.featured))
+        .frame(width: 203)
 }
