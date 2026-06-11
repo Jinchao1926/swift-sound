@@ -9,16 +9,17 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var selection: HomeRoute = .featured
+    private let sidebarWidth: CGFloat = 203
     
     var body: some View {
-        HSplitView {
+        HStack(spacing: 0) {
             SidebarView(selection: $selection)
-                .frame(minWidth: 400, idealWidth: 400, maxWidth: 1300)
+                .frame(width: sidebarWidth)
             
             DetailContainerView(route: selection)
-                .frame(minWidth: 720)
+                .frame(minWidth: 854, maxWidth: .infinity)
         }
-        .frame(minWidth: 1120, minHeight: 720)
+        .frame(minHeight: 720)
     }
 }
 
