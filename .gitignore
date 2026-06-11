@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+._*
+
+# Xcode build products
+DerivedData/
+build/
+*.moved-aside
+
+# Xcode user-specific state
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+*.xcuserdatad/
+**/xcuserdata/
+
+# Swift Package Manager
+.build/
+.swiftpm/configuration/
+.swiftpm/xcode/
+
+# Local environment
+.env
+.env.*
