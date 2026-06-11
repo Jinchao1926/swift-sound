@@ -20,34 +20,34 @@ enum HomeRoute: String, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .featured:
-            return "Featured"
+            return "精选"
         case .podcast:
-            return "Podcast"
+            return "播客"
         case .follow:
-            return "Follow"
+            return "关注"
         case .favorite:
-            return "Favorite"
+            return "我喜欢的音乐"
         case .played:
-            return "Played"
+            return "最近播放"
         case .download:
-            return "Download"
+            return "下载管理"
         }
     }
 
     var systemImage: String {
         switch self {
         case .featured:
-            return "sparkles"
+            return "music.pages.fill"
         case .podcast:
             return "dot.radiowaves.left.and.right"
         case .follow:
-            return "person.2"
+            return "bubble.fill"
         case .favorite:
-            return "heart"
+            return "heart.fill"
         case .played:
-            return "clock.arrow.circlepath"
+            return "clock.fill"
         case .download:
-            return "arrow.down.circle"
+            return "arrow.down.circle.fill"
         }
     }
 }

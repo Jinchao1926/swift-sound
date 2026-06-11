@@ -10,7 +10,7 @@ import SwiftUI
 struct TitleBarReserveView: View {
     var body: some View {
         Color.clear
-            .frame(height: 52)
+            .frame(height: 40)
             .allowsHitTesting(false)
     }
 }

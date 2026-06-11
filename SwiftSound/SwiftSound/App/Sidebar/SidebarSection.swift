@@ -10,17 +10,10 @@ import Foundation
 enum SidebarSection: CaseIterable, Identifiable {
     case discover
     case library
+    case createdPlaylist
+//    case favoritedPlaylist
 
     var id: Self { self }
-
-    var title: String {
-        switch self {
-        case .discover:
-            return "Discover"
-        case .library:
-            return "Library"
-        }
-    }
 
     var routes: [HomeRoute] {
         switch self {
@@ -28,6 +21,10 @@ enum SidebarSection: CaseIterable, Identifiable {
             return [.featured, .podcast, .follow]
         case .library:
             return [.favorite, .played, .download]
+        case .createdPlaylist:
+            return []
+//        case .favoritedPlaylist:
+//            return []
         }
     }
 }

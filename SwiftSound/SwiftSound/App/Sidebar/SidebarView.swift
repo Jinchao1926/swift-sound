@@ -12,20 +12,33 @@ struct SidebarView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-//            TitleBarReserveView()
+            TitleBarReserveView()
 
-            List(selection: $selection) {
+            VStack(spacing: 0) {
                 ForEach(SidebarSection.allCases) { section in
-                    Section(section.title) {
-                        ForEach(section.routes) { route in
-                            SidebarRowView(route: route)
-                                .tag(route)
-                        }
+                    if section != .discover {
+                        Divider()
+                            .overlay(Color.divider)
+                            .padding(.vertical, Layout.dividerVerticalInset)
+                    }
+
+                    ForEach(section.routes) { route in
+                        SidebarRowView(route: route, selection: $selection)
                     }
                 }
             }
-            .listStyle(.sidebar)
+            .padding(.leading, Layout.leadingInset)
+            .padding(.trailing, Layout.trailingInset)
+
+            Spacer(minLength: 0)
         }
+        .background(Color.surfaceSecondary)
+    }
+
+    private enum Layout {
+        static let leadingInset: CGFloat = 22
+        static let trailingInset: CGFloat = 16
+        static let dividerVerticalInset: CGFloat = 12
     }
 }
 
