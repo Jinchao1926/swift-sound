@@ -8,26 +8,36 @@
 import Alamofire
 import Foundation
 
-final class APIClient: APIClientProtocol, @unchecked Sendable {
+final class APIClient: APIClientProtocol {
     private let configuration: AppConfiguration
     private let session: Session
+    private let cache: APIResponseCache
 
     init(
         configuration: AppConfiguration = .current(),
-        session: Session = .default
+        session: Session = .default,
+        cache: APIResponseCache = .shared
     ) {
         self.configuration = configuration
         self.session = session
+        self.cache = cache
     }
 
     func request<Request: APIRequest>(_ request: Request) async throws -> Request.Response {
+        // 1. Cache
+        let cacheKey = request.cacheKey(relativeTo: configuration.baseURL)
+        if let value = cache.value(for: cacheKey, as: Request.Response.self) {
+            return value
+        }
+
+        // 2. Network
         let urlRequest = try request.urlRequest(relativeTo: configuration.baseURL)
 
-        return try await withCheckedThrowingContinuation { continuation in
+        let value: Request.Response = try await withCheckedThrowingContinuation { continuation in
             session
                 .request(urlRequest)
                 .validate()
-                .responseDecodable(of: Request.Response.self, decoder: request.decoder()) { response in
+                .responseDecodable(of: Request.Response.self, decoder: request.decoder) { response in
                     switch response.result {
                     case .success(let value):
                         continuation.resume(returning: value)
@@ -44,5 +54,8 @@ final class APIClient: APIClientProtocol, @unchecked Sendable {
                     }
                 }
         }
+
+        cache.store(value, for: cacheKey, policy: request.cachePolicy)
+        return value
     }
 }

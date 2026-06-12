@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol APIClientProtocol: Sendable {
+protocol APIClientProtocol {
     func request<Request: APIRequest>(_ request: Request) async throws -> Request.Response
 }

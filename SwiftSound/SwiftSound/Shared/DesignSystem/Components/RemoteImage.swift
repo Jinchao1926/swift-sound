@@ -2,7 +2,7 @@
 //  RemoteImage.swift
 //  SwiftSound
 //
-//  Created by Codex on 2026/6/12.
+//  Created by Jinchao Lin on 2026/6/12.
 //
 
 import Kingfisher

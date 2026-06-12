@@ -207,6 +207,7 @@
 			packageReferences = (
 				CE08B1102FDBED2900053C53 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				CE08B1112FDBF3EC00053C53 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				CE08B1C62FDC3EBC00053C53 /* XCRemoteSwiftPackageReference "Cache" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CEAC641E2FDA6420002B01A2 /* Products */;
@@ -608,6 +609,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.12.0;
+			};
+		};
+		CE08B1C62FDC3EBC00053C53 /* XCRemoteSwiftPackageReference "Cache" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:hyperoslo/Cache.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.4.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
