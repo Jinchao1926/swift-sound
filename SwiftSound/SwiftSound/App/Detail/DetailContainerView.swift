@@ -9,8 +9,21 @@ import SwiftUI
 
 struct DetailContainerView: View {
     let route: HomeRoute
+    let canGoBack: Bool
+    let onBack: () -> Void
     
     var body: some View {
+        VStack(spacing: 0) {
+            TopToolbarView(canGoBack: canGoBack, onBack: onBack)
+
+            content
+        }
+        .background(Color.surfacePrimary)
+        .ignoresSafeArea(edges: .top)   // important
+    }
+
+    @ViewBuilder
+    private var content: some View {
         switch route {
         case .featured:
             FeaturedPage()
@@ -29,5 +42,5 @@ struct DetailContainerView: View {
 }
 
 #Preview {
-    DetailContainerView(route: .featured)
+    DetailContainerView(route: .featured, canGoBack: true, onBack: {})
 }
