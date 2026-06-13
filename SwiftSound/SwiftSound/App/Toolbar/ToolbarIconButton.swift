@@ -13,7 +13,7 @@ struct ToolbarIconButton: View {
     @State private var isHovering = false
 
     var body: some View {
-        Button(action: {}) {
+        Button {} label: {
             Image(systemName: systemName)
                 .font(.label)
                 .foregroundStyle(isHovering ? Color.textPrimary : Color.textSecondary)

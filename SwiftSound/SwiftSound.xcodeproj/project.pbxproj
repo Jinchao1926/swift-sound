@@ -109,6 +109,7 @@
 				CEAC64192FDA6420002B01A2 /* Sources */,
 				CEAC641A2FDA6420002B01A2 /* Frameworks */,
 				CEAC641B2FDA6420002B01A2 /* Resources */,
+				CE150CA32FDD97DA0097727F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -244,6 +245,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CE150CA32FDD97DA0097727F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/SwiftLint.result",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ -x /opt/homebrew/bin/swiftlint ]; then\n  SWIFTLINT=/opt/homebrew/bin/swiftlint\nelif [ -x /usr/local/bin/swiftlint ]; then\n  SWIFTLINT=/usr/local/bin/swiftlint\nelif command -v swiftlint >/dev/null; then\n  SWIFTLINT=$(command -v swiftlint)\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n  touch \"${DERIVED_FILE_DIR}/SwiftLint.result\"\n  exit 0\nfi\n\ncd \"${SRCROOT}/..\"\n\"${SWIFTLINT}\" lint --no-cache --config \"${SRCROOT}/../.swiftlint.yml\"\ntouch \"${DERIVED_FILE_DIR}/SwiftLint.result\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CEAC64192FDA6420002B01A2 /* Sources */ = {
@@ -415,6 +438,7 @@
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -450,6 +474,7 @@
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";

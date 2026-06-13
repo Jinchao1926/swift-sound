@@ -10,7 +10,7 @@ import Combine
 
 final class AppRouter: ObservableObject {
     @Published private(set) var path: [AppRoute] = [.featured]
-    
+
     var currentRoute: AppRoute {
         path.last ?? .featured
     }
@@ -23,7 +23,7 @@ final class AppRouter: ObservableObject {
         guard route != currentRoute else { return }
         path.append(route)
     }
-    
+
     func goBack() {
         guard canGoBack else { return }
         path.removeLast()
