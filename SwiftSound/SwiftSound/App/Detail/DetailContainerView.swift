@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DetailContainerView: View {
     @EnvironmentObject private var router: AppRouter
-    
+
     var body: some View {
         VStack(spacing: 0) {
             TopToolbarView()

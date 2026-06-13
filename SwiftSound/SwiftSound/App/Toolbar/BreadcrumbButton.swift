@@ -24,8 +24,9 @@ struct BreadcrumbButton: View {
         .disabled(!router.canGoBack)
         .onHover { isBackButtonHovering = router.canGoBack && $0 }
         .pointerStyle(router.canGoBack ? .link : .default)
+        .help("后退")
     }
-    
+
     private var backButtonBackground: Color {
         router.canGoBack && isBackButtonHovering ? Color(hex: 0xE1E5E9) : Color.white.opacity(0.76)
     }

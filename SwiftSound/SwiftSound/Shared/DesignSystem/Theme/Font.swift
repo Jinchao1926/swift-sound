@@ -9,7 +9,7 @@ import SwiftUI
 
 extension Font {
     static let label = Font.system(size: 14, weight: .regular)
-    
+
     static let head1 = Font.system(size: 32, weight: .semibold)
     static let head2 = Font.system(size: 28, weight: .semibold)
     static let head3 = Font.system(size: 24, weight: .semibold)

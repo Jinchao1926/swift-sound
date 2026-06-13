@@ -25,6 +25,7 @@ enum APIEnvironment: String, CaseIterable, Identifiable {
         }
     }
 
+    // swiftlint:disable force_unwrapping
     var defaultBaseURL: URL {
         switch self {
         case .development:
@@ -35,4 +36,5 @@ enum APIEnvironment: String, CaseIterable, Identifiable {
             URL(string: "https://api.swiftsound.app")!
         }
     }
+    // swiftlint:enable force_unwrapping
 }

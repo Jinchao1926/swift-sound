@@ -13,7 +13,7 @@ struct SidebarRowView: View {
     // MARK: - Private
     @EnvironmentObject private var router: AppRouter
     @State private var isHovering = false
-    
+
     private var isSelected: Bool { route == router.currentRoute }
 
     // MARK: - UI

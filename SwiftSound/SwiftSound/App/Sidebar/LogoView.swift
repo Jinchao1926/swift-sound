@@ -18,7 +18,7 @@ struct LogoView: View {
             Text("网易云音乐")
                 .font(.head4)
                 .foregroundStyle(Color.textPrimary)
-            
+
             Spacer(minLength: 0)
         }
         .frame(height: Layout.height)
@@ -31,7 +31,7 @@ struct LogoView: View {
         static let height: CGFloat = 40
         static let leadingInset: CGFloat = 22
         static let bottomInset: CGFloat = 18
-        
+
         static let logoSize: CGFloat = 24
         static let logoTitleSpacing: CGFloat = 8
     }

@@ -11,8 +11,7 @@ struct TopToolbarView: View {
     @EnvironmentObject private var router: AppRouter
 
     @State private var searchText = ""
-    @State private var isBackButtonHovering = false
-    @State private var isMicrophoneButtonHovering = false
+    @State private var isMicroButtonHovering = false
 
     var body: some View {
         HStack(alignment: .center, spacing: Layout.controlSpacing) {
@@ -50,26 +49,29 @@ struct TopToolbarView: View {
     }
 
     private var microphoneButton: some View {
-        Button(action: {}) {
+        Button {} label: {
             Image(systemName: "mic")
                 .font(.head6)
                 .foregroundStyle(Color.textSecondary)
                 .frame(width: Layout.controlHeight, height: Layout.controlHeight)
-                .roundedBackground(fill: isMicrophoneButtonHovering ? Style.controlHoverBackground : Style.microphoneBackground)
+                .roundedBackground(
+                    fill: isMicroButtonHovering ? Style.controlHoverBackground : Style.microphoneBackground
+                )
         }
         .buttonStyle(.plain)
-        .onHover { isMicrophoneButtonHovering = $0 }
+        .onHover { isMicroButtonHovering = $0 }
         .pointerStyle(.link)
+        .help("听歌识曲")
     }
 
     private var trailingActions: some View {
         HStack(alignment: .center, spacing: Layout.controlSpacing) {
             loginStatus
 
-            ToolbarIconButton(systemName: "envelope")
-            ToolbarIconButton(systemName: "hexagon")
-            ToolbarIconButton(systemName: "tshirt")
-            ToolbarIconButton(systemName: "rectangle.on.rectangle")
+            ToolbarIconButton(systemName: "envelope").help("消息中心")
+            ToolbarIconButton(systemName: "hexagon").help("设置")
+            ToolbarIconButton(systemName: "tshirt").help("换肤")
+            ToolbarIconButton(systemName: "rectangle.on.rectangle").help("mini")
         }
     }
 
@@ -101,7 +103,7 @@ struct TopToolbarView: View {
                         .fill(Color.textSecondary.opacity(0.28))
                 )
                 .pointerStyle(.link)
-            
+
             ToolbarIconButton(systemName: "chevron.down")
         }
         .frame(height: Layout.controlHeight)
@@ -117,7 +119,7 @@ struct TopToolbarView: View {
         static let controlHeight: CGFloat = 35
         static let searchWidth: CGFloat = 258
         static let searchHorizontalInset: CGFloat = 12
-        
+
         static let trailingIconSize: CGFloat = 20
         static let avatarSize: CGFloat = 28
         static let vipBadgeHeight: CGFloat = 16
