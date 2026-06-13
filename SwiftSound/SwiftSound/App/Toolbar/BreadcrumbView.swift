@@ -1,0 +1,46 @@
+//
+//  BreadcrumbView.swift
+//  SwiftSound
+//
+//  Created by Jinchao Lin on 2026/6/13.
+//
+
+import SwiftUI
+
+struct BreadcrumbView: View {
+    @EnvironmentObject private var router: AppRouter
+
+    var body: some View {
+        HStack(spacing: 6) {
+            ForEach(Array(router.path.enumerated()), id: \.element.id) { index, route in
+                if index > 0 {
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 9, weight: .semibold))
+                        .foregroundStyle(Color.textSecondary.opacity(0.38))
+                }
+
+                Button {
+                    router.navigateBack(to: route)
+                } label: {
+                    Text(route.title)
+                        .font(.label)
+                        .foregroundStyle(
+                            index == router.path.count - 1
+                                ? Color.textPrimary
+                                : Color.textSecondary
+                        )
+                        .lineLimit(1)
+                }
+                .buttonStyle(.plain)
+                .disabled(index == router.path.count - 1)
+                .pointerStyle(.link)
+            }
+        }
+        .lineLimit(1)
+    }
+}
+
+#Preview {
+    BreadcrumbView()
+        .environmentObject(AppRouter())
+}

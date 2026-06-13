@@ -8,10 +8,21 @@
 import SwiftUI
 
 struct DetailContainerView: View {
-    let route: HomeRoute
+    @EnvironmentObject private var router: AppRouter
     
     var body: some View {
-        switch route {
+        VStack(spacing: 0) {
+            TopToolbarView()
+
+            content
+        }
+        .background(Color.surfacePrimary)
+        .ignoresSafeArea(edges: .top)   // important
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch router.currentRoute {
         case .featured:
             FeaturedPage()
         case .podcast:
@@ -29,5 +40,6 @@ struct DetailContainerView: View {
 }
 
 #Preview {
-    DetailContainerView(route: .featured)
+    DetailContainerView()
+        .environmentObject(AppRouter())
 }

@@ -15,7 +15,7 @@ enum SidebarSection: CaseIterable, Identifiable {
 
     var id: Self { self }
 
-    var routes: [HomeRoute] {
+    var routes: [AppRoute] {
         switch self {
         case .discover:
             return [.featured, .podcast, .follow]

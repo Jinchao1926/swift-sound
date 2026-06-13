@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct SidebarView: View {
-    @Binding var selection: HomeRoute
-
     var body: some View {
         VStack(spacing: 0) {
             LogoView()
@@ -23,7 +21,7 @@ struct SidebarView: View {
                     }
 
                     ForEach(section.routes) { route in
-                        SidebarRowView(route: route, selection: $selection)
+                        SidebarRowView(route: route)
                     }
                 }
             }
@@ -43,6 +41,7 @@ struct SidebarView: View {
 }
 
 #Preview {
-    SidebarView(selection: .constant(.featured))
+    SidebarView()
         .frame(width: 203)
+        .environmentObject(AppRouter())
 }
