@@ -8,18 +8,18 @@
 import SwiftUI
 
 struct SidebarRowView: View {
-    let route: HomeRoute
-    @Binding var selection: HomeRoute
-    
+    let route: AppRoute
+
     // MARK: - Private
+    @EnvironmentObject private var router: AppRouter
     @State private var isHovering = false
     
-    private var isSelected: Bool { route == selection }
+    private var isSelected: Bool { route == router.currentRoute }
 
     // MARK: - UI
     var body: some View {
         Button {
-            selection = route
+            router.navigate(to: route)
         } label: {
             HStack(spacing: Layout.contentSpacing) {
                 Image(systemName: route.systemImage)
@@ -64,7 +64,8 @@ struct SidebarRowView: View {
 }
 
 #Preview {
-    SidebarRowView(route: .featured, selection: .constant(.featured))
+    SidebarRowView(route: .featured)
         .frame(minWidth: 203, maxWidth: 203)
         .padding()
+        .environmentObject(AppRouter())
 }

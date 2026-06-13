@@ -8,13 +8,11 @@
 import SwiftUI
 
 struct DetailContainerView: View {
-    let route: HomeRoute
-    let canGoBack: Bool
-    let onBack: () -> Void
+    @EnvironmentObject private var router: AppRouter
     
     var body: some View {
         VStack(spacing: 0) {
-            TopToolbarView(canGoBack: canGoBack, onBack: onBack)
+            TopToolbarView()
 
             content
         }
@@ -24,7 +22,7 @@ struct DetailContainerView: View {
 
     @ViewBuilder
     private var content: some View {
-        switch route {
+        switch router.currentRoute {
         case .featured:
             FeaturedPage()
         case .podcast:
@@ -42,5 +40,6 @@ struct DetailContainerView: View {
 }
 
 #Preview {
-    DetailContainerView(route: .featured, canGoBack: true, onBack: {})
+    DetailContainerView()
+        .environmentObject(AppRouter())
 }

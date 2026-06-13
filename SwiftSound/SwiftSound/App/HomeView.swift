@@ -8,18 +8,18 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var selection: HomeRoute = .featured
-    private let sidebarWidth: CGFloat = 203
+    @StateObject private var router = AppRouter()
     
     var body: some View {
         HStack(spacing: 0) {
-            SidebarView(selection: $selection)
-                .frame(width: sidebarWidth)
+            SidebarView()
+                .frame(width: 203)
             
-            DetailContainerView(route: selection)
+            DetailContainerView()
                 .frame(minWidth: 854, maxWidth: .infinity)
         }
         .frame(minHeight: 720)
+        .environmentObject(router)
     }
 }
 

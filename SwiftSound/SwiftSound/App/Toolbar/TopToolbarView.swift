@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct TopToolbarView: View {
-    let canGoBack: Bool
-    let onBack: () -> Void
+    @EnvironmentObject private var router: AppRouter
 
     @State private var searchText = ""
+    @State private var isBackButtonHovering = false
+    @State private var isMicrophoneButtonHovering = false
 
     var body: some View {
         HStack(alignment: .center, spacing: Layout.controlSpacing) {
-            backButton
+            BreadcrumbButton()
             searchField
             microphoneButton
             Spacer(minLength: Layout.controlSpacing)
@@ -26,43 +27,26 @@ struct TopToolbarView: View {
         .background(Color.surfacePrimary)
     }
 
-    private var backButton: some View {
-        Button(action: onBack) {
-            Image(systemName: "chevron.left")
-                .font(.label)
-                .foregroundStyle(canGoBack ? Color.textSecondary : Color.textSecondary.opacity(0.35))
-                .frame(width: Layout.backButtonWidth, height: Layout.controlHeight)
-                .background(
-                    RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous)
-                        .fill(Color.white.opacity(0.76))
-                        .stroke(Color.divider, lineWidth: 1)
-                )
-        }
-        .buttonStyle(.plain)
-        .disabled(!canGoBack)
-        .pointerStyle(.link)
-    }
-
     private var searchField: some View {
         HStack(alignment: .center, spacing: Layout.controlSpacing) {
             Image(systemName: "magnifyingglass")
                 .font(.label)
                 .foregroundStyle(Color.textSecondary.opacity(0.72))
 
-            TextField("", text: $searchText, prompt: Text("🔥大家都在搜 NIGHT DANCER")
-                .foregroundStyle(Color.textSecondary.opacity(0.55)))
-                .textFieldStyle(.plain)
-                .font(.label)
-                .foregroundStyle(Color.textPrimary)
-                .lineLimit(1)
+            TextField(
+                "",
+                text: $searchText,
+                prompt: Text("陈奕迅")
+                    .foregroundStyle(Color.textSecondary.opacity(0.55))
+            )
+            .textFieldStyle(.plain)
+            .font(.label)
+            .foregroundStyle(Color.textPrimary)
+            .lineLimit(1)
         }
         .padding(.horizontal, Layout.searchHorizontalInset)
         .frame(width: Layout.searchWidth, height: Layout.controlHeight)
-        .background(
-            RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous)
-                .fill(Style.searchBackground)
-                .stroke(Style.searchBorder, lineWidth: 1)
-        )
+        .roundedBackground(fill: Style.searchBackground)
     }
 
     private var microphoneButton: some View {
@@ -71,13 +55,10 @@ struct TopToolbarView: View {
                 .font(.head6)
                 .foregroundStyle(Color.textSecondary)
                 .frame(width: Layout.controlHeight, height: Layout.controlHeight)
-                .background(
-                    RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous)
-                        .fill(Style.searchBackground)
-                        .stroke(Style.searchBorder, lineWidth: 1)
-                )
+                .roundedBackground(fill: isMicrophoneButtonHovering ? Style.controlHoverBackground : Style.microphoneBackground)
         }
         .buttonStyle(.plain)
+        .onHover { isMicrophoneButtonHovering = $0 }
         .pointerStyle(.link)
     }
 
@@ -85,10 +66,10 @@ struct TopToolbarView: View {
         HStack(alignment: .center, spacing: Layout.controlSpacing) {
             loginStatus
 
-            toolbarIcon("envelope")
-            toolbarIcon("hexagon")
-            toolbarIcon("tshirt")
-            toolbarIcon("rectangle.on.rectangle")
+            ToolbarIconButton(systemName: "envelope")
+            ToolbarIconButton(systemName: "hexagon")
+            ToolbarIconButton(systemName: "tshirt")
+            ToolbarIconButton(systemName: "rectangle.on.rectangle")
         }
     }
 
@@ -121,20 +102,9 @@ struct TopToolbarView: View {
                 )
                 .pointerStyle(.link)
             
-            toolbarIcon("chevron.down")
+            ToolbarIconButton(systemName: "chevron.down")
         }
         .frame(height: Layout.controlHeight)
-    }
-
-    private func toolbarIcon(_ systemName: String) -> some View {
-        Button(action: {}) {
-            Image(systemName: systemName)
-                .font(.label)
-                .foregroundStyle(Color.textSecondary)
-                .frame(width: Layout.trailingIconSize, height: Layout.trailingIconSize)
-        }
-        .buttonStyle(.plain)
-        .pointerStyle(.link)
     }
 
     private enum Layout {
@@ -145,7 +115,6 @@ struct TopToolbarView: View {
         static let loginStatusSpacing: CGFloat = 4
 
         static let controlHeight: CGFloat = 35
-        static let backButtonWidth: CGFloat = 26
         static let searchWidth: CGFloat = 258
         static let searchHorizontalInset: CGFloat = 12
         
@@ -154,16 +123,23 @@ struct TopToolbarView: View {
         static let vipBadgeHeight: CGFloat = 16
         static let vipBadgeHorizontalInset: CGFloat = 5
 
-        static let cornerRadius: CGFloat = 5
+        static let cornerRadius: CGFloat = 6
     }
 
     private enum Style {
-        static let searchBackground = Color(hex: 0xFFF6FB)
-        static let searchBorder = Color(hex: 0xF3E3EE)
+        static let searchBackground = LinearGradient(
+            colors: [Color(hex: 0xEAF1FC), Color(hex: 0xF8EFF8)],
+            startPoint: .leading,
+            endPoint: .trailing
+        )
+        static let searchBorder = Color(hex: 0xF9E3E5)
+        static let microphoneBackground = Color(hex: 0xF6F0F9)
+        static let controlHoverBackground = Color(hex: 0xF7E6F4)
     }
 }
 
 #Preview {
-    TopToolbarView(canGoBack: true, onBack: {})
+    TopToolbarView()
         .frame(width: 1180)
+        .environmentObject(AppRouter())
 }

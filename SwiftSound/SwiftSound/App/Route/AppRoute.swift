@@ -1,5 +1,5 @@
 //
-//  HomeRoute.swift
+//  AppRoute.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/6/11.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum HomeRoute: String, CaseIterable, Identifiable {
+enum AppRoute: String, CaseIterable, Identifiable {
     case featured
     case podcast
     case follow
