@@ -15,7 +15,6 @@ struct BannersRepository {
     }
 
     func fetchBanners() async throws -> [Banner] {
-        debugPrint("BannersRepository fetchBanners")
         let response = try await apiClient.request(BannersRequest())
         return response.banners
     }

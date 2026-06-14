@@ -7,6 +7,10 @@
 
 import Foundation
 
+struct BannerCarouselLayout {
+    static let buttonWidth: CGFloat = 30
+}
+
 struct BannerPage<Item: Identifiable>: Identifiable {
     let id: Int
     let items: [Item]

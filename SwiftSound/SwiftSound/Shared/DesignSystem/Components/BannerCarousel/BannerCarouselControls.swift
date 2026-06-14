@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-struct BannerCarouselLayout {
-    static let buttonWidth: CGFloat = 30
-}
-
 struct BannerCarouselPageButton: View {
     let systemName: String
     let isEnabled: Bool
@@ -32,7 +28,6 @@ struct BannerCarouselPageButton: View {
                 .font(.font14)
                 .foregroundStyle(isEnabled ? Color.textPrimary : Color.textSecondary.opacity(0.45))
                 .frame(width: BannerCarouselLayout.buttonWidth)
-                .contentShape(Rectangle())
         }
         .frame(maxHeight: .infinity)
         .contentShape(Rectangle())
@@ -52,7 +47,7 @@ struct BannerCarouselDots: View {
                 Capsule(style: .continuous)
                     .fill(index == currentPageIndex ? Color.textSecondary.opacity(0.55) : Color.divider)
                     .frame(width: index == currentPageIndex ? 14 : 6, height: 6)
-                    .animation(.easeInOut(duration: 0.8), value: currentPageIndex)
+                    .animation(.easeInOut(duration: 0.6), value: currentPageIndex)
             }
         }
         .frame(height: 14)

@@ -9,9 +9,26 @@ import Foundation
 import Combine
 
 final class HeroBannerViewModel: ObservableObject {
-    @Published private(set) var banners: [Banner] = []
-    @Published private(set) var isLoading = false
-    @Published private(set) var error: Error?
+    enum State {
+        case idle
+        case loading
+        case loaded([Banner])
+        case failed(Error)
+
+        var banners: [Banner] {
+            if case let .loaded(banners) = self {
+//                if banners.count % 2 == 1 {
+//                    var temp = banners
+//                    temp.remove(at: Int.random(in: 0..<temp.count))
+//                    return temp
+//                }
+                return banners
+            }
+            return []
+        }
+    }
+
+    @Published private(set) var state: State = .idle
 
     private let repository: BannersRepository
 
@@ -20,16 +37,14 @@ final class HeroBannerViewModel: ObservableObject {
     }
 
     func load() async {
-        isLoading = true
-        defer { isLoading = false }
+        if case .loading = state { return }
+        state = .loading
 
-        debugPrint("HeroBannerViewModel load")
         do {
-            banners = try await repository.fetchBanners()
-            error = nil
+            let banners = try await repository.fetchBanners()
+            state = .loaded(banners)
         } catch {
-            banners = []
-            self.error = error
+            state = .failed(error)
         }
     }
 }

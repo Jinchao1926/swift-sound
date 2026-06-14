@@ -130,7 +130,7 @@ private extension BannerCarousel {
         let trailingNode = BannerPage(id: pageCount + 1, items: firstPage.items)
 
         // 0, [1, 2, ...count-1], count
-        return [leadingNode] + pages + [trailingNode]
+        return [trailingNode] + pages + [leadingNode]
     }
 
     var pageCount: Int { pages.count }
