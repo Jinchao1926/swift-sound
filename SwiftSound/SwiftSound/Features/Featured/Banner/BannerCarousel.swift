@@ -1,0 +1,184 @@
+//
+//  BannerCarousel.swift
+//  SwiftSound
+//
+//  Created by Jinchao Lin on 2026/6/14.
+//
+
+import Combine
+import SwiftUI
+
+struct BannerCarousel<Item: Identifiable, Content: View>: View {
+    let items: [Item]
+    let columns: Int
+    let spacing: CGFloat
+    let autoScrollInterval: TimeInterval
+    let content: (Item) -> Content
+
+    /// Page identifier bound to scrollPosition, controls ScrollView scrolling.
+    /// Optional because it will be nil before the scroll view finishes layout.
+    @State private var displayPageID: Int?
+
+    /// Logical page index for business logic and UI display (e.g. page dots).
+    /// Starts from 0, always has a valid value during runtime.
+    @State private var logicalPageIndex = 0
+
+    // MARK: - LifeCycle
+    init(
+        items: [Item],
+        columns: Int = 2,
+        spacing: CGFloat = 20,
+        autoScrollInterval: TimeInterval = 4,
+        @ViewBuilder content: @escaping (Item) -> Content
+    ) {
+        self.items = items
+        self.columns = max(columns, 1)
+        self.spacing = spacing
+        self.autoScrollInterval = autoScrollInterval
+        self.content = content
+    }
+
+    // MARK: - View
+    var body: some View {
+        VStack(spacing: 8) {
+            GeometryReader { proxy in
+                let contentHorizontalInset = shouldShowControls ? BannerCarouselLayout.buttonWidth : 0
+                let pageWidth = max(proxy.size.width - contentHorizontalInset * 2, 0)
+                let itemWidth = itemWidth(in: pageWidth)
+
+                HStack(spacing: 0) {
+                    if shouldShowControls {
+                        BannerCarouselPageButton(systemName: "chevron.left", isEnabled: canMovePrevious) {
+                            movePage(by: -1)
+                        }
+                    }
+
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        // Page
+                        LazyHStack(spacing: 0) {
+                            ForEach(pages) { page in
+                                // Page items
+                                HStack(spacing: spacing) {
+                                    ForEach(page.items) { item in
+                                        content(item)
+                                            .frame(width: itemWidth, height: proxy.size.height)
+                                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                                    }
+
+                                    // Fill in the blank
+                                    if page.items.count < columns {
+                                        ForEach(0..<(columns - page.items.count), id: \.self) { _ in
+                                            Color.clear
+                                                .frame(width: itemWidth, height: proxy.size.height)
+                                        }
+                                    }
+                                }
+                                .frame(width: pageWidth, height: proxy.size.height, alignment: .leading)
+                                .id(page.id)
+                            }
+                        }
+                        .scrollTargetLayout()
+                    }
+                    .frame(width: pageWidth, height: proxy.size.height)
+                    .scrollTargetBehavior(.paging)  // 开启整页分页滚动行为
+                    .scrollPosition(id: $displayPageID) // 编程式控制滚动位置，需要绑定 id
+                    .onChange(of: displayPageID) { _, newValue in
+                        handleDisplayPageChange(newValue)
+                    }
+
+                    if shouldShowControls {
+                        BannerCarouselPageButton(systemName: "chevron.right", isEnabled: canMoveNext) {
+                            movePage(by: 1)
+                        }
+                    }
+                }
+                .frame(width: proxy.size.width, height: proxy.size.height)
+                .onAppear {
+                    resetToFirstPage()
+                }
+                .onChange(of: items.map(\.id)) { _, _ in
+                    // 数据源变化
+                    resetToFirstPage()
+                }
+                .onReceive(autoScrollTimer) { _ in
+                    guard shouldAutoScroll, canMoveNext else { return }
+                    movePage(by: 1)
+                }
+            }
+
+            if pageCount > 1 {
+                BannerCarouselDots(pageCount: pageCount, currentPageIndex: logicalPageIndex)
+            }
+        }
+    }
+}
+
+// MARK: - Private
+private extension BannerCarousel {
+    var pages: [BannerPage<Item>] {
+        items.bannerChunked(into: columns).enumerated().map { index, items in
+            BannerPage(id: index, items: items)
+        }
+    }
+
+    var pageCount: Int { pages.count }
+    var shouldShowControls: Bool { pageCount > 1 }
+    var shouldAutoScroll: Bool { pageCount > 1 && autoScrollInterval > 0 }
+    var canMovePrevious: Bool { logicalPageIndex > 0 }
+    var canMoveNext: Bool { logicalPageIndex < pageCount - 1 }
+
+    var autoScrollTimer: Publishers.Autoconnect<Timer.TimerPublisher> {
+        Timer.publish(every: max(autoScrollInterval, 1), on: .main, in: .common).autoconnect()
+    }
+
+    func itemWidth(in pageWidth: CGFloat) -> CGFloat {
+        let visibleSpacing = CGFloat(max(columns - 1, 0)) * spacing
+        return max((pageWidth - visibleSpacing) / CGFloat(columns), 0)
+    }
+}
+
+// MARK: - Private - Page Changes
+private extension BannerCarousel {
+    func resetToFirstPage() {
+        logicalPageIndex = 0
+        displayPageID = pages.first?.id
+    }
+
+    func movePage(by offset: Int) {
+        guard pageCount > 1 else { return }
+
+        let targetPageIndex = min(max(logicalPageIndex + offset, 0), pageCount - 1)
+        guard targetPageIndex != logicalPageIndex else { return }
+
+        withAnimation(.easeInOut(duration: 0.28)) {
+            displayPageID = targetPageIndex
+        }
+    }
+
+    func handleDisplayPageChange(_ newValue: Int?) {
+        guard pageCount > 0, let newValue else { return }
+        logicalPageIndex = min(max(newValue, 0), pageCount - 1)
+    }
+}
+
+private struct BannerPreviewItem: Identifiable {
+    let url: URL
+
+    var id: URL { url }
+}
+
+// swiftlint:disable line_length
+#Preview {
+    BannerCarousel(items: [
+        "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/80828520132/09b3/779a/ace1/476b948f76185603ccac946914cf26bc.jpg?imageView&quality=89",
+        "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/80829909793/8ee4/adaa/8823/3e9fb1236d4f5824f4b74bc8124b81e7.jpg?imageView&quality=89",
+        "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/76565271521/523c/9ac1/3a18/8cc1b2fa00061da019ede6f755ce8678.jpg?imageView&quality=89",
+        "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/80533342370/a726/8dbb/fbf9/ad9791e64eadd94839b2b88fb445d0c3.jpg?imageView&quality=89",
+        "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/80855126814/3e77/0ca1/ffe1/9560caf557ac4bf94bdc81f9526345f9.jpg?imageView&quality=89",
+        "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/80782189746/3aca/04bb/d55d/e594bd14a5700ca7567035e7235ed637.jpg?imageView&quality=89"
+    ].compactMap { URL(string: $0).map(BannerPreviewItem.init(url:)) }) { item in
+        RemoteImage(url: item.url)
+    }
+    .frame(width: 760, height: 164)
+}
+// swiftlint:enable line_length
