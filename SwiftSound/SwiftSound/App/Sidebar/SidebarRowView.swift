@@ -14,7 +14,7 @@ struct SidebarRowView: View {
     @EnvironmentObject private var router: AppRouter
     @State private var isHovering = false
 
-    private var isSelected: Bool { route == router.currentRoute }
+    private var isSelected: Bool { router.currentRoute.matchesTopLevelRoute(route) }
 
     // MARK: - UI
     var body: some View {
@@ -64,7 +64,7 @@ struct SidebarRowView: View {
 }
 
 #Preview {
-    SidebarRowView(route: .featured)
+    SidebarRowView(route: .featured(sub: .featured))
         .frame(minWidth: 203, maxWidth: 203)
         .padding()
         .environmentObject(AppRouter())

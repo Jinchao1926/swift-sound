@@ -9,19 +9,19 @@ import Foundation
 import Combine
 
 final class AppRouter: ObservableObject {
-    @Published private(set) var path: [AppRoute] = [.featured]
+    @Published var rootRoute: AppRoute = .featured(sub: .featured)
+    @Published var path: [AppRoute] = []
 
     var currentRoute: AppRoute {
-        path.last ?? .featured
+        path.last ?? rootRoute
+    }
+
+    var routeStack: [AppRoute] {
+        [rootRoute] + path
     }
 
     var canGoBack: Bool {
-        path.count > 1
-    }
-
-    func navigate(to route: AppRoute) {
-        guard route != currentRoute else { return }
-        path.append(route)
+        !path.isEmpty
     }
 
     func goBack() {
@@ -30,13 +30,26 @@ final class AppRouter: ObservableObject {
     }
 
     func navigateBack(to route: AppRoute) {
-        guard
-            route != currentRoute,
-            let index = path.lastIndex(of: route)
-        else {
+        guard route != currentRoute else { return }
+
+        if route == rootRoute {
+            path.removeAll()
             return
         }
 
+        guard let index = path.lastIndex(of: route) else { return }
         path.removeSubrange(path.index(after: index)...)
+    }
+
+    func navigate(to route: AppRoute) {
+        guard route != currentRoute else { return }
+        path.append(route)
+    }
+
+    func navigate(to route: FeaturedRoute) {
+        let appRoute: AppRoute = .featured(sub: route)
+
+        guard appRoute != currentRoute else { return }
+        path.append(appRoute)
     }
 }

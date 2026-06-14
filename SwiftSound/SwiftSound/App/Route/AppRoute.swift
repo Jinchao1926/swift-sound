@@ -7,8 +7,9 @@
 
 import Foundation
 
-enum AppRoute: String, CaseIterable, Identifiable {
-    case featured
+/// App page route definition
+enum AppRoute: Identifiable, Hashable, Equatable {
+    case featured(sub: FeaturedRoute = .featured)
     case podcast
     case follow
     case favorite
@@ -48,6 +49,30 @@ enum AppRoute: String, CaseIterable, Identifiable {
             return "clock.fill"
         case .download:
             return "arrow.down.circle.fill"
+        }
+    }
+}
+
+extension AppRoute {
+    /// Check whether two routes belong to the same top-level page.
+    /// Ignores associated values, only compares the main enum case.
+    ///
+    /// Example:
+    /// - `AppRoute.featured(sub: .featured).matchesTopLevelRoute(.featured(sub: .vip))` → true
+    ///
+    /// - Parameter route: The target route to compare
+    /// - Returns: True if both routes are the same top-level entry
+    func matchesTopLevelRoute(_ route: AppRoute) -> Bool {
+        switch (self, route) {
+        case (.featured, .featured),
+             (.podcast, .podcast),
+             (.follow, .follow),
+             (.favorite, .favorite),
+             (.played, .played),
+             (.download, .download):
+            return true
+        default:
+            return false
         }
     }
 }
