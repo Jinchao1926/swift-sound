@@ -160,7 +160,7 @@ private extension BannerCarousel {
         let currentDisplayPageID = displayPageID ?? logicalPageIndex + 1
         let targetDisplayPageID = currentDisplayPageID + offset
 
-        withAnimation(.easeInOut(duration: 0.28)) {
+        withAnimation(.easeInOut(duration: 0.8)) {
             displayPageID = targetDisplayPageID
         }
     }

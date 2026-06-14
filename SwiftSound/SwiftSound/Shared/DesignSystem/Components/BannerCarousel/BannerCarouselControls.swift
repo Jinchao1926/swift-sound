@@ -29,7 +29,7 @@ struct BannerCarouselPageButton: View {
     var body: some View {
         Button(action: action) {
             Image(systemName: systemName)
-                .font(.label)
+                .font(.font14)
                 .foregroundStyle(isEnabled ? Color.textPrimary : Color.textSecondary.opacity(0.45))
                 .frame(width: BannerCarouselLayout.buttonWidth)
                 .contentShape(Rectangle())
@@ -52,7 +52,7 @@ struct BannerCarouselDots: View {
                 Capsule(style: .continuous)
                     .fill(index == currentPageIndex ? Color.textSecondary.opacity(0.55) : Color.divider)
                     .frame(width: index == currentPageIndex ? 14 : 6, height: 6)
-                    .animation(.easeInOut(duration: 0.18), value: currentPageIndex)
+                    .animation(.easeInOut(duration: 0.8), value: currentPageIndex)
             }
         }
         .frame(height: 14)

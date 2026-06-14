@@ -30,7 +30,7 @@ struct TopToolbarView: View {
     private var searchField: some View {
         HStack(alignment: .center, spacing: Layout.controlSpacing) {
             Image(systemName: "magnifyingglass")
-                .font(.label)
+                .font(.font14)
                 .foregroundStyle(Color.textSecondary.opacity(0.72))
 
             TextField(
@@ -40,7 +40,7 @@ struct TopToolbarView: View {
                     .foregroundStyle(Color.textSecondary.opacity(0.55))
             )
             .textFieldStyle(.plain)
-            .font(.label)
+            .font(.font14)
             .foregroundStyle(Color.textPrimary)
             .lineLimit(1)
         }
@@ -52,7 +52,7 @@ struct TopToolbarView: View {
     private var microphoneButton: some View {
         Button {} label: {
             Image(systemName: "mic")
-                .font(.head6)
+                .font(.font16)
                 .foregroundStyle(Color.textSecondary)
                 .frame(width: Layout.controlHeight, height: Layout.controlHeight)
                 .roundedBackground(
@@ -84,18 +84,18 @@ struct TopToolbarView: View {
                     .frame(width: Layout.avatarSize, height: Layout.avatarSize)
 
                 Image(systemName: "person")
-                    .font(.label)
+                    .font(.font14)
                     .foregroundStyle(Color.textSecondary)
             }
             .pointerStyle(.link)
 
             Text("未登录")
-                .font(.label)
+                .font(.font14)
                 .foregroundStyle(Color.textPrimary)
                 .pointerStyle(.link)
 
             Text("VIP开通")
-                .font(.system(size: 9))
+                .font(.font9)
                 .foregroundStyle(.white)
                 .padding(.horizontal, Layout.vipBadgeHorizontalInset)
                 .frame(height: Layout.vipBadgeHeight)
