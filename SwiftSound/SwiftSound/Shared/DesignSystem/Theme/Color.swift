@@ -11,7 +11,7 @@ extension Color {
     /// red
     static let accentPrimary = Color(hex: 0xFD3D4F)
 
-    static let surfacePrimary = Color(hex: 0xFCF9FC)
+    static let surfacePrimary = Color(hex: 0xF7F9FC)
     static let surfaceSecondary = Color(hex: 0xEFF3F6)
     static let surfaceHover = Color(hex: 0xE3E8EC)
 
