@@ -12,7 +12,7 @@ struct BreadcrumbView: View {
 
     var body: some View {
         HStack(spacing: 6) {
-            ForEach(Array(router.path.enumerated()), id: \.element.id) { index, route in
+            ForEach(Array(router.routeStack.enumerated()), id: \.offset) { index, route in
                 if index > 0 {
                     Image(systemName: "chevron.right")
                         .font(.system(size: 9, weight: .semibold))
@@ -25,14 +25,14 @@ struct BreadcrumbView: View {
                     Text(route.title)
                         .font(.label)
                         .foregroundStyle(
-                            index == router.path.count - 1
+                            index == router.routeStack.count - 1
                                 ? Color.textPrimary
                                 : Color.textSecondary
                         )
                         .lineLimit(1)
                 }
                 .buttonStyle(.plain)
-                .disabled(index == router.path.count - 1)
+                .disabled(index == router.routeStack.count - 1)
                 .pointerStyle(.link)
             }
         }

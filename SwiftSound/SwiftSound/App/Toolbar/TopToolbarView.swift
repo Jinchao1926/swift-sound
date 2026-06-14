@@ -21,8 +21,9 @@ struct TopToolbarView: View {
             Spacer(minLength: Layout.controlSpacing)
             trailingActions
         }
-        .frame(maxWidth: .infinity, minHeight: Layout.height, maxHeight: Layout.height, alignment: .center)
+        .padding(.top, Layout.topInset)
         .padding(.horizontal, Layout.horizontalInset)
+        .frame(maxWidth: .infinity, minHeight: Layout.height, maxHeight: Layout.height, alignment: .center)
         .background(Color.surfacePrimary)
     }
 
@@ -112,6 +113,7 @@ struct TopToolbarView: View {
     private enum Layout {
         static let height: CGFloat = 90
         static let horizontalInset: CGFloat = 40
+        static let topInset: CGFloat = 10
 
         static let controlSpacing: CGFloat = 10
         static let loginStatusSpacing: CGFloat = 4

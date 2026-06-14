@@ -14,17 +14,23 @@ struct DetailContainerView: View {
         VStack(spacing: 0) {
             TopToolbarView()
 
-            content
+            NavigationStack(path: $router.path) {
+                routeView(router.rootRoute)
+                    .navigationDestination(for: AppRoute.self) { route in
+                        routeView(route)
+                            .navigationBarBackButtonHidden(true)    // hide system navigation back button
+                    }
+            }
         }
         .background(Color.surfacePrimary)
         .ignoresSafeArea(edges: .top)   // important
     }
 
     @ViewBuilder
-    private var content: some View {
-        switch router.currentRoute {
-        case .featured:
-            FeaturedPage()
+    private func routeView(_ route: AppRoute) -> some View {
+        switch route {
+        case .featured(let tab):
+            FeaturedPage(route: tab)
         case .podcast:
             PodcastPage()
         case .follow:
