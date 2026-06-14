@@ -20,8 +20,7 @@ struct BannerCarousel<Item: Identifiable, Content: View>: View {
     @State private var displayPageID: Int?
 
     /// Logical page index for business logic and UI display (e.g. page dots).
-    /// Starts from 0, always has a valid value during runtime.
-    @State private var logicalPageIndex = 0
+    @State private var logicalPageIndex = 1
 
     // MARK: - LifeCycle
     init(
@@ -40,7 +39,7 @@ struct BannerCarousel<Item: Identifiable, Content: View>: View {
 
     // MARK: - View
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 6) {
             GeometryReader { proxy in
                 let contentHorizontalInset = shouldShowControls ? BannerCarouselLayout.buttonWidth : 0
                 let pageWidth = max(proxy.size.width - contentHorizontalInset * 2, 0)
@@ -48,7 +47,7 @@ struct BannerCarousel<Item: Identifiable, Content: View>: View {
 
                 HStack(spacing: 0) {
                     if shouldShowControls {
-                        BannerCarouselPageButton(systemName: "chevron.left", isEnabled: canMovePrevious) {
+                        BannerCarouselPageButton(systemName: "chevron.left") {
                             movePage(by: -1)
                         }
                     }
@@ -56,7 +55,7 @@ struct BannerCarousel<Item: Identifiable, Content: View>: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         // Page
                         LazyHStack(spacing: 0) {
-                            ForEach(pages) { page in
+                            ForEach(displayPages) { page in
                                 // Page items
                                 HStack(spacing: spacing) {
                                     ForEach(page.items) { item in
@@ -87,7 +86,7 @@ struct BannerCarousel<Item: Identifiable, Content: View>: View {
                     }
 
                     if shouldShowControls {
-                        BannerCarouselPageButton(systemName: "chevron.right", isEnabled: canMoveNext) {
+                        BannerCarouselPageButton(systemName: "chevron.right") {
                             movePage(by: 1)
                         }
                     }
@@ -101,7 +100,7 @@ struct BannerCarousel<Item: Identifiable, Content: View>: View {
                     resetToFirstPage()
                 }
                 .onReceive(autoScrollTimer) { _ in
-                    guard shouldAutoScroll, canMoveNext else { return }
+                    guard shouldAutoScroll else { return }
                     movePage(by: 1)
                 }
             }
@@ -117,15 +116,26 @@ struct BannerCarousel<Item: Identifiable, Content: View>: View {
 private extension BannerCarousel {
     var pages: [BannerPage<Item>] {
         items.bannerChunked(into: columns).enumerated().map { index, items in
-            BannerPage(id: index, items: items)
+            // Real page index starts with 1
+            BannerPage(id: index + 1, items: items)
         }
+    }
+
+    var displayPages: [BannerPage<Item>] {
+        guard pageCount > 1, let firstPage = pages.first, let lastPage = pages.last else {
+            return pages
+        }
+
+        let leadingNode = BannerPage(id: 0, items: lastPage.items)
+        let trailingNode = BannerPage(id: pageCount + 1, items: firstPage.items)
+
+        // 0, [1, 2, ...count-1], count
+        return [leadingNode] + pages + [trailingNode]
     }
 
     var pageCount: Int { pages.count }
     var shouldShowControls: Bool { pageCount > 1 }
     var shouldAutoScroll: Bool { pageCount > 1 && autoScrollInterval > 0 }
-    var canMovePrevious: Bool { logicalPageIndex > 0 }
-    var canMoveNext: Bool { logicalPageIndex < pageCount - 1 }
 
     var autoScrollTimer: Publishers.Autoconnect<Timer.TimerPublisher> {
         Timer.publish(every: max(autoScrollInterval, 1), on: .main, in: .common).autoconnect()
@@ -141,44 +151,66 @@ private extension BannerCarousel {
 private extension BannerCarousel {
     func resetToFirstPage() {
         logicalPageIndex = 0
-        displayPageID = pages.first?.id
+        displayPageID = pageCount > 1 ? 1 : pages.first?.id
     }
 
     func movePage(by offset: Int) {
         guard pageCount > 1 else { return }
 
-        let targetPageIndex = min(max(logicalPageIndex + offset, 0), pageCount - 1)
-        guard targetPageIndex != logicalPageIndex else { return }
+        let currentDisplayPageID = displayPageID ?? logicalPageIndex + 1
+        let targetDisplayPageID = currentDisplayPageID + offset
 
         withAnimation(.easeInOut(duration: 0.28)) {
-            displayPageID = targetPageIndex
+            displayPageID = targetDisplayPageID
         }
     }
 
     func handleDisplayPageChange(_ newValue: Int?) {
         guard pageCount > 0, let newValue else { return }
-        logicalPageIndex = min(max(newValue, 0), pageCount - 1)
+
+        if pageCount == 1 {
+            logicalPageIndex = 0
+            return
+        }
+
+        if newValue == 0 {
+            logicalPageIndex = pageCount - 1
+            jumpToDisplayPage(pageCount)
+        } else if newValue == pageCount + 1 {
+            logicalPageIndex = 0
+            jumpToDisplayPage(1)
+        } else {
+            logicalPageIndex = min(max(newValue - 1, 0), pageCount - 1)
+        }
+    }
+
+    func jumpToDisplayPage(_ pageID: Int) {
+        DispatchQueue.main.async {
+            var transaction = Transaction()
+            transaction.disablesAnimations = true
+
+            withTransaction(transaction) {
+                displayPageID = pageID
+            }
+        }
     }
 }
 
 private struct BannerPreviewItem: Identifiable {
-    let url: URL
+    let value: Int
 
-    var id: URL { url }
+    var id: Int { value }
 }
 
-// swiftlint:disable line_length
 #Preview {
-    BannerCarousel(items: [
-        "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/80828520132/09b3/779a/ace1/476b948f76185603ccac946914cf26bc.jpg?imageView&quality=89",
-        "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/80829909793/8ee4/adaa/8823/3e9fb1236d4f5824f4b74bc8124b81e7.jpg?imageView&quality=89",
-        "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/76565271521/523c/9ac1/3a18/8cc1b2fa00061da019ede6f755ce8678.jpg?imageView&quality=89",
-        "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/80533342370/a726/8dbb/fbf9/ad9791e64eadd94839b2b88fb445d0c3.jpg?imageView&quality=89",
-        "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/80855126814/3e77/0ca1/ffe1/9560caf557ac4bf94bdc81f9526345f9.jpg?imageView&quality=89",
-        "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/80782189746/3aca/04bb/d55d/e594bd14a5700ca7567035e7235ed637.jpg?imageView&quality=89"
-    ].compactMap { URL(string: $0).map(BannerPreviewItem.init(url:)) }) { item in
-        RemoteImage(url: item.url)
+    BannerCarousel(items: [1, 2, 3, 4, 5, 6].compactMap { BannerPreviewItem(value: $0)}) { item in
+        RoundedRectangle(cornerRadius: 6)
+            .fill(Color.blue.opacity(0.2))
+            .overlay(
+                Text(String(describing: item.value))
+                    .font(.title)
+                    .foregroundColor(.blue)
+            )
     }
     .frame(width: 760, height: 164)
 }
-// swiftlint:enable line_length

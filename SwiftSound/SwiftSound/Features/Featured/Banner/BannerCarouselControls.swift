@@ -55,7 +55,7 @@ struct BannerCarouselDots: View {
                     .animation(.easeInOut(duration: 0.18), value: currentPageIndex)
             }
         }
-        .frame(height: 10)
+        .frame(height: 14)
         .frame(maxWidth: .infinity)
     }
 }
