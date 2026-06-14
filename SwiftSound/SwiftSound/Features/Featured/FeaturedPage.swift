@@ -13,8 +13,8 @@ struct FeaturedPage: View {
     var body: some View {
         VStack(spacing: 10) {
             FeaturedTab(selectedRoute: route)
-
             content
+            Spacer(minLength: 0)
         }
     }
 
@@ -22,15 +22,15 @@ struct FeaturedPage: View {
     private var content: some View {
         switch route {
         case .featured:
-            PlaceholderPage(title: "精选")
+            FeaturedHomePage()
         case .playlistSquare:
-            PlaceholderPage(title: "歌单广场")
+            PlaylistSquarePage()
         case .ranking:
-            PlaceholderPage(title: "排行榜")
+            RankingPage()
         case .artist:
-            PlaceholderPage(title: "歌手")
+            ArtistPage()
         case .vip:
-            PlaceholderPage(title: "VIP")
+            VIPPage()
         }
     }
 }
