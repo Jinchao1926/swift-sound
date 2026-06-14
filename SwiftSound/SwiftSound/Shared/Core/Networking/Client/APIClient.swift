@@ -40,8 +40,10 @@ final class APIClient: APIClientProtocol {
                 .responseDecodable(of: Request.Response.self, decoder: request.decoder) { response in
                     switch response.result {
                     case .success(let value):
+                        debugPrint("Request success: \(value)")
                         continuation.resume(returning: value)
                     case .failure(let error):
+                        debugPrint("Request failure: \(error)")
                         let statusCode = response.response?.statusCode
                         let message = response.data.flatMap { String(data: $0, encoding: .utf8) }
                         continuation.resume(

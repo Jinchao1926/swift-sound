@@ -16,7 +16,7 @@ struct LogoView: View {
                 .frame(width: Layout.logoSize, height: Layout.logoSize)
 
             Text("网易云音乐")
-                .font(.head4)
+                .font(.font20)
                 .foregroundStyle(Color.textPrimary)
 
             Spacer(minLength: 0)

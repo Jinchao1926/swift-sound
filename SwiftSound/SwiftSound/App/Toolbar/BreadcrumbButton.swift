@@ -15,7 +15,7 @@ struct BreadcrumbButton: View {
     var body: some View {
         Button(action: router.goBack) {
             Image(systemName: "chevron.left")
-                .font(.label)
+                .font(.font14)
                 .foregroundStyle(router.canGoBack ? Color.textSecondary : Color.textSecondary.opacity(0.35))
                 .frame(width: 26, height: 35)
                 .roundedBackground(fill: backButtonBackground)

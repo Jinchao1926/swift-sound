@@ -28,7 +28,7 @@ struct SidebarRowView: View {
                     .frame(width: Layout.iconSize)
 
                 Text(route.title)
-                    .font(.label)
+                    .font(.font14)
                     .foregroundStyle(isSelected ? Color.white : Color.textPrimary)
 
                 Spacer(minLength: 0)

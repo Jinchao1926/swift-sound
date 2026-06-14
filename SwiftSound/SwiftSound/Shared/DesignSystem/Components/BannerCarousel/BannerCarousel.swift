@@ -130,7 +130,7 @@ private extension BannerCarousel {
         let trailingNode = BannerPage(id: pageCount + 1, items: firstPage.items)
 
         // 0, [1, 2, ...count-1], count
-        return [leadingNode] + pages + [trailingNode]
+        return [trailingNode] + pages + [leadingNode]
     }
 
     var pageCount: Int { pages.count }
@@ -151,16 +151,19 @@ private extension BannerCarousel {
 private extension BannerCarousel {
     func resetToFirstPage() {
         logicalPageIndex = 0
-        displayPageID = pageCount > 1 ? 1 : pages.first?.id
+        let firstPageID = pageCount > 1 ? 1 : pages.first?.id
+        guard displayPageID != firstPageID else { return }
+        displayPageID = firstPageID
     }
 
     func movePage(by offset: Int) {
         guard pageCount > 1 else { return }
 
-        let currentDisplayPageID = displayPageID ?? logicalPageIndex + 1
-        let targetDisplayPageID = currentDisplayPageID + offset
+        let currentRealPageID = normalizedRealPageID(from: displayPageID)
+        let targetDisplayPageID = targetDisplayPageID(from: currentRealPageID, offset: offset)
+        guard displayPageID != targetDisplayPageID else { return }
 
-        withAnimation(.easeInOut(duration: 0.28)) {
+        withAnimation(.linear(duration: 0.1)) {
             displayPageID = targetDisplayPageID
         }
     }
@@ -173,10 +176,10 @@ private extension BannerCarousel {
             return
         }
 
-        if newValue == 0 {
+        if newValue <= 0 {
             logicalPageIndex = pageCount - 1
             jumpToDisplayPage(pageCount)
-        } else if newValue == pageCount + 1 {
+        } else if newValue >= pageCount + 1 {
             logicalPageIndex = 0
             jumpToDisplayPage(1)
         } else {
@@ -185,14 +188,44 @@ private extension BannerCarousel {
     }
 
     func jumpToDisplayPage(_ pageID: Int) {
+        guard displayPageID != pageID else { return }
+
         DispatchQueue.main.async {
             var transaction = Transaction()
             transaction.disablesAnimations = true
-
             withTransaction(transaction) {
                 displayPageID = pageID
             }
         }
+    }
+
+    func normalizedRealPageID(from displayPageID: Int?) -> Int {
+        let fallbackPageID = min(max(logicalPageIndex + 1, 1), pageCount)
+        guard let displayPageID else { return fallbackPageID }
+
+        if displayPageID <= 0 {
+            return pageCount
+        }
+
+        if displayPageID >= pageCount + 1 {
+            return 1
+        }
+
+        return displayPageID
+    }
+
+    func targetDisplayPageID(from realPageID: Int, offset: Int) -> Int {
+        let targetPageID = realPageID + offset
+
+        if targetPageID < 1 {
+            return 0
+        }
+
+        if targetPageID > pageCount {
+            return pageCount + 1
+        }
+
+        return targetPageID
     }
 }
 

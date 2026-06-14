@@ -15,7 +15,7 @@ struct BreadcrumbView: View {
             ForEach(Array(router.routeStack.enumerated()), id: \.offset) { index, route in
                 if index > 0 {
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 9, weight: .semibold))
+                        .font(.font9.weight(.semibold))
                         .foregroundStyle(Color.textSecondary.opacity(0.38))
                 }
 
@@ -23,7 +23,7 @@ struct BreadcrumbView: View {
                     router.navigateBack(to: route)
                 } label: {
                     Text(route.title)
-                        .font(.label)
+                        .font(.font14)
                         .foregroundStyle(
                             index == router.routeStack.count - 1
                                 ? Color.textPrimary

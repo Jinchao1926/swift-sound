@@ -34,7 +34,7 @@ struct FeaturedTabItem: View {
         } label: {
             VStack(spacing: 3) {
                 Text(route.title)
-                    .font(.system(size: 16, weight: .medium))
+                    .font(.font16.weight(.medium))
                     .foregroundStyle(isSelected ? Color.textPrimary : Color.textSecondary)
 
                 Capsule(style: .continuous)

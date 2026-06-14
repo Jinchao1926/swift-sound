@@ -8,12 +8,18 @@
 import SwiftUI
 
 extension Font {
-    static let label = Font.system(size: 14, weight: .regular)
+    static let font32 = Font.system(size: 32, weight: .semibold)
+    static let font28 = Font.system(size: 28, weight: .semibold)
+    static let font24 = Font.system(size: 24, weight: .semibold)
 
-    static let head1 = Font.system(size: 32, weight: .semibold)
-    static let head2 = Font.system(size: 28, weight: .semibold)
-    static let head3 = Font.system(size: 24, weight: .semibold)
-    static let head4 = Font.system(size: 20, weight: .regular)
-    static let head5 = Font.system(size: 18, weight: .regular)
-    static let head6 = Font.system(size: 16, weight: .regular)
+    // 正文/次级标题
+    static let font20 = Font.system(size: 20, weight: .regular)
+    static let font18 = Font.system(size: 18, weight: .regular)
+    static let font16 = Font.system(size: 16, weight: .regular)
+    static let font14 = Font.system(size: 14, weight: .regular)
+
+    // 小字、辅助文本、标签、备注
+    static let font12 = Font.system(size: 12, weight: .regular)
+    static let font10 = Font.system(size: 10, weight: .regular)
+    static let font9 = Font.system(size: 9, weight: .regular)
 }

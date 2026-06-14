@@ -15,7 +15,7 @@ struct ToolbarIconButton: View {
     var body: some View {
         Button {} label: {
             Image(systemName: systemName)
-                .font(.label)
+                .font(.font14)
                 .foregroundStyle(isHovering ? Color.textPrimary : Color.textSecondary)
                 .frame(width: 20, height: 20)
         }
