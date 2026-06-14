@@ -47,7 +47,7 @@ struct BannerCarouselDots: View {
                 Capsule(style: .continuous)
                     .fill(index == currentPageIndex ? Color.textSecondary.opacity(0.55) : Color.divider)
                     .frame(width: index == currentPageIndex ? 14 : 6, height: 6)
-                    .animation(.easeInOut(duration: 0.6), value: currentPageIndex)
+                    .animation(.easeInOut(duration: 0.3), value: currentPageIndex)
             }
         }
         .frame(height: 14)
