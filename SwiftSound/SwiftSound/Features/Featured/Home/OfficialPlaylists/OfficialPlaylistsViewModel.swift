@@ -36,7 +36,7 @@ final class OfficialPlaylistsViewModel: ObservableObject {
         state = .loading
 
         do {
-            let playlists = try await repository.fetchTopPlaylists(category: "官方")
+            let playlists = try await repository.fetchTopPlaylists(category: "官方", limit: 6)
             debugPrint("playlists: \(playlists)")
             state = .loaded(playlists)
         } catch {
