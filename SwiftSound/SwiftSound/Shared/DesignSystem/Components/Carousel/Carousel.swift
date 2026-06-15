@@ -1,5 +1,5 @@
 //
-//  BannerCarousel.swift
+//  Carousel.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/6/14.
@@ -8,31 +8,42 @@
 import Combine
 import SwiftUI
 
-struct BannerCarousel<Item: Identifiable, Content: View>: View {
+struct Carousel<Item: Identifiable, Content: View>: View {
     let items: [Item]
     let columns: Int
     let spacing: CGFloat
+    let showsDots: Bool
+    let isAutoScrollEnabled: Bool
+    let isInfiniteLoopEnabled: Bool
     let autoScrollInterval: TimeInterval
     let content: (Item) -> Content
+
+    @State private var isHovering = false
 
     /// Page identifier bound to scrollPosition, controls ScrollView scrolling.
     /// Optional because it will be nil before the scroll view finishes layout.
     @State private var displayPageID: Int?
 
     /// Logical page index for business logic and UI display (e.g. page dots).
-    @State private var logicalPageIndex = 1
+    @State private var logicalPageIndex = 0
 
     // MARK: - LifeCycle
     init(
         items: [Item],
         columns: Int = 2,
         spacing: CGFloat = 20,
+        showsDots: Bool = true,
+        isAutoScrollEnabled: Bool = true,
+        isInfiniteLoopEnabled: Bool = true,
         autoScrollInterval: TimeInterval = 4,
         @ViewBuilder content: @escaping (Item) -> Content
     ) {
         self.items = items
         self.columns = max(columns, 1)
         self.spacing = spacing
+        self.showsDots = showsDots
+        self.isAutoScrollEnabled = isAutoScrollEnabled
+        self.isInfiniteLoopEnabled = isInfiniteLoopEnabled
         self.autoScrollInterval = autoScrollInterval
         self.content = content
     }
@@ -41,22 +52,24 @@ struct BannerCarousel<Item: Identifiable, Content: View>: View {
     var body: some View {
         VStack(spacing: 6) {
             GeometryReader { proxy in
-                let contentHorizontalInset = shouldShowControls ? BannerCarouselLayout.buttonWidth : 0
+                let contentHorizontalInset = hasMultiplePages ? CarouselLayout.buttonWidth : 0
                 let pageWidth = max(proxy.size.width - contentHorizontalInset * 2, 0)
                 let itemWidth = itemWidth(in: pageWidth)
 
                 HStack(spacing: 0) {
-                    if shouldShowControls {
-                        BannerCarouselPageButton(systemName: "chevron.left") {
+                    if hasMultiplePages {
+                        CarouselPageButton(
+                            systemName: "chevron.left",
+                            isVisible: shouldShowControls,
+                            isEnabled: canMoveBackward
+                        ) {
                             movePage(by: -1)
                         }
                     }
 
                     ScrollView(.horizontal, showsIndicators: false) {
-                        // Page
                         LazyHStack(spacing: 0) {
                             ForEach(displayPages) { page in
-                                // Page items
                                 HStack(spacing: spacing) {
                                     ForEach(page.items) { item in
                                         content(item)
@@ -64,7 +77,6 @@ struct BannerCarousel<Item: Identifiable, Content: View>: View {
                                             .clipShape(RoundedRectangle(cornerRadius: 6))
                                     }
 
-                                    // Fill in the blank
                                     if page.items.count < columns {
                                         ForEach(0..<(columns - page.items.count), id: \.self) { _ in
                                             Color.clear
@@ -79,24 +91,29 @@ struct BannerCarousel<Item: Identifiable, Content: View>: View {
                         .scrollTargetLayout()
                     }
                     .frame(width: pageWidth, height: proxy.size.height)
-                    .scrollTargetBehavior(.paging)  // 开启整页分页滚动行为
-                    .scrollPosition(id: $displayPageID) // 编程式控制滚动位置，需要绑定 id
+                    .scrollTargetBehavior(.paging)
+                    .scrollPosition(id: $displayPageID)
                     .onChange(of: displayPageID) { _, newValue in
                         handleDisplayPageChange(newValue)
                     }
 
-                    if shouldShowControls {
-                        BannerCarouselPageButton(systemName: "chevron.right") {
+                    if hasMultiplePages {
+                        CarouselPageButton(
+                            systemName: "chevron.right",
+                            isVisible: shouldShowControls,
+                            isEnabled: canMoveForward
+                        ) {
                             movePage(by: 1)
                         }
                     }
                 }
                 .frame(width: proxy.size.width, height: proxy.size.height)
+                .contentShape(Rectangle())
+                .onHover { isHovering = $0 }
                 .onAppear {
                     resetToFirstPage()
                 }
                 .onChange(of: items.map(\.id)) { _, _ in
-                    // 数据源变化
                     resetToFirstPage()
                 }
                 .onReceive(autoScrollTimer) { _ in
@@ -105,37 +122,43 @@ struct BannerCarousel<Item: Identifiable, Content: View>: View {
                 }
             }
 
-            if pageCount > 1 {
-                BannerCarouselDots(pageCount: pageCount, currentPageIndex: logicalPageIndex)
+            if shouldShowDots {
+                CarouselDots(pageCount: pageCount, currentPageIndex: logicalPageIndex)
             }
         }
     }
 }
 
 // MARK: - Private
-private extension BannerCarousel {
-    var pages: [BannerPage<Item>] {
-        items.bannerChunked(into: columns).enumerated().map { index, items in
+private extension Carousel {
+    var pages: [CarouselPage<Item>] {
+        items.carouselChunked(into: columns).enumerated().map { index, items in
             // Real page index starts with 1
-            BannerPage(id: index + 1, items: items)
+            CarouselPage(id: index + 1, items: items)
         }
     }
 
-    var displayPages: [BannerPage<Item>] {
-        guard pageCount > 1, let firstPage = pages.first, let lastPage = pages.last else {
+    var displayPages: [CarouselPage<Item>] {
+        guard shouldUseLoopNodes, let firstPage = pages.first, let lastPage = pages.last else {
             return pages
         }
 
-        let leadingNode = BannerPage(id: 0, items: lastPage.items)
-        let trailingNode = BannerPage(id: pageCount + 1, items: firstPage.items)
+        let leadingNode = CarouselPage(id: 0, items: lastPage.items)
+        let trailingNode = CarouselPage(id: pageCount + 1, items: firstPage.items)
 
-        // 0, [1, 2, ...count-1], count
-        return [trailingNode] + pages + [leadingNode]
+        // Sentinel pages make edge scrolling feel continuous. Crossing one is
+        // corrected back to the matching real page without animation.
+        return [leadingNode] + pages + [trailingNode]
     }
 
     var pageCount: Int { pages.count }
-    var shouldShowControls: Bool { pageCount > 1 }
-    var shouldAutoScroll: Bool { pageCount > 1 && autoScrollInterval > 0 }
+    var hasMultiplePages: Bool { pageCount > 1 }
+    var shouldShowControls: Bool { hasMultiplePages && isHovering }
+    var shouldShowDots: Bool { showsDots && hasMultiplePages }
+    var shouldUseLoopNodes: Bool { isInfiniteLoopEnabled && hasMultiplePages }
+    var shouldAutoScroll: Bool { isAutoScrollEnabled && hasMultiplePages && autoScrollInterval > 0 }
+    var canMoveBackward: Bool { isInfiniteLoopEnabled || logicalPageIndex > 0 }
+    var canMoveForward: Bool { isInfiniteLoopEnabled || logicalPageIndex < pageCount - 1 }
 
     var autoScrollTimer: Publishers.Autoconnect<Timer.TimerPublisher> {
         Timer.publish(every: max(autoScrollInterval, 1), on: .main, in: .common).autoconnect()
@@ -148,16 +171,16 @@ private extension BannerCarousel {
 }
 
 // MARK: - Private - Page Changes
-private extension BannerCarousel {
+private extension Carousel {
     func resetToFirstPage() {
         logicalPageIndex = 0
-        let firstPageID = pageCount > 1 ? 1 : pages.first?.id
+        let firstPageID = pages.first?.id
         guard displayPageID != firstPageID else { return }
         displayPageID = firstPageID
     }
 
     func movePage(by offset: Int) {
-        guard pageCount > 1 else { return }
+        guard hasMultiplePages else { return }
 
         let currentRealPageID = normalizedRealPageID(from: displayPageID)
         let targetDisplayPageID = targetDisplayPageID(from: currentRealPageID, offset: offset)
@@ -171,15 +194,15 @@ private extension BannerCarousel {
     func handleDisplayPageChange(_ newValue: Int?) {
         guard pageCount > 0, let newValue else { return }
 
-        if pageCount == 1 {
+        if !hasMultiplePages {
             logicalPageIndex = 0
             return
         }
 
-        if newValue <= 0 {
+        if shouldUseLoopNodes, newValue <= 0 {
             logicalPageIndex = pageCount - 1
             jumpToDisplayPage(pageCount)
-        } else if newValue >= pageCount + 1 {
+        } else if shouldUseLoopNodes, newValue >= pageCount + 1 {
             logicalPageIndex = 0
             jumpToDisplayPage(1)
         } else {
@@ -203,11 +226,11 @@ private extension BannerCarousel {
         let fallbackPageID = min(max(logicalPageIndex + 1, 1), pageCount)
         guard let displayPageID else { return fallbackPageID }
 
-        if displayPageID <= 0 {
+        if shouldUseLoopNodes, displayPageID <= 0 {
             return pageCount
         }
 
-        if displayPageID >= pageCount + 1 {
+        if shouldUseLoopNodes, displayPageID >= pageCount + 1 {
             return 1
         }
 
@@ -218,11 +241,11 @@ private extension BannerCarousel {
         let targetPageID = realPageID + offset
 
         if targetPageID < 1 {
-            return 0
+            return isInfiniteLoopEnabled ? 0 : 1
         }
 
         if targetPageID > pageCount {
-            return pageCount + 1
+            return isInfiniteLoopEnabled ? pageCount + 1 : pageCount
         }
 
         return targetPageID
@@ -231,12 +254,14 @@ private extension BannerCarousel {
 
 private struct BannerPreviewItem: Identifiable {
     let value: Int
-
     var id: Int { value }
 }
 
 #Preview {
-    BannerCarousel(items: [1, 2, 3, 4, 5, 6].compactMap { BannerPreviewItem(value: $0)}) { item in
+    // Case 1
+    Carousel(
+        items: [1, 2, 3, 4, 5, 6].compactMap { BannerPreviewItem(value: $0)}
+    ) { item in
         RoundedRectangle(cornerRadius: 6)
             .fill(Color.blue.opacity(0.2))
             .overlay(
@@ -246,4 +271,25 @@ private struct BannerPreviewItem: Identifiable {
             )
     }
     .frame(width: 760, height: 164)
+    .padding(10)
+    
+    Divider()
+
+    // Case 2
+    Carousel(
+        items: [1, 2, 3, 4, 5, 6].compactMap { BannerPreviewItem(value: $0)},
+        showsDots: false,
+        isAutoScrollEnabled: false,
+        isInfiniteLoopEnabled: false,
+    ) { item in
+        RoundedRectangle(cornerRadius: 6)
+            .fill(Color.blue.opacity(0.2))
+            .overlay(
+                Text(String(describing: item.value))
+                    .font(.title)
+                    .foregroundColor(.blue)
+            )
+    }
+    .frame(width: 760, height: 164)
+    .padding(10)
 }

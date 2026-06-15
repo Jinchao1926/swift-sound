@@ -1,5 +1,5 @@
 //
-//  BannerCarouselControls.swift
+//  CarouselControls.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/6/14.
@@ -7,39 +7,53 @@
 
 import SwiftUI
 
-struct BannerCarouselPageButton: View {
+struct CarouselPageButton: View {
     let systemName: String
+    let isVisible: Bool
     let isEnabled: Bool
     let action: () -> Void
 
     init(
         systemName: String,
+        isVisible: Bool = true,
         isEnabled: Bool = true,
         action: @escaping () -> Void
     ) {
         self.systemName = systemName
+        self.isVisible = isVisible
         self.isEnabled = isEnabled
         self.action = action
     }
 
     var body: some View {
-        Button(action: action) {
+        Button(action: guardedAction) {
             ZStack {
                 Image(systemName: systemName)
                     .font(.font14)
                     .foregroundStyle(isEnabled ? Color.textPrimary : Color.textSecondary.opacity(0.45))
             }
-            .frame(width: BannerCarouselLayout.buttonWidth)
+            .frame(width: CarouselLayout.buttonWidth)
             .frame(maxHeight: .infinity)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .disabled(!isEnabled)
-        .pointerStyle(isEnabled ? .link : .default)
+        .disabled(!canInteract)
+        .opacity(isVisible ? 1 : 0)
+        .pointerStyle(canInteract ? .link : .default)
+        .animation(.easeInOut(duration: 0.15), value: isVisible)
+    }
+
+    private var canInteract: Bool {
+        isVisible && isEnabled
+    }
+
+    private func guardedAction() {
+        guard canInteract else { return }
+        action()
     }
 }
 
-struct BannerCarouselDots: View {
+struct CarouselDots: View {
     let pageCount: Int
     let currentPageIndex: Int
 
