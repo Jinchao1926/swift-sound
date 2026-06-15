@@ -15,7 +15,7 @@ struct HeroBanners: View {
             switch viewModel.state {
             case let .loaded(banners):
                 if !banners.isEmpty {
-                    BannerCarousel(items: banners) {
+                    Carousel(items: banners) {
                         BannerImageView(banner: $0)
                     }
                     .frame(height: 160)

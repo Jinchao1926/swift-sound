@@ -1,5 +1,5 @@
 //
-//  BannerCarouselPage.swift
+//  CarouselPage.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/6/14.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct BannerCarouselLayout {
+struct CarouselLayout {
     static let buttonWidth: CGFloat = 30
 }
 
-struct BannerPage<Item: Identifiable>: Identifiable {
+struct CarouselPage<Item: Identifiable>: Identifiable {
     let id: Int
     let items: [Item]
 }
@@ -24,7 +24,7 @@ extension Array {
     ///
     /// Example:
     /// `[1, 2, 3, 4, 5].bannerChunked(into: 2)` -> `[[1, 2], [3, 4], [5]]`
-    func bannerChunked(into size: Int) -> [[Element]] {
+    func carouselChunked(into size: Int) -> [[Element]] {
         guard size > 0 else { return [] }
 
         return stride(from: 0, to: count, by: size).map { startIndex in
