@@ -15,7 +15,7 @@ struct TopToolbarView: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: Layout.controlSpacing) {
-            BreadcrumbButton()
+            RouteBackButton()
             searchField
             microphoneButton
             Spacer(minLength: Layout.controlSpacing)

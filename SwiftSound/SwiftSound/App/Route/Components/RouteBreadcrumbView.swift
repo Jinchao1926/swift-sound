@@ -1,5 +1,5 @@
 //
-//  BreadcrumbView.swift
+//  RouteBreadcrumbView.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/6/13.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BreadcrumbView: View {
+struct RouteBreadcrumbView: View {
     @EnvironmentObject private var router: AppRouter
 
     var body: some View {
@@ -41,6 +41,6 @@ struct BreadcrumbView: View {
 }
 
 #Preview {
-    BreadcrumbView()
+    RouteBreadcrumbView()
         .environmentObject(AppRouter())
 }

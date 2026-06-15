@@ -15,8 +15,8 @@ extension Color {
     static let surfaceSecondary = Color(hex: 0xEFF3F6)
     static let surfaceHover = Color(hex: 0xE3E8EC)
 
-    static let textPrimary = Color(hex: 0x394356)
-    static let textSecondary = Color(hex: 0x717C8E)
+    static let textPrimary = Color(hex: 0x283248)
+    static let textSecondary = Color(hex: 0x787F8E)
 
     static let divider = Color(hex: 0xE0E6ED)
 }

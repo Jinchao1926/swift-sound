@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class HeroBannerViewModel: ObservableObject {
+final class HeroBannersViewModel: ObservableObject {
     enum State {
         case idle
         case loading
@@ -17,11 +17,6 @@ final class HeroBannerViewModel: ObservableObject {
 
         var banners: [Banner] {
             if case let .loaded(banners) = self {
-//                if banners.count % 2 == 1 {
-//                    var temp = banners
-//                    temp.remove(at: Int.random(in: 0..<temp.count))
-//                    return temp
-//                }
                 return banners
             }
             return []

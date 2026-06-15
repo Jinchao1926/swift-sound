@@ -24,13 +24,15 @@ struct BannerCarouselPageButton: View {
 
     var body: some View {
         Button(action: action) {
-            Image(systemName: systemName)
-                .font(.font14)
-                .foregroundStyle(isEnabled ? Color.textPrimary : Color.textSecondary.opacity(0.45))
-                .frame(width: BannerCarouselLayout.buttonWidth)
+            ZStack {
+                Image(systemName: systemName)
+                    .font(.font14)
+                    .foregroundStyle(isEnabled ? Color.textPrimary : Color.textSecondary.opacity(0.45))
+            }
+            .frame(width: BannerCarouselLayout.buttonWidth)
+            .frame(maxHeight: .infinity)
+            .contentShape(Rectangle())
         }
-        .frame(maxHeight: .infinity)
-        .contentShape(Rectangle())
         .buttonStyle(.plain)
         .disabled(!isEnabled)
         .pointerStyle(isEnabled ? .link : .default)
