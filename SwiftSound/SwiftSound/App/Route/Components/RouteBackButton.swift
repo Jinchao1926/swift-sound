@@ -1,5 +1,5 @@
 //
-//  BreadcrumbButton.swift
+//  RouteBackButton.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/6/13.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BreadcrumbButton: View {
+struct RouteBackButton: View {
     @EnvironmentObject private var router: AppRouter
 
     @State private var isBackButtonHovering: Bool = false
@@ -33,6 +33,6 @@ struct BreadcrumbButton: View {
 }
 
 #Preview {
-    BreadcrumbButton()
+    RouteBackButton()
         .environmentObject(AppRouter())
 }

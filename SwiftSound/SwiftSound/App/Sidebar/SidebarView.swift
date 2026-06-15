@@ -36,7 +36,7 @@ struct SidebarView: View {
     private enum Layout {
         static let leadingInset: CGFloat = 22
         static let trailingInset: CGFloat = 16
-        static let dividerVerticalInset: CGFloat = 12
+        static let dividerVerticalInset: CGFloat = 11
     }
 }
 

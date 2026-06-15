@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct HeroBanner: View {
-    @StateObject private var viewModel = HeroBannerViewModel()
+struct HeroBanners: View {
+    @StateObject private var viewModel = HeroBannersViewModel()
 
     var body: some View {
         VStack(spacing: 0) {
