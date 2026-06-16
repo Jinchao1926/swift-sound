@@ -15,10 +15,12 @@ struct Carousel<Item: Identifiable, Content: View>: View {
     let showsDots: Bool
     let isAutoScrollEnabled: Bool
     let isInfiniteLoopEnabled: Bool
+    let isLastPageBackfillEnabled: Bool
     let autoScrollInterval: TimeInterval
     let content: (Item) -> Content
 
     @State private var isHovering = false
+    @State private var availableWidth: CGFloat = 0
 
     /// Page identifier bound to scrollPosition, controls ScrollView scrolling.
     /// Optional because it will be nil before the scroll view finishes layout.
@@ -35,6 +37,7 @@ struct Carousel<Item: Identifiable, Content: View>: View {
         showsDots: Bool = true,
         isAutoScrollEnabled: Bool = true,
         isInfiniteLoopEnabled: Bool = true,
+        isLastPageBackfillEnabled: Bool = false,
         autoScrollInterval: TimeInterval = 4,
         @ViewBuilder content: @escaping (Item) -> Content
     ) {
@@ -44,6 +47,7 @@ struct Carousel<Item: Identifiable, Content: View>: View {
         self.showsDots = showsDots
         self.isAutoScrollEnabled = isAutoScrollEnabled
         self.isInfiniteLoopEnabled = isInfiniteLoopEnabled
+        self.isLastPageBackfillEnabled = isLastPageBackfillEnabled
         self.autoScrollInterval = autoScrollInterval
         self.content = content
     }
@@ -51,88 +55,88 @@ struct Carousel<Item: Identifiable, Content: View>: View {
     // MARK: - View
     var body: some View {
         VStack(spacing: 6) {
-            GeometryReader { proxy in
-                let contentHorizontalInset = hasMultiplePages ? CarouselLayout.buttonWidth : 0
-                let pageWidth = max(proxy.size.width - contentHorizontalInset * 2, 0)
-                let itemWidth = itemWidth(in: pageWidth)
+            let contentHorizontalInset = CarouselLayout.buttonWidth
+            let pageWidth = max(availableWidth - contentHorizontalInset * 2, 0)
+            let itemWidth = itemWidth(in: pageWidth)
 
-                HStack(spacing: 0) {
-                    if hasMultiplePages {
-                        CarouselPageButton(
-                            systemName: "chevron.left",
-                            isVisible: shouldShowControls,
-                            isEnabled: canMoveBackward
-                        ) {
-                            movePage(by: -1)
-                        }
-                    }
+            HStack(spacing: 0) {
+                CarouselPageButton(
+                    systemName: "chevron.left",
+                    isVisible: shouldShowControls,
+                    isEnabled: canMoveBackward
+                ) {
+                    movePage(by: -1)
+                }
 
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        LazyHStack(spacing: 0) {
-                            ForEach(displayPages) { page in
-                                HStack(spacing: spacing) {
-                                    ForEach(page.items) { item in
-                                        content(item)
-                                            .frame(width: itemWidth, height: proxy.size.height)
-                                            .clipShape(RoundedRectangle(cornerRadius: 6))
-                                    }
+                ScrollView(.horizontal, showsIndicators: false) {
+                    LazyHStack(spacing: 0) {
+                        ForEach(displayPages) { page in
+                            HStack(spacing: spacing) {
+                                ForEach(page.items) { item in
+                                    content(item)
+                                        .frame(width: itemWidth)
+                                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                                }
 
-                                    if page.items.count < columns {
-                                        ForEach(0..<(columns - page.items.count), id: \.self) { _ in
-                                            Color.clear
-                                                .frame(width: itemWidth, height: proxy.size.height)
-                                        }
+                                if page.items.count < columns {
+                                    ForEach(0..<(columns - page.items.count), id: \.self) { _ in
+                                        Color.clear
+                                            .frame(width: itemWidth)
                                     }
                                 }
-                                .frame(width: pageWidth, height: proxy.size.height, alignment: .leading)
-                                .id(page.id)
                             }
+                            .frame(width: pageWidth, alignment: .leading)
+                            .id(page.id)
                         }
-                        .scrollTargetLayout()
                     }
-                    .frame(width: pageWidth, height: proxy.size.height)
-                    .scrollTargetBehavior(.paging)
-                    .scrollPosition(id: $displayPageID)
-                    .onChange(of: displayPageID) { _, newValue in
-                        handleDisplayPageChange(newValue)
-                    }
+                    .scrollTargetLayout()
+                }
+                .frame(maxWidth: .infinity)
+                .scrollTargetBehavior(.paging)
+                .scrollPosition(id: $displayPageID)
+                .onChange(of: displayPageID) { _, newValue in
+                    handleDisplayPageChange(newValue)
+                }
 
-                    if hasMultiplePages {
-                        CarouselPageButton(
-                            systemName: "chevron.right",
-                            isVisible: shouldShowControls,
-                            isEnabled: canMoveForward
-                        ) {
-                            movePage(by: 1)
-                        }
-                    }
-                }
-                .frame(width: proxy.size.width, height: proxy.size.height)
-                .contentShape(Rectangle())
-                .onHover { isHovering = $0 }
-                .onAppear {
-                    resetToFirstPage()
-                }
-                .onChange(of: items.map(\.id)) { _, _ in
-                    resetToFirstPage()
-                }
-                .onReceive(autoScrollTimer) { _ in
-                    guard shouldAutoScroll else { return }
+                CarouselPageButton(
+                    systemName: "chevron.right",
+                    isVisible: shouldShowControls,
+                    isEnabled: canMoveForward
+                ) {
                     movePage(by: 1)
                 }
+            }
+            .frame(maxWidth: .infinity)
+            .contentShape(Rectangle())
+            .onHover { isHovering = $0 }
+            .background(widthReader)
+            .onAppear {
+                resetToFirstPage()
+            }
+            .onChange(of: items.map(\.id)) { _, _ in
+                resetToFirstPage()
+            }
+            .onReceive(autoScrollTimer) { _ in
+                guard shouldAutoScroll else { return }
+                movePage(by: 1)
             }
 
             if shouldShowDots {
                 CarouselDots(pageCount: pageCount, currentPageIndex: logicalPageIndex)
             }
         }
+        .fixedSize(horizontal: false, vertical: true)
     }
 }
 
 // MARK: - Private
 private extension Carousel {
     var pages: [CarouselPage<Item>] {
-        items.carouselChunked(into: columns).enumerated().map { index, items in
+        let pageItems = shouldBackfillLastPage
+            ? items.carouselBackfilledLastPage(into: columns)
+            : items.carouselChunked(into: columns)
+
+        return pageItems.enumerated().map { index, items in
             // Real page index starts with 1
             CarouselPage(id: index + 1, items: items)
         }
@@ -156,12 +160,25 @@ private extension Carousel {
     var shouldShowControls: Bool { hasMultiplePages && isHovering }
     var shouldShowDots: Bool { showsDots && hasMultiplePages }
     var shouldUseLoopNodes: Bool { isInfiniteLoopEnabled && hasMultiplePages }
+    var shouldBackfillLastPage: Bool { isLastPageBackfillEnabled && !isInfiniteLoopEnabled }
     var shouldAutoScroll: Bool { isAutoScrollEnabled && hasMultiplePages && autoScrollInterval > 0 }
     var canMoveBackward: Bool { isInfiniteLoopEnabled || logicalPageIndex > 0 }
     var canMoveForward: Bool { isInfiniteLoopEnabled || logicalPageIndex < pageCount - 1 }
 
     var autoScrollTimer: Publishers.Autoconnect<Timer.TimerPublisher> {
         Timer.publish(every: max(autoScrollInterval, 1), on: .main, in: .common).autoconnect()
+    }
+
+    var widthReader: some View {
+        GeometryReader { proxy in
+            Color.clear
+                .onAppear {
+                    availableWidth = proxy.size.width
+                }
+                .onChange(of: proxy.size.width) { _, newValue in
+                    availableWidth = newValue
+                }
+        }
     }
 
     func itemWidth(in pageWidth: CGFloat) -> CGFloat {
@@ -260,7 +277,7 @@ private struct BannerPreviewItem: Identifiable {
 #Preview {
     // Case 1
     Carousel(
-        items: [1, 2, 3, 4, 5, 6].compactMap { BannerPreviewItem(value: $0)}
+        items: [1, 2, 3, 4, 5, 6].compactMap { BannerPreviewItem(value: $0) }
     ) { item in
         RoundedRectangle(cornerRadius: 6)
             .fill(Color.blue.opacity(0.2))
@@ -272,15 +289,17 @@ private struct BannerPreviewItem: Identifiable {
     }
     .frame(width: 760, height: 164)
     .padding(10)
-    
+
     Divider()
 
     // Case 2
     Carousel(
-        items: [1, 2, 3, 4, 5, 6].compactMap { BannerPreviewItem(value: $0)},
+        items: [1, 2, 3, 4, 5, 6].compactMap { BannerPreviewItem(value: $0) },
+        columns: 4,
         showsDots: false,
         isAutoScrollEnabled: false,
         isInfiniteLoopEnabled: false,
+        isLastPageBackfillEnabled: true,
     ) { item in
         RoundedRectangle(cornerRadius: 6)
             .fill(Color.blue.opacity(0.2))

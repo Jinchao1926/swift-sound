@@ -31,4 +31,17 @@ extension Array {
             Array(self[startIndex..<Swift.min(startIndex + size, count)])
         }
     }
+
+    /// Splits the array into pages and backfills an incomplete last page from
+    /// previous elements so the last page keeps the requested size when possible.
+    ///
+    /// Example:
+    /// `[1, 2, 3, 4, 5, 6].carouselBackfilledLastPage(into: 4)` -> `[[1, 2, 3, 4], [3, 4, 5, 6]]`
+    func carouselBackfilledLastPage(into size: Int) -> [[Element]] {
+        var pages = carouselChunked(into: size)
+        guard size > 0, count > size, count % size != 0 else { return pages }
+
+        pages[pages.count - 1] = Array(self[(count - size)..<count])
+        return pages
+    }
 }

@@ -16,7 +16,7 @@ struct RemoteImage: View {
         url: URL?,
         contentMode: SwiftUI.ContentMode = .fill
     ) {
-        self.url = url
+        self.url = url?.httpsURL
         self.contentMode = contentMode
     }
 
@@ -27,5 +27,16 @@ struct RemoteImage: View {
             }
             .resizable()
             .aspectRatio(contentMode: contentMode)
+    }
+}
+
+private extension URL {
+    var httpsURL: URL {
+        guard scheme == "http", var components = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
+            return self
+        }
+
+        components.scheme = "https"
+        return components.url ?? self
     }
 }
