@@ -17,7 +17,7 @@ enum AppRoute: Identifiable, Hashable, Equatable {
     case played
     case download
     //
-    case latestMusic(secondary: LatestMusicRoute = .newTrack)
+    case newMusic(secondary: NewMusicRoute = .songs)
 
     var id: Self { self }
 
@@ -35,7 +35,7 @@ enum AppRoute: Identifiable, Hashable, Equatable {
             return "最近播放"
         case .download:
             return "下载管理"
-        case .latestMusic:
+        case .newMusic:
             return "最新音乐"
         }
     }
@@ -77,7 +77,7 @@ extension AppRoute {
              (.favorite, .favorite),
              (.played, .played),
              (.download, .download),
-             (.latestMusic, .latestMusic):
+             (.newMusic, .newMusic):
             return true
         default:
             return false

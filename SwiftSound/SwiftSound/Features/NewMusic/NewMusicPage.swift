@@ -1,5 +1,5 @@
 //
-//  LatestMusicPage.swift
+//  NewMusicPage.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/6/16.
@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct LatestMusicPage: View {
-    let route: LatestMusicRoute
+struct NewMusicPage: View {
+    let route: NewMusicRoute
 
     var body: some View {
         VStack(spacing: 10) {
@@ -21,15 +21,15 @@ struct LatestMusicPage: View {
     @ViewBuilder
     private var content: some View {
         switch route {
-        case .newTrack:
-            NewTrackPage()
-        case .newAlbum:
-            NewAlbumPage()
+        case .songs:
+            NewSongsPage()
+        case .albums:
+            NewAlbumsPage()
         }
     }
 }
 
 #Preview {
-    LatestMusicPage(route: .newTrack)
+    NewMusicPage(route: .songs)
         .environmentObject(AppRouter())
 }

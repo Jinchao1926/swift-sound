@@ -1,5 +1,5 @@
 //
-//  HeroBanner.swift
+//  HeroBannerSection.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/6/14.
@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct HeroBanners: View {
-    @StateObject private var viewModel = HeroBannersViewModel()
+struct HeroBannerSection: View {
+    @StateObject private var viewModel = HeroBannerSectionViewModel()
 
     var body: some View {
         VStack(spacing: 0) {

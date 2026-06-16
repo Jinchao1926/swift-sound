@@ -49,7 +49,7 @@ fileprivate extension PlaylistCover {
         static let bottomPanelHeight: CGFloat = 58
     }
 
-    var tracks: [Track] {
+    var tracks: [Song] {
         Array((playlist.tracks ?? []).prefix(3))
     }
 }
@@ -57,7 +57,7 @@ fileprivate extension PlaylistCover {
 // MARK: - PlaylistCoverBottomPanel
 private struct PlaylistCoverBottomPanel: View {
     let title: String
-    let tracks: [Track]
+    let tracks: [Song]
     let isHovering: Bool
 
     var body: some View {
@@ -128,7 +128,7 @@ private extension PlaylistCoverBottomPanel {
 
 // MARK: - PlaylistCoverTrackList
 private struct PlaylistCoverTrackList: View {
-    let tracks: [Track]
+    let tracks: [Song]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
