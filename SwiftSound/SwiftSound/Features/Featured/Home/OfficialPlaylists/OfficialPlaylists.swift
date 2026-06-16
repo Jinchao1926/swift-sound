@@ -9,28 +9,33 @@ import SwiftUI
 
 struct OfficialPlaylists: View {
     @StateObject private var viewModel = OfficialPlaylistsViewModel()
+    @State private var availableWidth: CGFloat = 0
 
     var body: some View {
+        let columns = playlistColumns(for: availableWidth)
+
         VStack(alignment: .leading, spacing: 16) {
             RouteTitleLink("官方歌单", route: FeaturedRoute.playlistSquare)
                 .padding(.horizontal, 30)
 
-            GeometryReader { proxy in
-                let columns = playlistColumns(for: proxy.size.width)
-
-                Carousel(
-                    items: viewModel.state.playlists,
-                    columns: columns,
-                    spacing: Layout.cardSpacing,
-                    showsDots: false,
-                    isAutoScrollEnabled: false,
-                    isInfiniteLoopEnabled: false
-                ) {
-                    PlaylistCover(playlist: $0)
-                }
+            Carousel(
+                items: viewModel.state.playlists,
+                columns: columns,
+                spacing: Layout.cardSpacing,
+                showsDots: false,
+                isAutoScrollEnabled: false,
+                isInfiniteLoopEnabled: false,
+                isLastPageBackfillEnabled: true
+            ) {
+                PlaylistCover(playlist: $0)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .onGeometryChange(for: CGFloat.self) { proxy in
+            proxy.size.width
+        } action: { newValue in
+            availableWidth = newValue
+        }
         .padding(.horizontal, 10)
         .padding(.top, 20)
         .task {

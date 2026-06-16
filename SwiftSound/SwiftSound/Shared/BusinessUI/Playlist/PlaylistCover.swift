@@ -13,37 +13,35 @@ struct PlaylistCover: View {
     @State private var isHovering = false
 
     var body: some View {
-        GeometryReader { proxy in
-            let cardWidth = proxy.size.width
-            let cardHeight = cardWidth + Layout.bottomPanelHeight
+        VStack(spacing: 0) {
+            RemoteImage(url: URL(string: playlist.coverImgUrl))
+                .aspectRatio(1, contentMode: .fit)
 
-            ZStack(alignment: .topTrailing) {
-                VStack(spacing: 0) {
-                    RemoteImage(url: URL(string: playlist.coverImgUrl))
-                        .frame(width: cardWidth, height: cardWidth)
-
-                    Color.clear
-                        .frame(width: cardWidth, height: Layout.bottomPanelHeight)
-                }
-
-                PlayCountBadge(count: playlist.playCount)
-                    .padding(Layout.inset)
-
-                PlaylistCoverBottomPanel(
-                    title: playlist.name,
-                    tracks: tracks,
-                    panelColor: panelColor,
-                    isHovering: isHovering
-                )
-                .frame(width: cardWidth, height: isHovering ? cardHeight : Layout.bottomPanelHeight)
-                .frame(maxHeight: .infinity, alignment: .bottom)
-            }
-            .frame(width: cardWidth, height: cardHeight)
-            .clipShape(RoundedRectangle(cornerRadius: 6))
-            .pointerStyle(.link)
-            .onHover { isHovering = $0 }
-            .animation(.easeInOut(duration: 0.18), value: isHovering)
+            Color.clear
+                .frame(height: Layout.bottomPanelHeight)
         }
+        .overlay(alignment: .topTrailing) {
+            PlayCountBadge(count: playlist.playCount)
+                .padding(Layout.inset)
+        }
+        .overlay(alignment: .bottom) {
+            PlaylistCoverBottomPanel(
+                title: playlist.name,
+                tracks: tracks,
+                panelColor: panelColor,
+                isHovering: isHovering
+            )
+            .frame(maxWidth: .infinity)
+            .frame(
+                maxHeight: isHovering ? .infinity : Layout.bottomPanelHeight,
+                alignment: .bottom
+            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 6))
+        .pointerStyle(.link)
+        .onHover { isHovering = $0 }
+        .animation(.easeInOut(duration: 0.18), value: isHovering)
     }
 }
 
@@ -82,24 +80,20 @@ private struct PlaylistCoverBottomPanel: View {
             background
 
             VStack(alignment: .leading, spacing: 0) {
-                if isHovering {
-                    Spacer()
-                }
+                Spacer(minLength: 0)
 
                 titleView
+                    .padding(Layout.inset)
 
-                if isHovering {
-                    HStack(alignment: .bottom, spacing: Layout.inset) {
-                        PlaylistCoverTrackList(tracks: tracks)
-                        Spacer(minLength: Layout.inset)
-                        PlayButton()
-                    }
+                tracksView
                     .padding(.horizontal, Layout.inset)
                     .padding(.bottom, Layout.tracksVerticalInset)
                     .padding(.top, Layout.tracksVerticalInset - Layout.inset)
-                }
+                    .opacity(isHovering ? 1 : 0)
+                    .offset(y: isHovering ? 0 : 8)
+                    .frame(height: isHovering ? nil : 0, alignment: .bottom)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
         }
     }
 }
@@ -118,7 +112,14 @@ private extension PlaylistCoverBottomPanel {
             .multilineTextAlignment(.leading)
             .lineSpacing(2)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(Layout.inset)
+    }
+
+    var tracksView: some View {
+        HStack(alignment: .bottom, spacing: Layout.inset) {
+            PlaylistCoverTrackList(tracks: tracks)
+            Spacer(minLength: Layout.inset)
+            PlayButton()
+        }
     }
 
     var background: some View {
