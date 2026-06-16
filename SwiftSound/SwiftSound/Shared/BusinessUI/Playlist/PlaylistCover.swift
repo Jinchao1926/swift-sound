@@ -28,7 +28,6 @@ struct PlaylistCover: View {
             PlaylistCoverBottomPanel(
                 title: playlist.name,
                 tracks: tracks,
-                panelColor: panelColor,
                 isHovering: isHovering
             )
             .frame(
@@ -50,28 +49,17 @@ fileprivate extension PlaylistCover {
         static let bottomPanelHeight: CGFloat = 58
     }
 
-//    var tracks: [Track] {
-//        Array((playlist.tracks ?? []).prefix(3))
-//    }
-
-    struct TrackData {
-        let id: Int
-        let name: String
-    }
-    var tracks: [TrackData] {
-        [.init(id: 1, name: "我怀念的"), .init(id: 2, name: "爱我还是他"), .init(id: 3, name: "江南")]
+    var tracks: [Track] {
+        Array((playlist.tracks ?? []).prefix(3))
     }
 
-    var panelColor: Color {
-        Color(hex: 0xA55E76)
-    }
+    
 }
 
 // MARK: - PlaylistCoverBottomPanel
 private struct PlaylistCoverBottomPanel: View {
     let title: String
-    let tracks: [PlaylistCover.TrackData]
-    let panelColor: Color
+    let tracks: [Track]
     let isHovering: Bool
 
     var body: some View {
@@ -134,11 +122,15 @@ private extension PlaylistCoverBottomPanel {
             endPoint: .top
         )
     }
+    
+    var panelColor: Color {
+        Color(hex: 0xA55E76)
+    }
 }
 
 // MARK: - PlaylistCoverTrackList
 private struct PlaylistCoverTrackList: View {
-    let tracks: [PlaylistCover.TrackData]
+    let tracks: [Track]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {

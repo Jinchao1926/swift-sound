@@ -14,7 +14,7 @@ struct OfficialPlaylists: View {
     var body: some View {
         let columns = playlistColumns(for: availableWidth)
 
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 0) {
             RouteTitleLink("官方歌单", route: FeaturedRoute.playlistSquare)
                 .padding(.horizontal, 30)
 
@@ -37,7 +37,7 @@ struct OfficialPlaylists: View {
             availableWidth = newValue
         }
         .padding(.horizontal, 10)
-        .padding(.top, 20)
+        .padding(.top, 16)
         .task {
             await viewModel.load()
         }
