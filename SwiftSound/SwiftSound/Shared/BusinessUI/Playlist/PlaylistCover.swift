@@ -52,8 +52,6 @@ fileprivate extension PlaylistCover {
     var tracks: [Track] {
         Array((playlist.tracks ?? []).prefix(3))
     }
-
-    
 }
 
 // MARK: - PlaylistCoverBottomPanel
@@ -122,7 +120,7 @@ private extension PlaylistCoverBottomPanel {
             endPoint: .top
         )
     }
-    
+
     var panelColor: Color {
         Color(hex: 0xA55E76)
     }

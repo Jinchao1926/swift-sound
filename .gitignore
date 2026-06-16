@@ -4,7 +4,9 @@
 
 # Xcode build products
 DerivedData/
+.DerivedData/
 build/
+.build/
 *.moved-aside
 
 # Xcode user-specific state

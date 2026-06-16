@@ -9,12 +9,15 @@ import Foundation
 
 /// App page route definition
 enum AppRoute: Identifiable, Hashable, Equatable {
-    case featured(sub: FeaturedRoute = .featured)
+    // Sidebar routes
+    case featured(secondary: FeaturedRoute = .featured)
     case podcast
     case follow
     case favorite
     case played
     case download
+    //
+    case latestMusic(secondary: LatestMusicRoute = .newTrack)
 
     var id: Self { self }
 
@@ -32,6 +35,8 @@ enum AppRoute: Identifiable, Hashable, Equatable {
             return "最近播放"
         case .download:
             return "下载管理"
+        case .latestMusic:
+            return "最新音乐"
         }
     }
 
@@ -49,6 +54,8 @@ enum AppRoute: Identifiable, Hashable, Equatable {
             return "clock.fill"
         case .download:
             return "arrow.down.circle.fill"
+        default:
+            return ""
         }
     }
 }
@@ -69,7 +76,8 @@ extension AppRoute {
              (.follow, .follow),
              (.favorite, .favorite),
              (.played, .played),
-             (.download, .download):
+             (.download, .download),
+             (.latestMusic, .latestMusic):
             return true
         default:
             return false

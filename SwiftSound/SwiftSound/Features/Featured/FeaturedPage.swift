@@ -12,7 +12,7 @@ struct FeaturedPage: View {
 
     var body: some View {
         VStack(spacing: 10) {
-            FeaturedTab(selectedRoute: route)
+            RouteTabView(selectedRoute: route)
             content
             Spacer(minLength: 0)
         }
@@ -37,4 +37,5 @@ struct FeaturedPage: View {
 
 #Preview {
     FeaturedPage(route: .featured)
+        .frame(minWidth: 800, minHeight: 800)
 }

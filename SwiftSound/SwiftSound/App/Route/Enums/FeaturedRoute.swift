@@ -7,14 +7,14 @@
 
 import Foundation
 
-enum FeaturedRoute: String, CaseIterable, Identifiable {
+enum FeaturedRoute: SecondaryRouteProtocol {
     case featured
     case playlistSquare
     case ranking
     case artist
     case vip
 
-    var id: Self { self }
+    var destinationRoute: AppRoute { .featured(secondary: self) }
 
     var title: String {
         switch self {

@@ -72,6 +72,6 @@ private extension OfficialPlaylists {
 
 #Preview {
     OfficialPlaylists()
-        .padding()
+        .frame(minWidth: 600, minHeight: 300)
         .environmentObject(AppRouter())
 }

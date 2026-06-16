@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 final class AppRouter: ObservableObject {
-    @Published var rootRoute: AppRoute = .featured(sub: .featured)
+    @Published var rootRoute: AppRoute = .featured()
     @Published var path: [AppRoute] = []
 
     var currentRoute: AppRoute {
@@ -46,10 +46,7 @@ final class AppRouter: ObservableObject {
         path.append(route)
     }
 
-    func navigate(to route: FeaturedRoute) {
-        let appRoute: AppRoute = .featured(sub: route)
-
-        guard appRoute != currentRoute else { return }
-        path.append(appRoute)
+    func navigate<Route: SecondaryRouteProtocol>(to route: Route) {
+        navigate(to: route.destinationRoute)
     }
 }
