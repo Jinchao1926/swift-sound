@@ -41,8 +41,8 @@ struct DetailContainerView: View {
             PlayedPage()
         case .download:
             DownloadPage()
-        case .latestMusic(let secondary):
-            LatestMusicPage(route: secondary)
+        case .newMusic(let secondary):
+            NewMusicPage(route: secondary)
         }
     }
 }

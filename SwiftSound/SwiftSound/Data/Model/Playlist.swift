@@ -152,7 +152,7 @@ struct Playlist: Decodable, Identifiable {
     let updateTime: Int
     let trackUpdateTime: Int
     let trackNumberUpdateTime: Int
-    let tracks: [Track]?
+    let tracks: [Song]?
     let trackCount: Int
     let playCount: Int
     let shareCount: Int

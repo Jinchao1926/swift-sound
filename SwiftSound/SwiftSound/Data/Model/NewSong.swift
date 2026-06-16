@@ -140,5 +140,5 @@ struct NewSong: Decodable {
     let type: Int
     let name: String
     let picUrl: String
-    let song: Track
+    let song: Song
 }

@@ -1,5 +1,5 @@
 //
-//  Track.swift
+//  Song.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/6/15.
@@ -22,7 +22,7 @@ enum FeeType: Int, Decodable {
     case limitedFree = 8
 }
 
-struct Track: Decodable {
+struct Song: Decodable {
     let id: Int
     let name: String
     // 时长，毫秒

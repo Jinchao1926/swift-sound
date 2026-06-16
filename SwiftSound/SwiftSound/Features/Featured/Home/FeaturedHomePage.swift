@@ -11,7 +11,7 @@ struct FeaturedHomePage: View {
     var body: some View {
         HeroBanners()
         OfficialPlaylists()
-        LatestMusic()
+        NewMusic()
     }
 }
 

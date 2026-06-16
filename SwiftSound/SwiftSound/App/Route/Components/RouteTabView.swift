@@ -56,7 +56,7 @@ private struct RouteTabItem<Route: SecondaryRouteProtocol>: View {
 
         Divider()
 
-        RouteTabView(selectedRoute: LatestMusicRoute.newTrack)
+        RouteTabView(selectedRoute: NewMusicRoute.songs)
             .environmentObject(AppRouter())
     }
     .padding()
