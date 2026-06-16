@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AppConfiguration {
+nonisolated struct AppConfiguration {
     let environment: APIEnvironment
     let baseURL: URL
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PlaylistDetailResponse: Decodable {
+struct PlaylistDetailResponse: nonisolated Decodable {
     let playlist: Playlist
     let code: Int
 }

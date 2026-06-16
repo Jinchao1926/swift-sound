@@ -143,7 +143,7 @@ struct Playlist: Decodable, Identifiable {
     let name: String
     let coverImgId: Int
     let coverImgUrl: String
-    let coverText: [String]
+    let coverText: [String]?
     let createTime: Int
     let creator: User
     let description: String

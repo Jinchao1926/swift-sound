@@ -10,6 +10,6 @@ import Foundation
 
 extension TopPlaylistsResponse {
     static func rawData() throws -> Data {
-        try JSONFixture.data(named: "TopPlaylist.json")
+        try JSONFixture.data(named: "TopPlaylistsResponse.json")
     }
 }

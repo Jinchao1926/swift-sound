@@ -8,7 +8,7 @@
 import Alamofire
 import Foundation
 
-final class APIClient: APIClientProtocol {
+nonisolated final class APIClient: APIClientProtocol {
     private let configuration: AppConfiguration
     private let session: Session
     private let cache: APIResponseCache

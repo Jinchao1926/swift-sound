@@ -41,10 +41,10 @@ import Foundation
 /** 艺术家 */
 struct Artist: Decodable {
     let id: Int
-    let accountId: Int // user id
+    let accountId: Int? // user id
     let name: String
-    let img1v1Url: String
-    let picUrl: String
+    let img1v1Url: String?
+    let picUrl: String?
     let alias: [String]
     let tns: [String]?
 }
@@ -128,12 +128,12 @@ struct ArtistIntroduction: Decodable {
 struct Album: Decodable {
     let id: Int
     let name: String
-    let artist: Artist
+    let artist: Artist?
     let artists: [Artist]?
     let picUrl: String
-    let alias: [String]
+    let alias: [String]?
     let transNames: [String]?
-    let publishTime: Int
-    let company: String
-    let description: String
+    let publishTime: Int?
+    let company: String?
+    let description: String?
 }

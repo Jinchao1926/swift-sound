@@ -11,7 +11,7 @@ import Foundation
 ///
 /// This cache sits above Alamofire and stores typed response objects, not raw
 /// HTTP responses. Use `.none` for user-specific or frequently changing data.
-enum APICachePolicy {
+nonisolated enum APICachePolicy {
     case none
     case memory(ttl: TimeInterval)
 

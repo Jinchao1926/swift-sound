@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIEnvironment: String, CaseIterable, Identifiable {
+nonisolated enum APIEnvironment: String, CaseIterable, Identifiable {
     case development
     case staging
     case production
