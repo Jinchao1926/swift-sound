@@ -1,19 +1,19 @@
 //
-//  FeaturedTab.swift
+//  RouteTabView.swift
 //  SwiftSound
 //
-//  Created by Jinchao Lin on 2026/6/14.
+//  Created by Jinchao Lin on 2026/6/16.
 //
 
 import SwiftUI
 
-struct FeaturedTab: View {
-    let selectedRoute: FeaturedRoute
+struct RouteTabView<Route>: View where Route: SecondaryRouteProtocol {
+    let selectedRoute: Route
 
     var body: some View {
         HStack(alignment: .bottom, spacing: 24) {
-            ForEach(FeaturedRoute.allCases) { tab in
-                FeaturedTabItem(route: tab, isSelected: tab == selectedRoute)
+            ForEach(Array(Route.allCases)) {
+                RouteTabItem(route: $0, isSelected: $0 == selectedRoute)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -22,8 +22,8 @@ struct FeaturedTab: View {
     }
 }
 
-struct FeaturedTabItem: View {
-    let route: FeaturedRoute
+private struct RouteTabItem<Route: SecondaryRouteProtocol>: View {
+    let route: Route
     let isSelected: Bool
 
     @EnvironmentObject private var router: AppRouter
@@ -50,6 +50,14 @@ struct FeaturedTabItem: View {
 }
 
 #Preview {
-    FeaturedTab(selectedRoute: .featured)
-        .environmentObject(AppRouter())
+    VStack {
+        RouteTabView(selectedRoute: FeaturedRoute.featured)
+            .environmentObject(AppRouter())
+
+        Divider()
+
+        RouteTabView(selectedRoute: LatestMusicRoute.newTrack)
+            .environmentObject(AppRouter())
+    }
+    .padding()
 }

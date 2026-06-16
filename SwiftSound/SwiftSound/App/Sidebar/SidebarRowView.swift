@@ -64,7 +64,7 @@ struct SidebarRowView: View {
 }
 
 #Preview {
-    SidebarRowView(route: .featured(sub: .featured))
+    SidebarRowView(route: .featured())
         .frame(minWidth: 203, maxWidth: 203)
         .padding()
         .environmentObject(AppRouter())

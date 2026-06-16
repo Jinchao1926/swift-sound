@@ -29,8 +29,8 @@ struct DetailContainerView: View {
     @ViewBuilder
     private func routeView(_ route: AppRoute) -> some View {
         switch route {
-        case .featured(let tab):
-            FeaturedPage(route: tab)
+        case .featured(let secondary):
+            FeaturedPage(route: secondary)
         case .podcast:
             PodcastPage()
         case .follow:
@@ -41,11 +41,14 @@ struct DetailContainerView: View {
             PlayedPage()
         case .download:
             DownloadPage()
+        case .latestMusic(let secondary):
+            LatestMusicPage(route: secondary)
         }
     }
 }
 
 #Preview {
     DetailContainerView()
+        .frame(minWidth: 800, minHeight: 800)
         .environmentObject(AppRouter())
 }
