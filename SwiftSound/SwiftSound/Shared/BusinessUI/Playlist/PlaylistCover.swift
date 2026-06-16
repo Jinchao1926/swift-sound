@@ -31,12 +31,11 @@ struct PlaylistCover: View {
                 panelColor: panelColor,
                 isHovering: isHovering
             )
-            .frame(maxWidth: .infinity)
             .frame(
+                maxWidth: .infinity,
                 maxHeight: isHovering ? .infinity : Layout.bottomPanelHeight,
                 alignment: .bottom
             )
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
         }
         .clipShape(RoundedRectangle(cornerRadius: 6))
         .pointerStyle(.link)
@@ -45,7 +44,6 @@ struct PlaylistCover: View {
     }
 }
 
-// MARK: - Private
 fileprivate extension PlaylistCover {
     enum Layout {
         static let inset: CGFloat = 10
@@ -69,6 +67,7 @@ fileprivate extension PlaylistCover {
     }
 }
 
+// MARK: - PlaylistCoverBottomPanel
 private struct PlaylistCoverBottomPanel: View {
     let title: String
     let tracks: [PlaylistCover.TrackData]
@@ -83,12 +82,13 @@ private struct PlaylistCoverBottomPanel: View {
                 Spacer(minLength: 0)
 
                 titleView
-                    .padding(Layout.inset)
+                    .padding(.horizontal, Layout.inset)
+                    .padding(.top, Layout.inset)
+                    .padding(.bottom, Layout.bottomInset)
 
                 tracksView
                     .padding(.horizontal, Layout.inset)
-                    .padding(.bottom, Layout.tracksVerticalInset)
-                    .padding(.top, Layout.tracksVerticalInset - Layout.inset)
+                    .padding(.bottom, Layout.bottomInset)
                     .opacity(isHovering ? 1 : 0)
                     .offset(y: isHovering ? 0 : 8)
                     .frame(height: isHovering ? nil : 0, alignment: .bottom)
@@ -101,16 +101,16 @@ private struct PlaylistCoverBottomPanel: View {
 private extension PlaylistCoverBottomPanel {
     enum Layout {
         static let inset: CGFloat = 10
-        static let tracksVerticalInset: CGFloat = 15
+        static let bottomInset: CGFloat = 15
     }
 
     var titleView: some View {
         Text(title)
-            .font(.font13.weight(.semibold))
+            .font(.font13)
             .foregroundStyle(.white)
             .lineLimit(2)
             .multilineTextAlignment(.leading)
-            .lineSpacing(2)
+            .lineSpacing(1)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 
@@ -136,6 +136,7 @@ private extension PlaylistCoverBottomPanel {
     }
 }
 
+// MARK: - PlaylistCoverTrackList
 private struct PlaylistCoverTrackList: View {
     let tracks: [PlaylistCover.TrackData]
 
@@ -143,7 +144,7 @@ private struct PlaylistCoverTrackList: View {
         VStack(alignment: .leading, spacing: 10) {
             ForEach(Array(tracks.enumerated()), id: \.element.id) { index, track in
                 Text("\(index + 1) \(track.name)")
-                    .font(.font13.weight(.semibold))
+                    .font(.font12.weight(.semibold))
                     .foregroundStyle(.white.opacity(0.85))
                     .lineLimit(1)
                     .truncationMode(.tail)

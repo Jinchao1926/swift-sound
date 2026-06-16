@@ -9,10 +9,17 @@ import Foundation
 
 extension Int {
     var playCountText: String {
-        if self >= 10_000 {
-            return String(format: "%.1f万", Double(self) / 10_000.0)
+        guard self >= 10_000 else {
+            return "\(self)"
         }
 
-        return "\(self)"
+        let rawValue = Double(self) / 10_000
+        let rounded = (rawValue * 10).rounded() / 10    // 小数
+
+        if rounded.truncatingRemainder(dividingBy: 1) == 0 {
+            return "\(Int(rounded))万"
+        } else {
+            return String(format: "%.1f万", rounded)
+        }
     }
 }
