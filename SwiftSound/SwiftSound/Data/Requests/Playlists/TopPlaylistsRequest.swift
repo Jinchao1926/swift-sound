@@ -8,7 +8,7 @@
 import Foundation
 
 /// API returned `tracks` could be null; call detail API for full response.
-struct TopPlaylistsResponse: Decodable {
+struct TopPlaylistsResponse: nonisolated Decodable {
     let playlists: [Playlist]
     let code: Int
     let total: Int

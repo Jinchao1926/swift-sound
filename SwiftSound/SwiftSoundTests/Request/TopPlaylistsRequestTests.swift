@@ -11,7 +11,7 @@ import Foundation
 
 struct TopPlaylistsRequestTests {
 
-    @Test func decodesTopPlaylistFixture() throws {
+    @Test func decodesTopPlaylistResponseFixture() throws {
         let data = try TopPlaylistsResponse.rawData()
         let response = try JSONDecoder.swiftSoundDefault.decode(TopPlaylistsResponse.self, from: data)
         let playlist = try #require(response.playlists.first)

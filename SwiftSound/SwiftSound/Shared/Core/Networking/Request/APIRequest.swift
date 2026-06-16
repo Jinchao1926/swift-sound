@@ -12,7 +12,7 @@ import Foundation
 /// Feature modules define small request structs that provide the route,
 /// parameters, optional body, and expected response type. `APIClient` owns the
 /// actual transport implementation.
-protocol APIRequest {
+nonisolated protocol APIRequest {
     associatedtype Response: Decodable
 
     var path: String { get }
@@ -33,7 +33,7 @@ extension APIRequest {
     var decoder: JSONDecoder { .swiftSoundDefault }
 }
 
-extension APIRequest {
+nonisolated extension APIRequest {
     /// Builds the concrete URLRequest.
     func urlRequest(relativeTo baseURL: URL) throws -> URLRequest {
         guard let baseResolvedURL = URL(string: path, relativeTo: baseURL)?.absoluteURL,

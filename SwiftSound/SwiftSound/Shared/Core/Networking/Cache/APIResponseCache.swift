@@ -12,7 +12,7 @@ import Foundation
 /// It is intentionally scoped to Networking: HTTP caching remains Alamofire /
 /// URLSession's job, while this cache avoids decoding and requesting the same
 /// typed resource repeatedly within its TTL.
-final class APIResponseCache {
+nonisolated final class APIResponseCache {
     static let shared = APIResponseCache()
 
     private struct Entry {

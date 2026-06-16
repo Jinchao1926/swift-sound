@@ -11,12 +11,12 @@ import Testing
 
 struct PlaylistDetailRequestTests {
 
-    @Test func buildsPlaylistDetailRequestURL() throws {
-        let request = PlaylistDetailRequest(id: 8_159_674_692)
-        let baseURL = try #require(URL(string: "https://example.com"))
-        let urlRequest = try request.urlRequest(relativeTo: baseURL)
+    @Test func decodesPlaylistDetailFixture() throws {
+        let data = try PlaylistDetailResponse.rawData()
+        let response = try JSONDecoder.swiftSoundDefault.decode(PlaylistDetailResponse.self, from: data)
+        let playlist = response.playlist
 
-        #expect(urlRequest.url?.absoluteString == "https://example.com/playlist/detail?id=8159674692")
-        #expect(urlRequest.httpMethod == "GET")
+        #expect(response.code == 200)
+        #expect(playlist.id == 8163014104)
     }
 }
