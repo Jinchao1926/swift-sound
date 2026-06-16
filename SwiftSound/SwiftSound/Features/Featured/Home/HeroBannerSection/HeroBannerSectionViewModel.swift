@@ -1,5 +1,5 @@
 //
-//  HeroBannerViewModel.swift
+//  HeroBannerSectionViewModel.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/6/14.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class HeroBannersViewModel: ObservableObject {
+final class HeroBannerSectionViewModel: ObservableObject {
     enum State {
         case idle
         case loading

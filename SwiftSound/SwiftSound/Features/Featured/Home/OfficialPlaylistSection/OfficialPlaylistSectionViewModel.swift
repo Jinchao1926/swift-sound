@@ -1,5 +1,5 @@
 //
-//  OfficialPlaylistsViewModel.swift
+//  OfficialPlaylistSectionViewModel.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/6/15.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class OfficialPlaylistsViewModel: ObservableObject {
+final class OfficialPlaylistSectionViewModel: ObservableObject {
     enum State {
         case idle
         case loading

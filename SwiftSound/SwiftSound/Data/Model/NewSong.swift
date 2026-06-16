@@ -135,7 +135,7 @@ import Foundation
  },
  */
 
-struct NewSong: Decodable {
+struct NewSong: Decodable, Identifiable {
     let id: Int
     let type: Int
     let name: String

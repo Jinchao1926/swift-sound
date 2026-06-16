@@ -12,8 +12,8 @@ import Foundation
 struct NewSongRequestTests {
 
     @Test func decodesNewSongResponseFixture() throws {
-        let data = try NewSongResponse.rawData()
-        let response = try JSONDecoder.swiftSoundDefault.decode(NewSongResponse.self, from: data)
+        let data = try PersonalizedNewSongsResponse.rawData()
+        let response = try JSONDecoder.swiftSoundDefault.decode(PersonalizedNewSongsResponse.self, from: data)
         let newSong = try #require(response.result.first)
 
         #expect(response.code == 200)
