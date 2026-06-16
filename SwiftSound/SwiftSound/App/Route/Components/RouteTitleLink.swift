@@ -42,7 +42,7 @@ struct RouteTitleLink: View {
             }
             .foregroundStyle(Color.textPrimary)
             .contentShape(Rectangle())
-            .frame(height: 44)
+            .frame(height: 40)
         }
         .buttonStyle(.plain)
         .pointerStyle(.link)

@@ -37,10 +37,38 @@ final class OfficialPlaylistsViewModel: ObservableObject {
 
         do {
             let playlists = try await repository.fetchTopPlaylists(category: "官方", limit: 6)
-            debugPrint("playlists: \(playlists)")
-            state = .loaded(playlists)
+//            state = .loaded(playlists)
+
+            let detailedPlaylists = await fetchDetailedPlaylists(for: playlists)
+            state = .loaded(detailedPlaylists)
         } catch {
             state = .failed(error)
+        }
+    }
+
+    private typealias PlaylistDetailResult = (index: Int, playlist: Playlist?)
+    private func fetchDetailedPlaylists(for playlists: [Playlist]) async -> [Playlist] {
+        guard !playlists.isEmpty else { return [] }
+
+        return await withTaskGroup(of: PlaylistDetailResult.self) { group in
+            for (index, playlist) in playlists.enumerated() {
+                group.addTask { [repository] in
+                    do {
+                        return (index, try await repository.fetchPlaylistDetail(playlist.id))
+                    } catch {
+                        return (index, nil)
+                    }
+                }
+            }
+
+            var copied = playlists
+            for await (index, playlist) in group {
+                if let playlist {
+                    copied[index] = playlist
+                }
+            }
+
+            return copied
         }
     }
 }
