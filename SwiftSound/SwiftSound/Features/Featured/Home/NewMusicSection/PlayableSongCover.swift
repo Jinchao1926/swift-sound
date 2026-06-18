@@ -13,6 +13,18 @@ struct PlayableSongCover: View {
     let imageSize: CGFloat
     let cornerRadius: CGFloat
 
+    init(
+        url: URL? = nil,
+        isHovering: Bool = false,
+        imageSize: CGFloat = Layout.imageSize,
+        cornerRadius: CGFloat = Layout.cornerRadius
+    ) {
+        self.url = url
+        self.isHovering = isHovering
+        self.imageSize = imageSize
+        self.cornerRadius = cornerRadius
+    }
+
     var body: some View {
         ZStack {
             RemoteImage(url: url)
@@ -27,6 +39,12 @@ struct PlayableSongCover: View {
         }
         .frame(width: imageSize, height: imageSize)
         .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+        .animation(.easeInOut(duration: 0.16), value: isHovering)
+    }
+
+    enum Layout {
+        static let imageSize: CGFloat = 65
+        static let cornerRadius: CGFloat = 8
     }
 }
 
@@ -52,5 +70,5 @@ private struct SongCoverPlayButton: View {
 }
 
 #Preview {
-    PlayableSongCover()
+    PlayableSongCover(isHovering: true)
 }

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct NewMusicSection: View {
     @StateObject private var viewModel = NewMusicSectionViewModel()
-    @State private var availableWidth: CGFloat = 0
 
     var body: some View {
         FeaturedHomeSection(

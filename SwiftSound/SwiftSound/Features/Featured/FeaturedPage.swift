@@ -16,6 +16,7 @@ struct FeaturedPage: View {
             ScrollView(.vertical, showsIndicators: false) {
                 content
                     .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .padding(.bottom, 35)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }

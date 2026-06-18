@@ -24,8 +24,15 @@ enum FeeType: Int, Decodable {
 
 enum OriginCoverType: Int, Decodable {
     case none = 0
-    case original = 1   // 原唱
-    case cover = 2  // 翻唱
+    case originalTrack = 1  // 原版原唱录音
+    case fullCover = 2      // 完整翻唱
+    case remixAdapt = 3     // Remix/采样/改编衍生曲
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(Int.self)
+        self = OriginCoverType(rawValue: rawValue) ?? .none
+    }
 }
 
 struct SongPrivilege: Decodable {
@@ -116,7 +123,7 @@ extension Song {
 
     var hasMV: Bool { mvId != 0 }
 
-    var hasOriginalBadge: Bool { originCoverType == .original }
+    var hasOriginalBadge: Bool { originCoverType == .originalTrack }
 
     var isHiRes: Bool {
         privilege?.chargeInfoList.contains { $0.rate == 1_999_000 } == true

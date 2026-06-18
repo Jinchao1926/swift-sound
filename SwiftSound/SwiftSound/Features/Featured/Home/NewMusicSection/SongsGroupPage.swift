@@ -28,49 +28,14 @@ struct NewSongCover: View {
         HStack(spacing: Layout.contentSpacing) {
             PlayableSongCover(
                 url: URL(string: song.picUrl),
-                isHovering: isHovering,
-                imageSize: Layout.imageSize,
-                cornerRadius: Layout.cornerRadius
+                isHovering: isHovering
             )
 
-            VStack(alignment: .leading, spacing: 8) {
-                Text(song.name)
-                    .font(.font14)
-                    .foregroundStyle(Color.textPrimary)
-                    .lineLimit(1)
-
-                HStack(spacing: 5) {
-                    SongBadges.quality(isHiRes: song.song.isHiRes)
-
-                    if song.hasMV {
-                        SongBadges.mv
-                    }
-
-                    if song.song.hasOriginalBadge {
-                        SongBadges.original
-                    }
-
-                    if let artistName = song.artistName {
-                        Text(artistName)
-                            .font(.font12)
-                            .foregroundStyle(Color.textSecondary)
-                            .lineLimit(1)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
+            songInfo
 
             Spacer(minLength: Layout.contentSpacing)
 
-            if isHovering {
-                HStack(spacing: 18) {
-                    IconButton(systemName: "arrow.down.circle", font: .font20).help("下载")
-                    IconButton(systemName: "heart", font: .font20).help("喜欢")
-                    IconButton(systemName: "ellipsis", font: .font20).help("更多")
-                }
-                .padding(.trailing, 10)
-                .transition(.opacity)
-            }
+            hoverActions
         }
         .padding(Layout.inset)
         .background(
@@ -83,9 +48,57 @@ struct NewSongCover: View {
 
     enum Layout {
         static let inset: CGFloat = 10
-        static let imageSize: CGFloat = 65
-        static let rowHeight: CGFloat = 86
         static let cornerRadius: CGFloat = 8
         static let contentSpacing: CGFloat = 10
+        static let metadataSpacing: CGFloat = 5
+        static let actionSpacing: CGFloat = 18
+    }
+}
+
+private extension NewSongCover {
+    var songInfo: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(song.name)
+                .font(.font14)
+                .foregroundStyle(Color.textPrimary)
+                .lineLimit(1)
+
+            metadata
+        }
+    }
+
+    var metadata: some View {
+        HStack(spacing: Layout.metadataSpacing) {
+            SongBadges.quality(isHiRes: song.song.isHiRes)
+
+            if song.hasMV {
+                SongBadges.mv
+            }
+
+            if song.song.hasOriginalBadge {
+                SongBadges.original
+            }
+
+            if let artistName = song.artistName {
+                Text(artistName)
+                    .font(.font12)
+                    .foregroundStyle(Color.textSecondary)
+                    .lineLimit(1)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    @ViewBuilder
+    var hoverActions: some View {
+        if isHovering {
+            HStack(spacing: Layout.actionSpacing) {
+                IconButton(systemName: "arrow.down.circle", font: .font20).help("下载")
+                IconButton(systemName: "heart", font: .font20).help("喜欢")
+                IconButton(systemName: "ellipsis", font: .font20).help("更多")
+            }
+            .padding(.trailing, 10)
+            .transition(.opacity)
+        }
     }
 }
