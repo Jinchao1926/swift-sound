@@ -13,8 +13,12 @@ struct FeaturedPage: View {
     var body: some View {
         VStack(spacing: 10) {
             RouteTabView(selectedRoute: route)
-            content
-            Spacer(minLength: 0)
+            ScrollView(.vertical, showsIndicators: false) {
+                content
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .padding(.bottom, 35)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 

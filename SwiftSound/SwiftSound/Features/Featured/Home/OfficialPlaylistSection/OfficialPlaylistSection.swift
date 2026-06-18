@@ -31,6 +31,7 @@ struct OfficialPlaylistSection: View {
                     PlaylistCover(playlist: $0)
                 }
             }
+            .padding(.horizontal, 10)
             .task {
                 await viewModel.load()
             }

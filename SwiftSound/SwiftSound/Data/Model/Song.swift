@@ -12,14 +12,36 @@ import Foundation
  * 表示歌曲是否需要 VIP 会员或购买
  */
 enum FeeType: Int, Decodable {
-  /** 免费 - 无需付费，所有用户可播放 */
+    /** 免费 - 无需付费，所有用户可播放 */
     case free = 0
-  /** VIP 专享 - 需要 VIP 会员才能播放 */
+    /** VIP 专享 - 需要 VIP 会员才能播放 */
     case vip = 1
-  /** 需购买专辑 - 需要购买专辑才能播放 */
+    /** 需购买专辑 - 需要购买专辑才能播放 */
     case albumPurchase = 4
-  /** 限时免费 - 非会员可播放低音质，VIP 可播放高音质 */
+    /** 限时免费 - 非会员可播放低音质，VIP 可播放高音质 */
     case limitedFree = 8
+}
+
+enum OriginCoverType: Int, Decodable {
+    case none = 0
+    case originalTrack = 1  // 原版原唱录音
+    case fullCover = 2      // 完整翻唱
+    case remixAdapt = 3     // Remix/采样/改编衍生曲
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(Int.self)
+        self = OriginCoverType(rawValue: rawValue) ?? .none
+    }
+}
+
+struct SongPrivilege: Decodable {
+    struct ChargeInfo: Decodable {
+        let rate: Int
+        let chargeType: Int?
+    }
+
+    let chargeInfoList: [ChargeInfo]
 }
 
 struct Song: Decodable {
@@ -34,11 +56,14 @@ struct Song: Decodable {
     // Track Name Supplement - 曲目名称补充
     let tns: [String]?
     let aliases: [String]
-    let mvId: Int?
+    let mvId: Int
     // 付费类型，参考 FeeType 枚举
     let fee: FeeType?
     // 用于表示各种曲目属性（VIP、独家、高品质等）的位标志
     let mark: Int?
+    // 原唱/翻唱
+    let originCoverType: OriginCoverType
+    let privilege: SongPrivilege?
 
     private enum CodingKeys: String, CodingKey {
         case id
@@ -58,6 +83,8 @@ struct Song: Decodable {
         case mvid
         case fee
         case mark
+        case originCoverType
+        case privilege
     }
 
     init(from decoder: any Decoder) throws {
@@ -79,7 +106,26 @@ struct Song: Decodable {
         mvId = try container.decodeIfPresent(Int.self, forKey: .mvId)
             ?? container.decodeIfPresent(Int.self, forKey: .mvid)
             ?? container.decodeIfPresent(Int.self, forKey: .mv)
+            ?? 0
         fee = try container.decodeIfPresent(FeeType.self, forKey: .fee)
         mark = try container.decodeIfPresent(Int.self, forKey: .mark)
+        originCoverType = try container.decodeIfPresent(OriginCoverType.self, forKey: .originCoverType) ?? .none
+        privilege = try container.decodeIfPresent(SongPrivilege.self, forKey: .privilege)
+    }
+}
+
+extension Song {
+    var artistName: String? {
+        let names = artists.map(\.name).filter { !$0.isEmpty }
+        guard !names.isEmpty else { return nil }
+        return names.joined(separator: " / ")
+    }
+
+    var hasMV: Bool { mvId != 0 }
+
+    var hasOriginalBadge: Bool { originCoverType == .originalTrack }
+
+    var isHiRes: Bool {
+        privilege?.chargeInfoList.contains { $0.rate == 1_999_000 } == true
     }
 }

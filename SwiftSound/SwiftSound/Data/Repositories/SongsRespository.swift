@@ -14,8 +14,9 @@ struct SongsRespository {
         self.apiClient = apiClient
     }
 
-    func fetchNewSongs() async throws -> [NewSong] {
-        let response = try await apiClient.request(PersonalizedNewSongsRequest())
+    func fetchNewSongs(offset: Int = 0, limit: Int = 12) async throws -> [NewSong] {
+        let request = PersonalizedNewSongsRequest(offset: offset, limit: limit)
+        let response = try await apiClient.request(request)
         return response.result
     }
 }

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct NewMusicSection: View {
     @StateObject private var viewModel = NewMusicSectionViewModel()
-    @State private var availableWidth: CGFloat = 0
 
     var body: some View {
         FeaturedHomeSection(
@@ -21,16 +20,17 @@ struct NewMusicSection: View {
                     .padding(.horizontal, 30)
 
                 Carousel(
-                    items: viewModel.state.songs,
+                    items: viewModel.state.songGroups,
                     columns: columns,
                     showsDots: false,
                     isAutoScrollEnabled: false,
                     isInfiniteLoopEnabled: false,
                     isLastPageBackfillEnabled: true
                 ) {
-                    SongsPage(songs: [$0])
+                    SongsGroupPage(songs: $0.songs)
                 }
             }
+            .padding(.trailing, 10)
             .task {
                 await viewModel.load()
             }
