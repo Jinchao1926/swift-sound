@@ -58,7 +58,6 @@ private struct SongCoverPlayButton: View {
             Image(systemName: "play.fill")
                 .font(.font20)
                 .foregroundStyle(.white)
-                .offset(x: 1)
                 .frame(width: 24, height: 24)
                 .scaleEffect(isHovering ? 1.16 : 1)
                 .animation(.spring(response: 0.22, dampingFraction: 0.72), value: isHovering)
