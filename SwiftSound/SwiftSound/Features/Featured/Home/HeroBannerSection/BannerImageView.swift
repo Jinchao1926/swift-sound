@@ -13,6 +13,7 @@ struct BannerImageView: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             RemoteImage(url: URL(string: banner.imageUrl))
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             Text(banner.typeTitle)
                 .font(.font9)
@@ -24,5 +25,14 @@ struct BannerImageView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 4))
                 .padding(10)
         }
+        .aspectRatio(Layout.aspectRatio, contentMode: .fit)
+        .clipShape(RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous))
+    }
+}
+
+private extension BannerImageView {
+    enum Layout {
+        static let aspectRatio: CGFloat = 19 / 7
+        static let cornerRadius: CGFloat = 6
     }
 }

@@ -92,8 +92,9 @@ struct Carousel<Item: Identifiable, Content: View>: View {
                     .scrollTargetLayout()
                 }
                 .frame(maxWidth: .infinity)
+                .clipped()
                 .scrollTargetBehavior(.paging)
-                .scrollPosition(id: $displayPageID)
+                .scrollPosition(id: $displayPageID, anchor: .leading)
                 .onChange(of: displayPageID) { _, newValue in
                     handleDisplayPageChange(newValue)
                 }

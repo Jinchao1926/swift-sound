@@ -11,22 +11,28 @@ struct HeroBannerSection: View {
     @StateObject private var viewModel = HeroBannerSectionViewModel()
 
     var body: some View {
-        VStack(spacing: 0) {
-            switch viewModel.state {
-            case let .loaded(banners):
-                if !banners.isEmpty {
-                    Carousel(items: banners) {
-                        BannerImageView(banner: $0)
-                    }
-                    .frame(height: 160)
-                    .padding(.horizontal, 10)
+        FeaturedHomeSection(
+            columnCandidates: [3, 2],
+            minItemWidth: Layout.minCardWidth
+        ) { columns in
+            VStack(alignment: .leading, spacing: 0) {
+                Carousel(
+                    items: viewModel.state.banners,
+                    columns: columns,
+                ) {
+                    BannerImageView(banner: $0)
                 }
-            default:
-                EmptyView()
+            }
+            .padding(.horizontal, 10)
+            .task {
+                await viewModel.load()
             }
         }
-        .task {
-            await viewModel.load()
-        }
+    }
+}
+
+private extension HeroBannerSection {
+    enum Layout {
+        static let minCardWidth: CGFloat = 380
     }
 }
