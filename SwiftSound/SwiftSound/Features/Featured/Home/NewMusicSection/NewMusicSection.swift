@@ -21,16 +21,17 @@ struct NewMusicSection: View {
                     .padding(.horizontal, 30)
 
                 Carousel(
-                    items: viewModel.state.songs,
+                    items: viewModel.state.songGroups,
                     columns: columns,
                     showsDots: false,
                     isAutoScrollEnabled: false,
                     isInfiniteLoopEnabled: false,
                     isLastPageBackfillEnabled: true
                 ) {
-                    SongsPage(songs: [$0])
+                    SongsGroupPage(songs: $0.songs)
                 }
             }
+            .padding(.trailing, 10)
             .task {
                 await viewModel.load()
             }

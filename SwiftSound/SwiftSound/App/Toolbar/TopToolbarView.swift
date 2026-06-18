@@ -69,10 +69,10 @@ struct TopToolbarView: View {
         HStack(alignment: .center, spacing: Layout.controlSpacing) {
             loginStatus
 
-            ToolbarIconButton(systemName: "envelope").help("消息中心")
-            ToolbarIconButton(systemName: "hexagon").help("设置")
-            ToolbarIconButton(systemName: "tshirt").help("换肤")
-            ToolbarIconButton(systemName: "rectangle.on.rectangle").help("mini")
+            IconButton(systemName: "envelope").help("消息中心")
+            IconButton(systemName: "hexagon").help("设置")
+            IconButton(systemName: "tshirt").help("换肤")
+            IconButton(systemName: "rectangle.on.rectangle").help("mini")
         }
     }
 
@@ -105,7 +105,7 @@ struct TopToolbarView: View {
                 )
                 .pointerStyle(.link)
 
-            ToolbarIconButton(systemName: "chevron.down")
+            IconButton(systemName: "chevron.down")
         }
         .frame(height: Layout.controlHeight)
     }

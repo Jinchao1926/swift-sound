@@ -142,3 +142,9 @@ struct NewSong: Decodable, Identifiable {
     let picUrl: String
     let song: Song
 }
+
+extension NewSong {
+    var artistName: String? { song.artistName }
+
+    var hasMV: Bool { song.hasMV }
+}

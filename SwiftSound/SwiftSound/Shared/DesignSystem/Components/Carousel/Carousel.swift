@@ -134,7 +134,7 @@ private extension Carousel {
     var pages: [CarouselPage<Item>] {
         let pageItems = shouldBackfillLastPage
             ? items.carouselBackfilledLastPage(into: columns)
-            : items.carouselChunked(into: columns)
+            : items.chunked(into: columns)
 
         return pageItems.enumerated().map { index, items in
             // Real page index starts with 1
