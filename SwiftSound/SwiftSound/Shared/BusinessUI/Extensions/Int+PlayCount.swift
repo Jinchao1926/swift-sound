@@ -2,7 +2,7 @@
 //  Int+PlayCount.swift
 //  SwiftSound
 //
-//  Created by Codex on 2026/6/15.
+//  Created by Jinchao Lin on 2026/6/15.
 //
 
 import Foundation

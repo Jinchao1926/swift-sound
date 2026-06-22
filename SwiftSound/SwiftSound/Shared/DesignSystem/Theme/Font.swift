@@ -21,6 +21,7 @@ extension Font {
     // 小字、辅助文本、标签、备注
     static let font13 = Font.system(size: 13, weight: .regular)
     static let font12 = Font.system(size: 12, weight: .regular)
+    static let font11 = Font.system(size: 11, weight: .regular)
     static let font10 = Font.system(size: 10, weight: .regular)
     static let font9 = Font.system(size: 9, weight: .regular)
 }
