@@ -17,15 +17,15 @@ enum SongBadges {
     }
 
     static var mv: SongBadge {
-        SongBadge("MV", tint: Color(hex: 0xFF817F), isInteractive: true)
+        SongBadge("MV", tint: Color.accentPrimary, isInteractive: true)
     }
 
     static var vip: SongBadge {
-        SongBadge("VIP", tint: Color(hex: 0xFF817F))
+        SongBadge("VIP", tint: Color.accentPrimary)
     }
 
     static var original: SongBadge {
-        SongBadge("原唱", tint: Color(hex: 0xFF817F))
+        SongBadge("原唱", tint: Color.accentPrimary)
     }
 
     static func quality(isHiRes: Bool) -> SongBadge {
