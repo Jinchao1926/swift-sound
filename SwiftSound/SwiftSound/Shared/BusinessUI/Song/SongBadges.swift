@@ -8,6 +8,18 @@
 import SwiftUI
 
 enum SongBadges {
+    static var mv: SongBadge {
+        SongBadge("MV>", tint: Color.accentPrimary, isInteractive: true)
+    }
+
+    static var vip: SongBadge {
+        SongBadge("VIP", tint: Color.accentPrimary)
+    }
+
+    static var original: SongBadge {
+        SongBadge("原唱", tint: Color.accentPrimary)
+    }
+
     static var hiRes: SongBadge {
         SongBadge("Hi-Res", tint: Color(hex: 0xD3A03B))
     }
@@ -16,19 +28,11 @@ enum SongBadges {
         SongBadge("SQ", tint: Color(hex: 0xD3A03B))
     }
 
-    static var mv: SongBadge {
-        SongBadge("MV", tint: Color(hex: 0xFF817F), isInteractive: true)
-    }
-
-    static var vip: SongBadge {
-        SongBadge("VIP", tint: Color(hex: 0xFF817F))
-    }
-
-    static var original: SongBadge {
-        SongBadge("原唱", tint: Color(hex: 0xFF817F))
-    }
-
     static func quality(isHiRes: Bool) -> SongBadge {
         isHiRes ? hiRes : sq
+    }
+
+    static var hq: SongBadge {
+        SongBadge("极高", tint: Color.textSecondary, size: .medium, isInteractive: true)
     }
 }

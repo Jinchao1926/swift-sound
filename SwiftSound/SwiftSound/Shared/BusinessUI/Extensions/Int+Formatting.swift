@@ -1,8 +1,8 @@
 //
-//  Int+PlayCount.swift
+//  Int+Formatting.swift
 //  SwiftSound
 //
-//  Created by Codex on 2026/6/15.
+//  Created by Jinchao Lin on 2026/6/15.
 //
 
 import Foundation
@@ -21,5 +21,13 @@ extension Int {
         } else {
             return String(format: "%.1f万", rounded)
         }
+    }
+
+    /// seconds to `00:00` format
+    var duration: String {
+        let minutes = self / 60
+        let remainingSeconds = self % 60
+
+        return "\(minutes):\(String(format: "%02d", remainingSeconds))"
     }
 }

@@ -121,10 +121,14 @@ extension Song {
         return names.joined(separator: " / ")
     }
 
+    // VIP
+    var requiresVIP: Bool { fee == .vip }
+
+    // MV
     var hasMV: Bool { mvId != 0 }
 
+    // 原唱
     var hasOriginalBadge: Bool { originCoverType == .originalTrack }
-
     var isHiRes: Bool {
         privilege?.chargeInfoList.contains { $0.rate == 1_999_000 } == true
     }

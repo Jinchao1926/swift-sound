@@ -11,12 +11,16 @@ struct HomeView: View {
     @StateObject private var router = AppRouter()
 
     var body: some View {
-        HStack(spacing: 0) {
-            SidebarView()
-                .frame(width: 203)
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                SidebarView()
+                    .frame(width: 203)
 
-            DetailContainerView()
-                .frame(minWidth: 854, maxWidth: .infinity)
+                DetailContainerView()
+                    .frame(minWidth: 854, maxWidth: .infinity)
+            }
+
+            PlayerBarView()
         }
         .frame(minHeight: 720)
         .environmentObject(router)
