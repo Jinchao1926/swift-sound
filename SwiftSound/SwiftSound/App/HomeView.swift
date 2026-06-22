@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var router = AppRouter()
+    @StateObject private var playerStore = PlayerStore()
 
     var body: some View {
         VStack(spacing: 0) {
@@ -24,6 +25,7 @@ struct HomeView: View {
         }
         .frame(minHeight: 720)
         .environmentObject(router)
+        .environmentObject(playerStore)
     }
 }
 
