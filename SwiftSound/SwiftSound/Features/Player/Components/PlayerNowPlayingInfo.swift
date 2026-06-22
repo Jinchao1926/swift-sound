@@ -10,12 +10,13 @@ import SwiftUI
 struct PlayerNowPlayingInfo: View {
     let song: Song?
 
-    private var title: String {
-        song?.name ?? "你才会这样的想起我"
-    }
+    private var title: String { song?.name ?? "他不爱我" }
+    private var artistName: String { song?.artistName ?? "莫文蔚" }
+    private var showsVIPBadge: Bool { song?.requiresVIP == true }
 
-    private var artistName: String {
-        song?.artistName ?? "彭家丽"
+    private var titleMaxWidth: CGFloat {
+        guard showsVIPBadge else { return Layout.maxWidth }
+        return Layout.maxWidth - Layout.vipBadgeWidth - Layout.badgeSpacing
     }
 
     var body: some View {
@@ -23,29 +24,32 @@ struct PlayerNowPlayingInfo: View {
             HStack(spacing: Layout.badgeSpacing) {
                 PlayerMarqueeText(
                     title,
-                    maxWidth: Layout.titleMaxWidth
+                    maxWidth: titleMaxWidth
                 )
 
-                SongBadges.vip
+                if showsVIPBadge {
+                    SongBadges.vip
+                }
             }
 
-            Text(artistName)
-                .font(.font16)
-                .foregroundStyle(Color.textSecondary)
-                .lineLimit(1)
-                .frame(maxWidth: Layout.titleMaxWidth, alignment: .leading)
+            AdaptiveText(
+                artistName,
+                font: .font15,
+                foregroundColor: .textSecondary,
+                maxWidth: Layout.maxWidth
+            )
         }
     }
 
     private enum Layout {
-        static let titleMaxWidth: CGFloat = 180
-        static let textSpacing: CGFloat = 7
+        static let maxWidth: CGFloat = 185
+        static let vipBadgeWidth: CGFloat = 18
+        static let textSpacing: CGFloat = 6
         static let badgeSpacing: CGFloat = 4
     }
 }
 
 #Preview {
     PlayerNowPlayingInfo(song: nil)
-        .frame(width: 224, alignment: .leading)
         .padding()
 }

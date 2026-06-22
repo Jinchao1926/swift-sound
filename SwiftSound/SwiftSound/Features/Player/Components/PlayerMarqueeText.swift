@@ -119,12 +119,16 @@ private struct PlayerTextWidthPreferenceKey: PreferenceKey {
 }
 
 #Preview {
-    PlayerMarqueeText(
-        "这是一首很长很长的歌曲标题用来预览播放器标题滚动",
-        font: .font16,
-        fontWeight: .semibold,
-        foregroundColor: .textPrimary,
-        maxWidth: 180
-    )
+    VStack(alignment: .leading) {
+        PlayerMarqueeText(
+            "这是一首很长很长的歌曲标题用来预览播放器标题滚动",
+            maxWidth: 180
+        )
+
+        PlayerMarqueeText(
+            "歌曲标题",
+            maxWidth: 180
+        )
+    }
     .padding()
 }

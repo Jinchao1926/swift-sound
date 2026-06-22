@@ -9,13 +9,15 @@ import SwiftUI
 
 struct IconButton: View {
     let systemName: String
-    let font: Font?
+    let font: Font
+    let size: CGFloat
 
     @State private var isHovering = false
 
-    init(systemName: String, font: Font? = .font14) {
+    init(systemName: String, font: Font = .font14, size: CGFloat = 20) {
         self.systemName = systemName
         self.font = font
+        self.size = size
         self.isHovering = isHovering
     }
 
@@ -24,7 +26,7 @@ struct IconButton: View {
             Image(systemName: systemName)
                 .font(font)
                 .foregroundStyle(isHovering ? Color.textPrimary : Color.textSecondary)
-                .frame(width: 20, height: 20)
+                .frame(width: size, height: size)
         }
         .buttonStyle(.plain)
         .onHover { isHovering = $0 }
@@ -34,4 +36,5 @@ struct IconButton: View {
 
 #Preview {
     IconButton(systemName: "envelope")
+        .padding()
 }
