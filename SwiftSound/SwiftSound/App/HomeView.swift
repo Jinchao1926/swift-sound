@@ -21,7 +21,9 @@ struct HomeView: View {
                     .frame(minWidth: 854, maxWidth: .infinity)
             }
 
-            PlayerBarView()
+            if let _ = playerStore.state.currentIndex {
+                PlayerBarView()
+            }
         }
         .frame(minHeight: 720)
         .environmentObject(router)

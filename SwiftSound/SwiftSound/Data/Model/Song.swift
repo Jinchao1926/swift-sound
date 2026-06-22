@@ -44,7 +44,7 @@ struct SongPrivilege: Decodable {
     let chargeInfoList: [ChargeInfo]
 }
 
-struct Song: Decodable {
+struct Song: Decodable, Identifiable {
     let id: Int
     let name: String
     // 时长，毫秒

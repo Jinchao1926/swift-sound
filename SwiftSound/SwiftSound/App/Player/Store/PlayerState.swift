@@ -16,10 +16,14 @@ enum PlaybackState {
 }
 
 enum PlaybackMode: CaseIterable {
-    case listLoop      // 列表循环
-    case singleLoop    // 单曲循环
-    case shuffle       // 随机播放
-    case sequential    // 顺序播放，播完停止
+    /// 列表循环
+    case listLoop
+    /// 单曲循环
+    case singleLoop
+    /// 随机播放
+    case shuffle
+    /// 顺序播放，播完停止
+    case sequential
     
     func next() -> Self {
         let allCases = Self.allCases
@@ -34,8 +38,7 @@ enum PlaybackMode: CaseIterable {
 
 struct PlayerState {
     // song states
-    var queue: [Song] = []
-    var currentIndex: Int?
+    var queue: PlaybackQueue = PlaybackQueue()
     var progress: TimeInterval = 0
 
     // playback states
@@ -43,7 +46,6 @@ struct PlayerState {
     var playbackMode: PlaybackMode = .listLoop
     var volume: Double = 1
     
-    var currentSong: Song? {
-        queue[safe: currentIndex]
-    }
+    var currentSong: Song? { queue.currentSong }
+    var currentIndex: Int? { queue.currentIndex }
 }
