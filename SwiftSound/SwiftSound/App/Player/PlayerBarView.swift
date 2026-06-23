@@ -42,8 +42,8 @@ struct PlayerBarView: View {
             PlayerNowPlayingInfo(song: model.song)
 
             HStack(spacing: Layout.nowPlayingActionSpacing) {
-                PlayerIconButton(systemName: "heart", badgeText: "10w+")
-                PlayerIconButton(systemName: "text.bubble", badgeText: "999+")
+                PlayerIconButton(systemName: "heart", badgeText: "10w+").help("喜欢")
+                PlayerIconButton(systemName: "text.bubble", badgeText: "999+").help("查看评论")
             }
             .padding(.horizontal, Layout.nowPlayingActionInset)
         }
@@ -53,35 +53,32 @@ struct PlayerBarView: View {
     private var transportControls: some View {
         HStack(alignment: .center, spacing: Layout.transportSpacing) {
             PlayerIconButton(systemName: playbackModeIconName, action: callback.onCyclePlaybackMode)
-            PlayerIconButton(systemName: "backward.end.fill", action: callback.onPrevious)
+                .help(playbackModeHelpText)
 
-            Button(action: callback.onTogglePlayPause) {
-                Image(systemName: playPauseIconName)
-                    .font(.system(size: 23, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .frame(width: Layout.playButtonSize, height: Layout.playButtonSize)
-                    .background(
-                        Circle()
-                            .fill(Color.accentPrimary)
-                    )
-            }
-            .buttonStyle(.plain)
-            .pointerStyle(.link)
-            .help(playPauseHelpText)
+            PlayerIconButton(systemName: "backward.end.fill", action: callback.onPrevious)
+                .help("上一首")
+
+            PlayerPlayPauseButton(
+                isPlaying: model.playbackState == .playing,
+                action: callback.onTogglePlayPause
+            )
 
             PlayerIconButton(systemName: "forward.end.fill", action: callback.onNext)
+                .help("下一首")
+
             PlayerIconButton(systemName: "list.bullet")
+                .help("播放列表")
         }
     }
 
     private var playbackActions: some View {
         HStack(alignment: .center, spacing: Layout.trailingActionSpacing) {
-            SongBadges.hq
+            SongBadges.hq.help("音质")
 
-            PlayerIconButton(systemName: "plus.square")
-            PlayerIconButton(systemName: "textformat")
-            PlayerIconButton(systemName: "speaker.wave.2")
-            PlayerIconButton(systemName: "ellipsis")
+            PlayerIconButton(systemName: "plus.square").help("收藏到歌单")
+            PlayerIconButton(systemName: "textformat").help("桌面歌词")
+            PlayerIconButton(systemName: "speaker.wave.2").help("静音")
+            PlayerIconButton(systemName: "ellipsis").help("更多操作")
         }
         .frame(maxWidth: .infinity, alignment: .trailing)
     }
@@ -97,7 +94,6 @@ struct PlayerBarView: View {
         static let nowPlayingActionInset: CGFloat = 10
 
         static let transportSpacing: CGFloat = 22
-        static let playButtonSize: CGFloat = 40
 
         static let actionsWidth: CGFloat = 230
         static let trailingActionSpacing: CGFloat = 20
@@ -105,24 +101,6 @@ struct PlayerBarView: View {
 }
 
 private extension PlayerBarView {
-    var playPauseIconName: String {
-        switch model.playbackState {
-        case .playing:
-            return "pause.fill"
-        default:
-            return "play.fill"
-        }
-    }
-
-    var playPauseHelpText: String {
-        switch model.playbackState {
-        case .playing:
-            return "暂停"
-        default:
-            return "播放"
-        }
-    }
-
     var playbackModeIconName: String {
         switch model.playbackMode {
         case .listLoop:
@@ -133,6 +111,19 @@ private extension PlayerBarView {
             return "shuffle"
         case .sequential:
             return "arrow.right"
+        }
+    }
+
+    var playbackModeHelpText: String {
+        switch model.playbackMode {
+        case .listLoop:
+            return "列表循环"
+        case .singleLoop:
+            return "单曲循环"
+        case .shuffle:
+            return "随机播放"
+        case .sequential:
+            return "顺序播放"
         }
     }
 }

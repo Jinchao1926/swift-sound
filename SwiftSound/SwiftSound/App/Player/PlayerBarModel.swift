@@ -14,7 +14,7 @@ struct PlayerBarModel {
     let currentTime: TimeInterval
     let duration: TimeInterval
     let progress: Double
-    
+
     init?(state: PlayerState) {
         guard let song = state.currentSong else { return nil }
 
