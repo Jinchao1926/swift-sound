@@ -12,17 +12,20 @@ struct PlayableSongCover: View {
     let isHovering: Bool
     let imageSize: CGFloat
     let cornerRadius: CGFloat
+    let onPlay: () -> Void
 
     init(
         url: URL? = nil,
         isHovering: Bool = false,
         imageSize: CGFloat = Layout.imageSize,
-        cornerRadius: CGFloat = Layout.cornerRadius
+        cornerRadius: CGFloat = Layout.cornerRadius,
+        onPlay: @escaping () -> Void
     ) {
         self.url = url
         self.isHovering = isHovering
         self.imageSize = imageSize
         self.cornerRadius = cornerRadius
+        self.onPlay = onPlay
     }
 
     var body: some View {
@@ -33,7 +36,7 @@ struct PlayableSongCover: View {
                 Color.black.opacity(0.38)
                     .transition(.opacity)
 
-                SongCoverPlayButton()
+                SongCoverPlayButton(onPlay: onPlay)
                     .transition(.scale(scale: 0.9).combined(with: .opacity))
             }
         }
@@ -49,11 +52,12 @@ struct PlayableSongCover: View {
 }
 
 private struct SongCoverPlayButton: View {
+    let onPlay: () -> Void
     @State private var isHovering = false
 
     var body: some View {
         Button {
-            // Playback wiring belongs to the player feature.
+            onPlay()
         } label: {
             Image(systemName: "play.fill")
                 .font(.font20)
@@ -69,5 +73,7 @@ private struct SongCoverPlayButton: View {
 }
 
 #Preview {
-    PlayableSongCover(isHovering: true)
+    PlayableSongCover(isHovering: true) {
+        // ...
+    }
 }

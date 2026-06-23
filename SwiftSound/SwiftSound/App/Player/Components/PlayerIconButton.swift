@@ -11,16 +11,18 @@ import SwiftUI
 struct PlayerIconButton: View {
     let systemName: String
     let badgeText: String?
+    let action: (() -> Void)?
 
     @State private var isHovering = false
 
-    init(systemName: String, badgeText: String? = nil) {
+    init(systemName: String, badgeText: String? = nil, action: (() -> Void)? = nil) {
         self.systemName = systemName
         self.badgeText = badgeText
+        self.action = action
     }
 
     var body: some View {
-        IconButton(systemName: systemName, font: iconFont, size: iconSize)
+        IconButton(systemName: systemName, font: iconFont, size: iconSize, action: action)
             .frame(width: buttonSize, height: buttonSize, alignment: alignment)
             .overlay(alignment: .topTrailing) {
                 if let badgeText {

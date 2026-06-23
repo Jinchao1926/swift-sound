@@ -22,14 +22,17 @@ struct SongsGroupPage: View {
 // MARK: - NewSongCover
 struct NewSongCover: View {
     let song: NewSong
+
     @State private var isHovering = false
+    @EnvironmentObject private var playerStore: PlayerStore
 
     var body: some View {
         HStack(spacing: Layout.contentSpacing) {
             PlayableSongCover(
                 url: URL(string: song.picUrl),
-                isHovering: isHovering
-            )
+                isHovering: isHovering) {
+                    playerStore.send(.playSong(song.song))
+                }
 
             songInfo
 

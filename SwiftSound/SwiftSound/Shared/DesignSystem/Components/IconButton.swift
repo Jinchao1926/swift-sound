@@ -11,18 +11,26 @@ struct IconButton: View {
     let systemName: String
     let font: Font
     let size: CGFloat
+    let action: (() -> Void)?
 
     @State private var isHovering = false
 
-    init(systemName: String, font: Font = .font14, size: CGFloat = 20) {
+    init(
+        systemName: String,
+        font: Font = .font14,
+        size: CGFloat = 20,
+        action: (() -> Void)? = nil
+    ) {
         self.systemName = systemName
         self.font = font
         self.size = size
-        self.isHovering = isHovering
+        self.action = action
     }
 
     var body: some View {
-        Button {} label: {
+        Button {
+            action?()
+        } label: {
             Image(systemName: systemName)
                 .font(font)
                 .foregroundStyle(isHovering ? Color.textPrimary : Color.textSecondary)

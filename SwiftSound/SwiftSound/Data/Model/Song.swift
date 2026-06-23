@@ -115,6 +115,10 @@ struct Song: Decodable, Identifiable {
 }
 
 extension Song {
+    var durationTimeInterval: TimeInterval {
+        TimeInterval(duration) / 1000
+    }
+
     var artistName: String? {
         let names = artists.map(\.name).filter { !$0.isEmpty }
         guard !names.isEmpty else { return nil }

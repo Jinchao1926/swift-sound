@@ -8,19 +8,18 @@
 import SwiftUI
 
 struct PlayerBarView: View {
-    let song: Song?
-
-    init(song: Song? = nil) {
-        self.song = song
-    }
+    let model: PlayerBarModel
+    let callback: PlayerBarCallback
 
     var body: some View {
         content
             .padding(.top, Layout.progressReservedHeight)
             .background(Color.white)
             .overlay(alignment: .top) {
-                PlayerProgressTrack(initialProgress: Layout.initialProgress) { _ in }
-                    .offset(y: -Layout.progressOverlayLift)
+                PlayerProgressTrack(initialProgress: model.progress) {
+                    callback.onSeek(model.duration * $0)
+                }
+                .offset(y: -Layout.progressOverlayLift)
             }
             .frame(height: Layout.height + Layout.progressReservedHeight)
     }
@@ -38,9 +37,9 @@ struct PlayerBarView: View {
 
     private var nowPlaying: some View {
         HStack(alignment: .center, spacing: Layout.nowPlayingSpacing) {
-            SongCoverImage(song: song)
+            SongCoverImage(song: model.song)
 
-            PlayerNowPlayingInfo(song: song)
+            PlayerNowPlayingInfo(song: model.song)
 
             HStack(spacing: Layout.nowPlayingActionSpacing) {
                 PlayerIconButton(systemName: "heart", badgeText: "10w+")
@@ -53,11 +52,11 @@ struct PlayerBarView: View {
 
     private var transportControls: some View {
         HStack(alignment: .center, spacing: Layout.transportSpacing) {
-            PlayerIconButton(systemName: "repeat")
-            PlayerIconButton(systemName: "backward.end.fill")
+            PlayerIconButton(systemName: playbackModeIconName, action: callback.onCyclePlaybackMode)
+            PlayerIconButton(systemName: "backward.end.fill", action: callback.onPrevious)
 
-            Button {} label: {
-                Image(systemName: "play.fill")
+            Button(action: callback.onTogglePlayPause) {
+                Image(systemName: playPauseIconName)
                     .font(.system(size: 23, weight: .semibold))
                     .foregroundStyle(.white)
                     .frame(width: Layout.playButtonSize, height: Layout.playButtonSize)
@@ -68,9 +67,9 @@ struct PlayerBarView: View {
             }
             .buttonStyle(.plain)
             .pointerStyle(.link)
-            .help("播放")
+            .help(playPauseHelpText)
 
-            PlayerIconButton(systemName: "forward.end.fill")
+            PlayerIconButton(systemName: "forward.end.fill", action: callback.onNext)
             PlayerIconButton(systemName: "list.bullet")
         }
     }
@@ -91,7 +90,6 @@ struct PlayerBarView: View {
         static let height: CGFloat = 80
         static let progressReservedHeight: CGFloat = 6
         static let progressOverlayLift: CGFloat = 100
-        static let initialProgress: Double = 0.358
         static let horizontalInset: CGFloat = 30
 
         static let nowPlayingSpacing: CGFloat = 10
@@ -106,7 +104,40 @@ struct PlayerBarView: View {
     }
 }
 
-#Preview {
-    PlayerBarView()
-        .frame(width: 1280)
+private extension PlayerBarView {
+    var playPauseIconName: String {
+        switch model.playbackState {
+        case .playing:
+            return "pause.fill"
+        default:
+            return "play.fill"
+        }
+    }
+
+    var playPauseHelpText: String {
+        switch model.playbackState {
+        case .playing:
+            return "暂停"
+        default:
+            return "播放"
+        }
+    }
+
+    var playbackModeIconName: String {
+        switch model.playbackMode {
+        case .listLoop:
+            return "repeat"
+        case .singleLoop:
+            return "repeat.1"
+        case .shuffle:
+            return "shuffle"
+        case .sequential:
+            return "arrow.right"
+        }
+    }
 }
+
+//#Preview {
+//    PlayerBarView()
+//        .frame(width: 1280)
+//}
