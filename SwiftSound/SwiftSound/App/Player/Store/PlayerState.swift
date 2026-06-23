@@ -24,7 +24,7 @@ enum PlaybackMode: CaseIterable {
     case shuffle
     /// 顺序播放，播完停止
     case sequential
-    
+
     func next() -> Self {
         let allCases = Self.allCases
 
@@ -37,15 +37,18 @@ enum PlaybackMode: CaseIterable {
 }
 
 struct PlayerState {
-    // song states
     var queue: PlaybackQueue = PlaybackQueue()
-    var progress: TimeInterval = 0
 
     // playback states
     var playbackState: PlaybackState = .stopped
     var playbackMode: PlaybackMode = .listLoop
     var volume: Double = 1
-    
+
     var currentSong: Song? { queue.currentSong }
     var currentIndex: Int? { queue.currentIndex }
+    var currentTime: TimeInterval = 0
+    var currentProgress: Double {
+        guard let duration = currentSong?.duration else { return 0 }
+        return currentTime / Double(duration)
+    }
 }

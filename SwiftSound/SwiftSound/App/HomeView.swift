@@ -21,7 +21,7 @@ struct HomeView: View {
                     .frame(minWidth: 854, maxWidth: .infinity)
             }
 
-            if let _ = playerStore.state.currentIndex {
+            if playerStore.state.currentIndex != nil {
                 PlayerBarView()
             }
         }

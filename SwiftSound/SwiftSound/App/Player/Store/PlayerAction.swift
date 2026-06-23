@@ -8,8 +8,29 @@
 import Foundation
 
 enum PlayerAction {
-    case currentSong(CurrentSongAction)
-    case playback(PlaybackAction)
-    case queue(QueueAction)
-    case mode(PlaybackModeAction)
+    // Selection
+    case playSong(Song)
+    case playQueue(startIndex: Int)
+
+    // Transport
+    case play
+    case pause
+    case togglePlayPause
+    case next
+    case previous
+    case seek(to: TimeInterval)
+    case playbackTimeUpdated(TimeInterval)
+
+    // Queue
+    case appendToQueue(Song)
+    case appendManyToQueue([Song])
+    case removeFromQueue(songId: Song.ID)
+    case clearQueue
+
+    // Mode
+    case setPlaybackMode(PlaybackMode)
+    case cyclePlaybackMode
+
+    // Audio
+    case setVolume(Double)
 }
