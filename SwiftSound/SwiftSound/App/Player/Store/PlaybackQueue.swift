@@ -125,32 +125,32 @@ private extension PlaybackQueue {
 
     mutating func move(_ direction: Direction, mode: PlaybackMode) -> QueueMoveResult {
         guard !queue.isEmpty else {
+            // 切歌时队列空
             currentIndex = nil
             return .stopped
         }
 
         currentIndex = validCurrentIndex()
+        guard let currentIndex else {
+            // 队列非空，但是当前歌曲为空，统一播放第一首歌
+            currentIndex = 0
+            return .moved
+        }
 
         switch mode {
         case .listLoop:
-            let fallbackIndex = direction == .next ? queue.count - 1 : 0
-            currentIndex = loopedIndex(from: currentIndex ?? fallbackIndex, direction: direction)
+            self.currentIndex = loopedIndex(from: currentIndex, direction: direction)
             return .moved
 
         case .singleLoop:
-            currentIndex = currentIndex ?? 0
+            self.currentIndex = currentIndex
             return .moved
 
         case .shuffle:
-            currentIndex = shuffledIndex(excluding: currentIndex)
+            self.currentIndex = shuffledIndex(excluding: currentIndex)
             return .moved
 
         case .sequential:
-            guard let currentIndex else {
-                self.currentIndex = direction == .next ? 0 : queue.count - 1
-                return .moved
-            }
-
             let nextIndex = currentIndex + direction.offset
             guard queue.indices.contains(nextIndex) else {
                 // 超出范围表示播完
@@ -169,7 +169,7 @@ private extension PlaybackQueue {
     }
 
     func loopedIndex(from currentIndex: Int, direction: Direction) -> Int {
-        (currentIndex + direction.offset + queue.count) % queue.count
+        return (currentIndex + direction.offset + queue.count) % queue.count
     }
 
     func shuffledIndex(excluding currentIndex: Int?) -> Int {
