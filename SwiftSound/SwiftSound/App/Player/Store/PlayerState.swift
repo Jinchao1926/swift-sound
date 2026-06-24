@@ -47,8 +47,4 @@ struct PlayerState {
     var currentSong: Song? { queue.currentSong }
     var currentIndex: Int? { queue.currentIndex }
     var currentTime: TimeInterval = 0
-    var currentProgress: Double {
-        guard let duration = currentSong?.duration else { return 0 }
-        return currentTime / Double(duration)
-    }
 }

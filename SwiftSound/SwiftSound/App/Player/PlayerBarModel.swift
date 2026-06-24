@@ -13,7 +13,6 @@ struct PlayerBarModel {
     let playbackMode: PlaybackMode
     let currentTime: TimeInterval
     let duration: TimeInterval
-    let progress: Double
 
     init?(state: PlayerState) {
         guard let song = state.currentSong else { return nil }
@@ -23,15 +22,6 @@ struct PlayerBarModel {
         self.playbackMode = state.playbackMode
         self.currentTime = state.currentTime
         self.duration = song.durationTimeInterval
-        self.progress = Self.progress(currentTime: state.currentTime, duration: duration)
-    }
-}
-
-private extension PlayerBarModel {
-     static func progress(currentTime: TimeInterval, duration: TimeInterval) -> Double {
-        guard duration > 0 else { return 0 }
-
-        return min(max(currentTime / duration, 0), 1)
     }
 }
 
