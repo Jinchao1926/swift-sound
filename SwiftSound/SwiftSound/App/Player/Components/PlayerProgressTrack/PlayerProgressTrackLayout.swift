@@ -9,18 +9,17 @@ import SwiftUI
 
 extension PlayerProgressTrack {
     enum Layout {
-        // The overlay reserves room above the 6 pt track for the hover scrim and time label.
         static let progressHeight: CGFloat = 3
         static let hoverProgressHeight: CGFloat = 6
         static let hoverShadowHeight: CGFloat = 100
-        static let overlayHeight: CGFloat = hoverShadowHeight + hoverProgressHeight
+        static let height: CGFloat = hoverProgressHeight
 
         static let knobSize: CGFloat = 14
         static let hitHeight: CGFloat = knobSize
 
-        static let progressLabelEdgeInset: CGFloat = 72
+        static let progressLabelWidth: CGFloat = 110
+        static let progressLabelHeight: CGFloat = 30
         static let progressLabelOffset: CGFloat = 30
-        static let duration: Double = 239
     }
 
     struct LayoutMetrics {
@@ -36,20 +35,20 @@ extension PlayerProgressTrack {
             self.width = width
             self.knobCenter = CGPoint(
                 x: progressX,
-                y: Layout.hoverShadowHeight + Layout.hoverProgressHeight / 2
+                y: Layout.hoverProgressHeight / 2
             )
             self.labelCenter = CGPoint(
                 x: Self.clampedLabelX(progressX, width: width),
-                y: Layout.hoverShadowHeight - Layout.progressLabelOffset
+                y: -(Layout.progressLabelOffset + Layout.hoverProgressHeight / 2)
             )
-            self.trackHitAreaOffsetY = Layout.hoverShadowHeight - (Layout.hitHeight - Layout.hoverProgressHeight) / 2
+            self.trackHitAreaOffsetY = (Layout.height - Layout.hitHeight) / 2
             self.trackHeight = isActive ? Layout.hoverProgressHeight : Layout.progressHeight
         }
 
         private static func clampedLabelX(_ xPosition: CGFloat, width: CGFloat) -> CGFloat {
             min(
-                max(xPosition, Layout.progressLabelEdgeInset),
-                width - Layout.progressLabelEdgeInset
+                max(xPosition, Layout.progressLabelWidth / 2),
+                width - Layout.progressLabelWidth / 2
             )
         }
     }

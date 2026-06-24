@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PlayerProgressBarStyle: ProgressViewStyle {
     let height: CGFloat
+    let isActive: Bool
 
     func makeBody(configuration: Configuration) -> some View {
         GeometryReader { proxy in
@@ -21,7 +22,7 @@ struct PlayerProgressBarStyle: ProgressViewStyle {
                     .frame(height: height)
 
                 Capsule()
-                    .fill(Color.accentPrimary)
+                    .fill(Color.accentPrimary.opacity(isActive ? 1 : 0.72))
                     .frame(width: progressWidth, height: height)
             }
             .frame(height: proxy.size.height, alignment: .center)

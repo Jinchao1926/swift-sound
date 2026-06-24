@@ -8,22 +8,25 @@
 import SwiftUI
 
 struct PlayerProgressTrack: View {
-    let progressValue: Double
-    let onProgressChange: (Double) -> Void
+    let currentTime: TimeInterval
+    let duration: TimeInterval
+    let onSeek: (TimeInterval) -> Void
 
-    @State private var progress: Double
+    @State private var displayedTime: TimeInterval
     @State private var isHovering = false
     @State private var isDragging = false
-    @State private var dragStartProgress: Double?
+    @State private var dragStartTime: TimeInterval?
 
     // MARK: - LifeCycle
     init(
-        initialProgress: Double = 0,
-        onProgressChange: @escaping (Double) -> Void = { _ in }
+        currentTime: TimeInterval = 0,
+        duration: TimeInterval = 0,
+        onSeek: @escaping (TimeInterval) -> Void = { _ in }
     ) {
-        self.progressValue = Self.clamped(initialProgress)
-        self.onProgressChange = onProgressChange
-        self._progress = State(initialValue: Self.clamped(initialProgress))
+        self.duration = max(duration, 0)
+        self.currentTime = Self.clampedTime(currentTime, duration: self.duration)
+        self.onSeek = onSeek
+        self._displayedTime = State(initialValue: Self.clampedTime(currentTime, duration: self.duration))
     }
 
     var body: some View {
@@ -31,31 +34,36 @@ struct PlayerProgressTrack: View {
             let metrics = LayoutMetrics(width: proxy.size.width, progress: progress, isActive: isActive)
 
             ZStack(alignment: .topLeading) {
-                hoverGradient
+                if isActive {
+                    hoverGradient
+                        .offset(y: -Layout.hoverShadowHeight)
+                        .allowsHitTesting(false)
+                }
 
                 interactiveTrackArea(metrics: metrics)
                     .offset(y: metrics.trackHitAreaOffsetY)
 
                 if isActive {
-                    // 绝对定位
                     knob
                         .position(x: metrics.knobCenter.x, y: metrics.knobCenter.y)
                         .onHover { isHovering = $0 }
                         .gesture(knobDragGesture(width: metrics.width))
                         .pointerStyle(.link)
 
-                    // 标签会跟随进度条的 x 轴位置移动
                     timeLabel
                         .position(x: metrics.labelCenter.x, y: metrics.labelCenter.y)
+                        .allowsHitTesting(false)
                 }
             }
             .animation(.easeOut(duration: 0.12), value: isActive)
         }
-        .frame(height: Layout.overlayHeight)
-        .contentShape(Rectangle())
-        .onChange(of: progressValue) { _, nextProgress in
+        .frame(height: Layout.height)
+        .onChange(of: currentTime) { _, nextTime in
             guard !isDragging else { return }
-            progress = nextProgress
+            displayedTime = Self.clampedTime(nextTime, duration: duration)
+        }
+        .onChange(of: duration) { _, nextDuration in
+            displayedTime = Self.clampedTime(displayedTime, duration: nextDuration)
         }
     }
 }
@@ -63,10 +71,14 @@ struct PlayerProgressTrack: View {
 private extension PlayerProgressTrack {
     var isActive: Bool { isHovering || isDragging }
 
-    var progressText: String {
-        let currentSeconds = Int((progress * Layout.duration).rounded())
+    var progress: Double {
+        Self.progress(currentTime: displayedTime, duration: duration)
+    }
 
-        return "\(currentSeconds.duration) / \(Int(Layout.duration).duration)"
+    var progressText: String {
+        let currentSeconds = Int(displayedTime.rounded())
+
+        return "\(currentSeconds.duration) / \(Int(duration.rounded()).duration)"
     }
 }
 
@@ -82,7 +94,6 @@ private extension PlayerProgressTrack {
             endPoint: .bottom
         )
         .frame(height: Layout.hoverShadowHeight)
-        .allowsHitTesting(false)
     }
 
     func interactiveTrackArea(metrics: LayoutMetrics) -> some View {
@@ -96,7 +107,7 @@ private extension PlayerProgressTrack {
 
     func visualTrack(metrics: LayoutMetrics) -> some View {
         ProgressView(value: progress)
-            .progressViewStyle(PlayerProgressBarStyle(height: metrics.trackHeight))
+            .progressViewStyle(PlayerProgressBarStyle(height: metrics.trackHeight, isActive: isActive))
             .frame(width: metrics.width, height: Layout.hoverProgressHeight, alignment: .center)
     }
 
@@ -112,13 +123,11 @@ private extension PlayerProgressTrack {
             .font(.font14.weight(.semibold))
             .foregroundStyle(Color.textPrimary)
             .contentTransition(.numericText())
-            .padding(.horizontal, 14)
-            .padding(.vertical, 7)
+            .frame(width: Layout.progressLabelWidth, height: Layout.progressLabelHeight)
             .background(
                 Capsule()
                     .fill(Color.white)
             )
-            .fixedSize()
     }
 }
 
@@ -128,10 +137,10 @@ extension PlayerProgressTrack {
         DragGesture(minimumDistance: 0)
             .onChanged { value in
                 isDragging = true
-                setProgress(at: originX + value.location.x, width: width, animated: false)
+                setTime(at: originX + value.location.x, width: width, animated: false)
             }
             .onEnded { value in
-                setProgress(at: originX + value.location.x, width: width)
+                setTime(at: originX + value.location.x, width: width)
 
                 withAnimation(.easeOut(duration: 0.12)) {
                     isDragging = false
@@ -144,15 +153,15 @@ extension PlayerProgressTrack {
             .onChanged { value in
                 isDragging = true
 
-                let startProgress = dragStartProgress ?? progress
-                dragStartProgress = startProgress
-                setProgress(startProgress + Double(value.translation.width / width), animated: false)
+                let startTime = dragStartTime ?? displayedTime
+                dragStartTime = startTime
+                setTime(startTime + duration * Double(value.translation.width / width), animated: false)
             }
             .onEnded { value in
-                let startProgress = dragStartProgress ?? progress
+                let startTime = dragStartTime ?? displayedTime
 
-                setProgress(startProgress + Double(value.translation.width / width))
-                dragStartProgress = nil
+                setTime(startTime + duration * Double(value.translation.width / width))
+                dragStartTime = nil
 
                 withAnimation(.easeOut(duration: 0.12)) {
                     isDragging = false
@@ -160,18 +169,18 @@ extension PlayerProgressTrack {
             }
     }
 
-    func setProgress(at xPosition: CGFloat, width: CGFloat, animated: Bool = true) {
+    func setTime(at xPosition: CGFloat, width: CGFloat, animated: Bool = true) {
         guard width > 0 else { return }
 
-        setProgress(Double(xPosition / width), animated: animated)
+        setTime(duration * Double(xPosition / width), animated: animated)
     }
 
-    func setProgress(_ progress: Double, animated: Bool = true) {
-        let nextProgress = Self.clamped(progress)
-        guard nextProgress != self.progress else { return }
+    func setTime(_ time: TimeInterval, animated: Bool = true) {
+        let nextTime = Self.clampedTime(time, duration: duration)
+        guard nextTime != displayedTime else { return }
 
         let update = {
-            self.progress = nextProgress
+            self.displayedTime = nextTime
         }
 
         if animated {
@@ -179,16 +188,22 @@ extension PlayerProgressTrack {
         } else {
             update()
         }
-        onProgressChange(nextProgress)
+        onSeek(nextTime)
     }
 
-    static func clamped(_ progress: Double) -> Double {
-        min(max(progress, 0), 1)
+    static func clampedTime(_ time: TimeInterval, duration: TimeInterval) -> TimeInterval {
+        min(max(time, 0), max(duration, 0))
+    }
+
+    static func progress(currentTime: TimeInterval, duration: TimeInterval) -> Double {
+        guard duration > 0 else { return 0 }
+
+        return min(max(currentTime / duration, 0), 1)
     }
 }
 
 #Preview {
-    PlayerProgressTrack(initialProgress: 0.358)
+    PlayerProgressTrack(currentTime: 107, duration: Song.preview.durationTimeInterval)
         .frame(height: 140)
         .padding()
 }

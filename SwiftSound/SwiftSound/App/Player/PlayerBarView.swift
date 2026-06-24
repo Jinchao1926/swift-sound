@@ -12,16 +12,19 @@ struct PlayerBarView: View {
     let callback: PlayerBarCallback
 
     var body: some View {
-        content
-            .padding(.top, Layout.progressReservedHeight)
-            .background(Color.white)
-            .overlay(alignment: .top) {
-                PlayerProgressTrack(initialProgress: model.progress) {
-                    callback.onSeek(model.duration * $0)
-                }
-                .offset(y: -Layout.progressOverlayLift)
-            }
-            .frame(height: Layout.height + Layout.progressReservedHeight)
+        VStack(spacing: 0) {
+            PlayerProgressTrack(
+                currentTime: model.currentTime,
+                duration: model.duration,
+                onSeek: callback.onSeek
+            )
+            .zIndex(1)
+
+            content
+                .zIndex(0)
+        }
+        .background(Color.white)
+        .frame(height: Layout.height + Layout.progressHeight)
     }
 
     private var content: some View {
@@ -85,8 +88,7 @@ struct PlayerBarView: View {
 
     private enum Layout {
         static let height: CGFloat = 80
-        static let progressReservedHeight: CGFloat = 6
-        static let progressOverlayLift: CGFloat = 100
+        static let progressHeight: CGFloat = 6
         static let horizontalInset: CGFloat = 30
 
         static let nowPlayingSpacing: CGFloat = 10
