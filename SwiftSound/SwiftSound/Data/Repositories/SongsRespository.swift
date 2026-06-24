@@ -19,4 +19,10 @@ struct SongsRespository {
         let response = try await apiClient.request(request)
         return response.result
     }
+    
+    func fetchSongDetail(_ id: Int) async throws -> Song? {
+        let request = SongsDetailRequest(id: id)
+        let response = try await apiClient.request(request)
+        return response.songs.first
+    }
 }
