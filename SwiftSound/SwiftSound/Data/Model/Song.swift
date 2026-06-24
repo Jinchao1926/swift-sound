@@ -38,6 +38,7 @@ enum OriginCoverType: Int, Decodable {
 struct SongPrivilege: Decodable {
     struct ChargeInfo: Decodable {
         let rate: Int
+        // 是否收费
         let chargeType: Int?
     }
 
@@ -64,6 +65,34 @@ struct Song: Decodable, Identifiable {
     // 原唱/翻唱
     let originCoverType: OriginCoverType
     let privilege: SongPrivilege?
+
+    init(
+        id: Int,
+        name: String,
+        duration: Int,
+        artists: [Artist],
+        album: Album,
+        tns: [String]?,
+        aliases: [String],
+        mvId: Int,
+        fee: FeeType?,
+        mark: Int?,
+        originCoverType: OriginCoverType,
+        privilege: SongPrivilege?
+    ) {
+        self.id = id
+        self.name = name
+        self.duration = duration
+        self.artists = artists
+        self.album = album
+        self.tns = tns
+        self.aliases = aliases
+        self.mvId = mvId
+        self.fee = fee
+        self.mark = mark
+        self.originCoverType = originCoverType
+        self.privilege = privilege
+    }
 
     private enum CodingKeys: String, CodingKey {
         case id

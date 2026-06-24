@@ -33,7 +33,7 @@ private extension SongCoverImage {
     }
 }
 
-//#Preview {
-//    SongCoverImage(song: nil)
-//        .padding(10)
-//}
+#Preview {
+    SongCoverImage(song: .preview)
+        .padding(10)
+}

@@ -128,7 +128,7 @@ private extension PlayerBarView {
     }
 }
 
-//#Preview {
-//    PlayerBarView()
-//        .frame(width: 1280)
-//}
+#Preview {
+    PlayerBarView(model: .preview(), callback: .preview)
+        .frame(width: 1280)
+}

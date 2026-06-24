@@ -49,7 +49,7 @@ struct PlayerNowPlayingInfo: View {
     }
 }
 
-//#Preview {
-//    PlayerNowPlayingInfo(song: nil)
-//        .padding()
-//}
+#Preview {
+    PlayerNowPlayingInfo(song: .preview)
+        .padding()
+}
