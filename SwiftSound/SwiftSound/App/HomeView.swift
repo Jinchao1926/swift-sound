@@ -21,8 +21,27 @@ struct HomeView: View {
                     .frame(minWidth: 854, maxWidth: .infinity)
             }
 
-            if playerStore.state.currentIndex != nil {
-                PlayerBarView()
+            if let playerBarModel = PlayerBarModel(state: playerStore.state) {
+                PlayerBarView(
+                    model: playerBarModel,
+                    callback: PlayerBarCallback(
+                        onTogglePlayPause: {
+                            playerStore.send(.togglePlayPause)
+                        },
+                        onPrevious: {
+                            playerStore.send(.previous)
+                        },
+                        onNext: {
+                            playerStore.send(.next)
+                        },
+                        onSeek: {
+                            playerStore.send(.seek(to: $0))
+                        },
+                        onCyclePlaybackMode: {
+                            playerStore.send(.cyclePlaybackMode)
+                        }
+                    )
+                )
             }
         }
         .frame(minHeight: 720)

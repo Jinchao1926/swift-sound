@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct PlayerNowPlayingInfo: View {
-    let song: Song?
+    let song: Song
 
-    private var title: String { song?.name ?? "他不爱我" }
-    private var artistName: String { song?.artistName ?? "莫文蔚" }
-    private var showsVIPBadge: Bool { song?.requiresVIP == true }
+    private var title: String { song.name }
+    private var artistName: String { song.artistName ?? "" }
+    private var showsVIPBadge: Bool { song.requiresVIP }
 
     private var titleMaxWidth: CGFloat {
         guard showsVIPBadge else { return Layout.maxWidth }
@@ -50,6 +50,6 @@ struct PlayerNowPlayingInfo: View {
 }
 
 #Preview {
-    PlayerNowPlayingInfo(song: nil)
+    PlayerNowPlayingInfo(song: .preview)
         .padding()
 }

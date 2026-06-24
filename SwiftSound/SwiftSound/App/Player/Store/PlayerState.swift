@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PlaybackState {
+enum PlaybackState: Equatable {
     case stopped
     case loading
     case playing

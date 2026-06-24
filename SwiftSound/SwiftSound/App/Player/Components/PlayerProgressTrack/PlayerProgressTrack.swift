@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PlayerProgressTrack: View {
+    let progressValue: Double
     let onProgressChange: (Double) -> Void
 
     @State private var progress: Double
@@ -20,6 +21,7 @@ struct PlayerProgressTrack: View {
         initialProgress: Double = 0,
         onProgressChange: @escaping (Double) -> Void = { _ in }
     ) {
+        self.progressValue = Self.clamped(initialProgress)
         self.onProgressChange = onProgressChange
         self._progress = State(initialValue: Self.clamped(initialProgress))
     }
@@ -51,6 +53,10 @@ struct PlayerProgressTrack: View {
         }
         .frame(height: Layout.overlayHeight)
         .contentShape(Rectangle())
+        .onChange(of: progressValue) { _, nextProgress in
+            guard !isDragging else { return }
+            progress = nextProgress
+        }
     }
 }
 
