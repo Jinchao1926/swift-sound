@@ -25,7 +25,7 @@ struct SongsRespository {
         let response = try await apiClient.request(request)
         return response.songs.first
     }
-    
+
     func fetchLyric(_ id: Int) async throws -> [LyricLine] {
         let response = try await apiClient.request(LyricRequest(id: id))
         return LyricParser.parse(response.lrc.lyric)

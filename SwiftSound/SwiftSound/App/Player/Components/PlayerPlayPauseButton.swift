@@ -48,7 +48,7 @@ private extension PlayerPlayPauseButton {
 
     enum Layout {
         static let buttonSize: CGFloat = 40
-        static let iconSize: CGFloat = 23
+        static let iconSize: CGFloat = 18
         static let hoverScale: CGFloat = 1.08
     }
 }

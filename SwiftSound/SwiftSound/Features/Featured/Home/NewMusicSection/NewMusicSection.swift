@@ -17,7 +17,7 @@ struct NewMusicSection: View {
         ) { columns in
             VStack(alignment: .leading, spacing: 0) {
                 RouteTitleLink("最新音乐", route: AppRoute.newMusic())
-                    .padding(.horizontal, 30)
+                    .padding(.horizontal, 40)
 
                 Carousel(
                     items: viewModel.state.songGroups,

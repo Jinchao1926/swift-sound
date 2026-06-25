@@ -10,6 +10,17 @@ import SwiftUI
 struct PlayerBarView: View {
     let model: PlayerBarModel
     let callback: PlayerBarCallback
+    let onActivate: (() -> Void)?
+
+    init(
+        model: PlayerBarModel,
+        callback: PlayerBarCallback,
+        onActivate: (() -> Void)? = nil
+    ) {
+        self.model = model
+        self.callback = callback
+        self.onActivate = onActivate
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -51,6 +62,10 @@ struct PlayerBarView: View {
             .padding(.horizontal, Layout.nowPlayingActionInset)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onActivate?()
+        }
     }
 
     private var transportControls: some View {
