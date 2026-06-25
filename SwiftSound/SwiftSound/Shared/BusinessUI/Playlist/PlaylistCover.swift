@@ -11,10 +11,11 @@ struct PlaylistCover: View {
     let playlist: Playlist
 
     @State private var isHovering = false
+    @State private var panelColor: Color?
 
     var body: some View {
         VStack(spacing: 0) {
-            RemoteImage(url: URL(string: playlist.coverImgUrl))
+            RemoteImage(url: coverImageURL)
                 .aspectRatio(1, contentMode: .fit)
 
             Color.clear
@@ -28,6 +29,7 @@ struct PlaylistCover: View {
             PlaylistCoverBottomPanel(
                 title: playlist.name,
                 tracks: tracks,
+                themeColor: panelColor,
                 isHovering: isHovering
             )
             .frame(
@@ -39,6 +41,9 @@ struct PlaylistCover: View {
         .clipShape(RoundedRectangle(cornerRadius: 6))
         .pointerStyle(.link)
         .onHover { isHovering = $0 }
+        .task(id: coverImageURL) {
+            await updatePanelColor(from: coverImageURL)
+        }
         .animation(.easeInOut(duration: 0.18), value: isHovering)
     }
 }
@@ -49,8 +54,16 @@ fileprivate extension PlaylistCover {
         static let bottomPanelHeight: CGFloat = 58
     }
 
-    var tracks: [Song] {
-        Array((playlist.tracks ?? []).prefix(3))
+    var tracks: [Song] { Array((playlist.tracks ?? []).prefix(3)) }
+    var coverImageURL: URL? { URL(string: playlist.coverImgUrl) }
+
+    func updatePanelColor(from imageURL: URL?) async {
+        panelColor = nil
+
+        let color = await Color.themeColor(from: imageURL)
+        guard !Task.isCancelled else { return }
+
+        panelColor = color
     }
 }
 
@@ -58,6 +71,7 @@ fileprivate extension PlaylistCover {
 private struct PlaylistCoverBottomPanel: View {
     let title: String
     let tracks: [Song]
+    let themeColor: Color?
     let isHovering: Bool
 
     var body: some View {
@@ -122,7 +136,7 @@ private extension PlaylistCoverBottomPanel {
     }
 
     var panelColor: Color {
-        Color(hex: 0xA55E76)
+        themeColor ?? Color(hex: 0xA55E76)
     }
 }
 
