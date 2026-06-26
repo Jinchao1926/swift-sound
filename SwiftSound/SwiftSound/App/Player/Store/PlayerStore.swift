@@ -12,12 +12,24 @@ import Combine
 final class PlayerStore: ObservableObject {
     @Published private(set) var state: PlayerState
 
-    init(state: PlayerState = PlayerState()) {
-        self.state = state
+    private let persistence: PlayerStatePersistence
+
+    init(
+        state: PlayerState? = nil,
+        persistence: PlayerStatePersistence = FilePlayerStatePersistence()
+    ) {
+        self.persistence = persistence
+        let initialState = state ?? persistence.load() ?? PlayerState()
+        self.state = initialState
     }
 
     func send(_ action: PlayerAction) {
         reduce(action)
+        persist(after: action)
+    }
+
+    func flushPersistence() {
+        persistNow()
     }
 }
 
@@ -159,6 +171,23 @@ private extension PlayerStore {
 
 // MARK: - Private
 private extension PlayerStore {
+    func persist(after action: PlayerAction) {
+        switch action {
+        case .playbackTimeUpdated, .play:
+            return
+
+        case .togglePlayPause where state.playbackState != .paused:
+            return
+
+        default:
+            persistNow()
+        }
+    }
+
+    func persistNow() {
+        persistence.save(state)
+    }
+
     func togglePlayPause() {
         switch state.playbackState {
         case .stopped:

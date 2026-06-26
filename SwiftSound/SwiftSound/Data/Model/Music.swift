@@ -39,7 +39,7 @@ import Foundation
     "fansCount": null
 }*/
 /** 艺术家 */
-struct Artist: Decodable {
+struct Artist: Codable {
     let id: Int
     let accountId: Int? // user id
     let name: String
@@ -125,7 +125,7 @@ struct ArtistIntroduction: Decodable {
 }
 */
 /** 专辑 */
-struct Album: Decodable {
+struct Album: Codable {
     let id: Int
     let name: String
     let artist: Artist?
