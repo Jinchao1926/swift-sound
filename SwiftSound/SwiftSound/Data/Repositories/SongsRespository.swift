@@ -26,6 +26,18 @@ struct SongsRespository {
         return response.songs.first
     }
 
+    func fetchSongPlaybackURL(_ id: Int) async throws -> URL? {
+        let request = SongPlaybackURLRequest(id: id)
+        let response = try await apiClient.request(request)
+
+        guard let rawURL = response.data.first(where: { $0.id == id })?.url,
+              let url = URL(string: rawURL) else {
+            return nil
+        }
+
+        return url.httpsURL
+    }
+
     func fetchLyric(_ id: Int) async throws -> [LyricLine] {
         let response = try await apiClient.request(LyricRequest(id: id))
         return LyricParser.parse(response.lrc.lyric)

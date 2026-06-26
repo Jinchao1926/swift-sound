@@ -13,18 +13,29 @@ final class PlayerStore: ObservableObject {
     @Published private(set) var state: PlayerState
 
     private let persistence: PlayerStatePersistence
+    private var playbackCoordinator: PlaybackCoordinator?
 
     init(
         state: PlayerState? = nil,
-        persistence: PlayerStatePersistence = FilePlayerStatePersistence()
+        persistence: PlayerStatePersistence = FilePlayerStatePersistence(),
     ) {
         self.persistence = persistence
         let initialState = state ?? persistence.load() ?? PlayerState()
         self.state = initialState
+        self.playbackCoordinator = PlaybackCoordinator(
+            initialVolume: initialState.volume,
+            stateProvider: { [weak self] in
+                self?.state
+            },
+            sendEvent: { [weak self] event in
+                self?.handle(event)
+            }
+        )
     }
 
     func send(_ action: PlayerAction) {
         reduce(action)
+        playbackCoordinator?.handle(action: action, state: state)
         persist(after: action)
     }
 
@@ -106,10 +117,6 @@ private extension PlayerStore {
             state.currentTime = timeInterval
             return true
 
-        case .playbackTimeUpdated(let timeInterval):
-            state.currentTime = timeInterval
-            return true
-
         default:
             return false
         }
@@ -171,9 +178,38 @@ private extension PlayerStore {
 
 // MARK: - Private
 private extension PlayerStore {
+    func handle(_ event: PlaybackEvent) {
+        switch event {
+        case .loading(let songId):
+            guard songId == state.currentSong?.id else { return }
+            state.playbackState = .loading
+
+        case .started(let songId):
+            guard songId == state.currentSong?.id else { return }
+            state.playbackState = .playing
+
+        case .failed(let songId, let message):
+            guard songId == state.currentSong?.id else { return }
+            state.playbackState = .failed(message)
+            playbackCoordinator?.handle(event: event, state: state)
+            persistNow()
+
+        case .finished(let songId):
+            guard songId == state.currentSong?.id else { return }
+            handleQueueTransition(state.queue.moveNext(mode: state.playbackMode))
+            playbackCoordinator?.handle(event: event, state: state)
+            persistNow()
+
+        case .timeUpdated(let songId, let timeInterval):
+            guard songId == state.currentSong?.id else { return }
+            let duration = state.currentSong?.durationTimeInterval ?? timeInterval
+            state.currentTime = min(max(timeInterval, 0), duration)
+        }
+    }
+
     func persist(after action: PlayerAction) {
         switch action {
-        case .playbackTimeUpdated, .play:
+        case .play:
             return
 
         case .togglePlayPause where state.playbackState != .paused:
