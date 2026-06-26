@@ -19,7 +19,6 @@ enum PlayerAction {
     case next
     case previous
     case seek(to: TimeInterval)
-    case playbackTimeUpdated(TimeInterval)
 
     // Queue
     case appendToQueue(Song)

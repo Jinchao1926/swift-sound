@@ -35,7 +35,7 @@ struct SongsRespository {
             return nil
         }
 
-        return url
+        return url.httpsURL
     }
 
     func fetchLyric(_ id: Int) async throws -> [LyricLine] {

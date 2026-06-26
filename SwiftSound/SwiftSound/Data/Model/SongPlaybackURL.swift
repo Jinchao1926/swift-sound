@@ -74,13 +74,15 @@ enum SongPlaybackQuality: String, CaseIterable, Codable {
     case jyeffect
     /// 沉浸环绕声
     case sky
+    // swiftlint:disable inclusive_language
     /// 超清母带
     case jymaster
+    // swiftlint:enable inclusive_language
 }
 
 struct SongPlaybackURL: nonisolated Decodable {
     let id: Int
-    let url: String
+    let url: String?
     let type: String?  // eg: mp3
     let level: SongPlaybackQuality?
     // 时长，毫秒

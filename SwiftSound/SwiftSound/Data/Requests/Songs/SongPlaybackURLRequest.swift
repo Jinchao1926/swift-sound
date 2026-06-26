@@ -17,7 +17,7 @@ struct SongPlaybackURLRequest: APIRequest {
 
     let path = "/song/url/v1"
     let queryItems: [URLQueryItem]
-    let cachePolicy: APICachePolicy = .none
+    let cachePolicy: APICachePolicy = .memory(ttl: 1200)
 
     init(id: Int, level: SongPlaybackQuality = .standard) {
         self.queryItems = [
