@@ -77,7 +77,7 @@ struct PlayerBarView: View {
                 .help("上一首")
 
             PlayerPlayPauseButton(
-                isPlaying: model.playbackState == .playing,
+                isPlaying: model.playbackState.isPlaybackActive,
                 action: callback.onTogglePlayPause
             )
 

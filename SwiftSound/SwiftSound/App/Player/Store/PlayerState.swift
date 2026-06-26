@@ -13,6 +13,15 @@ enum PlaybackState: Equatable {
     case playing
     case paused
     case failed(String)
+
+    var isPlaybackActive: Bool {
+        switch self {
+        case .loading, .playing:
+            return true
+        case .stopped, .paused, .failed:
+            return false
+        }
+    }
 }
 
 enum PlaybackMode: String, CaseIterable, Codable {

@@ -196,6 +196,7 @@ private extension PlayerStore {
 
         case .finished(let songId):
             guard songId == state.currentSong?.id else { return }
+            // 自动下一首歌
             handleQueueTransition(state.queue.moveNext(mode: state.playbackMode))
             playbackCoordinator?.handle(event: event, state: state)
             persistNow()
