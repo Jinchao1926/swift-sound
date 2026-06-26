@@ -14,6 +14,17 @@ struct PlaybackQueue {
     var currentSong: Song? { songs[safe: currentIndex] }
     var isEmpty: Bool { songs.isEmpty }
 
+    // MARK: - LifeCycle
+    init(songs: [Song] = [], currentIndex: Int? = nil) {
+        self.songs = songs
+        if let currentIndex, songs.indices.contains(currentIndex) {
+            self.currentIndex = currentIndex
+        } else {
+            self.currentIndex = nil
+        }
+    }
+
+    // MARK: - Public
     mutating func play(_ song: Song) -> QueueTransition {
         if let index = songs.firstIndex(where: { $0.id == song.id }) {
             let isReplayingCurrentSong = currentIndex == index

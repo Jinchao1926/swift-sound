@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AppKit
 
 struct HomeView: View {
     @StateObject private var router = AppRouter()
@@ -51,6 +52,9 @@ struct HomeView: View {
             }
         }
         .frame(minHeight: 720)
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)) { _ in
+            playerStore.flushPersistence()
+        }
         .environmentObject(router)
         .environmentObject(playerStore)
     }

@@ -15,7 +15,7 @@ enum PlaybackState: Equatable {
     case failed(String)
 }
 
-enum PlaybackMode: CaseIterable {
+enum PlaybackMode: String, CaseIterable, Codable {
     /// 列表循环
     case listLoop
     /// 单曲循环

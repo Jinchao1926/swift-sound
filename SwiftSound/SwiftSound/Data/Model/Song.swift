@@ -11,7 +11,7 @@ import Foundation
  * 付费类型 - 歌曲付费/权限状态
  * 表示歌曲是否需要 VIP 会员或购买
  */
-enum FeeType: Int, Decodable {
+enum FeeType: Int, Codable {
     /** 免费 - 无需付费，所有用户可播放 */
     case free = 0
     /** VIP 专享 - 需要 VIP 会员才能播放 */
@@ -22,7 +22,7 @@ enum FeeType: Int, Decodable {
     case limitedFree = 8
 }
 
-enum OriginCoverType: Int, Decodable {
+enum OriginCoverType: Int, Codable {
     case none = 0
     case originalTrack = 1  // 原版原唱录音
     case fullCover = 2      // 完整翻唱
@@ -35,8 +35,8 @@ enum OriginCoverType: Int, Decodable {
     }
 }
 
-struct SongPrivilege: Decodable {
-    struct ChargeInfo: Decodable {
+struct SongPrivilege: Codable {
+    struct ChargeInfo: Codable {
         let rate: Int
         // 是否收费
         let chargeType: Int?
@@ -45,7 +45,7 @@ struct SongPrivilege: Decodable {
     let chargeInfoList: [ChargeInfo]
 }
 
-struct Song: Decodable, Identifiable {
+struct Song: Codable, Identifiable {
     let id: Int
     let name: String
     // 时长，毫秒
@@ -140,6 +140,23 @@ struct Song: Decodable, Identifiable {
         mark = try container.decodeIfPresent(Int.self, forKey: .mark)
         originCoverType = try container.decodeIfPresent(OriginCoverType.self, forKey: .originCoverType) ?? .none
         privilege = try container.decodeIfPresent(SongPrivilege.self, forKey: .privilege)
+    }
+
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+        try container.encode(duration, forKey: .duration)
+        try container.encode(artists, forKey: .artists)
+        try container.encode(album, forKey: .album)
+        try container.encodeIfPresent(tns, forKey: .tns)
+        try container.encode(aliases, forKey: .aliases)
+        try container.encode(mvId, forKey: .mvId)
+        try container.encodeIfPresent(fee, forKey: .fee)
+        try container.encodeIfPresent(mark, forKey: .mark)
+        try container.encode(originCoverType, forKey: .originCoverType)
+        try container.encodeIfPresent(privilege, forKey: .privilege)
     }
 }
 
