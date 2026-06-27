@@ -52,8 +52,13 @@ struct PlayerState {
     var playbackState: PlaybackState = .stopped
     var playbackMode: PlaybackMode = .listLoop
     var volume: Double = 1
+    var isMuted: Bool = false
 
     var currentSong: Song? { queue.currentSong }
     var currentIndex: Int? { queue.currentIndex }
     var currentTime: TimeInterval = 0
+
+    var effectiveVolume: Double {
+        isMuted ? 0 : volume
+    }
 }

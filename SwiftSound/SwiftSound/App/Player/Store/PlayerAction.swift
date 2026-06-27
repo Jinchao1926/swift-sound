@@ -32,4 +32,5 @@ enum PlayerAction {
 
     // Audio
     case setVolume(Double)
+    case toggleMute
 }

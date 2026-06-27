@@ -12,6 +12,7 @@ struct PlayerStateSnapshot: Codable {
     let currentIndex: Int?
     let playbackMode: PlaybackMode
     let volume: Double
+    let isMuted: Bool
     let currentTime: TimeInterval
 
     init(state: PlayerState) {
@@ -19,6 +20,7 @@ struct PlayerStateSnapshot: Codable {
         self.currentIndex = state.queue.currentIndex
         self.playbackMode = state.playbackMode
         self.volume = state.volume
+        self.isMuted = state.isMuted
         self.currentTime = state.currentTime
     }
 
@@ -27,6 +29,7 @@ struct PlayerStateSnapshot: Codable {
         state.queue = PlaybackQueue(songs: queueSongs, currentIndex: currentIndex)
         state.playbackMode = playbackMode
         state.volume = min(max(volume, 0), 1)
+        state.isMuted = isMuted
 
         if let currentSong = state.currentSong {
             state.currentTime = min(max(currentTime, 0), currentSong.durationTimeInterval)

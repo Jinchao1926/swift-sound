@@ -12,13 +12,17 @@ extension PlayerBarModel {
         song: Song = .preview,
         playbackState: PlaybackState = .playing,
         playbackMode: PlaybackMode = .listLoop,
-        currentTime: TimeInterval = 68
+        currentTime: TimeInterval = 68,
+        volume: Double = 0.34,
+        isMuted: Bool = false
     ) -> PlayerBarModel {
         var state = PlayerState()
         _ = state.queue.play(song)
         state.playbackState = playbackState
         state.playbackMode = playbackMode
         state.currentTime = min(currentTime, song.durationTimeInterval)
+        state.volume = volume
+        state.isMuted = isMuted
 
         guard let model = PlayerBarModel(state: state) else {
             preconditionFailure("PlayerBarView preview requires a current song")
@@ -33,6 +37,8 @@ extension PlayerBarCallback {
         onPrevious: {},
         onNext: {},
         onSeek: { _ in },
-        onCyclePlaybackMode: {}
+        onCyclePlaybackMode: {},
+        onSetVolume: { _ in },
+        onToggleMute: {}
     )
 }

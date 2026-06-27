@@ -23,7 +23,7 @@ final class PlayerStore: ObservableObject {
         let initialState = state ?? persistence.load() ?? PlayerState()
         self.state = initialState
         self.playbackCoordinator = PlaybackCoordinator(
-            initialVolume: initialState.volume,
+            initialVolume: initialState.effectiveVolume,
             stateProvider: { [weak self] in
                 self?.state
             },
@@ -168,7 +168,12 @@ private extension PlayerStore {
     func reduceAudioAction(_ action: PlayerAction) {
         switch action {
         case .setVolume(let volume):
-            state.volume = volume
+            let clampedVolume = min(max(volume, 0), 1)
+            state.volume = clampedVolume
+            state.isMuted = clampedVolume == 0
+
+        case .toggleMute:
+            state.isMuted.toggle()
 
         default:
             break
