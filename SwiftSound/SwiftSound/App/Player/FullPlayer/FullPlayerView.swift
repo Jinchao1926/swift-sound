@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct PlayerView: View {
-    let model: PlayerBarModel
-    let callback: PlayerBarCallback
+struct FullPlayerView: View {
+    let model: PlayerPresentationModel
+    let callback: PlayerControlsCallback
     let onCollapse: () -> Void
 
     var body: some View {
@@ -48,7 +48,7 @@ struct PlayerView: View {
     }
 }
 
-private extension PlayerView {
+private extension FullPlayerView {
     enum Layout {
         static let collapseButtonSize: CGFloat = 44
         static let horizontalInset: CGFloat = 36
@@ -57,7 +57,7 @@ private extension PlayerView {
 }
 
 #Preview {
-    PlayerView(
+    FullPlayerView(
         model: .preview(),
         callback: .preview,
         onCollapse: {}

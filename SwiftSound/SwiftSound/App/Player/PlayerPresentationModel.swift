@@ -1,5 +1,5 @@
 //
-//  PlayerBarModel.swift
+//  PlayerPresentationModel.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/6/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PlayerBarModel {
+struct PlayerPresentationModel {
     let song: Song
     let playbackState: PlaybackState
     let playbackMode: PlaybackMode
@@ -29,7 +29,7 @@ struct PlayerBarModel {
     }
 }
 
-struct PlayerBarCallback {
+struct PlayerControlsCallback {
     let onTogglePlayPause: () -> Void
     let onPrevious: () -> Void
     let onNext: () -> Void
