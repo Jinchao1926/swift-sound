@@ -226,8 +226,8 @@ private struct ThemeColorSample {
         // 输出给渐变面板时做轻量归一化：太亮会压不住白字，太暗会丢失封面色相。
         // 高饱和色上限更低，避免红/橙/蓝等颜色显得过亮。
         let maximumBrightness: CGFloat = saturation > 0.55 ? 0.59 : 0.69
-        let adjustedSaturation = min(max(saturation, 0.16), 0.86)
-        let adjustedBrightness = min(max(brightness, 0.18), maximumBrightness)
+        let adjustedSaturation = saturation.clamped(to: 0.16...0.86)
+        let adjustedBrightness = brightness.clamped(to: 0.18...maximumBrightness)
         let color = NSColor(
             calibratedHue: hue,
             saturation: adjustedSaturation,

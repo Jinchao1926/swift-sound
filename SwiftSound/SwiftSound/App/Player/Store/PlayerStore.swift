@@ -168,7 +168,7 @@ private extension PlayerStore {
     func reduceAudioAction(_ action: PlayerAction) {
         switch action {
         case .setVolume(let volume):
-            let clampedVolume = min(max(volume, 0), 1)
+            let clampedVolume = volume.clamped(to: 0...1)
             state.volume = clampedVolume
             state.isMuted = clampedVolume == 0
 
@@ -209,7 +209,7 @@ private extension PlayerStore {
         case .timeUpdated(let songId, let timeInterval):
             guard songId == state.currentSong?.id else { return }
             let duration = state.currentSong?.durationTimeInterval ?? timeInterval
-            state.currentTime = min(max(timeInterval, 0), duration)
+            state.currentTime = timeInterval.clamped(to: 0...duration)
         }
     }
 

@@ -60,7 +60,7 @@ final class AVPlayerAudioController: AudioPlaybackControlling {
     }
 
     func setVolume(_ volume: Double) {
-        player.volume = Float(min(max(volume, 0), 1))
+        player.volume = Float(volume.clamped(to: 0...1))
     }
 }
 

@@ -192,13 +192,13 @@ extension PlayerProgressTrack {
     }
 
     static func clampedTime(_ time: TimeInterval, duration: TimeInterval) -> TimeInterval {
-        min(max(time, 0), max(duration, 0))
+        time.clamped(to: 0...max(duration, 0))
     }
 
     static func progress(currentTime: TimeInterval, duration: TimeInterval) -> Double {
         guard duration > 0 else { return 0 }
 
-        return min(max(currentTime / duration, 0), 1)
+        return (currentTime / duration).clamped(to: 0...1)
     }
 }
 

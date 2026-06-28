@@ -28,11 +28,11 @@ struct PlayerStateSnapshot: Codable {
         var state = PlayerState()
         state.queue = PlaybackQueue(songs: queueSongs, currentIndex: currentIndex)
         state.playbackMode = playbackMode
-        state.volume = min(max(volume, 0), 1)
+        state.volume = volume.clamped(to: 0...1)
         state.isMuted = isMuted
 
         if let currentSong = state.currentSong {
-            state.currentTime = min(max(currentTime, 0), currentSong.durationTimeInterval)
+            state.currentTime = currentTime.clamped(to: 0...currentSong.durationTimeInterval)
             state.playbackState = .paused
         } else {
             state.currentTime = 0

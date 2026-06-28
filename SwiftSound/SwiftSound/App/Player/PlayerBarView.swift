@@ -32,7 +32,7 @@ struct PlayerBarView: View {
             .zIndex(1)
 
             content
-                .zIndex(0)
+                .zIndex(2)
         }
         .background(Color.white)
         .frame(height: Layout.height + Layout.progressHeight)
@@ -95,7 +95,12 @@ struct PlayerBarView: View {
 
             PlayerIconButton(systemName: "plus.square").help("收藏到歌单")
             PlayerIconButton(systemName: "textformat").help("桌面歌词")
-            PlayerIconButton(systemName: "speaker.wave.2").help("静音")
+            PlayerVolumeControl(
+                volume: model.volume,
+                isMuted: model.isMuted,
+                onSetVolume: callback.onSetVolume,
+                onToggleMute: callback.onToggleMute
+            )
             PlayerIconButton(systemName: "ellipsis").help("更多操作")
         }
         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -146,6 +151,9 @@ private extension PlayerBarView {
 }
 
 #Preview {
-    PlayerBarView(model: .preview(), callback: .preview)
-        .frame(width: 1280)
+    VStack {
+        Spacer()
+        PlayerBarView(model: .preview(), callback: .preview)
+    }
+    .frame(width: 1280, height: 300)
 }
