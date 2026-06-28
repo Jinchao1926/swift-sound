@@ -41,7 +41,7 @@ extension PlayerProgressTrack {
                 x: Self.clampedLabelX(progressX, width: width),
                 y: -(Layout.progressLabelOffset + Layout.hoverProgressHeight / 2)
             )
-            self.trackHitAreaOffsetY = (Layout.height - Layout.hitHeight) / 2
+            self.trackHitAreaOffsetY = Layout.height - Layout.hitHeight
             self.trackHeight = isActive ? Layout.hoverProgressHeight : Layout.progressHeight
         }
 

@@ -46,7 +46,6 @@ struct PlayerBarView: View {
         }
         .padding(.horizontal, Layout.horizontalInset)
         .frame(height: Layout.height)
-        .background(Color.white)
     }
 
     private var nowPlaying: some View {
@@ -61,7 +60,7 @@ struct PlayerBarView: View {
             }
             .padding(.horizontal, Layout.nowPlayingActionInset)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .contentShape(Rectangle())
         .onTapGesture {
             onActivate?()
@@ -87,6 +86,7 @@ struct PlayerBarView: View {
             PlayerIconButton(systemName: "list.bullet")
                 .help("播放列表")
         }
+        .frame(maxHeight: .infinity)
     }
 
     private var playbackActions: some View {
@@ -103,7 +103,7 @@ struct PlayerBarView: View {
             )
             PlayerIconButton(systemName: "ellipsis").help("更多操作")
         }
-        .frame(maxWidth: .infinity, alignment: .trailing)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
     }
 
     private enum Layout {

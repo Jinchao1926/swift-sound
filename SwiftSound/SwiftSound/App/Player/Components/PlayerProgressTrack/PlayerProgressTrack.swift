@@ -98,7 +98,7 @@ private extension PlayerProgressTrack {
 
     func interactiveTrackArea(metrics: LayoutMetrics) -> some View {
         visualTrack(metrics: metrics)
-            .frame(width: metrics.width, height: Layout.hitHeight, alignment: .center)
+            .frame(width: metrics.width, height: Layout.hitHeight, alignment: .bottom)
             .contentShape(Rectangle())
             .onHover { isHovering = $0 }
             .gesture(progressDragGesture(width: metrics.width))
