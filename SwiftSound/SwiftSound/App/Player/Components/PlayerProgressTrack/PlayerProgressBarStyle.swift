@@ -13,7 +13,7 @@ struct PlayerProgressBarStyle: ProgressViewStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         GeometryReader { proxy in
-            let fractionCompleted = min(max(configuration.fractionCompleted ?? 0, 0), 1)
+            let fractionCompleted = (configuration.fractionCompleted ?? 0).clamped(to: 0...1)
             let progressWidth = proxy.size.width * fractionCompleted
 
             ZStack(alignment: .leading) {

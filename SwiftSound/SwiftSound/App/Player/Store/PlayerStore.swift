@@ -23,7 +23,7 @@ final class PlayerStore: ObservableObject {
         let initialState = state ?? persistence.load() ?? PlayerState()
         self.state = initialState
         self.playbackCoordinator = PlaybackCoordinator(
-            initialVolume: initialState.volume,
+            initialVolume: initialState.effectiveVolume,
             stateProvider: { [weak self] in
                 self?.state
             },
@@ -168,7 +168,12 @@ private extension PlayerStore {
     func reduceAudioAction(_ action: PlayerAction) {
         switch action {
         case .setVolume(let volume):
-            state.volume = volume
+            let clampedVolume = volume.clamped(to: 0...1)
+            state.volume = clampedVolume
+            state.isMuted = clampedVolume == 0
+
+        case .toggleMute:
+            state.isMuted.toggle()
 
         default:
             break
@@ -196,6 +201,7 @@ private extension PlayerStore {
 
         case .finished(let songId):
             guard songId == state.currentSong?.id else { return }
+            // 自动下一首歌
             handleQueueTransition(state.queue.moveNext(mode: state.playbackMode))
             playbackCoordinator?.handle(event: event, state: state)
             persistNow()
@@ -203,7 +209,7 @@ private extension PlayerStore {
         case .timeUpdated(let songId, let timeInterval):
             guard songId == state.currentSong?.id else { return }
             let duration = state.currentSong?.durationTimeInterval ?? timeInterval
-            state.currentTime = min(max(timeInterval, 0), duration)
+            state.currentTime = timeInterval.clamped(to: 0...duration)
         }
     }
 

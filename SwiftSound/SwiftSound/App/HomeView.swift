@@ -75,6 +75,12 @@ struct HomeView: View {
             },
             onCyclePlaybackMode: {
                 playerStore.send(.cyclePlaybackMode)
+            },
+            onSetVolume: {
+                playerStore.send(.setVolume($0))
+            },
+            onToggleMute: {
+                playerStore.send(.toggleMute)
             }
         )
     }

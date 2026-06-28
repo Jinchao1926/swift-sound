@@ -27,7 +27,7 @@ struct SongCoverImage: View {
 
 private extension SongCoverImage {
     enum Layout {
-        static let inset: CGFloat = 10
+        static let inset: CGFloat = 9
         static let coverSize: CGFloat = 60
         static let coverRadius: CGFloat = (coverSize - 2 * inset) / 2
     }

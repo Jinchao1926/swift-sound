@@ -49,8 +49,8 @@ final class PlaybackCoordinator {
         case .removeFromQueue:
             syncAfterQueueMutation(with: state)
 
-        case .setVolume(let volume):
-            audioController.setVolume(volume)
+        case .setVolume, .toggleMute:
+            audioController.setVolume(state.effectiveVolume)
 
         case .appendToQueue, .appendManyToQueue, .setPlaybackMode, .cyclePlaybackMode:
             break

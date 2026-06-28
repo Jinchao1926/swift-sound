@@ -32,7 +32,7 @@ struct PlayerBarView: View {
             .zIndex(1)
 
             content
-                .zIndex(0)
+                .zIndex(2)
         }
         .background(Color.white)
         .frame(height: Layout.height + Layout.progressHeight)
@@ -46,7 +46,6 @@ struct PlayerBarView: View {
         }
         .padding(.horizontal, Layout.horizontalInset)
         .frame(height: Layout.height)
-        .background(Color.white)
     }
 
     private var nowPlaying: some View {
@@ -61,7 +60,7 @@ struct PlayerBarView: View {
             }
             .padding(.horizontal, Layout.nowPlayingActionInset)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .contentShape(Rectangle())
         .onTapGesture {
             onActivate?()
@@ -77,7 +76,7 @@ struct PlayerBarView: View {
                 .help("上一首")
 
             PlayerPlayPauseButton(
-                isPlaying: model.playbackState == .playing,
+                isPlaying: model.playbackState.isPlaybackActive,
                 action: callback.onTogglePlayPause
             )
 
@@ -87,6 +86,7 @@ struct PlayerBarView: View {
             PlayerIconButton(systemName: "list.bullet")
                 .help("播放列表")
         }
+        .frame(maxHeight: .infinity)
     }
 
     private var playbackActions: some View {
@@ -95,10 +95,15 @@ struct PlayerBarView: View {
 
             PlayerIconButton(systemName: "plus.square").help("收藏到歌单")
             PlayerIconButton(systemName: "textformat").help("桌面歌词")
-            PlayerIconButton(systemName: "speaker.wave.2").help("静音")
+            PlayerVolumeControl(
+                volume: model.volume,
+                isMuted: model.isMuted,
+                onSetVolume: callback.onSetVolume,
+                onToggleMute: callback.onToggleMute
+            )
             PlayerIconButton(systemName: "ellipsis").help("更多操作")
         }
-        .frame(maxWidth: .infinity, alignment: .trailing)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
     }
 
     private enum Layout {
@@ -146,6 +151,9 @@ private extension PlayerBarView {
 }
 
 #Preview {
-    PlayerBarView(model: .preview(), callback: .preview)
-        .frame(width: 1280)
+    VStack {
+        Spacer()
+        PlayerBarView(model: .preview(), callback: .preview)
+    }
+    .frame(width: 1280, height: 300)
 }

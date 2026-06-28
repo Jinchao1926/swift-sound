@@ -13,6 +13,15 @@ enum PlaybackState: Equatable {
     case playing
     case paused
     case failed(String)
+
+    var isPlaybackActive: Bool {
+        switch self {
+        case .loading, .playing:
+            return true
+        case .stopped, .paused, .failed:
+            return false
+        }
+    }
 }
 
 enum PlaybackMode: String, CaseIterable, Codable {
@@ -43,8 +52,13 @@ struct PlayerState {
     var playbackState: PlaybackState = .stopped
     var playbackMode: PlaybackMode = .listLoop
     var volume: Double = 1
+    var isMuted: Bool = false
 
     var currentSong: Song? { queue.currentSong }
     var currentIndex: Int? { queue.currentIndex }
     var currentTime: TimeInterval = 0
+
+    var effectiveVolume: Double {
+        isMuted ? 0 : volume
+    }
 }

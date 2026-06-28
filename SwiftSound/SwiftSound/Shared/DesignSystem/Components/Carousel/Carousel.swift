@@ -224,7 +224,7 @@ private extension Carousel {
             logicalPageIndex = 0
             jumpToDisplayPage(1)
         } else {
-            logicalPageIndex = min(max(newValue - 1, 0), pageCount - 1)
+            logicalPageIndex = (newValue - 1).clamped(to: 0...pageCount - 1)
         }
     }
 
@@ -241,7 +241,9 @@ private extension Carousel {
     }
 
     func normalizedRealPageID(from displayPageID: Int?) -> Int {
-        let fallbackPageID = min(max(logicalPageIndex + 1, 1), pageCount)
+        guard pageCount > 0 else { return 0 }
+
+        let fallbackPageID = (logicalPageIndex + 1).clamped(to: 1...pageCount)
         guard let displayPageID else { return fallbackPageID }
 
         if shouldUseLoopNodes, displayPageID <= 0 {
