@@ -12,6 +12,12 @@ struct FullPlayerView: View {
     let callback: PlayerControlsCallback
     let onCollapse: () -> Void
 
+    @State private var themeColor: Color?
+
+    private var theme: FullPlayerTheme {
+        FullPlayerTheme(themeColor: themeColor)
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             header
@@ -21,12 +27,16 @@ struct FullPlayerView: View {
             PlayerBarView(
                 model: model,
                 callback: callback,
+                style: theme.playerBarStyle,
                 onActivate: onCollapse
             )
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(hex: 0x161616))
+        .background(theme.background)
         .contentShape(Rectangle())
+        .task(id: model.song.id) {
+            await updateThemeColor()
+        }
     }
 
     private var header: some View {
@@ -45,6 +55,19 @@ struct FullPlayerView: View {
         }
         .padding(.horizontal, Layout.horizontalInset)
         .padding(.top, Layout.topInset)
+    }
+}
+
+private extension FullPlayerView {
+    func updateThemeColor() async {
+        themeColor = nil
+
+        let color = await Color.themeColor(from: URL(string: model.song.album.picUrl))
+        guard !Task.isCancelled else { return }
+
+        withAnimation(.easeInOut(duration: 0.24)) {
+            themeColor = color
+        }
     }
 }
 
