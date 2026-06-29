@@ -37,9 +37,9 @@ extension PlayerBarStyle {
     var backgroundColor: Color {
         guard isDark else { return .white }
 
-        guard themeColor != nil else { return Color(hex: 0x151515) }
+        guard themeColor != nil else { return Color(hex: 0x101010) }
 
-        return accentColor.mix(with: Color(hex: 0x111111), by: Blend.barBlackAmount)
+        return accentColor.mix(with: Color(hex: 0x0E0E0E), by: Blend.barBlackAmount)
     }
 
     var primaryTextColor: Color { isDark ? Color.white.opacity(0.94) : .textPrimary }
@@ -66,13 +66,22 @@ extension PlayerBarStyle {
         return accentColor.mix(with: Color(hex: 0x303030), by: Blend.playButtonHoverBlackAmount)
     }
 
-    var progressTrackColor: Color { isDark ? Color.white.opacity(0.14) : Color.divider.opacity(0.62) }
+    var progressColor: Color {
+        guard isDark else { return accentColor }
+
+        guard let themeColor else { return Color.white.opacity(0.68) }
+
+        return themeColor.mix(with: .white, by: Blend.progressWhiteAmount)
+    }
+
+    var progressTrackColor: Color { isDark ? Color.white.opacity(0.18) : Color.divider.opacity(0.62) }
     var progressLabelBackgroundColor: Color { isDark ? .black : .white }
     var progressLabelTextColor: Color { primaryTextColor }
     var volumePanelBackgroundColor: Color { isDark ? Color(hex: 0x34343E) : .white }
 
     private enum Blend {
-        static let barBlackAmount = 0.42
+        static let barBlackAmount = 0.70
+        static let progressWhiteAmount = 0.26
         static let playButtonBlackAmount = 0.54
         static let playButtonHoverBlackAmount = 0.44
     }

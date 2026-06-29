@@ -17,7 +17,7 @@ extension Color {
     static func themeColor(from imageURL: URL?) async -> Color? {
         guard let imageURL else { return nil }
 
-        return await ImageThemeColorProvider.shared.color(from: imageURL)
+        return await ImageThemeColorProvider.shared.color(from: imageURL.httpsURL)
     }
 }
 
@@ -104,11 +104,16 @@ private nonisolated func themeColorSamples(from image: NSImage) -> [ThemeColorSa
     guard didDraw else { return nil }
 
     return stride(from: 0, to: pixelData.count, by: 4).compactMap { offset in
-        ThemeColorSample(
+        let pixelIndex = offset / 4
+        let y = pixelIndex / width
+        let normalizedY = Double(y) / Double(max(height - 1, 1))
+
+        return ThemeColorSample(
             red: Double(pixelData[offset]) / 255,
             green: Double(pixelData[offset + 1]) / 255,
             blue: Double(pixelData[offset + 2]) / 255,
-            alpha: Double(pixelData[offset + 3]) / 255
+            alpha: Double(pixelData[offset + 3]) / 255,
+            spatialWeight: ThemeColorSampling.spatialWeight(forNormalizedY: normalizedY)
         )
     }
 }
@@ -120,6 +125,15 @@ private enum ThemeColorSampling {
     nonisolated static let lowSaturationThreshold = 0.18
     nonisolated static let shadowNeutralMinimumCoverage = 0.16
     nonisolated static let shadowNeutralDominanceRatio = 1.12
+    nonisolated static let dominantBackgroundMinimumCoverage = 0.35
+    nonisolated static let dominantBackgroundDominanceRatio = 2.2
+
+    private nonisolated static let bottomRegionBaseWeight = 0.65
+    private nonisolated static let bottomRegionExtraWeight = 0.85
+
+    nonisolated static func spatialWeight(forNormalizedY normalizedY: Double) -> Double {
+        bottomRegionBaseWeight + pow(normalizedY, 2) * bottomRegionExtraWeight
+    }
 }
 
 private struct ThemeColorSample {
@@ -127,6 +141,7 @@ private struct ThemeColorSample {
     let green: Double
     let blue: Double
     let alpha: Double
+    let spatialWeight: Double
 
     nonisolated var brightness: Double {
         max(red, green, blue)
@@ -152,6 +167,12 @@ private struct ThemeColorSample {
         let hueBucket = min(23, max(0, Int((hue * 24).rounded(.down))))
         let saturationBucket = min(3, max(0, Int(((saturation - 0.18) / 0.82 * 4).rounded(.down))))
         let brightnessBucket = min(4, max(0, Int((brightness * 5).rounded(.down))))
+
+        // 红/橙/棕经常同时出现在肤色、头发和暖色遮罩里。按亮度拆桶会把同一主题色
+        // 切得过碎，反而输给大面积低饱和背景色，所以暖色只按色相和饱和度聚合。
+        if hue < 0.12 || hue > 0.92 {
+            return 20_000 + (hueBucket << 4) + saturationBucket
+        }
 
         return hueBucket << 8 | saturationBucket << 4 | brightnessBucket
     }
@@ -184,8 +205,21 @@ private struct ThemeColorSample {
         let brightnessTarget = saturation > 0.45 ? 0.38 : 0.56
         let brightnessWeight = max(0.35, 1 - min(abs(brightness - brightnessTarget), 0.7) * 0.9)
         let lowBrightnessPenalty = brightness < 0.18 ? 0.42 : 1
+        let mutedTintPenalty = saturation < 0.16 && brightness > 0.45 ? 0.42 : 1
+        let isCoolMutedOverlay = hue > 0.40 && hue < 0.58 && saturation < 0.34 && brightness > 0.30
+        let isWarmHighlight = (hue < 0.12 || hue > 0.92) && brightness > 0.62
+        let coolMutedOverlayPenalty = isCoolMutedOverlay ? 0.28 : 1
+        let warmHighlightPenalty = isWarmHighlight ? 0.72 : 1
 
-        return saturationWeight * brightnessWeight * lightPenalty * whitePenalty * lowBrightnessPenalty
+        return saturationWeight
+            * brightnessWeight
+            * lightPenalty
+            * whitePenalty
+            * lowBrightnessPenalty
+            * mutedTintPenalty
+            * coolMutedOverlayPenalty
+            * warmHighlightPenalty
+            * spatialWeight
     }
 
     nonisolated var isShadowNeutralCandidate: Bool {
@@ -194,6 +228,15 @@ private struct ThemeColorSample {
         saturation < 0.22
             && brightness >= 0.08
             && brightness <= 0.45
+    }
+
+    nonisolated var isDominantBackgroundCandidate: Bool {
+        // 大面积米色/蓝灰背景比人物肤色、头发或文案色更适合作为面板底色。
+        // 但青绿色低饱和遮罩容易误伤 case 2，所以这里排除 cyan 区间。
+        saturation < 0.18
+            && brightness >= 0.5
+            && brightness <= 0.93
+            && (hue < 0.22 || hue > 0.58)
     }
 
     nonisolated var adjustedRed: Double {
@@ -248,12 +291,19 @@ private struct SampleSelection {
     private var colorBuckets: [Int: ThemeColorBucket] = [:]
     private var fallbackBucket = ThemeColorBucket()
     private var shadowNeutralBucket = ThemeColorBucket()
+    private var dominantBackgroundBucket = ThemeColorBucket()
     private var sampleCount = 0
 
     nonisolated init() {}
 
     nonisolated var selectedSample: ThemeColorSample? {
         let leadingBucket = colorBuckets.values.max(by: { $0.weightedScore < $1.weightedScore })
+
+        if dominantBackgroundBucket.coverage(in: sampleCount) >= ThemeColorSampling.dominantBackgroundMinimumCoverage,
+           dominantBackgroundBucket.coverage(in: sampleCount) > (leadingBucket?.coverage(in: sampleCount) ?? 0)
+                * ThemeColorSampling.dominantBackgroundDominanceRatio {
+            return dominantBackgroundBucket.averageSample
+        }
 
         // 如果暗中性色覆盖明显更大，优先返回它；否则选择综合覆盖率和视觉权重最高的分桶。
         if shadowNeutralBucket.coverage(in: sampleCount) >= ThemeColorSampling.shadowNeutralMinimumCoverage,
@@ -276,6 +326,10 @@ private struct SampleSelection {
 
         if sample.isShadowNeutralCandidate {
             shadowNeutralBucket.include(sample)
+        }
+
+        if sample.isDominantBackgroundCandidate {
+            dominantBackgroundBucket.include(sample)
         }
 
         colorBuckets[sample.quantizedKey, default: ThemeColorBucket()].include(sample)
@@ -303,7 +357,8 @@ private struct ThemeColorBucket {
             red: totalRed / Double(sampleCount),
             green: totalGreen / Double(sampleCount),
             blue: totalBlue / Double(sampleCount),
-            alpha: totalAlpha / Double(sampleCount)
+            alpha: totalAlpha / Double(sampleCount),
+            spatialWeight: 1
         )
     }
 

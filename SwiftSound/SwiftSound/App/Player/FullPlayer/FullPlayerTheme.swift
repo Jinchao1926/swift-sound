@@ -28,7 +28,7 @@ struct FullPlayerTheme {
 
     private var topBackground: Color {
         guard let themeColor else {
-            return Color(hex: 0x1B1B1B)
+            return Color(hex: 0x202020)
         }
 
         return themeColor.mix(with: Color(hex: 0x101010), by: Blend.topBlackAmount)
@@ -36,7 +36,7 @@ struct FullPlayerTheme {
 
     private var middleBackground: Color {
         guard let themeColor else {
-            return Color(hex: 0x101010)
+            return Color(hex: 0x151515)
         }
 
         return themeColor.mix(with: Color(hex: 0x101010), by: Blend.middleBlackAmount)
@@ -44,15 +44,15 @@ struct FullPlayerTheme {
 
     private var bottomBackground: Color {
         guard let themeColor else {
-            return Color(hex: 0x0F0F0F)
+            return Color(hex: 0x0D0D0D)
         }
 
         return themeColor.mix(with: Color(hex: 0x0F0F0F), by: Blend.bottomBlackAmount)
     }
 
     private enum Blend {
-        static let topBlackAmount = 0.18
-        static let middleBlackAmount = 0.26
-        static let bottomBlackAmount = 0.34
+        static let topBlackAmount = 0.28
+        static let middleBlackAmount = 0.52
+        static let bottomBlackAmount = 0.78
     }
 }

@@ -21,8 +21,8 @@ struct FullPlayerView: View {
     var body: some View {
         VStack(spacing: 0) {
             header
-
-            Spacer(minLength: 0)
+            playerModeBar
+            songContent
 
             PlayerBarView(
                 model: model,
@@ -33,7 +33,7 @@ struct FullPlayerView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(theme.background)
-        .contentShape(Rectangle())
+        .ignoresSafeArea(edges: .top)   // important
         .task(id: model.song.id) {
             await updateThemeColor()
         }
@@ -43,18 +43,38 @@ struct FullPlayerView: View {
         HStack {
             Button(action: onCollapse) {
                 Image(systemName: "chevron.down")
-                    .font(.system(size: 24, weight: .medium))
-                    .foregroundStyle(Color.white.opacity(0.82))
+                    .font(.font18)
+                    .foregroundStyle(.white)
                     .frame(width: Layout.collapseButtonSize, height: Layout.collapseButtonSize)
                     .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .help("收起播放器")
 
             Spacer()
         }
-        .padding(.horizontal, Layout.horizontalInset)
-        .padding(.top, Layout.topInset)
+        .padding(.leading, Layout.collapseButtonLeadingInset)
+    }
+    
+    private var playerModeBar: some View {
+        HStack {
+            Spacer()
+            
+        }
+        .frame(height: Layout.playerModeBarHeight)
+        .frame(maxWidth: .infinity)
+    }
+    
+    private var songContent: some View {
+        // TODO: 左边唱片图片，右边歌曲内容
+        // spacing 间距在屏幕尺寸变化时有所不同，比如最小时100，最大时208
+        HStack {
+            // TODO: 需要适配大背景图
+            // 还需要二次封装，支持上方的 pointer（播放的时候 pointer 会移动到 Cover 上）
+            SongCoverImage(song: model.song)
+            
+            // 右边主要内容区域，先不实现
+            // 包含歌曲信息/歌词/相似歌曲等
+        }
     }
 }
 
@@ -73,9 +93,10 @@ private extension FullPlayerView {
 
 private extension FullPlayerView {
     enum Layout {
-        static let collapseButtonSize: CGFloat = 44
-        static let horizontalInset: CGFloat = 36
-        static let topInset: CGFloat = 18
+        static let collapseButtonSize: CGFloat = 34
+        static let collapseButtonLeadingInset: CGFloat = 76
+        
+        static let playerModeBarHeight: CGFloat = 100
     }
 }
 
