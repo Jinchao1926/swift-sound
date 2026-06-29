@@ -8,17 +8,20 @@
 import SwiftUI
 
 struct PlayerBarView: View {
-    let model: PlayerBarModel
-    let callback: PlayerBarCallback
+    let model: PlayerPresentationModel
+    let callback: PlayerControlsCallback
+    let style: PlayerBarStyle
     let onActivate: (() -> Void)?
 
     init(
-        model: PlayerBarModel,
-        callback: PlayerBarCallback,
+        model: PlayerPresentationModel,
+        callback: PlayerControlsCallback,
+        style: PlayerBarStyle = .compact,
         onActivate: (() -> Void)? = nil
     ) {
         self.model = model
         self.callback = callback
+        self.style = style
         self.onActivate = onActivate
     }
 
@@ -34,8 +37,9 @@ struct PlayerBarView: View {
             content
                 .zIndex(2)
         }
-        .background(Color.white)
+        .background(style.backgroundColor)
         .frame(height: Layout.height + Layout.progressHeight)
+        .environment(\.playerBarStyle, style)
     }
 
     private var content: some View {
@@ -50,7 +54,9 @@ struct PlayerBarView: View {
 
     private var nowPlaying: some View {
         HStack(alignment: .center, spacing: Layout.nowPlayingSpacing) {
-            SongCoverImage(song: model.song)
+            if style.showsArtwork {
+                SongCoverImage(song: model.song)
+            }
 
             PlayerNowPlayingInfo(song: model.song)
 
@@ -91,7 +97,8 @@ struct PlayerBarView: View {
 
     private var playbackActions: some View {
         HStack(alignment: .center, spacing: Layout.trailingActionSpacing) {
-            SongBadges.hq.help("音质")
+            SongBadge("极高", tint: style.secondaryTextColor, size: .medium, isInteractive: true)
+                .help("音质")
 
             PlayerIconButton(systemName: "plus.square").help("收藏到歌单")
             PlayerIconButton(systemName: "textformat").help("桌面歌词")
@@ -155,5 +162,15 @@ private extension PlayerBarView {
         Spacer()
         PlayerBarView(model: .preview(), callback: .preview)
     }
-    .frame(width: 1280, height: 300)
+    .frame(width: 1280, height: 250)
+
+    VStack {
+        Spacer()
+        PlayerBarView(
+            model: .preview(),
+            callback: .preview,
+            style: PlayerBarStyle.fullPlayer(themeColor: Color.yellow)
+        )
+    }
+    .frame(width: 1280, height: 250)
 }

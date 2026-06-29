@@ -10,6 +10,8 @@ import SwiftUI
 struct PlayerProgressBarStyle: ProgressViewStyle {
     let height: CGFloat
     let isActive: Bool
+    let progressColor: Color
+    let trackColor: Color
 
     func makeBody(configuration: Configuration) -> some View {
         GeometryReader { proxy in
@@ -18,11 +20,11 @@ struct PlayerProgressBarStyle: ProgressViewStyle {
 
             ZStack(alignment: .leading) {
                 Capsule()
-                    .fill(Color.divider.opacity(0.62))
+                    .fill(trackColor)
                     .frame(height: height)
 
                 Capsule()
-                    .fill(Color.accentPrimary.opacity(isActive ? 1 : 0.72))
+                    .fill(progressColor.opacity(isActive ? 1 : 0.72))
                     .frame(width: progressWidth, height: height)
             }
             .frame(height: proxy.size.height, alignment: .center)

@@ -12,6 +12,7 @@ struct PlayerProgressTrack: View {
     let duration: TimeInterval
     let onSeek: (TimeInterval) -> Void
 
+    @Environment(\.playerBarStyle) private var style
     @State private var displayedTime: TimeInterval
     @State private var isHovering = false
     @State private var isDragging = false
@@ -107,7 +108,14 @@ private extension PlayerProgressTrack {
 
     func visualTrack(metrics: LayoutMetrics) -> some View {
         ProgressView(value: progress)
-            .progressViewStyle(PlayerProgressBarStyle(height: metrics.trackHeight, isActive: isActive))
+            .progressViewStyle(
+                PlayerProgressBarStyle(
+                    height: metrics.trackHeight,
+                    isActive: isActive,
+                    progressColor: style.accentColor,
+                    trackColor: style.progressTrackColor
+                )
+            )
             .frame(width: metrics.width, height: Layout.hoverProgressHeight, alignment: .center)
     }
 
@@ -121,12 +129,12 @@ private extension PlayerProgressTrack {
     var timeLabel: some View {
         Text(progressText)
             .font(.font14.weight(.semibold))
-            .foregroundStyle(Color.textPrimary)
+            .foregroundStyle(style.progressLabelTextColor)
             .contentTransition(.numericText())
             .frame(width: Layout.progressLabelWidth, height: Layout.progressLabelHeight)
             .background(
                 Capsule()
-                    .fill(Color.white)
+                    .fill(style.progressLabelBackgroundColor)
             )
     }
 }
@@ -205,5 +213,12 @@ extension PlayerProgressTrack {
 #Preview {
     PlayerProgressTrack(currentTime: 107, duration: Song.preview.durationTimeInterval)
         .frame(height: 140)
-        .padding()
+
+    let style = PlayerBarStyle.fullPlayer(themeColor: Color.yellow)
+    VStack {
+        PlayerProgressTrack(currentTime: 107, duration: Song.preview.durationTimeInterval)
+            .frame(height: 140)
+    }
+    .background(style.backgroundColor)
+    .environment(\.playerBarStyle, style)
 }
