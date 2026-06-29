@@ -112,7 +112,7 @@ private extension PlayerProgressTrack {
                 PlayerProgressBarStyle(
                     height: metrics.trackHeight,
                     isActive: isActive,
-                    progressColor: style.accentColor,
+                    progressColor: style.progressColor,
                     trackColor: style.progressTrackColor
                 )
             )

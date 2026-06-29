@@ -34,6 +34,7 @@ struct FullPlayerView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(theme.background)
         .contentShape(Rectangle())
+        .ignoresSafeArea(edges: .top)   // important
         .task(id: model.song.id) {
             await updateThemeColor()
         }
@@ -43,18 +44,16 @@ struct FullPlayerView: View {
         HStack {
             Button(action: onCollapse) {
                 Image(systemName: "chevron.down")
-                    .font(.system(size: 24, weight: .medium))
-                    .foregroundStyle(Color.white.opacity(0.82))
+                    .font(.font18)
+                    .foregroundStyle(.white)
                     .frame(width: Layout.collapseButtonSize, height: Layout.collapseButtonSize)
                     .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .help("收起播放器")
 
             Spacer()
         }
-        .padding(.horizontal, Layout.horizontalInset)
-        .padding(.top, Layout.topInset)
+        .padding(.leading, Layout.collapseButtonLeadingInset)
     }
 }
 
@@ -73,9 +72,8 @@ private extension FullPlayerView {
 
 private extension FullPlayerView {
     enum Layout {
-        static let collapseButtonSize: CGFloat = 44
-        static let horizontalInset: CGFloat = 36
-        static let topInset: CGFloat = 18
+        static let collapseButtonSize: CGFloat = 34
+        static let collapseButtonLeadingInset: CGFloat = 76
     }
 }
 
