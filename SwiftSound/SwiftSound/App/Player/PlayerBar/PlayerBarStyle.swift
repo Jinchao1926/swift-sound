@@ -46,7 +46,6 @@ extension PlayerBarStyle {
     var secondaryTextColor: Color { isDark ? Color.white.opacity(0.56) : .textSecondary }
     var iconColor: Color { isDark ? Color.white.opacity(0.52) : .textSecondary }
     var iconHoverColor: Color { isDark ? Color.white.opacity(0.82) : .textPrimary }
-    var badgeBackgroundColor: Color { isDark ? .clear : .white }
 
     var playButtonForegroundColor: Color { isDark ? Color.white.opacity(0.92) : .white }
     var playButtonBackgroundColor: Color {

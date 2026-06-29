@@ -43,7 +43,7 @@ struct PlayerIconButton: View {
                     IconCornerBadge(
                         text: badgeText,
                         color: isHovering ? style.iconHoverColor : style.secondaryTextColor,
-                        backgroundColor: style.badgeBackgroundColor
+                        backgroundColor: style.backgroundColor
                     )
                 }
             }
