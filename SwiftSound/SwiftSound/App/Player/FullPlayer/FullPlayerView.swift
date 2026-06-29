@@ -7,10 +7,16 @@
 
 import SwiftUI
 
-struct PlayerView: View {
-    let model: PlayerBarModel
-    let callback: PlayerBarCallback
+struct FullPlayerView: View {
+    let model: PlayerPresentationModel
+    let callback: PlayerControlsCallback
     let onCollapse: () -> Void
+
+    @State private var themeColor: Color?
+
+    private var theme: FullPlayerTheme {
+        FullPlayerTheme(themeColor: themeColor)
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -21,12 +27,16 @@ struct PlayerView: View {
             PlayerBarView(
                 model: model,
                 callback: callback,
+                style: theme.playerBarStyle,
                 onActivate: onCollapse
             )
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(hex: 0x161616))
+        .background(theme.background)
         .contentShape(Rectangle())
+        .task(id: model.song.id) {
+            await updateThemeColor()
+        }
     }
 
     private var header: some View {
@@ -48,7 +58,20 @@ struct PlayerView: View {
     }
 }
 
-private extension PlayerView {
+private extension FullPlayerView {
+    func updateThemeColor() async {
+        themeColor = nil
+
+        let color = await Color.themeColor(from: URL(string: model.song.album.picUrl))
+        guard !Task.isCancelled else { return }
+
+        withAnimation(.easeInOut(duration: 0.24)) {
+            themeColor = color
+        }
+    }
+}
+
+private extension FullPlayerView {
     enum Layout {
         static let collapseButtonSize: CGFloat = 44
         static let horizontalInset: CGFloat = 36
@@ -57,7 +80,7 @@ private extension PlayerView {
 }
 
 #Preview {
-    PlayerView(
+    FullPlayerView(
         model: .preview(),
         callback: .preview,
         onCollapse: {}

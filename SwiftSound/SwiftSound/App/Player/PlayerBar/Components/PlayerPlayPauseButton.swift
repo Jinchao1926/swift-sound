@@ -11,13 +11,14 @@ struct PlayerPlayPauseButton: View {
     let isPlaying: Bool
     let action: () -> Void
 
+    @Environment(\.playerBarStyle) private var style
     @State private var isHovering = false
 
     var body: some View {
         Button(action: action) {
             Image(systemName: systemName)
                 .font(.system(size: Layout.iconSize, weight: .semibold))
-                .foregroundStyle(.white)
+                .foregroundStyle(style.playButtonForegroundColor)
                 .frame(width: Layout.buttonSize, height: Layout.buttonSize)
                 .background {
                     Circle()
@@ -43,7 +44,7 @@ private extension PlayerPlayPauseButton {
     }
 
     var backgroundColor: Color {
-        Color.accentPrimary.mix(with: .black, by: isHovering ? 0.12 : 0)
+        isHovering ? style.playButtonHoverBackgroundColor : style.playButtonBackgroundColor
     }
 
     enum Layout {
@@ -59,4 +60,15 @@ private extension PlayerPlayPauseButton {
         PlayerPlayPauseButton(isPlaying: true) {}
     }
     .padding()
+
+    let style = PlayerBarStyle.fullPlayer(themeColor: Color.yellow)
+    VStack {
+        HStack(spacing: 20) {
+            PlayerPlayPauseButton(isPlaying: false) {}
+            PlayerPlayPauseButton(isPlaying: true) {}
+        }
+        .padding()
+    }
+    .background(style.backgroundColor)
+    .environment(\.playerBarStyle, style)
 }

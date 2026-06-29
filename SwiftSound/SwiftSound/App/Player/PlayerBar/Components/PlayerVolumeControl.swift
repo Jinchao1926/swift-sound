@@ -13,6 +13,7 @@ struct PlayerVolumeControl: View {
     let onSetVolume: (Double) -> Void
     let onToggleMute: () -> Void
 
+    @Environment(\.playerBarStyle) private var style
     @State private var isPanelPresented = false
     @State private var isHoveringButton = false
     @State private var isHoveringPanel = false
@@ -87,29 +88,31 @@ private struct VolumePanel: View {
     let isMuted: Bool
     let onSetVolume: (Double) -> Void
 
+    @Environment(\.playerBarStyle) private var style
+
     var body: some View {
         VStack(spacing: Layout.panelSpacing) {
             Slider(value: volumeBinding, in: 0...1)
                 .controlSize(.small)
-                .tint(Color.accentPrimary)
+                .tint(.accentPrimary)
                 .frame(width: Layout.sliderLength)
                 .rotationEffect(.degrees(-90))
                 .frame(width: Layout.panelWidth, height: Layout.sliderLength)
 
             Text(volumeText)
                 .font(.font12)
-                .foregroundStyle(Color.textSecondary)
+                .foregroundStyle(style.secondaryTextColor)
                 .monospacedDigit()
         }
         .frame(width: Layout.panelWidth, height: Layout.panelHeight)
         .background(
             RoundedRectangle(cornerRadius: Layout.panelCornerRadius, style: .continuous)
-                .fill(Color.white)
+                .fill(style.volumePanelBackgroundColor)
                 .shadow(color: Color.black.opacity(0.14), radius: 12, x: 0, y: 4)
         )
         .overlay(alignment: .bottom) {
             RotatedSquare()
-                .fill(Color.white)
+                .fill(style.volumePanelBackgroundColor)
                 .frame(width: Layout.arrowSize, height: Layout.arrowSize)
                 .shadow(color: Color.black.opacity(0.05), radius: 3, x: 0, y: 2)
                 .offset(y: Layout.arrowOffset)
@@ -162,20 +165,42 @@ private struct RotatedSquare: Shape {
     @Previewable @State var volume = 0.34
     @Previewable @State var isMuted = false
 
-    VStack {
-        Spacer()
-        PlayerVolumeControl(
-            volume: volume,
-            isMuted: isMuted,
-            onSetVolume: {
-                volume = $0
-                isMuted = $0 == 0
-            },
-            onToggleMute: {
-                isMuted.toggle()
-            }
-        )
-        .padding(20)
+    HStack(spacing: 0) {
+        VStack {
+            Spacer()
+            PlayerVolumeControl(
+                volume: volume,
+                isMuted: isMuted,
+                onSetVolume: {
+                    volume = $0
+                    isMuted = $0 == 0
+                },
+                onToggleMute: {
+                    isMuted.toggle()
+                }
+            )
+            .padding(20)
+        }
+        .frame(width: 100, height: 300)
+
+        let style = PlayerBarStyle.fullPlayer(themeColor: Color.yellow)
+        VStack {
+            Spacer()
+            PlayerVolumeControl(
+                volume: volume,
+                isMuted: isMuted,
+                onSetVolume: {
+                    volume = $0
+                    isMuted = $0 == 0
+                },
+                onToggleMute: {
+                    isMuted.toggle()
+                }
+            )
+            .padding(20)
+        }
+        .frame(width: 100, height: 300)
+        .background(style.backgroundColor)
+        .environment(\.playerBarStyle, style)
     }
-    .frame(width: 100, height: 300)
 }

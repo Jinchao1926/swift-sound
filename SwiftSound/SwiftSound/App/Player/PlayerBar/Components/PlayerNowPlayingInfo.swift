@@ -10,6 +10,8 @@ import SwiftUI
 struct PlayerNowPlayingInfo: View {
     let song: Song
 
+    @Environment(\.playerBarStyle) private var style
+
     private var title: String { song.name }
     private var artistName: String { song.artistName ?? "" }
     private var showsVIPBadge: Bool { song.requiresVIP }
@@ -24,6 +26,7 @@ struct PlayerNowPlayingInfo: View {
             HStack(spacing: Layout.badgeSpacing) {
                 PlayerMarqueeText(
                     title,
+                    foregroundColor: style.primaryTextColor,
                     maxWidth: titleMaxWidth
                 )
 
@@ -35,7 +38,7 @@ struct PlayerNowPlayingInfo: View {
             AdaptiveText(
                 artistName,
                 font: .font15,
-                foregroundColor: .textSecondary,
+                foregroundColor: style.secondaryTextColor,
                 maxWidth: Layout.maxWidth
             )
         }
@@ -52,4 +55,12 @@ struct PlayerNowPlayingInfo: View {
 #Preview {
     PlayerNowPlayingInfo(song: .preview)
         .padding()
+
+    let style = PlayerBarStyle.fullPlayer(themeColor: Color.yellow)
+    VStack {
+        PlayerNowPlayingInfo(song: .preview)
+            .padding()
+    }
+    .background(style.backgroundColor)
+    .environment(\.playerBarStyle, style)
 }

@@ -13,22 +13,37 @@ struct PlayerIconButton: View {
     let badgeText: String?
     let action: (() -> Void)?
 
+    @Environment(\.playerBarStyle) private var style
     @State private var isHovering = false
 
-    init(systemName: String, badgeText: String? = nil, action: (() -> Void)? = nil) {
+    init(
+        systemName: String,
+        badgeText: String? = nil,
+        action: (() -> Void)? = nil
+    ) {
         self.systemName = systemName
         self.badgeText = badgeText
         self.action = action
     }
 
     var body: some View {
-        IconButton(systemName: systemName, font: iconFont, size: iconSize, action: action)
+        Button {
+            action?()
+        } label: {
+            Image(systemName: systemName)
+                .font(iconFont)
+                .foregroundStyle(isHovering ? style.iconHoverColor : style.iconColor)
+                .frame(width: iconSize, height: iconSize)
+        }
+        .buttonStyle(.plain)
+        .pointerStyle(.link)
             .frame(width: buttonSize, height: buttonSize, alignment: alignment)
             .overlay(alignment: .topTrailing) {
                 if let badgeText {
                     IconCornerBadge(
                         text: badgeText,
-                        color: isHovering ? Color.textPrimary : Color.textSecondary
+                        color: isHovering ? style.iconHoverColor : style.secondaryTextColor,
+                        backgroundColor: style.backgroundColor
                     )
                 }
             }
@@ -46,6 +61,7 @@ struct PlayerIconButton: View {
 private struct IconCornerBadge: View {
     let text: String
     let color: Color
+    let backgroundColor: Color
 
     var body: some View {
         Text(text)
@@ -56,7 +72,7 @@ private struct IconCornerBadge: View {
             .padding(.horizontal, Layout.horizontalInset)
             .background(
                 Capsule(style: .continuous)
-                    .fill(Color.white)
+                    .fill(backgroundColor)
             )
             .offset(x: Layout.xOffset, y: Layout.yOffset)
     }
@@ -74,4 +90,15 @@ private struct IconCornerBadge: View {
         PlayerIconButton(systemName: "speaker.wave.2")
     }
     .padding()
+
+    let style = PlayerBarStyle.fullPlayer(themeColor: Color.yellow)
+    VStack {
+        HStack(spacing: 16) {
+            PlayerIconButton(systemName: "heart", badgeText: "10w+")
+            PlayerIconButton(systemName: "speaker.wave.2")
+        }
+        .padding()
+    }
+    .background(style.backgroundColor)
+    .environment(\.playerBarStyle, style)
 }
