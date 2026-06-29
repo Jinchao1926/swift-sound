@@ -47,7 +47,7 @@ struct SongCoverImage: View {
         case .large:
             Metrics(
                 backgroundImageName: "song-cover-large",
-                albumInset: 50,
+                albumInset: 46,
                 containerSize: 310
             )
         }

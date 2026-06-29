@@ -42,13 +42,17 @@ struct TurntableRecordView: View {
             .frame(width: Layout.pointerWidth)
             .rotationEffect(pointerRotation, anchor: Layout.pointerPivot)
             .shadow(color: Color.black.opacity(0.18), radius: 8, x: 0, y: 5)
-            .animation(.easeInOut(duration: 0.6), value: playbackState.isPlaybackActive)
+            .animation(.easeInOut(duration: 0.35), value: playbackState.isPlaybackActive)
     }
 
     private var record: some View {
         ZStack {
             Circle()
                 .fill(Color.white.opacity(0.2))
+                .overlay(
+                    Circle()
+                        .stroke(Color.white.opacity(0.12), lineWidth: 1)
+                )
 
             SongCoverImage(song: song, variant: .large)
         }
@@ -84,5 +88,6 @@ private extension TurntableRecordView {
 
         TurntableRecordView(song: .preview, playbackState: .playing)
     }
+    .padding(20)
     .background(Color(hex: 0x151515))
 }
