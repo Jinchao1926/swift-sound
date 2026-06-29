@@ -40,7 +40,7 @@ struct PlayerModeBar: View {
 
     private enum Layout {
         static let playerModeBarSpacing: CGFloat = 10
-        static let playerModeBarHeight: CGFloat = 100
+        static let playerModeBarHeight: CGFloat = 30
         static let playerModeBarTrailingInset: CGFloat = 36
         static let iconButtonSize: CGFloat = 20
     }
