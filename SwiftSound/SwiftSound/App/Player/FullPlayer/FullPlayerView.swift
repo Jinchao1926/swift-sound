@@ -58,16 +58,15 @@ struct FullPlayerView: View {
     }
 
     private var songContent: some View {
-        HStack(alignment: .top, spacing: Layout.songContentColumnSpacing) {
+        HStack(alignment: .center, spacing: Layout.songContentColumnSpacing) {
             TurntableRecordView(song: model.song, playbackState: model.playbackState)
-                .padding(.top, Layout.recordTopInset)
+                .offset(y: Layout.recordOffsetY)
 
-            FullPlayerSongInfoView(song: model.song)
+            SongDetailsView(song: model.song)
                 .frame(width: Layout.songInfoWidth)
                 .frame(maxHeight: .infinity, alignment: .topLeading)
-                .padding(.top, Layout.songInfoTopInset)
         }
-        .frame(width: Layout.songContentWidth)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -89,11 +88,9 @@ private extension FullPlayerView {
         static let collapseButtonSize: CGFloat = 34
         static let collapseButtonLeadingInset: CGFloat = 76
 
-        static let songContentColumnSpacing: CGFloat = 208
-        static let songInfoWidth: CGFloat = 650
-        static let recordTopInset: CGFloat = 74
-        static let songInfoTopInset: CGFloat = 12
-        static let songContentWidth = TurntableRecordView.width + songContentColumnSpacing + songInfoWidth
+        static let songContentColumnSpacing: CGFloat = 100
+        static let songInfoWidth: CGFloat = 430
+        static let recordOffsetY: CGFloat = -20
     }
 }
 
