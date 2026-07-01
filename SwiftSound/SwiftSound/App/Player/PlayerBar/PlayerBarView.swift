@@ -49,7 +49,12 @@ struct PlayerBarView: View {
             playbackActions
         }
         .padding(.horizontal, Layout.horizontalInset)
+        .frame(maxWidth: .infinity)
         .frame(height: Layout.height)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onActivate?()
+        }
     }
 
     private var nowPlaying: some View {
@@ -68,9 +73,6 @@ struct PlayerBarView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .contentShape(Rectangle())
-        .onTapGesture {
-            onActivate?()
-        }
     }
 
     private var transportControls: some View {

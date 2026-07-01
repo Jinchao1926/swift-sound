@@ -21,8 +21,8 @@ struct AdaptiveText: View {
 
     init(
         _ text: String,
-        font: Font,
-        foregroundColor: Color,
+        font: Font = .font14,
+        foregroundColor: Color = .textPrimary,
         maxWidth: CGFloat
     ) {
         self.text = text

@@ -21,7 +21,9 @@ struct FullPlayerView: View {
     var body: some View {
         VStack(spacing: 0) {
             header
-            playerModeBar
+
+            PlayerModeBar()
+
             songContent
 
             PlayerBarView(
@@ -54,27 +56,17 @@ struct FullPlayerView: View {
         }
         .padding(.leading, Layout.collapseButtonLeadingInset)
     }
-    
-    private var playerModeBar: some View {
-        HStack {
-            Spacer()
-            
-        }
-        .frame(height: Layout.playerModeBarHeight)
-        .frame(maxWidth: .infinity)
-    }
-    
+
     private var songContent: some View {
-        // TODO: 左边唱片图片，右边歌曲内容
-        // spacing 间距在屏幕尺寸变化时有所不同，比如最小时100，最大时208
-        HStack {
-            // TODO: 需要适配大背景图
-            // 还需要二次封装，支持上方的 pointer（播放的时候 pointer 会移动到 Cover 上）
-            SongCoverImage(song: model.song)
-            
-            // 右边主要内容区域，先不实现
-            // 包含歌曲信息/歌词/相似歌曲等
+        HStack(alignment: .center, spacing: Layout.songContentColumnSpacing) {
+            TurntableRecordView(song: model.song, playbackState: model.playbackState)
+                .offset(y: Layout.recordOffsetY)
+
+            SongDetailsView(song: model.song)
+                .frame(width: Layout.songInfoWidth)
+                .frame(maxHeight: .infinity, alignment: .topLeading)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -95,8 +87,10 @@ private extension FullPlayerView {
     enum Layout {
         static let collapseButtonSize: CGFloat = 34
         static let collapseButtonLeadingInset: CGFloat = 76
-        
-        static let playerModeBarHeight: CGFloat = 100
+
+        static let songContentColumnSpacing: CGFloat = 100
+        static let songInfoWidth: CGFloat = 430
+        static let recordOffsetY: CGFloat = -20
     }
 }
 
