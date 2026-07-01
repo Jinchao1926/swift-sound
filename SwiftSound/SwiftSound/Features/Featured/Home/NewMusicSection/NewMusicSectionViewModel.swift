@@ -14,21 +14,7 @@ struct NewSongsGroup: Identifiable {
 }
 
 final class NewMusicSectionViewModel: ObservableObject {
-    enum State {
-        case idle
-        case loading
-        case loaded([NewSongsGroup])
-        case failed(Error)
-
-        var songGroups: [NewSongsGroup] {
-            if case let .loaded(songGroups) = self {
-                return songGroups
-            }
-            return []
-        }
-    }
-
-    @Published private(set) var state: State = .idle
+    @Published private(set) var state: Loadable<[NewSongsGroup]> = .idle
 
     private let repository: SongsRespository
 
@@ -37,7 +23,7 @@ final class NewMusicSectionViewModel: ObservableObject {
     }
 
     func load() async {
-        if case .loading = state { return }
+        if state.isLoading { return }
         state = .loading
 
         do {
@@ -49,5 +35,11 @@ final class NewMusicSectionViewModel: ObservableObject {
         } catch {
             state = .failed(error)
         }
+    }
+}
+
+extension Loadable where Value == [NewSongsGroup] {
+    var songGroups: [NewSongsGroup] {
+        value ?? []
     }
 }
