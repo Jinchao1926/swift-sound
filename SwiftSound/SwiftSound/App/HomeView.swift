@@ -11,6 +11,7 @@ import AppKit
 struct HomeView: View {
     @StateObject private var router = AppRouter()
     @StateObject private var playerStore = PlayerStore()
+    @StateObject private var lyricsStore = LyricsStore()
     @State private var isPlayerPresented = false
 
     var body: some View {
@@ -57,6 +58,7 @@ struct HomeView: View {
         }
         .environmentObject(router)
         .environmentObject(playerStore)
+        .environmentObject(lyricsStore)
     }
 
     private var playerCallback: PlayerControlsCallback {

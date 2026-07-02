@@ -17,7 +17,7 @@ final class PlayerStore: ObservableObject {
 
     init(
         state: PlayerState? = nil,
-        persistence: PlayerStatePersistence = FilePlayerStatePersistence(),
+        persistence: PlayerStatePersistence = FilePlayerStatePersistence()
     ) {
         self.persistence = persistence
         let initialState = state ?? persistence.load() ?? PlayerState()
