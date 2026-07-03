@@ -64,7 +64,11 @@ struct FullPlayerView: View {
             TurntableRecordView(song: model.song, playbackState: model.playbackState)
                 .offset(y: Layout.recordOffsetY)
 
-            SongDetailsView(song: model.song)
+            SongDetailsView(
+                song: model.song,
+                currentTime: model.currentTime,
+                onSeek: callback.onSeekAndPlay
+            )
                 .frame(width: Layout.songInfoWidth)
                 .frame(maxHeight: .infinity, alignment: .topLeading)
         }

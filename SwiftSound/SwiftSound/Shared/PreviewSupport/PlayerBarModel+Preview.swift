@@ -37,6 +37,7 @@ extension PlayerControlsCallback {
         onPrevious: {},
         onNext: {},
         onSeek: { _ in },
+        onSeekAndPlay: { _ in },
         onCyclePlaybackMode: {},
         onSetVolume: { _ in },
         onToggleMute: {}

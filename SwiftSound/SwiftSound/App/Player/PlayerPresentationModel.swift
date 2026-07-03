@@ -34,6 +34,7 @@ struct PlayerControlsCallback {
     let onPrevious: () -> Void
     let onNext: () -> Void
     let onSeek: (TimeInterval) -> Void
+    let onSeekAndPlay: (TimeInterval) -> Void
     let onCyclePlaybackMode: () -> Void
     let onSetVolume: (Double) -> Void
     let onToggleMute: () -> Void

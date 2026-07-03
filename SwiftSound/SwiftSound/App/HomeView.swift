@@ -75,6 +75,10 @@ struct HomeView: View {
             onSeek: {
                 playerStore.send(.seek(to: $0))
             },
+            onSeekAndPlay: {
+                playerStore.send(.seek(to: $0))
+                playerStore.send(.play)
+            },
             onCyclePlaybackMode: {
                 playerStore.send(.cyclePlaybackMode)
             },

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SongDetailsView: View {
     let song: Song
+    let currentTime: TimeInterval
+    let onSeek: (TimeInterval) -> Void
 
     @State private var selectedTab: SongDetailsTab = .lyrics
 
@@ -16,7 +18,7 @@ struct SongDetailsView: View {
         VStack(alignment: .leading, spacing: 0) {
             title
 
-            SongMetadataView(song: song)
+            SongInfoView(song: song)
                 .padding(.top, 8)
 
             SongDetailsTabBar(selectedTab: $selectedTab)
@@ -51,7 +53,7 @@ struct SongDetailsView: View {
     private var tabContent: some View {
         switch selectedTab {
         case .lyrics:
-            SongLyricsView(song: song)
+            SongLyricsView(song: song, currentTime: currentTime, onSeek: onSeek)
         case .wiki:
             SongWikiView(song: song)
         case .similar:
@@ -62,8 +64,9 @@ struct SongDetailsView: View {
 
 #Preview {
     VStack {
-        SongDetailsView(song: .preview)
+        SongDetailsView(song: .preview, currentTime: 68, onSeek: { _ in })
             .frame(width: 430, height: 650)
     }
+    .environmentObject(LyricsStore.preview())
     .background(Color(hex: 0xACA614))
 }
