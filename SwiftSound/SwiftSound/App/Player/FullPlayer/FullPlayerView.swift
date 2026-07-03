@@ -12,6 +12,7 @@ struct FullPlayerView: View {
     let callback: PlayerControlsCallback
     let onCollapse: () -> Void
 
+    @EnvironmentObject private var lyricsStore: LyricsStore
     @State private var themeColor: Color?
 
     private var theme: FullPlayerTheme {
@@ -37,6 +38,7 @@ struct FullPlayerView: View {
         .background(theme.background)
         .ignoresSafeArea(edges: .top)   // important
         .task(id: model.song.id) {
+            lyricsStore.loadLyricsIfNeeded(for: model.song.id)
             await updateThemeColor()
         }
     }
@@ -62,7 +64,11 @@ struct FullPlayerView: View {
             TurntableRecordView(song: model.song, playbackState: model.playbackState)
                 .offset(y: Layout.recordOffsetY)
 
-            SongDetailsView(song: model.song)
+            SongDetailsView(
+                song: model.song,
+                currentTime: model.currentTime,
+                onSeek: callback.onSeekAndPlay
+            )
                 .frame(width: Layout.songInfoWidth)
                 .frame(maxHeight: .infinity, alignment: .topLeading)
         }
@@ -100,5 +106,6 @@ private extension FullPlayerView {
         callback: .preview,
         onCollapse: {}
     )
+    .environmentObject(LyricsStore.preview())
     .frame(width: 1280, height: 800)
 }

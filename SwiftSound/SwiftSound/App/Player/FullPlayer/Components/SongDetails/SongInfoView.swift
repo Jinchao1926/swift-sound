@@ -1,5 +1,5 @@
 //
-//  PlayerMetadataView.swift
+//  SongInfoView.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/7/1.
@@ -7,20 +7,20 @@
 
 import SwiftUI
 
-struct SongMetadataView: View {
+struct SongInfoView: View {
     let song: Song
 
     var body: some View {
         HStack(spacing: 20) {
-            FullPlayerMetadataItem(title: "专辑", value: song.album.name)
-            FullPlayerMetadataItem(title: "歌手", value: song.artistName ?? "未知歌手")
-            FullPlayerMetadataItem(title: "来源", value: song.artistName ?? "未知来源")
+            SongInfoItem(title: "专辑", value: song.album.name)
+            SongInfoItem(title: "歌手", value: song.artistName ?? "未知歌手")
+            SongInfoItem(title: "来源", value: song.artistName ?? "未知来源")
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
-private struct FullPlayerMetadataItem: View {
+private struct SongInfoItem: View {
     let title: String
     let value: String
 
@@ -35,7 +35,7 @@ private struct FullPlayerMetadataItem: View {
 
 #Preview {
     VStack {
-        SongMetadataView(song: .preview)
+        SongInfoView(song: .preview)
     }
     .frame(width: 400, height: 100)
     .background(Color(hex: 0xACA614))

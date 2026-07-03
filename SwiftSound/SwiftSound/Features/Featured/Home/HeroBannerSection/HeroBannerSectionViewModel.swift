@@ -9,21 +9,7 @@ import Foundation
 import Combine
 
 final class HeroBannerSectionViewModel: ObservableObject {
-    enum State {
-        case idle
-        case loading
-        case loaded([Banner])
-        case failed(Error)
-
-        var banners: [Banner] {
-            if case let .loaded(banners) = self {
-                return banners
-            }
-            return []
-        }
-    }
-
-    @Published private(set) var state: State = .idle
+    @Published private(set) var state: Loadable<[Banner]> = .idle
 
     private let repository: BannersRepository
 
@@ -32,7 +18,7 @@ final class HeroBannerSectionViewModel: ObservableObject {
     }
 
     func load() async {
-        if case .loading = state { return }
+        if state.isLoading { return }
         state = .loading
 
         do {
@@ -41,5 +27,11 @@ final class HeroBannerSectionViewModel: ObservableObject {
         } catch {
             state = .failed(error)
         }
+    }
+}
+
+extension Loadable where Value == [Banner] {
+    var banners: [Banner] {
+        value ?? []
     }
 }

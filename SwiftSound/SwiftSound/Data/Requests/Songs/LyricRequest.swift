@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SongLyricApiResponse: nonisolated Decodable {
+struct LyricResponse: nonisolated Decodable {
     let lrc: Lyric
     let klyric: Lyric
     let tlyric: Lyric
@@ -16,7 +16,7 @@ struct SongLyricApiResponse: nonisolated Decodable {
 }
 
 struct LyricRequest: APIRequest {
-    typealias Response = SongLyricApiResponse
+    typealias Response = LyricResponse
 
     let path = "/lyric"
     let queryItems: [URLQueryItem]

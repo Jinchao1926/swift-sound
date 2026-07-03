@@ -9,21 +9,7 @@ import Foundation
 import Combine
 
 final class OfficialPlaylistSectionViewModel: ObservableObject {
-    enum State {
-        case idle
-        case loading
-        case loaded([Playlist])
-        case failed(Error)
-
-        var playlists: [Playlist] {
-            if case let .loaded(playlists) = self {
-                return playlists
-            }
-            return []
-        }
-    }
-
-    @Published private(set) var state: State = .idle
+    @Published private(set) var state: Loadable<[Playlist]> = .idle
 
     private let repository: PlaylistsRepository
 
@@ -32,7 +18,7 @@ final class OfficialPlaylistSectionViewModel: ObservableObject {
     }
 
     func load() async {
-        if case .loading = state { return }
+        if state.isLoading { return }
         state = .loading
 
         do {
@@ -70,5 +56,11 @@ final class OfficialPlaylistSectionViewModel: ObservableObject {
 
             return copied
         }
+    }
+}
+
+extension Loadable where Value == [Playlist] {
+    var playlists: [Playlist] {
+        value ?? []
     }
 }
