@@ -18,5 +18,13 @@ extension Lyric {
 """
     )
 }
+
+extension LyricLine {
+    static let preview = LyricLine(
+        time: 2490,
+        text: "拦路雨偏似雪花 饮泣的你冻吗"
+    )
+}
+
 #endif
 // swiftlint:enable line_length

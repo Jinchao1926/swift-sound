@@ -79,7 +79,7 @@ private extension PlayerProgressTrack {
     var progressText: String {
         let currentSeconds = Int(displayedTime.rounded())
 
-        return "\(currentSeconds.duration) / \(Int(duration.rounded()).duration)"
+        return "\(currentSeconds.minuteSecondText) / \(Int(duration.rounded()).minuteSecondText)"
     }
 }
 

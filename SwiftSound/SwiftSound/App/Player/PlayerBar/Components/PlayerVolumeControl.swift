@@ -17,6 +17,7 @@ struct PlayerVolumeControl: View {
     @State private var isPanelPresented = false
     @State private var isHoveringButton = false
     @State private var isHoveringPanel = false
+    @State private var closeTask: Task<Void, Never>?
 
     var body: some View {
         PlayerIconButton(systemName: iconName, action: onToggleMute)
@@ -24,17 +25,26 @@ struct PlayerVolumeControl: View {
             .onHover { updateButtonHover($0) }
             .overlay(alignment: .bottom) {
                 if isPanelPresented {
-                    VolumePanel(
-                        volume: volume,
-                        isMuted: isMuted,
-                        onSetVolume: onSetVolume
-                    )
-                    .offset(y: -Layout.panelBottomOffset)
+                    VStack(spacing: 0) {
+                        VolumePanel(
+                            volume: volume,
+                            isMuted: isMuted,
+                            onSetVolume: onSetVolume
+                        )
+
+                        Color.clear
+                            .frame(width: Layout.panelWidth, height: Layout.hoverBridgeHeight)
+                    }
+                    .contentShape(Rectangle())
+                    .offset(y: Layout.hoverBridgeHeight - Layout.panelBottomOffset)
                     .onHover { updatePanelHover($0) }
                     .zIndex(Layout.panelZIndex)
                 }
             }
             .animation(.easeOut(duration: 0.12), value: isPanelPresented)
+            .onDisappear {
+                closeTask?.cancel()
+            }
     }
 
     private var iconName: String {
@@ -53,7 +63,7 @@ struct PlayerVolumeControl: View {
     private func updateButtonHover(_ isHovering: Bool) {
         isHoveringButton = isHovering
         if isHovering {
-            isPanelPresented = true
+            presentPanel()
         } else {
             schedulePanelClose()
         }
@@ -62,15 +72,27 @@ struct PlayerVolumeControl: View {
     private func updatePanelHover(_ isHovering: Bool) {
         isHoveringPanel = isHovering
         if isHovering {
-            isPanelPresented = true
+            presentPanel()
         } else {
             schedulePanelClose()
         }
     }
 
+    private func presentPanel() {
+        closeTask?.cancel()
+        closeTask = nil
+        isPanelPresented = true
+    }
+
     private func schedulePanelClose() {
-        Task { @MainActor in
-            try? await Task.sleep(for: .milliseconds(120))
+        closeTask?.cancel()
+        closeTask = Task { @MainActor in
+            do {
+                try await Task.sleep(for: .milliseconds(120))
+            } catch {
+                return
+            }
+
             if !isHoveringButton && !isHoveringPanel {
                 isPanelPresented = false
             }
@@ -79,6 +101,8 @@ struct PlayerVolumeControl: View {
 
     private enum Layout {
         static let panelBottomOffset: CGFloat = 36
+        static let panelWidth: CGFloat = 40
+        static let hoverBridgeHeight: CGFloat = 28
         static let panelZIndex: Double = 10
     }
 }
