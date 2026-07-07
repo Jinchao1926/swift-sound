@@ -31,7 +31,11 @@ struct VolumePanel: View {
         }
         .frame(width: VolumePanelLayout.panelWidth, height: VolumePanelLayout.panelHeight)
         .padding(.top, VolumePanelLayout.shadowTopPadding)
-        .frame(width: VolumePanelLayout.contentSize.width, height: VolumePanelLayout.contentSize.height, alignment: .top)
+        .frame(
+            width: VolumePanelLayout.contentSize.width,
+            height: VolumePanelLayout.contentSize.height,
+            alignment: .top
+        )
     }
 
     // MARK: Private
