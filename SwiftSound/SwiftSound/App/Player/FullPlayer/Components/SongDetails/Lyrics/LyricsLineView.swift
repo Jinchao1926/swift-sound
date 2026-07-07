@@ -14,6 +14,8 @@ struct LyricsLineView: View {
     let showsSeekControl: Bool
     let onSeek: (TimeInterval) -> Void
 
+    @State private var isSeekControlHovering = false
+
     var body: some View {
         HStack(spacing: Layout.contentSpacing) {
             Text(line.text.isEmpty ? " " : line.text)
@@ -23,37 +25,39 @@ struct LyricsLineView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             if showsSeekControl {
-                seekButton
+                seekControl
             }
         }
         .frame(height: Layout.rowHeight)
     }
 
-    private var seekButton: some View {
+    private var seekControl: some View {
         Button {
             onSeek(line.time / 1000)
         } label: {
-            HStack(spacing: 6) {
+            HStack(spacing: Layout.seekControlContentSpacing) {
                 Image(systemName: "play.fill")
-                    .font(.system(size: 8, weight: .semibold))
+                    .font(.system(size: Layout.seekControlIconSize, weight: .semibold))
 
-                Text(formattedTime(line.time))
+                Text(line.time.millisecondsMinuteSecondText)
                     .font(.font13)
                     .monospacedDigit()
             }
-            .foregroundStyle(Color.white)
-            .padding(.horizontal, 10)
-            .frame(height: Layout.seekButtonHeight)
-            .background {
-                Capsule()
-                    .fill(Color.white.opacity(0.14))
-            }
+            .foregroundStyle(seekControlTintColor)
+            .padding(.horizontal, Layout.seekControlHorizontalPadding)
+            .frame(height: Layout.seekControlHeight)
             .overlay {
                 Capsule()
-                    .stroke(Color.white.opacity(0.36), lineWidth: 1)
+                    .stroke(seekControlTintColor, lineWidth: 1)
             }
         }
+        .onHover { isSeekControlHovering = $0 }
         .buttonStyle(.plain)
+        .pointerStyle(.link)
+    }
+
+    private var seekControlTintColor: Color {
+        isSeekControlHovering ? .white : Color.white.opacity(0.36)
     }
 
     private var foregroundColor: Color {
@@ -84,12 +88,6 @@ struct LyricsLineView: View {
         }
     }
 
-    private func formattedTime(_ milliseconds: TimeInterval) -> String {
-        let totalSeconds = max(0, Int(milliseconds / 1000))
-        let minutes = totalSeconds / 60
-        let seconds = totalSeconds % 60
-        return String(format: "%02d:%02d", minutes, seconds)
-    }
 }
 
 extension LyricsLineView {
@@ -98,6 +96,27 @@ extension LyricsLineView {
         static let activeLineFontSize: CGFloat = 22
         static let lineFontSize: CGFloat = 20
         static let rowHeight: CGFloat = 30
-        static let seekButtonHeight: CGFloat = 26
+        static let seekControlHeight: CGFloat = 26
+        static let seekControlContentSpacing: CGFloat = 6
+        static let seekControlHorizontalPadding: CGFloat = 10
+        static let seekControlIconSize: CGFloat = 8
     }
+}
+
+#Preview {
+    VStack {
+        LyricsLineView(
+            line: .preview,
+            distance: 0,
+            showsSeekControl: true
+        ) { _ in }
+
+        LyricsLineView(
+            line: .preview,
+            distance: 1,
+            showsSeekControl: false
+        ) { _ in }
+    }
+    .frame(width: 400, height: 100)
+    .background(Color(hex: 0x151515))
 }
