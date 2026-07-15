@@ -12,17 +12,20 @@ struct PlayerBarView: View {
     let callback: PlayerControlsCallback
     let style: PlayerBarStyle
     let onActivate: (() -> Void)?
+    let onToggleQueue: (() -> Void)?
 
     init(
         model: PlayerPresentationModel,
         callback: PlayerControlsCallback,
         style: PlayerBarStyle = .compact,
-        onActivate: (() -> Void)? = nil
+        onActivate: (() -> Void)? = nil,
+        onToggleQueue: (() -> Void)? = nil
     ) {
         self.model = model
         self.callback = callback
         self.style = style
         self.onActivate = onActivate
+        self.onToggleQueue = onToggleQueue
     }
 
     var body: some View {
@@ -91,7 +94,7 @@ struct PlayerBarView: View {
             PlayerIconButton(systemName: "forward.end.fill", action: callback.onNext)
                 .help("下一首")
 
-            PlayerIconButton(systemName: "list.bullet")
+            PlayerIconButton(systemName: "list.bullet", action: onToggleQueue)
                 .help("播放列表")
         }
         .frame(maxHeight: .infinity)

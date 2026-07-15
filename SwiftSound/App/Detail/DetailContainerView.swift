@@ -15,9 +15,9 @@ struct DetailContainerView: View {
             TopToolbarView()
 
             NavigationStack(path: $router.path) {
-                routeView(router.rootRoute)
+                routeView(router.rootRoute) // 根页面（栈底）
                     .navigationDestination(for: AppRoute.self) { route in
-                        routeView(route)
+                        routeView(route)    // 捕获 path 路由生成子页面
                             .navigationBarBackButtonHidden(true)    // hide system navigation back button
                     }
             }

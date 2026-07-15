@@ -13,9 +13,10 @@ struct HomeView: View {
     @StateObject private var playerStore = PlayerStore()
     @StateObject private var lyricsStore = LyricsStore()
     @State private var isPlayerPresented = false
+    @State private var isQueuePresented = false
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .topTrailing) {
             VStack(spacing: 0) {
                 HStack(spacing: 0) {
                     SidebarView()
@@ -33,9 +34,29 @@ struct HomeView: View {
                             withAnimation(.easeInOut(duration: 0.22)) {
                                 isPlayerPresented = true
                             }
-                        }
+                        },
+                        onToggleQueue: toggleQueue
                     )
                 }
+            }
+
+            if isQueuePresented {
+                PlaybackQueueOverlayView(
+                    songs: playerStore.state.queue.songs,
+                    currentIndex: playerStore.state.queue.currentIndex,
+                    onDismiss: hideQueue,
+                    onPlay: {
+                        playerStore.send(.playQueue(startIndex: $0))
+                    },
+                    onRemove: {
+                        playerStore.send(.removeFromQueue(songId: $0))
+                    },
+                    onClear: {
+                        playerStore.send(.clearQueue)
+                    }
+                )
+                .transition(.move(edge: .trailing).combined(with: .opacity))
+                .zIndex(2)
             }
 
             if isPlayerPresented, let playerModel = PlayerPresentationModel(state: playerStore.state) {
@@ -46,7 +67,8 @@ struct HomeView: View {
                         withAnimation(.easeInOut(duration: 0.22)) {
                             isPlayerPresented = false
                         }
-                    }
+                    },
+                    onToggleQueue: toggleQueue
                 )
                 .transition(.move(edge: .bottom))
                 .zIndex(1)
@@ -59,6 +81,18 @@ struct HomeView: View {
         .environmentObject(router)
         .environmentObject(playerStore)
         .environmentObject(lyricsStore)
+    }
+
+    private func toggleQueue() {
+        withAnimation(.easeInOut(duration: 0.22)) {
+            isQueuePresented.toggle()
+        }
+    }
+
+    private func hideQueue() {
+        withAnimation(.easeInOut(duration: 0.22)) {
+            isQueuePresented = false
+        }
     }
 
     private var playerCallback: PlayerControlsCallback {
