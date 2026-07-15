@@ -28,8 +28,13 @@ enum SongBadges {
         SongBadge("SQ", tint: Color(hex: 0xD3A03B))
     }
 
-    static func quality(isHiRes: Bool) -> SongBadge {
-        isHiRes ? hiRes : sq
+    static func quality(_ kind: SongQualityBadgeKind) -> SongBadge {
+        switch kind {
+        case .hiRes:
+            return hiRes
+        case .sq:
+            return sq
+        }
     }
 
     static var hq: SongBadge {

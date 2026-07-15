@@ -72,7 +72,9 @@ private extension NewSongCover {
 
     var metadata: some View {
         HStack(spacing: Layout.metadataSpacing) {
-            SongBadges.quality(isHiRes: song.song.isHiRes)
+            if let qualityBadgeKind = song.song.qualityBadgeKind {
+                SongBadges.quality(qualityBadgeKind)
+            }
 
             if song.hasMV {
                 SongBadges.mv

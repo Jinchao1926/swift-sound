@@ -20,7 +20,7 @@ struct SongPlaybackURLResponseTests {
         #expect(response.data.count == 1)
 
         #expect(playback.id == 64517)
-        #expect(!playback.url.isEmpty)
+        #expect(playback.url != nil)
         #expect(playback.type == "mp3")
         #expect(playback.level == .standard)
         #expect(playback.time == 298973)

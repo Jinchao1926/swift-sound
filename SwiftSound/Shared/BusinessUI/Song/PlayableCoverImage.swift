@@ -57,29 +57,31 @@ struct PlayableCoverImage: View {
     }
 
     var body: some View {
-        ZStack {
-            RemoteImage(url: url)
+        Button(action: onControlTap) {
+            ZStack {
+                RemoteImage(url: url)
 
-            if isHovering {
-                Color.black.opacity(overlayOpacity)
-                playButton
+                if isHovering {
+                    Color.black.opacity(overlayOpacity)
+                    playIcon
+                }
             }
+            .frame(width: imageSize, height: imageSize)
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+            .contentShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
         }
-        .frame(width: imageSize, height: imageSize)
-        .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
-        .contentShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+        .buttonStyle(.plain)
         .onHover { isHovering = $0 }
-        .animation(animatesHoverEffects ? .easeInOut(duration: 0.16) : nil, value: isHovering)
+        .pointerStyle(.link)
     }
 
     @ViewBuilder
-    private var playButton: some View {
-        let view = PlayableCoverPlayButton(
+    private var playIcon: some View {
+        let view = PlayableCoverControlIcon(
             systemName: controlIcon.systemName,
             font: playButtonFont,
             size: playButtonSize,
-            animatesHoverEffects: animatesHoverEffects,
-            onTap: onControlTap
+            isScaled: animatesHoverEffects && isHovering
         )
 
         if animatesHoverEffects {
@@ -90,30 +92,19 @@ struct PlayableCoverImage: View {
     }
 }
 
-private struct PlayableCoverPlayButton: View {
+private struct PlayableCoverControlIcon: View {
     let systemName: String
     let font: Font
     let size: CGFloat
-    let animatesHoverEffects: Bool
-    let onTap: () -> Void
-
-    @State private var isHovering = false
+    let isScaled: Bool
 
     var body: some View {
-        Button(action: onTap) {
-            Image(systemName: systemName)
-                .font(font)
-                .foregroundStyle(.white)
-                .frame(width: size, height: size)
-                .scaleEffect(animatesHoverEffects && isHovering ? 1.16 : 1)
-                .animation(
-                    animatesHoverEffects ? .spring(response: 0.22, dampingFraction: 0.72) : nil,
-                    value: isHovering
-                )
-        }
-        .buttonStyle(.plain)
-        .onHover { isHovering = $0 }
-        .pointerStyle(.link)
+        Image(systemName: systemName)
+            .font(font)
+            .foregroundStyle(.white)
+            .frame(width: size, height: size)
+            .scaleEffect(isScaled ? 1.16 : 1)
+            .animation(.spring(response: 0.22, dampingFraction: 0.72), value: isScaled)
     }
 }
 
