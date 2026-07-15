@@ -264,7 +264,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -x /opt/homebrew/bin/swiftlint ]; then\n  SWIFTLINT=/opt/homebrew/bin/swiftlint\nelif [ -x /usr/local/bin/swiftlint ]; then\n  SWIFTLINT=/usr/local/bin/swiftlint\nelif command -v swiftlint >/dev/null; then\n  SWIFTLINT=$(command -v swiftlint)\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n  touch \"${DERIVED_FILE_DIR}/SwiftLint.result\"\n  exit 0\nfi\n\ncd \"${SRCROOT}/..\"\n\"${SWIFTLINT}\" lint --no-cache --config \"${SRCROOT}/../.swiftlint.yml\"\ntouch \"${DERIVED_FILE_DIR}/SwiftLint.result\"\n";
+			shellScript = "if [ -x /opt/homebrew/bin/swiftlint ]; then\n  SWIFTLINT=/opt/homebrew/bin/swiftlint\nelif [ -x /usr/local/bin/swiftlint ]; then\n  SWIFTLINT=/usr/local/bin/swiftlint\nelif command -v swiftlint >/dev/null; then\n  SWIFTLINT=$(command -v swiftlint)\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n  touch \"${DERIVED_FILE_DIR}/SwiftLint.result\"\n  exit 0\nfi\n\ncd \"${SRCROOT}/..\"\n\"${SWIFTLINT}\" lint --no-cache --config \"${SRCROOT}/.swiftlint.yml\"\ntouch \"${DERIVED_FILE_DIR}/SwiftLint.result\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

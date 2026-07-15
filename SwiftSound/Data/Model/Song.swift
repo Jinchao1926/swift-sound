@@ -45,6 +45,27 @@ struct SongPrivilege: Codable {
     let chargeInfoList: [ChargeInfo]
 }
 
+struct SongAudioFile: Codable {
+    let bitrate: Int
+    let fileId: Int
+    let size: Int?
+    let volumeDelta: Int?
+    let sampleRate: Int?
+
+    private enum CodingKeys: String, CodingKey {
+        case bitrate = "br"
+        case fileId = "fid"
+        case size
+        case volumeDelta = "vd"
+        case sampleRate = "sr"
+    }
+}
+
+enum SongQualityBadgeKind {
+    case hiRes
+    case sq
+}
+
 struct Song: Codable, Identifiable {
     let id: Int
     let name: String
@@ -62,6 +83,11 @@ struct Song: Codable, Identifiable {
     let fee: FeeType?
     // 用于表示各种曲目属性（VIP、独家、高品质等）的位标志
     let mark: Int?
+    let highQualityAudio: SongAudioFile?
+    let mediumQualityAudio: SongAudioFile?
+    let lowQualityAudio: SongAudioFile?
+    let sqAudio: SongAudioFile?
+    let hiResAudio: SongAudioFile?
     // 原唱/翻唱
     let originCoverType: OriginCoverType
     let privilege: SongPrivilege?
@@ -77,6 +103,11 @@ struct Song: Codable, Identifiable {
         mvId: Int,
         fee: FeeType?,
         mark: Int?,
+        highQualityAudio: SongAudioFile? = nil,
+        mediumQualityAudio: SongAudioFile? = nil,
+        lowQualityAudio: SongAudioFile? = nil,
+        sqAudio: SongAudioFile? = nil,
+        hiResAudio: SongAudioFile? = nil,
         originCoverType: OriginCoverType,
         privilege: SongPrivilege?
     ) {
@@ -90,6 +121,11 @@ struct Song: Codable, Identifiable {
         self.mvId = mvId
         self.fee = fee
         self.mark = mark
+        self.highQualityAudio = highQualityAudio
+        self.mediumQualityAudio = mediumQualityAudio
+        self.lowQualityAudio = lowQualityAudio
+        self.sqAudio = sqAudio
+        self.hiResAudio = hiResAudio
         self.originCoverType = originCoverType
         self.privilege = privilege
     }
@@ -112,6 +148,11 @@ struct Song: Codable, Identifiable {
         case mvid
         case fee
         case mark
+        case highQualityAudio = "h"
+        case mediumQualityAudio = "m"
+        case lowQualityAudio = "l"
+        case sqAudio = "sq"
+        case hiResAudio = "hr"
         case originCoverType
         case privilege
     }
@@ -138,6 +179,11 @@ struct Song: Codable, Identifiable {
             ?? 0
         fee = try container.decodeIfPresent(FeeType.self, forKey: .fee)
         mark = try container.decodeIfPresent(Int.self, forKey: .mark)
+        highQualityAudio = try container.decodeIfPresent(SongAudioFile.self, forKey: .highQualityAudio)
+        mediumQualityAudio = try container.decodeIfPresent(SongAudioFile.self, forKey: .mediumQualityAudio)
+        lowQualityAudio = try container.decodeIfPresent(SongAudioFile.self, forKey: .lowQualityAudio)
+        sqAudio = try container.decodeIfPresent(SongAudioFile.self, forKey: .sqAudio)
+        hiResAudio = try container.decodeIfPresent(SongAudioFile.self, forKey: .hiResAudio)
         originCoverType = try container.decodeIfPresent(OriginCoverType.self, forKey: .originCoverType) ?? .none
         privilege = try container.decodeIfPresent(SongPrivilege.self, forKey: .privilege)
     }
@@ -155,6 +201,11 @@ struct Song: Codable, Identifiable {
         try container.encode(mvId, forKey: .mvId)
         try container.encodeIfPresent(fee, forKey: .fee)
         try container.encodeIfPresent(mark, forKey: .mark)
+        try container.encodeIfPresent(highQualityAudio, forKey: .highQualityAudio)
+        try container.encodeIfPresent(mediumQualityAudio, forKey: .mediumQualityAudio)
+        try container.encodeIfPresent(lowQualityAudio, forKey: .lowQualityAudio)
+        try container.encodeIfPresent(sqAudio, forKey: .sqAudio)
+        try container.encodeIfPresent(hiResAudio, forKey: .hiResAudio)
         try container.encode(originCoverType, forKey: .originCoverType)
         try container.encodeIfPresent(privilege, forKey: .privilege)
     }
@@ -179,7 +230,17 @@ extension Song {
 
     // 原唱
     var hasOriginalBadge: Bool { originCoverType == .originalTrack }
-    var isHiRes: Bool {
-        privilege?.chargeInfoList.contains { $0.rate == 1_999_000 } == true
+
+    // 清晰度
+    var qualityBadgeKind: SongQualityBadgeKind? {
+        if hiResAudio != nil {
+            return .hiRes
+        }
+
+        if sqAudio != nil {
+            return .sq
+        }
+
+        return nil
     }
 }
