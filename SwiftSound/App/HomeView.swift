@@ -44,9 +44,13 @@ struct HomeView: View {
                 PlaybackQueueOverlayView(
                     songs: playerStore.state.queue.songs,
                     currentIndex: playerStore.state.queue.currentIndex,
+                    playbackState: playerStore.state.playbackState,
                     onDismiss: hideQueue,
                     onPlay: {
                         playerStore.send(.playQueue(startIndex: $0))
+                    },
+                    onTogglePlayPause: {
+                        playerStore.send(.togglePlayPause)
                     },
                     onRemove: {
                         playerStore.send(.removeFromQueue(songId: $0))

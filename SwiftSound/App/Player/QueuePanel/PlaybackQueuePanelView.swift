@@ -2,64 +2,17 @@
 //  PlaybackQueuePanelView.swift
 //  SwiftSound
 //
-//  Created by Codex on 2026/7/10.
+//  Created by Jinchao Lin on 2026/7/10.
 //
 
 import SwiftUI
 
-struct PlaybackQueueOverlayView: View {
-    let songs: [Song]
-    let currentIndex: Int?
-    let onDismiss: () -> Void
-    let onPlay: (Int) -> Void
-    let onRemove: (Song.ID) -> Void
-    let onClear: () -> Void
-
-    var body: some View {
-        ZStack(alignment: .topTrailing) {
-            Color.clear
-                .contentShape(Rectangle())
-                .ignoresSafeArea()
-                .onTapGesture(perform: onDismiss)
-
-            PlaybackQueuePanelView(
-                songs: songs,
-                currentIndex: currentIndex,
-                onPlay: onPlay,
-                onRemove: onRemove,
-                onClear: onClear
-            )
-            .contentShape(Rectangle())
-            .onTapGesture {}
-            .padding(.top, Layout.queuePanelTopInset)
-            .padding(.trailing, Layout.queuePanelTrailingInset)
-            .padding(.bottom, Layout.queuePanelBottomInset)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-    }
-    
-    @ViewBuilder
-    var body1: some View {
-        if currentIndex == 1 {
-            Text("A") // 类型擦除
-        } else {
-            Image("B")
-        }
-    }
-    
-    var body2: any View {
-        if currentIndex == 1 {
-            Text("A") // 类型擦除
-        } else {
-            Image("B")
-        }
-    }
-}
-
 struct PlaybackQueuePanelView: View {
     let songs: [Song]
     let currentIndex: Int?
+    let playbackState: PlaybackState
     let onPlay: (Int) -> Void
+    let onTogglePlayPause: () -> Void
     let onRemove: (Song.ID) -> Void
     let onClear: () -> Void
 
@@ -74,16 +27,26 @@ struct PlaybackQueuePanelView: View {
             }
         }
         .frame(width: Layout.width)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous))
-        .shadow(color: Color.black.opacity(0.16), radius: 18, x: 0, y: 8)
+        .background(Color(hex: 0xFAFAFA))
+        .clipShape(
+            UnevenRoundedRectangle(
+                cornerRadii: .init(
+                    topLeading: Layout.cornerRadius,
+                    bottomLeading: Layout.cornerRadius,
+                    bottomTrailing: 0,
+                    topTrailing: 0
+                ),
+                style: .continuous
+            )
+        )
+        .shadow(color: Color.black.opacity(0.36), radius: 18, x: 0, y: 2)
     }
 
     private var header: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 0) {
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
+        HStack(spacing: 0) {
+            HStack(alignment: .top, spacing: 2) {
                 Text("播放列表")
-                    .font(.font24)
+                    .font(.font20)
                     .fontWeight(.semibold)
                     .foregroundStyle(Color.textPrimary)
 
@@ -108,20 +71,22 @@ struct PlaybackQueuePanelView: View {
             .buttonStyle(QueuePanelHeaderButtonStyle())
             .disabled(songs.isEmpty)
         }
-        .padding(.top, Layout.headerTopInset)
-        .padding(.horizontal, Layout.horizontalInset)
-        .padding(.bottom, Layout.headerBottomInset)
+        .padding(.horizontal, Layout.headerHorizontalInset)
+        .frame(height: Layout.headerHeight)
     }
 
     private var songList: some View {
         ScrollView(.vertical, showsIndicators: true) {
             LazyVStack(spacing: 0) {
                 ForEach(Array(songs.enumerated()), id: \.element.id) { index, song in
+                    let isCurrent = index == currentIndex
+
                     PlaybackQueueRowView(
                         song: song,
-                        isCurrent: index == currentIndex,
-                        onPlay: {
-                            onPlay(index)
+                        isCurrent: isCurrent,
+                        controlIcon: controlIcon(isCurrent: isCurrent),
+                        onControlTap: {
+                            handleControlTap(index: index, isCurrent: isCurrent)
                         },
                         onRemove: {
                             onRemove(song.id)
@@ -129,7 +94,7 @@ struct PlaybackQueuePanelView: View {
                     )
                 }
             }
-            .padding(.bottom, Layout.listBottomInset)
+            .padding(.trailing, Layout.listTrailingInset)
         }
     }
 
@@ -147,120 +112,24 @@ struct PlaybackQueuePanelView: View {
     }
 }
 
-private struct PlaybackQueueRowView: View {
-    let song: Song
-    let isCurrent: Bool
-    let onPlay: () -> Void
-    let onRemove: () -> Void
-
-    @State private var isHovering = false
-
-    var body: some View {
-        Button(action: onPlay) {
-            HStack(spacing: Layout.contentSpacing) {
-                artwork
-
-                VStack(alignment: .leading, spacing: 5) {
-                    titleLine
-                    metadataLine
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .clipped()
-
-                Text(durationText)
-                    .font(.font16)
-                    .foregroundStyle(Color.textSecondary.opacity(0.75))
-                    .frame(width: Layout.durationWidth, alignment: .trailing)
-            }
-            .padding(.horizontal, Layout.horizontalInset)
-            .frame(height: Layout.height)
-            .background(rowBackground)
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .pointerStyle(.link)
-        .overlay(alignment: .trailing) {
-            if isHovering {
-                Button(action: onRemove) {
-                    Image(systemName: "xmark")
-                        .font(.font12)
-                        .foregroundStyle(Color.textSecondary)
-                        .frame(width: Layout.removeButtonSize, height: Layout.removeButtonSize)
-                        .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-                .pointerStyle(.link)
-                .padding(.trailing, Layout.removeButtonTrailingInset)
-            }
-        }
-        .onHover { isHovering = $0 }
+private extension PlaybackQueuePanelView {
+    func controlIcon(isCurrent: Bool) -> PlayableCoverImage.ControlIcon {
+        isCurrent && playbackState.isPlaybackActive ? .pause : .play
     }
 
-    private var artwork: some View {
-        ZStack {
-            RemoteImage(url: URL(string: song.album.picUrl))
-                .frame(width: Layout.artworkSize, height: Layout.artworkSize)
-                .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
-
-            if isCurrent {
-                RoundedRectangle(cornerRadius: 4, style: .continuous)
-                    .fill(Color.black.opacity(0.22))
-
-                Image(systemName: "play.fill")
-                    .font(.font16)
-                    .foregroundStyle(Color.white)
-            }
+    func handleControlTap(index: Int, isCurrent: Bool) {
+        if isCurrent {
+            onTogglePlayPause()
+        } else {
+            onPlay(index)
         }
-        .frame(width: Layout.artworkSize, height: Layout.artworkSize)
-    }
-
-    private var titleLine: some View {
-        Text(song.name)
-            .font(.font18)
-            .foregroundStyle(isCurrent ? Color.accentPrimary : Color.textPrimary)
-            .lineLimit(1)
-            .truncationMode(.tail)
-    }
-
-    private var metadataLine: some View {
-        HStack(spacing: 4) {
-            if song.requiresVIP {
-                SongBadges.vip
-            }
-
-            if song.hasMV {
-                SongBadges.mv
-            }
-
-            if song.isHiRes {
-                SongBadges.hiRes
-            }
-
-            Text(song.artistName ?? "未知歌手")
-                .font(.font14)
-                .foregroundStyle(isCurrent ? Color.accentPrimary : Color.textSecondary)
-                .lineLimit(1)
-                .truncationMode(.tail)
-        }
-    }
-
-    private var rowBackground: Color {
-        if isHovering {
-            return Color.surfacePrimary
-        }
-
-        return Color.clear
-    }
-
-    private var durationText: String {
-        Int(song.durationTimeInterval.rounded()).minuteSecondText
     }
 }
 
 private struct QueuePanelHeaderButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.font14)
+            .font(.font13)
             .foregroundStyle(Color.textSecondary)
             .opacity(configuration.isPressed ? 0.65 : 1)
             .padding(.leading, 18)
@@ -268,45 +137,27 @@ private struct QueuePanelHeaderButtonStyle: ButtonStyle {
     }
 }
 
-private extension PlaybackQueueOverlayView {
-    enum Layout {
-        static let queuePanelTopInset: CGFloat = 88
-        static let queuePanelTrailingInset: CGFloat = 24
-        static let queuePanelBottomInset: CGFloat = 104
-    }
-}
-
 private extension PlaybackQueuePanelView {
     enum Layout {
-        static let width: CGFloat = 470
-        static let cornerRadius: CGFloat = 8
-        static let horizontalInset: CGFloat = 24
-        static let headerTopInset: CGFloat = 28
-        static let headerBottomInset: CGFloat = 22
-        static let listBottomInset: CGFloat = 18
-    }
-}
+        static let width: CGFloat = 386
+        static let cornerRadius: CGFloat = 10
 
-private extension PlaybackQueueRowView {
-    enum Layout {
-        static let height: CGFloat = 78
-        static let horizontalInset: CGFloat = 24
-        static let contentSpacing: CGFloat = 13
-        static let artworkSize: CGFloat = 50
-        static let durationWidth: CGFloat = 48
-        static let removeButtonSize: CGFloat = 24
-        static let removeButtonTrailingInset: CGFloat = 8
+        static let headerHeight: CGFloat = 60
+        static let headerHorizontalInset: CGFloat = 20
+        static let listTrailingInset: CGFloat = 10
     }
 }
 
 #Preview {
-    PlaybackQueueOverlayView(
-        songs: [.preview, .preview],
+    PlaybackQueuePanelView(
+        songs: [.preview, .preview1, .preview2],
         currentIndex: 0,
-        onDismiss: {},
+        playbackState: .playing,
         onPlay: { _ in },
+        onTogglePlayPause: {},
         onRemove: { _ in },
         onClear: {}
     )
+    .padding()
     .background(Color.surfaceSecondary)
 }

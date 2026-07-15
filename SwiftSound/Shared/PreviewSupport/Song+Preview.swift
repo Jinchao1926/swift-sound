@@ -57,7 +57,7 @@ extension Song {
         originCoverType: .originalTrack,
         privilege: .preview
     )
-    
+
     static let preview2 = Song(
         id: 64443,
         name: "约定(Live)",
