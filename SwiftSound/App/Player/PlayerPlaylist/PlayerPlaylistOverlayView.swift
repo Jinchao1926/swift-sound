@@ -1,5 +1,5 @@
 //
-//  PlaybackQueueOverlayView.swift
+//  PlayerPlaylistOverlayView.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/7/15.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PlaybackQueueOverlayView: View {
+struct PlayerPlaylistOverlayView: View {
     let songs: [Song]
     let currentIndex: Int?
     let playbackState: PlaybackState
@@ -16,6 +16,7 @@ struct PlaybackQueueOverlayView: View {
     let onTogglePlayPause: () -> Void
     let onRemove: (Song.ID) -> Void
     let onClear: () -> Void
+    let onDiscoverMusic: () -> Void
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -24,33 +25,39 @@ struct PlaybackQueueOverlayView: View {
                 .ignoresSafeArea()
                 .onTapGesture(perform: onDismiss)
 
-            PlaybackQueuePanelView(
+            PlayerPlaylistPanelView(
                 songs: songs,
                 currentIndex: currentIndex,
                 playbackState: playbackState,
                 onPlay: onPlay,
                 onTogglePlayPause: onTogglePlayPause,
                 onRemove: onRemove,
-                onClear: onClear
+                onClear: onClear,
+                onDiscoverMusic: onDiscoverMusic
             )
             .contentShape(Rectangle())
             .onTapGesture {}
-            .padding(.top, Layout.queuePanelTopInset)
-            .padding(.bottom, Layout.queuePanelBottomInset)
+            .padding(.top, Layout.panelTopInset)
+            .padding(.bottom, panelBottomInset)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
     }
+
+    private var panelBottomInset: CGFloat {
+        songs.isEmpty ? Layout.emptyPanelBottomInset : Layout.panelBottomInset
+    }
 }
 
-private extension PlaybackQueueOverlayView {
+private extension PlayerPlaylistOverlayView {
     enum Layout {
-        static let queuePanelTopInset: CGFloat = 53
-        static let queuePanelBottomInset: CGFloat = 100
+        static let panelTopInset: CGFloat = 53
+        static let panelBottomInset: CGFloat = 100
+        static let emptyPanelBottomInset: CGFloat = 20
     }
 }
 
 #Preview {
-    PlaybackQueueOverlayView(
+    PlayerPlaylistOverlayView(
         songs: [.preview, .preview1, .preview2],
         currentIndex: 0,
         playbackState: .playing,
@@ -58,7 +65,8 @@ private extension PlaybackQueueOverlayView {
         onPlay: { _ in },
         onTogglePlayPause: {},
         onRemove: { _ in },
-        onClear: {}
+        onClear: {},
+        onDiscoverMusic: {}
     )
     .background(Color.surfaceSecondary)
 }

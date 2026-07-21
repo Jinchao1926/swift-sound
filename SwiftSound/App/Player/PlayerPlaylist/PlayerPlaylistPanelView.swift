@@ -1,5 +1,5 @@
 //
-//  PlaybackQueuePanelView.swift
+//  PlayerPlaylistPanelView.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/7/10.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PlaybackQueuePanelView: View {
+struct PlayerPlaylistPanelView: View {
     let songs: [Song]
     let currentIndex: Int?
     let playbackState: PlaybackState
@@ -15,6 +15,9 @@ struct PlaybackQueuePanelView: View {
     let onTogglePlayPause: () -> Void
     let onRemove: (Song.ID) -> Void
     let onClear: () -> Void
+    let onDiscoverMusic: () -> Void
+
+    @State private var isClearConfirmationPresented = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -40,6 +43,10 @@ struct PlaybackQueuePanelView: View {
             )
         )
         .shadow(color: Color.black.opacity(0.36), radius: 18, x: 0, y: 2)
+        .alert("确定要清空播放列表吗？", isPresented: $isClearConfirmationPresented) {
+            Button("取消", role: .cancel) {}
+            Button("清空", role: .destructive, action: onClear)
+        }
     }
 
     private var header: some View {
@@ -61,14 +68,16 @@ struct PlaybackQueuePanelView: View {
                 Label("收藏全部", systemImage: "plus.square")
                     .labelStyle(.titleAndIcon)
             }
-            .buttonStyle(QueuePanelHeaderButtonStyle())
+            .buttonStyle(PlayerPlaylistHeaderButtonStyle())
             .disabled(songs.isEmpty)
 
-            Button(action: onClear) {
+            Button {
+                isClearConfirmationPresented = true
+            } label: {
                 Label("清空", systemImage: "trash")
                     .labelStyle(.titleAndIcon)
             }
-            .buttonStyle(QueuePanelHeaderButtonStyle())
+            .buttonStyle(PlayerPlaylistHeaderButtonStyle())
             .disabled(songs.isEmpty)
         }
         .padding(.horizontal, Layout.headerHorizontalInset)
@@ -81,7 +90,7 @@ struct PlaybackQueuePanelView: View {
                 ForEach(Array(songs.enumerated()), id: \.element.id) { index, song in
                     let isCurrent = index == currentIndex
 
-                    PlaybackQueueRowView(
+                    PlayerPlaylistRowView(
                         song: song,
                         isCurrent: isCurrent,
                         controlIcon: controlIcon(isCurrent: isCurrent),
@@ -99,20 +108,28 @@ struct PlaybackQueuePanelView: View {
     }
 
     private var emptyState: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: Layout.emptyViewInset) {
+
             Image(systemName: "music.note.list")
                 .font(.system(size: 34, weight: .regular))
                 .foregroundStyle(Color.textSecondary.opacity(0.45))
 
-            Text("暂无播放内容")
+            Text("播放列表空空如也")
                 .font(.font16)
-                .foregroundStyle(Color.textSecondary)
+                .foregroundStyle(Color.textSecondary.opacity(0.72))
+
+            RoundedButton(
+                "发现音乐",
+                width: Layout.discoverButtonWidth,
+                height: Layout.discoverButtonHeight,
+                action: onDiscoverMusic
+            )
         }
-        .frame(maxWidth: .infinity, minHeight: 260)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
-private extension PlaybackQueuePanelView {
+private extension PlayerPlaylistPanelView {
     func controlIcon(isCurrent: Bool) -> PlayableCoverImage.ControlIcon {
         isCurrent && playbackState.isPlaybackActive ? .pause : .play
     }
@@ -126,7 +143,7 @@ private extension PlaybackQueuePanelView {
     }
 }
 
-private struct QueuePanelHeaderButtonStyle: ButtonStyle {
+private struct PlayerPlaylistHeaderButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.font13)
@@ -134,10 +151,11 @@ private struct QueuePanelHeaderButtonStyle: ButtonStyle {
             .opacity(configuration.isPressed ? 0.65 : 1)
             .padding(.leading, 18)
             .contentShape(Rectangle())
+            .pointerStyle(.link)
     }
 }
 
-private extension PlaybackQueuePanelView {
+private extension PlayerPlaylistPanelView {
     enum Layout {
         static let width: CGFloat = 386
         static let cornerRadius: CGFloat = 10
@@ -145,19 +163,37 @@ private extension PlaybackQueuePanelView {
         static let headerHeight: CGFloat = 60
         static let headerHorizontalInset: CGFloat = 20
         static let listTrailingInset: CGFloat = 10
+
+        static let emptyViewInset: CGFloat = 20
+        static let discoverButtonWidth: CGFloat = 130
+        static let discoverButtonHeight: CGFloat = 40
     }
 }
 
 #Preview {
-    PlaybackQueuePanelView(
-        songs: [.preview, .preview1, .preview2],
-        currentIndex: 0,
-        playbackState: .playing,
-        onPlay: { _ in },
-        onTogglePlayPause: {},
-        onRemove: { _ in },
-        onClear: {}
-    )
+    HStack {
+        PlayerPlaylistPanelView(
+            songs: [.preview, .preview1, .preview2],
+            currentIndex: 0,
+            playbackState: .playing,
+            onPlay: { _ in },
+            onTogglePlayPause: {},
+            onRemove: { _ in },
+            onClear: {},
+            onDiscoverMusic: {}
+        )
+
+        PlayerPlaylistPanelView(
+            songs: [],
+            currentIndex: nil,
+            playbackState: .playing,
+            onPlay: { _ in },
+            onTogglePlayPause: {},
+            onRemove: { _ in },
+            onClear: {},
+            onDiscoverMusic: {}
+        )
+    }
     .padding()
     .background(Color.surfaceSecondary)
 }
