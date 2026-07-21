@@ -27,10 +27,7 @@ struct PlayerPlaylistRowView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .clipped()
 
-            Text(durationText)
-                .font(.font13)
-                .foregroundStyle(Color.textSecondary.opacity(0.75))
-                .frame(alignment: .trailing)
+            trailingView
         }
         .padding(.leading, Layout.leadingInset)
         .padding(.trailing, Layout.trailingInset)
@@ -49,6 +46,7 @@ struct PlayerPlaylistRowView: View {
             playButtonSize: 22,
             animatesHoverEffects: false,
             controlIcon: controlIcon,
+            isControlVisible: isHovering,
             onControlTap: onControlTap
         )
     }
@@ -83,6 +81,32 @@ struct PlayerPlaylistRowView: View {
         }
     }
 
+    @ViewBuilder
+    private var trailingView: some View {
+        if isHovering {
+            actionView
+        } else {
+            durationView
+        }
+    }
+
+    private var durationView: some View {
+        Text(durationText)
+            .font(.font13)
+            .foregroundStyle(Color.textSecondary.opacity(0.75))
+            .frame(width: Layout.durationWidth, alignment: .trailing)
+    }
+
+    private var actionView: some View {
+        HStack(spacing: Layout.actionSpacing) {
+            IconButton(systemName: "link", font: .font16).help("来源")
+            IconButton(systemName: "heart", font: .font16).help("喜欢")
+            IconButton(systemName: "plus.square", font: .font16).help("收藏")
+            IconButton(systemName: "ellipsis", font: .font16).help("更多")
+        }
+        .frame(alignment: .trailing)
+    }
+
     private var rowBackground: Color {
         isHovering ? Color(hex: 0xEDEEEF) : .clear
     }
@@ -101,6 +125,9 @@ private extension PlayerPlaylistRowView {
 
         static let coverSize: CGFloat = 48
         static let coverCornerRadius: CGFloat = 6
+
+        static let durationWidth: CGFloat = 42
+        static let actionSpacing: CGFloat = 10
     }
 }
 
