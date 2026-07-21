@@ -1,5 +1,5 @@
 //
-//  PlaylistOverlayContainerView.swift
+//  PlayerPlaylistOverlayContainerView.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/7/21.
@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-struct PlaylistOverlayContainerView: View {
+struct PlayerPlaylistOverlayContainerView: View {
     let onDismiss: () -> Void
 
+    @EnvironmentObject private var router: AppRouter
     @EnvironmentObject private var playerStore: PlayerStore
 
     var body: some View {
-        PlaylistOverlayView(
+        PlayerPlaylistOverlayView(
             songs: playerStore.state.queue.songs,
             currentIndex: playerStore.state.queue.currentIndex,
             playbackState: playerStore.state.playbackState,
@@ -29,13 +30,18 @@ struct PlaylistOverlayContainerView: View {
             },
             onClear: {
                 playerStore.send(.clearQueue)
+            },
+            onDiscoverMusic: {
+                router.navigateBack(to: .featured())
+                onDismiss()
             }
         )
     }
 }
 
 #Preview {
-    PlaylistOverlayContainerView(onDismiss: {})
+    PlayerPlaylistOverlayContainerView(onDismiss: {})
+        .environmentObject(AppRouter())
         .environmentObject(PlayerStore())
         .background(Color.surfaceSecondary)
 }

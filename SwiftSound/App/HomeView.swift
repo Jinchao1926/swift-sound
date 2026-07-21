@@ -35,7 +35,7 @@ struct HomeView: View {
                                 isPlayerPresented = true
                             }
                         },
-                        onToggleQueue: toggleQueue
+                        onTogglePlaylist: togglePlaylist
                     )
                 }
             }
@@ -49,16 +49,16 @@ struct HomeView: View {
                             isPlayerPresented = false
                         }
                     },
-                    onToggleQueue: toggleQueue
+                    onTogglePlaylist: togglePlaylist
                 )
                 .transition(.move(edge: .bottom))
                 .zIndex(1)
             }
-            
+
             if isPlaylistPresented {
-                PlaylistOverlayContainerView(onDismiss: hideQueue)
-                .transition(.move(edge: .trailing).combined(with: .opacity))
-                .zIndex(2)
+                PlayerPlaylistOverlayContainerView(onDismiss: hidePlaylist)
+                    .transition(.move(edge: .trailing).combined(with: .opacity))
+                    .zIndex(2)
             }
         }
         .frame(minHeight: 720)
@@ -70,13 +70,13 @@ struct HomeView: View {
         .environmentObject(lyricsStore)
     }
 
-    private func toggleQueue() {
+    private func togglePlaylist() {
         withAnimation(.easeInOut(duration: 0.22)) {
             isPlaylistPresented.toggle()
         }
     }
 
-    private func hideQueue() {
+    private func hidePlaylist() {
         withAnimation(.easeInOut(duration: 0.22)) {
             isPlaylistPresented = false
         }

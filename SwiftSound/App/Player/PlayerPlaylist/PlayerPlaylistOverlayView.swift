@@ -1,5 +1,5 @@
 //
-//  PlaylistOverlayView.swift
+//  PlayerPlaylistOverlayView.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/7/15.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PlaylistOverlayView: View {
+struct PlayerPlaylistOverlayView: View {
     let songs: [Song]
     let currentIndex: Int?
     let playbackState: PlaybackState
@@ -16,6 +16,7 @@ struct PlaylistOverlayView: View {
     let onTogglePlayPause: () -> Void
     let onRemove: (Song.ID) -> Void
     let onClear: () -> Void
+    let onDiscoverMusic: () -> Void
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -24,33 +25,39 @@ struct PlaylistOverlayView: View {
                 .ignoresSafeArea()
                 .onTapGesture(perform: onDismiss)
 
-            PlaylistPanelView(
+            PlayerPlaylistPanelView(
                 songs: songs,
                 currentIndex: currentIndex,
                 playbackState: playbackState,
                 onPlay: onPlay,
                 onTogglePlayPause: onTogglePlayPause,
                 onRemove: onRemove,
-                onClear: onClear
+                onClear: onClear,
+                onDiscoverMusic: onDiscoverMusic
             )
             .contentShape(Rectangle())
             .onTapGesture {}
             .padding(.top, Layout.panelTopInset)
-            .padding(.bottom, Layout.panelBottomInset)
+            .padding(.bottom, panelBottomInset)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
     }
+
+    private var panelBottomInset: CGFloat {
+        songs.isEmpty ? Layout.emptyPanelBottomInset : Layout.panelBottomInset
+    }
 }
 
-private extension PlaylistOverlayView {
+private extension PlayerPlaylistOverlayView {
     enum Layout {
         static let panelTopInset: CGFloat = 53
         static let panelBottomInset: CGFloat = 100
+        static let emptyPanelBottomInset: CGFloat = 20
     }
 }
 
 #Preview {
-    PlaylistOverlayView(
+    PlayerPlaylistOverlayView(
         songs: [.preview, .preview1, .preview2],
         currentIndex: 0,
         playbackState: .playing,
@@ -58,7 +65,8 @@ private extension PlaylistOverlayView {
         onPlay: { _ in },
         onTogglePlayPause: {},
         onRemove: { _ in },
-        onClear: {}
+        onClear: {},
+        onDiscoverMusic: {}
     )
     .background(Color.surfaceSecondary)
 }

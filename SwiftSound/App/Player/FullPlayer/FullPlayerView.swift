@@ -11,7 +11,7 @@ struct FullPlayerView: View {
     let model: PlayerPresentationModel
     let callback: PlayerControlsCallback
     let onCollapse: () -> Void
-    let onToggleQueue: (() -> Void)?
+    let onTogglePlaylist: (() -> Void)?
 
     @EnvironmentObject private var lyricsStore: LyricsStore
     @State private var themeColor: Color?
@@ -33,7 +33,7 @@ struct FullPlayerView: View {
                 callback: callback,
                 style: theme.playerBarStyle,
                 onActivate: onCollapse,
-                onToggleQueue: onToggleQueue
+                onTogglePlaylist: onTogglePlaylist
             )
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -107,7 +107,7 @@ private extension FullPlayerView {
         model: .preview(),
         callback: .preview,
         onCollapse: {},
-        onToggleQueue: {}
+        onTogglePlaylist: {}
     )
     .environmentObject(LyricsStore.preview())
     .frame(width: 1280, height: 800)
