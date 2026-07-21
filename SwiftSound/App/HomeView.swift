@@ -13,7 +13,7 @@ struct HomeView: View {
     @StateObject private var playerStore = PlayerStore()
     @StateObject private var lyricsStore = LyricsStore()
     @State private var isPlayerPresented = false
-    @State private var isQueuePresented = false
+    @State private var isPlaylistPresented = false
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -40,29 +40,6 @@ struct HomeView: View {
                 }
             }
 
-            if isQueuePresented {
-                PlaybackQueueOverlayView(
-                    songs: playerStore.state.queue.songs,
-                    currentIndex: playerStore.state.queue.currentIndex,
-                    playbackState: playerStore.state.playbackState,
-                    onDismiss: hideQueue,
-                    onPlay: {
-                        playerStore.send(.playQueue(startIndex: $0))
-                    },
-                    onTogglePlayPause: {
-                        playerStore.send(.togglePlayPause)
-                    },
-                    onRemove: {
-                        playerStore.send(.removeFromQueue(songId: $0))
-                    },
-                    onClear: {
-                        playerStore.send(.clearQueue)
-                    }
-                )
-                .transition(.move(edge: .trailing).combined(with: .opacity))
-                .zIndex(2)
-            }
-
             if isPlayerPresented, let playerModel = PlayerPresentationModel(state: playerStore.state) {
                 FullPlayerView(
                     model: playerModel,
@@ -77,6 +54,12 @@ struct HomeView: View {
                 .transition(.move(edge: .bottom))
                 .zIndex(1)
             }
+            
+            if isPlaylistPresented {
+                PlaylistOverlayContainerView(onDismiss: hideQueue)
+                .transition(.move(edge: .trailing).combined(with: .opacity))
+                .zIndex(2)
+            }
         }
         .frame(minHeight: 720)
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)) { _ in
@@ -89,13 +72,13 @@ struct HomeView: View {
 
     private func toggleQueue() {
         withAnimation(.easeInOut(duration: 0.22)) {
-            isQueuePresented.toggle()
+            isPlaylistPresented.toggle()
         }
     }
 
     private func hideQueue() {
         withAnimation(.easeInOut(duration: 0.22)) {
-            isQueuePresented = false
+            isPlaylistPresented = false
         }
     }
 

@@ -1,5 +1,5 @@
 //
-//  PlaybackQueueRowView.swift
+//  PlaylistRowView.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/7/15.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PlaybackQueueRowView: View {
+struct PlaylistRowView: View {
     let song: Song
     let isCurrent: Bool
     let controlIcon: PlayableCoverImage.ControlIcon
@@ -92,7 +92,7 @@ struct PlaybackQueueRowView: View {
     }
 }
 
-private extension PlaybackQueueRowView {
+private extension PlaylistRowView {
     enum Layout {
         static let height: CGFloat = 64
         static let leadingInset: CGFloat = 20
@@ -105,7 +105,7 @@ private extension PlaybackQueueRowView {
 }
 
 #Preview {
-    PlaybackQueueRowView(
+    PlaylistRowView(
         song: .preview,
         isCurrent: true,
         controlIcon: .pause,

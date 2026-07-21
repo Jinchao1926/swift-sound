@@ -1,5 +1,5 @@
 //
-//  PlaybackQueuePanelView.swift
+//  PlaylistPanelView.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/7/10.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PlaybackQueuePanelView: View {
+struct PlaylistPanelView: View {
     let songs: [Song]
     let currentIndex: Int?
     let playbackState: PlaybackState
@@ -61,14 +61,14 @@ struct PlaybackQueuePanelView: View {
                 Label("收藏全部", systemImage: "plus.square")
                     .labelStyle(.titleAndIcon)
             }
-            .buttonStyle(QueuePanelHeaderButtonStyle())
+            .buttonStyle(PlaylistHeaderButtonStyle())
             .disabled(songs.isEmpty)
 
             Button(action: onClear) {
                 Label("清空", systemImage: "trash")
                     .labelStyle(.titleAndIcon)
             }
-            .buttonStyle(QueuePanelHeaderButtonStyle())
+            .buttonStyle(PlaylistHeaderButtonStyle())
             .disabled(songs.isEmpty)
         }
         .padding(.horizontal, Layout.headerHorizontalInset)
@@ -81,7 +81,7 @@ struct PlaybackQueuePanelView: View {
                 ForEach(Array(songs.enumerated()), id: \.element.id) { index, song in
                     let isCurrent = index == currentIndex
 
-                    PlaybackQueueRowView(
+                    PlaylistRowView(
                         song: song,
                         isCurrent: isCurrent,
                         controlIcon: controlIcon(isCurrent: isCurrent),
@@ -112,7 +112,7 @@ struct PlaybackQueuePanelView: View {
     }
 }
 
-private extension PlaybackQueuePanelView {
+private extension PlaylistPanelView {
     func controlIcon(isCurrent: Bool) -> PlayableCoverImage.ControlIcon {
         isCurrent && playbackState.isPlaybackActive ? .pause : .play
     }
@@ -126,7 +126,7 @@ private extension PlaybackQueuePanelView {
     }
 }
 
-private struct QueuePanelHeaderButtonStyle: ButtonStyle {
+private struct PlaylistHeaderButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.font13)
@@ -137,7 +137,7 @@ private struct QueuePanelHeaderButtonStyle: ButtonStyle {
     }
 }
 
-private extension PlaybackQueuePanelView {
+private extension PlaylistPanelView {
     enum Layout {
         static let width: CGFloat = 386
         static let cornerRadius: CGFloat = 10
@@ -149,7 +149,7 @@ private extension PlaybackQueuePanelView {
 }
 
 #Preview {
-    PlaybackQueuePanelView(
+    PlaylistPanelView(
         songs: [.preview, .preview1, .preview2],
         currentIndex: 0,
         playbackState: .playing,

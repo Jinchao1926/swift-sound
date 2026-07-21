@@ -1,5 +1,5 @@
 //
-//  PlaybackQueueOverlayView.swift
+//  PlaylistOverlayView.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/7/15.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PlaybackQueueOverlayView: View {
+struct PlaylistOverlayView: View {
     let songs: [Song]
     let currentIndex: Int?
     let playbackState: PlaybackState
@@ -24,7 +24,7 @@ struct PlaybackQueueOverlayView: View {
                 .ignoresSafeArea()
                 .onTapGesture(perform: onDismiss)
 
-            PlaybackQueuePanelView(
+            PlaylistPanelView(
                 songs: songs,
                 currentIndex: currentIndex,
                 playbackState: playbackState,
@@ -35,22 +35,22 @@ struct PlaybackQueueOverlayView: View {
             )
             .contentShape(Rectangle())
             .onTapGesture {}
-            .padding(.top, Layout.queuePanelTopInset)
-            .padding(.bottom, Layout.queuePanelBottomInset)
+            .padding(.top, Layout.panelTopInset)
+            .padding(.bottom, Layout.panelBottomInset)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
     }
 }
 
-private extension PlaybackQueueOverlayView {
+private extension PlaylistOverlayView {
     enum Layout {
-        static let queuePanelTopInset: CGFloat = 53
-        static let queuePanelBottomInset: CGFloat = 100
+        static let panelTopInset: CGFloat = 53
+        static let panelBottomInset: CGFloat = 100
     }
 }
 
 #Preview {
-    PlaybackQueueOverlayView(
+    PlaylistOverlayView(
         songs: [.preview, .preview1, .preview2],
         currentIndex: 0,
         playbackState: .playing,
