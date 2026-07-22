@@ -30,6 +30,7 @@ struct PlayableCoverImage: View {
     let playButtonSize: CGFloat
     let animatesHoverEffects: Bool
     let controlIcon: ControlIcon
+    let isControlVisible: Bool
     let onControlTap: () -> Void
 
     @State private var isHovering = false
@@ -43,6 +44,7 @@ struct PlayableCoverImage: View {
         playButtonSize: CGFloat = 24,
         animatesHoverEffects: Bool = true,
         controlIcon: ControlIcon = .play,
+        isControlVisible: Bool = false,
         onControlTap: @escaping () -> Void
     ) {
         self.url = url
@@ -53,6 +55,7 @@ struct PlayableCoverImage: View {
         self.playButtonSize = playButtonSize
         self.animatesHoverEffects = animatesHoverEffects
         self.controlIcon = controlIcon
+        self.isControlVisible = isControlVisible
         self.onControlTap = onControlTap
     }
 
@@ -61,7 +64,7 @@ struct PlayableCoverImage: View {
             ZStack {
                 RemoteImage(url: url)
 
-                if isHovering {
+                if isHovering || isControlVisible {
                     Color.black.opacity(overlayOpacity)
                     playIcon
                 }
@@ -81,7 +84,7 @@ struct PlayableCoverImage: View {
             systemName: controlIcon.systemName,
             font: playButtonFont,
             size: playButtonSize,
-            isScaled: animatesHoverEffects && isHovering
+            animatesHoverEffects: animatesHoverEffects
         )
 
         if animatesHoverEffects {
@@ -96,7 +99,9 @@ private struct PlayableCoverControlIcon: View {
     let systemName: String
     let font: Font
     let size: CGFloat
-    let isScaled: Bool
+    let animatesHoverEffects: Bool
+
+    @State private var isHovering = false
 
     var body: some View {
         Image(systemName: systemName)
@@ -105,6 +110,11 @@ private struct PlayableCoverControlIcon: View {
             .frame(width: size, height: size)
             .scaleEffect(isScaled ? 1.16 : 1)
             .animation(.spring(response: 0.22, dampingFraction: 0.72), value: isScaled)
+            .onHover { isHovering = $0 }
+    }
+
+    private var isScaled: Bool {
+        animatesHoverEffects && isHovering
     }
 }
 
