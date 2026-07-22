@@ -9,7 +9,11 @@ import SwiftUI
 
 struct ArtistPage: View {
     var body: some View {
-        PlaceholderPage(title: "歌手")
+        VStack(spacing: 0) {
+
+        }
+        .padding(.vertical, 10)
+        .padding(.horizontal, 20)
     }
 }
 

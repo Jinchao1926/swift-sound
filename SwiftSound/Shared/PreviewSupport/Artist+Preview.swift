@@ -15,6 +15,8 @@ extension Artist {
         name: "陈奕迅",
         img1v1Url: nil,
         picUrl: nil,
+        albumSize: 133,
+        musicSize: 1856,
         alias: [],
         tns: []
     )

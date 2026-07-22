@@ -45,6 +45,8 @@ struct Artist: Codable {
     let name: String
     let img1v1Url: String?
     let picUrl: String?
+    let albumSize: Int?
+    let musicSize: Int?
     let alias: [String]
     let tns: [String]?
 }

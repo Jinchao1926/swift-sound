@@ -10,6 +10,6 @@ import Foundation
 
 extension SongsDetailResponse {
     static func rawData() throws -> Data {
-        try JSONFixture.data(named: "SongsDetailResponse.json")
+        try JSONFixture.data(named: "Songs/SongsDetailResponse.json")
     }
 }

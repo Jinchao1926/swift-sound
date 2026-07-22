@@ -1,0 +1,69 @@
+{
+    "artists": [
+        {
+            "albumSize": 73,
+            "alias": [
+                "JJ Lin",
+                "Wayne Lim"
+            ],
+            "briefDesc": "",
+            "fansCount": 16362755,
+            "followed": false,
+            "id": 3684,
+            "img1v1Id": 109951168529049970,
+            "img1v1Id_str": "109951168529049969",
+            "img1v1Url": "http://p2.music.126.net/r6W-zCnV-aduVn_PLZYuYg==/109951168529049969.jpg",
+            "musicSize": 598,
+            "name": "林俊杰",
+            "picId": 109951168529051970,
+            "picId_str": "109951168529051968",
+            "picUrl": "http://p2.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg",
+            "topicPerson": 0,
+            "trans": ""
+        },
+        {
+            "accountId": 97137413,
+            "albumSize": 26,
+            "alias": [
+                "Joker Xue",
+                "Jacky Xue"
+            ],
+            "briefDesc": "",
+            "fansCount": 20948317,
+            "followed": false,
+            "id": 5781,
+            "img1v1Id": 109951172414278510,
+            "img1v1Id_str": "109951172414278510",
+            "img1v1Url": "http://p2.music.126.net/PLrMsE0bTG2p1lL6QfKC9g==/109951172414278510.jpg",
+            "musicSize": 310,
+            "name": "薛之谦",
+            "picId": 109951172414270320,
+            "picId_str": "109951172414270313",
+            "picUrl": "http://p2.music.126.net/Z2x6knGRr7eRrZeOlgCngA==/109951172414270313.jpg",
+            "topicPerson": 0,
+            "trans": ""
+        },
+        {
+            "albumSize": 133,
+            "alias": [
+                "Eason Chan"
+            ],
+            "briefDesc": "",
+            "fansCount": 13728807,
+            "followed": false,
+            "id": 2116,
+            "img1v1Id": 109951173289562420,
+            "img1v1Id_str": "109951173289562420",
+            "img1v1Url": "http://p2.music.126.net/jj0EasWfUZpf1LW2SFeN-A==/109951173289562420.jpg",
+            "musicSize": 1856,
+            "name": "陈奕迅",
+            "picId": 109951173289563400,
+            "picId_str": "109951173289563385",
+            "picUrl": "http://p2.music.126.net/5KJI2mq0G0OQHQaAfAJfwg==/109951173289563385.jpg",
+            "topicPerson": 0,
+            "trans": ""
+        }
+    ],
+    "more": true,
+    "code": 200
+}
