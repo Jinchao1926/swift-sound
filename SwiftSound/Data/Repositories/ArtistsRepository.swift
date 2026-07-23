@@ -14,15 +14,19 @@ struct ArtistsRepository {
         self.apiClient = apiClient
     }
 
-    func fetchTopPlaylists(
-        type: ArtistType,
-        area: ArtistArea,
-        offset: Int?,
-        limit: Int?,
-        initial: Int?
+    func fetchArtistList(
+        query: ArtistListQuery,
+        offset: Int? = nil
+    ) async throws -> ArtistListResponse {
+        let request = ArtistListRequest(query: query, offset: offset)
+        return try await apiClient.request(request)
+    }
+
+    func fetchArtists(
+        query: ArtistListQuery,
+        offset: Int? = nil
     ) async throws -> [Artist] {
-        let request = ArtistListRequest(type: type, area: area, offset: offset, limit: limit, initial: initial)
-        let response = try await apiClient.request(request)
+        let response = try await fetchArtistList(query: query, offset: offset)
         return response.artists
     }
 }
