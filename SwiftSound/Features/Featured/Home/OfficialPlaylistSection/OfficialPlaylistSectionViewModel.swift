@@ -19,7 +19,7 @@ final class OfficialPlaylistSectionViewModel: ObservableObject {
 
     func load() async {
         if state.isLoading { return }
-        state = .loading
+        state = .loading()
 
         do {
             let playlists = try await repository.fetchTopPlaylists(category: "官方", limit: 6)

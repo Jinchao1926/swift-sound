@@ -19,7 +19,7 @@ final class HeroBannerSectionViewModel: ObservableObject {
 
     func load() async {
         if state.isLoading { return }
-        state = .loading
+        state = .loading()
 
         do {
             let banners = try await repository.fetchBanners()

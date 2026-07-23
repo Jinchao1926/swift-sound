@@ -30,7 +30,7 @@ struct NewSongCover: View {
         HStack(spacing: Layout.contentSpacing) {
             PlayableSongCover(
                 url: URL(string: song.picUrl),
-                isControlVisible: isHovering
+                isHovering: isHovering
             ) {
                 playerStore.send(.playSong(song.song))
             }

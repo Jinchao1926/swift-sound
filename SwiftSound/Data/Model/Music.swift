@@ -39,7 +39,7 @@ import Foundation
     "fansCount": null
 }*/
 /** 艺术家 */
-struct Artist: Codable {
+struct Artist: Codable, Identifiable {
     let id: Int
     let accountId: Int? // user id
     let name: String
@@ -49,6 +49,13 @@ struct Artist: Codable {
     let musicSize: Int?
     let alias: [String]
     let tns: [String]?
+}
+
+extension Artist {
+    var imgURL: URL? {
+        guard let img1v1Url else { return nil }
+        return URL(string: img1v1Url)
+    }
 }
 
 struct ArtistIntroduction: Decodable {

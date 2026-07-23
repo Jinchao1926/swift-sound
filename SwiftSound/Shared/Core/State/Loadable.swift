@@ -9,17 +9,21 @@ import Foundation
 
 enum Loadable<Value> {
     case idle
-    case loading
+    case loading(Value? = nil)
     case loaded(Value)
     case failed(Error)
 }
 
 extension Loadable {
     var value: Value? {
-        if case let .loaded(value) = self {
+        switch self {
+        case .loaded(let value):
             return value
+        case .loading(let value):
+            return value
+        case .idle, .failed:
+            return nil
         }
-        return nil
     }
 
     var error: Error? {
@@ -30,7 +34,7 @@ extension Loadable {
     }
 
     var isLoading: Bool {
-        if case .loading = self {
+        if case .loading(_) = self {
             return true
         }
         return false
@@ -38,7 +42,7 @@ extension Loadable {
 
     var isLoadedOrLoading: Bool {
         switch self {
-        case .loading, .loaded:
+        case .loading(_), .loaded:
             return true
         case .idle, .failed:
             return false

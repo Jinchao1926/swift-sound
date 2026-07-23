@@ -22,40 +22,63 @@ struct PlayableCoverImage: View {
         }
     }
 
+    struct Style {
+        let imageSize: CGFloat
+        let cornerRadius: CGFloat
+        let overlayOpacity: Double
+        let playButtonFont: Font
+        let playButtonSize: CGFloat
+        let animatesHoverEffects: Bool
+
+        init(
+            imageSize: CGFloat,
+            cornerRadius: CGFloat,
+            overlayOpacity: Double = 0.38,
+            playButtonFont: Font = .font20,
+            playButtonSize: CGFloat = 24,
+            animatesHoverEffects: Bool = true
+        ) {
+            self.imageSize = imageSize
+            self.cornerRadius = cornerRadius
+            self.overlayOpacity = overlayOpacity
+            self.playButtonFont = playButtonFont
+            self.playButtonSize = playButtonSize
+            self.animatesHoverEffects = animatesHoverEffects
+        }
+    }
+
+    struct InteractionState {
+        let isHovering: Bool
+        let icon: ControlIcon
+        let showsControl: Bool
+
+        init(
+            isHovering: Bool = false,
+            icon: ControlIcon = .play,
+            showsControl: Bool = false
+        ) {
+            self.isHovering = isHovering
+            self.icon = icon
+            self.showsControl = showsControl
+        }
+    }
+
     let url: URL?
-    let imageSize: CGFloat
-    let cornerRadius: CGFloat
-    let overlayOpacity: Double
-    let playButtonFont: Font
-    let playButtonSize: CGFloat
-    let animatesHoverEffects: Bool
-    let controlIcon: ControlIcon
-    let isControlVisible: Bool
+    let style: Style
+    let interactionState: InteractionState
     let onControlTap: () -> Void
 
-    @State private var isHovering = false
+    @State private var isPointerHovering = false
 
     init(
         url: URL?,
-        imageSize: CGFloat,
-        cornerRadius: CGFloat,
-        overlayOpacity: Double = 0.38,
-        playButtonFont: Font = .font20,
-        playButtonSize: CGFloat = 24,
-        animatesHoverEffects: Bool = true,
-        controlIcon: ControlIcon = .play,
-        isControlVisible: Bool = false,
+        style: Style,
+        interactionState: InteractionState = .init(),
         onControlTap: @escaping () -> Void
     ) {
         self.url = url
-        self.imageSize = imageSize
-        self.cornerRadius = cornerRadius
-        self.overlayOpacity = overlayOpacity
-        self.playButtonFont = playButtonFont
-        self.playButtonSize = playButtonSize
-        self.animatesHoverEffects = animatesHoverEffects
-        self.controlIcon = controlIcon
-        self.isControlVisible = isControlVisible
+        self.style = style
+        self.interactionState = interactionState
         self.onControlTap = onControlTap
     }
 
@@ -64,34 +87,38 @@ struct PlayableCoverImage: View {
             ZStack {
                 RemoteImage(url: url)
 
-                if isHovering || isControlVisible {
-                    Color.black.opacity(overlayOpacity)
+                if effectiveHovering || interactionState.showsControl {
+                    Color.black.opacity(style.overlayOpacity)
                     playIcon
                 }
             }
-            .frame(width: imageSize, height: imageSize)
-            .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
-            .contentShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
+            .frame(width: style.imageSize, height: style.imageSize)
+            .clipShape(RoundedRectangle(cornerRadius: style.cornerRadius, style: .continuous))
+            .contentShape(RoundedRectangle(cornerRadius: style.cornerRadius, style: .continuous))
         }
         .buttonStyle(.plain)
-        .onHover { isHovering = $0 }
+        .onHover { isPointerHovering = $0 }
         .pointerStyle(.link)
     }
 
     @ViewBuilder
     private var playIcon: some View {
         let view = PlayableCoverControlIcon(
-            systemName: controlIcon.systemName,
-            font: playButtonFont,
-            size: playButtonSize,
-            animatesHoverEffects: animatesHoverEffects
+            systemName: interactionState.icon.systemName,
+            font: style.playButtonFont,
+            size: style.playButtonSize,
+            animatesHoverEffects: style.animatesHoverEffects
         )
 
-        if animatesHoverEffects {
+        if style.animatesHoverEffects {
             view.transition(.scale(scale: 0.9).combined(with: .opacity))
         } else {
             view
         }
+    }
+
+    private var effectiveHovering: Bool {
+        isPointerHovering || interactionState.isHovering
     }
 }
 
@@ -106,7 +133,7 @@ private struct PlayableCoverControlIcon: View {
     var body: some View {
         Image(systemName: systemName)
             .font(font)
-            .foregroundStyle(.white)
+            .foregroundStyle(backgroundColor)
             .frame(width: size, height: size)
             .scaleEffect(isScaled ? 1.16 : 1)
             .animation(.spring(response: 0.22, dampingFraction: 0.72), value: isScaled)
@@ -116,25 +143,32 @@ private struct PlayableCoverControlIcon: View {
     private var isScaled: Bool {
         animatesHoverEffects && isHovering
     }
+
+    private var backgroundColor: Color {
+        guard animatesHoverEffects else { return .white }
+
+        return isHovering ? .white : .white.opacity(0.8)
+    }
 }
 
 #Preview {
     HStack(spacing: 24) {
         PlayableCoverImage(
             url: nil,
-            imageSize: 65,
-            cornerRadius: 8,
+            style: .init(imageSize: 65, cornerRadius: 8),
             onControlTap: {}
         )
 
         PlayableCoverImage(
             url: nil,
-            imageSize: 48,
-            cornerRadius: 6,
-            playButtonFont: .font16,
-            playButtonSize: 22,
-            animatesHoverEffects: false,
-            controlIcon: .pause,
+            style: .init(
+                imageSize: 48,
+                cornerRadius: 6,
+                playButtonFont: .font16,
+                playButtonSize: 22,
+                animatesHoverEffects: false
+            ),
+            interactionState: .init(isHovering: true, icon: .pause),
             onControlTap: {}
         )
     }
