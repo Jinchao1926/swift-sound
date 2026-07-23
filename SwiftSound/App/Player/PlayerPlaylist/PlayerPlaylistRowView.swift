@@ -40,13 +40,17 @@ struct PlayerPlaylistRowView: View {
     private var coverImage: some View {
         PlayableCoverImage(
             url: URL(string: song.album.picUrl),
-            imageSize: Layout.coverSize,
-            cornerRadius: Layout.coverCornerRadius,
-            playButtonFont: .font16,
-            playButtonSize: 22,
-            animatesHoverEffects: false,
-            controlIcon: controlIcon,
-            isControlVisible: isHovering,
+            style: .init(
+                imageSize: Layout.coverSize,
+                cornerRadius: Layout.coverCornerRadius,
+                playButtonFont: .font16,
+                playButtonSize: 22,
+                animatesHoverEffects: false
+            ),
+            interactionState: .init(
+                isHovering: isHovering,
+                icon: controlIcon
+            ),
             onControlTap: onControlTap
         )
     }

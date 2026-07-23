@@ -51,6 +51,13 @@ struct Artist: Codable {
     let tns: [String]?
 }
 
+extension Artist {
+    var imgURL: URL? {
+        guard let img1v1Url else { return nil }
+        return URL(string: img1v1Url)
+    }
+}
+
 struct ArtistIntroduction: Decodable {
     struct Introduction: Decodable {
         let ti: String

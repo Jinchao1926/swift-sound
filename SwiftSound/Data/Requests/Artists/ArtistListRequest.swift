@@ -147,7 +147,7 @@ struct ArtistListQuery: Equatable {
     let area: ArtistArea
     let initial: ArtistInitial
     let limit: Int
-    
+
     init(type: ArtistType, area: ArtistArea, initial: ArtistInitial, limit: Int = 40) {
         self.type = type
         self.area = area
