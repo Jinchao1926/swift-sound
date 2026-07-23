@@ -31,7 +31,7 @@ struct SongLyricsView: View {
                 )
             }
 
-        case .idle, .loading:
+        case .idle, .loading(_):
             EmptyView()
         }
     }

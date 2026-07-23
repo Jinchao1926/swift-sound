@@ -24,7 +24,7 @@ final class NewMusicSectionViewModel: ObservableObject {
 
     func load() async {
         if state.isLoading { return }
-        state = .loading
+        state = .loading()
 
         do {
             let songs = try await repository.fetchNewSongs(limit: 12)

@@ -27,7 +27,7 @@ final class LyricsStore: ObservableObject {
             return
         }
 
-        lyricStatesBySongId[songId] = .loading
+        lyricStatesBySongId[songId] = .loading()
 
         loadingTasksBySongId[songId]?.cancel()
         loadingTasksBySongId[songId] = Task { [weak self, repository] in
