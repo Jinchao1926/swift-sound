@@ -32,28 +32,20 @@ struct ArtistListPage: View {
                     alignment: .leading,
                     spacing: 20
                 ) {
-                    ForEach(viewModel.state.artists) { artist in
-                        ArtistCover(artist: artist)
-                            .frame(maxWidth: .infinity)
-                    }
-                }
-
-                if viewModel.state.canLoadMore && !viewModel.state.isLoading {
-                    Color.clear
-                        .frame(height: 1)
-                        .onAppear {
-                            Task { await viewModel.loadMore() }
+                    Section {
+                        ForEach(viewModel.state.artists) { artist in
+                            ArtistCover(artist: artist)
+                                .frame(maxWidth: .infinity)
                         }
-                }
-
-                if viewModel.state.isLoading {
-                    HStack {
-                        Spacer()
-                        ProgressView()
-                            .controlSize(.small)
-                        Spacer()
+                    } footer: {
+                        InfiniteScrollFooter(
+                            canLoadMore: viewModel.state.canLoadMore,
+                            isLoading: viewModel.state.isLoading,
+                            loadKey: viewModel.state.artists.count
+                        ) {
+                            await viewModel.loadMore()
+                        }
                     }
-                    .padding(.vertical, 20)
                 }
             }
             .padding(.top, 20)
