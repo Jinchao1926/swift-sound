@@ -14,15 +14,9 @@ struct ArtistListPage: View {
         VStack(alignment: .leading, spacing: 0) {
             ArtistListFilterBar(
                 query: viewModel.currentQuery,
-                onAreaSelect: { area in
-                    Task { await viewModel.selectArea(area) }
-                },
-                onTypeSelect: { type in
-                    Task { await viewModel.selectType(type) }
-                },
-                onInitialSelect: { initial in
-                    Task { await viewModel.selectInitial(initial) }
-                }
+                onAreaSelect: viewModel.selectArea,
+                onTypeSelect: viewModel.selectType,
+                onInitialSelect: viewModel.selectInitial
             )
 
             VStack(alignment: .leading, spacing: 0) {

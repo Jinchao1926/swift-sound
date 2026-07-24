@@ -49,7 +49,7 @@ struct SongAudioFile: Codable {
     let bitrate: Int
     let fileId: Int
     let size: Int?
-    let volumeDelta: Int?
+    let volumeDelta: Double?
     let sampleRate: Int?
 
     private enum CodingKeys: String, CodingKey {

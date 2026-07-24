@@ -17,6 +17,7 @@ final class ArtistListViewModel: ObservableObject {
     )
 
     private var loadedQuery: ArtistListQuery?
+    private var loadTask: Task<Void, Never>?
     private let repository: ArtistsRepository
 
     // MARK: - LifeCycle
@@ -26,25 +27,7 @@ final class ArtistListViewModel: ObservableObject {
 
     // MARK: - Load
     func load() async {
-        let query = currentQuery
-
-        guard loadedQuery != query else { return }
-        state = .loading(nil)
-
-        do {
-            let response = try await repository.fetchArtistList(
-                query: query,
-                offset: 0
-            )
-
-            guard matchesCurrentQuery(query) else { return }
-
-            state = .loaded(Paginated(response))
-            loadedQuery = query
-        } catch {
-            guard matchesCurrentQuery(query) else { return }
-            state = .failed(error)
-        }
+        await load(query: currentQuery)
     }
 
     func loadMore() async {
@@ -72,29 +55,54 @@ final class ArtistListViewModel: ObservableObject {
     }
 
     // MARK: - Selector
-    func selectType(_ type: ArtistType) async {
-        await updateQuery(currentQuery.replacing(type: type))
+    func selectType(_ type: ArtistType) {
+        updateQuery(currentQuery.replacing(type: type))
     }
 
-    func selectArea(_ area: ArtistArea) async {
-        await updateQuery(currentQuery.replacing(area: area))
+    func selectArea(_ area: ArtistArea) {
+        updateQuery(currentQuery.replacing(area: area))
     }
 
-    func selectInitial(_ initial: ArtistInitial) async {
-        await updateQuery(currentQuery.replacing(initial: initial))
+    func selectInitial(_ initial: ArtistInitial) {
+        updateQuery(currentQuery.replacing(initial: initial))
     }
 
-    private func updateQuery(_ query: ArtistListQuery) async {
+    private func updateQuery(_ query: ArtistListQuery) {
         guard !matchesCurrentQuery(query) else { return }
 
         currentQuery = query
-        await load()
+        loadTask?.cancel()
+        loadTask = Task { [weak self] in
+            await self?.load(query: query)
+        }
     }
 
     private func matchesCurrentQuery(_ query: ArtistListQuery) -> Bool {
         // Async responses may arrive after the user changes filters; ignore results
         // that no longer match the latest selected query.
         query == currentQuery
+    }
+
+    private func load(query: ArtistListQuery) async {
+        guard loadedQuery != query else { return }
+        state = .loading(state.value)
+
+        do {
+            let response = try await repository.fetchArtistList(
+                query: query,
+                offset: 0
+            )
+
+            guard !Task.isCancelled else { return }
+            guard matchesCurrentQuery(query) else { return }
+
+            state = .loaded(Paginated(response))
+            loadedQuery = query
+        } catch {
+            guard !Task.isCancelled else { return }
+            guard matchesCurrentQuery(query) else { return }
+            state = .failed(error)
+        }
     }
 }
 
