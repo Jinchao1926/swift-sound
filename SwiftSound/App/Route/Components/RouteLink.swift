@@ -42,6 +42,7 @@ struct RouteLink<Label: View>: View {
         } label: {
             label()
         }
+        .contentShape(Rectangle())
         .buttonStyle(.plain)
         .pointerStyle(.link)
     }
