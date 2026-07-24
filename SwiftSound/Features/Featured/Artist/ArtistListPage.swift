@@ -28,8 +28,10 @@ struct ArtistListPage: View {
                 ) {
                     Section {
                         ForEach(viewModel.state.artists) { artist in
-                            ArtistCover(artist: artist)
-                                .frame(maxWidth: .infinity)
+                            RouteLink(route: .artist(id: artist.id)) {
+                                ArtistCard(artist: artist)
+                                    .frame(maxWidth: .infinity)
+                            }
                         }
                     } footer: {
                         InfiniteScrollFooter(

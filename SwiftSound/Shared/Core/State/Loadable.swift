@@ -34,7 +34,7 @@ extension Loadable {
     }
 
     var isLoading: Bool {
-        if case .loading(_) = self {
+        if case .loading = self {
             return true
         }
         return false
@@ -42,7 +42,7 @@ extension Loadable {
 
     var isLoadedOrLoading: Bool {
         switch self {
-        case .loading(_), .loaded:
+        case .loading, .loaded:
             return true
         case .idle, .failed:
             return false
