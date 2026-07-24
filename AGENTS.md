@@ -34,6 +34,7 @@ SwiftSound is a SwiftUI macOS app inspired by NetEase Cloud Music for Mac. The g
 - Keep layout, spacing, typography, and interaction states consistent across screens.
 - Define custom SwiftUI colors with HEX values in the shared theme extensions.
 - Avoid placeholder UI once a referenced design exists.
+- The Xcode project already sets `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor`; prefer relying on that default instead of adding explicit `@MainActor` annotations unless a file needs to override the default.
 
 ## Testing
 
