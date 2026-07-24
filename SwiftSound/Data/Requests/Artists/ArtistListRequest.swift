@@ -32,6 +32,12 @@ struct ArtistListQuery: Equatable {
     }
 }
 
+extension ArtistListQuery: CustomDebugStringConvertible {
+    var debugDescription: String {
+        "type: \(type.title) area: \(area.title) initial: \(initial.title)"
+    }
+}
+
 /**
  * 歌手分类列表
  * 说明 : 调用此接口,可获取歌手分类列表

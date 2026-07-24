@@ -34,24 +34,31 @@ struct SelectableCapsule: View {
     }
 
     var body: some View {
-        Button(action: action) {
-            Text(title)
-                .font(font)
-                .foregroundStyle(foregroundColor)
-                .frame(width: width, height: height)
-        }
-        .buttonStyle(.plain)
-        .background(
-            Capsule(style: .continuous)
-                .fill(backgroundColor)
-        )
-        .overlay(
-            Capsule(style: .continuous)
-                .stroke(borderColor, lineWidth: 1)
-        )
-        .contentShape(Capsule(style: .continuous))
-        .onHover { isHovering = $0 }
-        .pointerStyle(.link)
+        Text(title)
+            .font(font)
+            .foregroundStyle(foregroundColor)
+            .frame(width: width, height: height)
+            .background(
+                Capsule(style: .continuous)
+                    .fill(backgroundColor)
+            )
+            .overlay(
+                Capsule(style: .continuous)
+                    .stroke(borderColor, lineWidth: 1)
+            )
+            .contentShape(Rectangle())
+            // macOS 上 plain Button 需要完整的 mouseDown -> mouseUp tracking 才会触发 action；
+            // 放在 ScrollView/复杂层级里时，这个序列可能被滚动手势竞争或视图重建打断。
+            // 这里是自绘筛选胶囊，用高优先级 TapGesture 直接接管点击更稳定。
+            .highPriorityGesture(
+                TapGesture().onEnded(action)
+            )
+            .onHover { isHovering = $0 }
+            .pointerStyle(.link)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(title)
+            .accessibilityAddTraits(.isButton)
+            .accessibilityAction(named: title, action)
     }
 
     private var isActive: Bool { isSelected || isHovering }
