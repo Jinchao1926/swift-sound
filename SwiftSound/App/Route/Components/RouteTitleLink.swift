@@ -8,31 +8,23 @@
 import SwiftUI
 
 struct RouteTitleLink: View {
-    @EnvironmentObject private var router: AppRouter
-
     private let title: String
     private let navigate: (AppRouter) -> Void
 
     // MARK: - LifeCycle
     init(_ title: String, route: AppRoute) {
         self.title = title
-        self.navigate = {
-            $0.navigate(to: route)
-        }
+        self.navigate = { $0.navigate(to: route) }
     }
 
-    init(_ title: String, route: FeaturedRoute) {
+    init<Route: SecondaryRouteProtocol>(_ title: String, route: Route) {
         self.title = title
-        self.navigate = {
-            $0.navigate(to: route)
-        }
+        self.navigate = { $0.navigate(to: route) }
     }
 
     // MARK: - UI
     var body: some View {
-        Button {
-            navigate(router)
-        } label: {
+        RouteLink(navigate: navigate) {
             HStack(spacing: 4) {
                 Text(title)
                     .font(.font16.weight(.medium))
@@ -44,8 +36,6 @@ struct RouteTitleLink: View {
             .contentShape(Rectangle())
             .frame(height: 40)
         }
-        .buttonStyle(.plain)
-        .pointerStyle(.link)
     }
 }
 

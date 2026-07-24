@@ -43,6 +43,8 @@ struct DetailContainerView: View {
             DownloadPage()
         case .newMusic(let secondary):
             NewMusicPage(route: secondary)
+        case .artist(let id, let secondary):
+            ArtistDetailPage(id: id, route: secondary)
         }
     }
 }

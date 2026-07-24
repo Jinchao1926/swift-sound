@@ -7,12 +7,14 @@
 
 import Foundation
 
-protocol SecondaryRouteProtocol: Hashable, CaseIterable, Identifiable {
-    var destinationRoute: AppRoute { get }
-
+protocol RouteTabProtocol: Hashable, CaseIterable, Identifiable {
     var title: String { get }
 }
 
-extension SecondaryRouteProtocol {
+extension RouteTabProtocol {
     var id: Self { self }
+}
+
+protocol SecondaryRouteProtocol: RouteTabProtocol {
+    var destinationRoute: AppRoute { get }
 }

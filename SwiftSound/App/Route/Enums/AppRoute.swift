@@ -18,6 +18,8 @@ enum AppRoute: Identifiable, Hashable, Equatable {
     case download
     //
     case newMusic(secondary: NewMusicRoute = .songs)
+    // Details
+    case artist(id: Int, secondary: ArtistRoute = .songs)
 
     var id: Self { self }
 
@@ -37,6 +39,8 @@ enum AppRoute: Identifiable, Hashable, Equatable {
             return "下载管理"
         case .newMusic:
             return "最新音乐"
+        default:
+            return ""
         }
     }
 

@@ -1,5 +1,5 @@
 //
-//  ArtistCover.swift
+//  ArtistCard.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/7/22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ArtistCover: View {
+struct ArtistCard: View {
     let artist: Artist
 
     @State private var isHovering = false
@@ -40,13 +40,12 @@ struct ArtistCover: View {
             RoundedRectangle(cornerRadius: 6, style: .continuous)
                 .fill(isHovering ? .white : .clear)
         )
-        .pointerStyle(.link)
     }
 }
 
 #Preview {
     VStack {
-        ArtistCover(artist: .preview)
+        ArtistCard(artist: .preview)
     }
     .padding()
     .background(Color.divider)
