@@ -1,0 +1,123 @@
+//
+//  ActionButton.swift
+//  SwiftSound
+//
+//  Created by Jinchao Lin on 2026/7/27.
+//
+
+import SwiftUI
+
+struct ActionButton: View {
+    enum Variant {
+        case primary
+        case secondary
+    }
+
+    let title: String
+    let systemName: String?
+    let variant: Variant
+    let action: () -> Void
+
+    @State private var isHovering = false
+
+    init(
+        _ title: String,
+        systemName: String? = nil,
+        variant: Variant = .secondary,
+        action: @escaping () -> Void
+    ) {
+        self.title = title
+        self.systemName = systemName
+        self.variant = variant
+        self.action = action
+    }
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: Layout.iconSpacing) {
+                if let systemName {
+                    Image(systemName: systemName)
+                        .font(Layout.font)
+                }
+
+                Text(title)
+                    .font(Layout.font)
+            }
+            .foregroundStyle(variant.foregroundColor)
+            .padding(.horizontal, Layout.horizontalPadding)
+            .frame(height: Layout.height)
+        }
+        .buttonStyle(.plain)
+        .background(
+            RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous)
+                .fill(isHovering ? variant.hoverBackgroundColor : variant.backgroundColor)
+        )
+        .overlay(
+            Group {
+                if let borderColor = variant.borderColor {
+                    RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous)
+                        .stroke(borderColor, lineWidth: 1)
+                }
+            }
+        )
+        .contentShape(RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous))
+        .onHover { isHovering = $0 }
+        .pointerStyle(.link)
+    }
+}
+
+private extension ActionButton {
+    enum Layout {
+        static let height: CGFloat = 37
+        static let cornerRadius: CGFloat = 6
+        static let horizontalPadding: CGFloat = 14
+        static let iconSpacing: CGFloat = 6
+        static let font: Font = .font14
+    }
+}
+
+private extension ActionButton.Variant {
+    var foregroundColor: Color {
+        switch self {
+        case .primary:
+            .white
+        case .secondary:
+            .textPrimary
+        }
+    }
+
+    var backgroundColor: Color {
+        switch self {
+        case .primary:
+            .accentPrimary
+        case .secondary:
+            .surfaceSecondary
+        }
+    }
+
+    var hoverBackgroundColor: Color {
+        switch self {
+        case .primary:
+            .accentPrimary.opacity(0.86)
+        case .secondary:
+            .surfaceHover
+        }
+    }
+
+    var borderColor: Color? {
+        switch self {
+        case .primary:
+            nil
+        case .secondary:
+            .divider
+        }
+    }
+}
+
+#Preview {
+    HStack {
+        ActionButton("播放全部", systemName: "play.fill", variant: .primary) {}
+        ActionButton("关注", systemName: "plus") {}
+    }
+    .padding()
+}

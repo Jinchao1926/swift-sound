@@ -1,74 +1,12 @@
 //
-//  Music.swift
+//  Album.swift
 //  SwiftSound
 //
-//  Created by Jinchao Lin on 2026/6/15.
+//  Created by Jinchao Lin on 2026/7/27.
 //
 
 import Foundation
 
-// MARK: - Artist
-/**
-{
-    "name": "林俊杰",
-    "id": 3684,
-    "picId": 109951168529051970,
-    "img1v1Id": 109951168529049970,
-    "briefDesc": "",
-    "picUrl": "http://p2.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg",
-    "img1v1Url": "http://p2.music.126.net/r6W-zCnV-aduVn_PLZYuYg==/109951168529049969.jpg",
-    "albumSize": 70,
-    "alias": [
-    "JJ Lin",
-    "Wayne Lim"
-    ],
-    "trans": "",
-    "musicSize": 594,
-    "topicPerson": 0,
-    "showPrivateMsg": null,
-    "isSubed": null,
-    "accountId": null,
-    "picId_str": "109951168529051968",
-    "img1v1Id_str": "109951168529049969",
-    "transNames": null,
-    "followed": false,
-    "mvSize": null,
-    "publishTime": null,
-    "identifyTag": null,
-    "alg": null,
-    "fansCount": null
-}*/
-/** 艺术家 */
-struct Artist: Codable, Identifiable {
-    let id: Int
-    let accountId: Int? // user id
-    let name: String
-    let img1v1Url: String?
-    let picUrl: String?
-    let albumSize: Int?
-    let musicSize: Int?
-    let alias: [String]
-    let tns: [String]?
-}
-
-extension Artist {
-    var imgURL: URL? {
-        guard let img1v1Url else { return nil }
-        return URL(string: img1v1Url)
-    }
-}
-
-struct ArtistIntroduction: Decodable {
-    struct Introduction: Decodable {
-        let ti: String
-        let txt: String
-    }
-
-    let briefDesc: String
-    let introduction: [Introduction]
-}
-
-// MARK: - Album
 /**
 {
     "songs": [],

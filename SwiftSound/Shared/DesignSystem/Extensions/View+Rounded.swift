@@ -23,4 +23,13 @@ extension View {
                 .stroke(stroke, lineWidth: lineWidth)
         )
     }
+
+    func rounded(radius: CGFloat = 6) -> some View {
+        self.clipShape(
+            RoundedRectangle(cornerRadius: radius, style: .continuous)
+        )
+        .contentShape(
+            RoundedRectangle(cornerRadius: radius, style: .continuous)
+        )
+    }
 }

@@ -1,0 +1,146 @@
+{
+    "code": 200,
+    "message": "ok",
+    "data": {
+        "videoCount": 116,
+        "vipRights": {
+            "rightsInfoDetailDtoList": [
+                {
+                    "vipCode": 220,
+                    "expireTime": 1778169599000,
+                    "iconUrl": null,
+                    "dynamicIconUrl": null,
+                    "vipLevel": 0,
+                    "signIap": false,
+                    "signDeduct": false,
+                    "signIapDeduct": false,
+                    "sign": false
+                },
+                {
+                    "vipCode": 100,
+                    "expireTime": 1778169599000,
+                    "iconUrl": null,
+                    "dynamicIconUrl": null,
+                    "vipLevel": 0,
+                    "signIap": false,
+                    "signDeduct": false,
+                    "signIapDeduct": false,
+                    "sign": false
+                }
+            ],
+            "oldProtocol": false,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 1,
+            "now": 1785139842676
+        },
+        "identify": {
+            "imageUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png",
+            "imageDesc": "原创歌手薛之谦",
+            "actionUrl": "orpheus://rnpage?component=music-reactnative-artistwiki&split=index&artistId=5781"
+        },
+        "artist": {
+            "id": 5781,
+            "cover": "http://p2.music.126.net/Z2x6knGRr7eRrZeOlgCngA==/109951172414270313.jpg",
+            "avatar": "http://p2.music.126.net/PLrMsE0bTG2p1lL6QfKC9g==/109951172414278510.jpg",
+            "name": "薛之谦",
+            "transNames": [],
+            "alias": [
+                "Joker Xue",
+                "Jacky Xue"
+            ],
+            "identities": [
+                "作词",
+                "作曲"
+            ],
+            "identifyTag": [
+                "入驻艺人"
+            ],
+            "briefDesc": "薛之谦（Joker Xue），1983年7月17日出生于上海，中国内地流行乐男歌手、影视演员、音乐制作人，毕业于格里昂酒店管理学院。\n2005年，因参加选秀节目《我型我秀》而正式出道。2006年，发行首张同名专辑《薛之谦》，随后凭借歌曲《认真的雪》获得广泛关注。2007年，凭借专辑《你过得好吗》获得MusicRadio中国TOP排行榜内地年度最受欢迎男歌手奖。2008年，发行专辑《深深爱过你》，同年在上海举行个人首场演唱会“谦年传说”。2013年，专辑《几个薛之谦》获得MusicRadio中国TOP排行榜内地推荐唱片。2014年，凭借专辑《意外》获得第21届东方风云榜颁奖最佳唱作人；同年他还获得音悦V榜年度盛典年度创作歌手奖。\n2015年6月，薛之谦首度担当制作人并发行原创EP《绅士》；同年，他还主演都市励志剧《妈妈像花儿一样》。2016年，凭借EP《绅士》、《一半》获得第16届全球华语歌曲排行榜最受欢迎男歌手、五大最受欢迎男歌手奖、上海地区杰出歌手奖及最受欢迎创作歌手奖，而歌曲《初学者》则获得年度二十大金曲奖。2017年4月，开启“我好像在哪见过你”全国巡回演唱会；同年，薛之谦获得第7届全球流行音乐年度盛典年度最佳男歌手及MusicRadio榜中国TOP排行榜内地最佳男歌手。\n2018年7月，薛之谦“摩天大楼”世界巡回演唱会于北京站启程，整个巡演横跨4大洲，8个国家，21个城市，累计上演场次23场。2020年12月31日，发行第11张个人专辑《天外来物》。",
+            "rank": {
+                "rank": 2,
+                "type": 1
+            },
+            "albumSize": 28,
+            "musicSize": 310,
+            "mvSize": 115
+        },
+        "simpleUserIdentify": {
+            "imageUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png",
+            "imageDesc": "原创歌手薛之谦",
+            "actionUrl": "orpheus://rnpage?component=music-reactnative-artistwiki&split=index&artistId=5781"
+        },
+        "blacklist": false,
+        "preferShow": 5,
+        "showPriMsg": true,
+        "secondaryExpertIdentiy": [
+            {
+                "expertIdentiyId": 5,
+                "expertIdentiyName": "演唱",
+                "expertIdentiyCount": 309
+            },
+            {
+                "expertIdentiyId": 6,
+                "expertIdentiyName": "作词",
+                "expertIdentiyCount": 278
+            },
+            {
+                "expertIdentiyId": 7,
+                "expertIdentiyName": "作曲",
+                "expertIdentiyCount": 305
+            },
+            {
+                "expertIdentiyId": 10,
+                "expertIdentiyName": "编曲",
+                "expertIdentiyCount": 10
+            },
+            {
+                "expertIdentiyId": 11,
+                "expertIdentiyName": "制作",
+                "expertIdentiyCount": 3
+            }
+        ],
+        "eventCount": 18,
+        "user": {
+            "backgroundUrl": "http://p1.music.126.net/Z2x6knGRr7eRrZeOlgCngA==/109951172414270313.jpg",
+            "birthday": -2209017600000,
+            "detailDescription": "原创歌手薛之谦",
+            "authenticated": true,
+            "gender": 1,
+            "city": 110101,
+            "signature": null,
+            "description": "原创歌手薛之谦",
+            "remarkName": null,
+            "shortUserName": "薛之谦",
+            "accountStatus": 0,
+            "locationStatus": 10,
+            "avatarImgId": 109951172414278510,
+            "defaultAvatar": false,
+            "province": 110000,
+            "nickname": "薛之谦",
+            "expertTags": null,
+            "djStatus": 10,
+            "avatarUrl": "http://p2.music.126.net/PLrMsE0bTG2p1lL6QfKC9g==/109951172414278510.jpg",
+            "accountType": 1,
+            "authStatus": 1,
+            "vipType": 0,
+            "userName": "薛之谦",
+            "followed": false,
+            "userId": 97137413,
+            "lastLoginIP": "",
+            "lastLoginTime": 1784231718786,
+            "authenticationTypes": 4098,
+            "mutual": false,
+            "createTime": 1450170569106,
+            "anchor": true,
+            "authority": 0,
+            "backgroundImgId": 109951172414270320,
+            "userType": 2,
+            "experts": null,
+            "avatarDetail": {
+                "userType": 2,
+                "identityLevel": 1,
+                "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png"
+            }
+        }
+    }
+}

@@ -15,7 +15,7 @@ struct ArtistCard: View {
     var body: some View {
         VStack(spacing: 10) {
             PlayableCoverImage(
-                url: artist.imgURL,
+                url: artist.avatarURL,
                 style: .init(
                     imageSize: 138,
                     cornerRadius: 69,

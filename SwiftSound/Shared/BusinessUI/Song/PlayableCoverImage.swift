@@ -93,8 +93,7 @@ struct PlayableCoverImage: View {
                 }
             }
             .frame(width: style.imageSize, height: style.imageSize)
-            .clipShape(RoundedRectangle(cornerRadius: style.cornerRadius, style: .continuous))
-            .contentShape(RoundedRectangle(cornerRadius: style.cornerRadius, style: .continuous))
+            .rounded(radius: style.cornerRadius)
         }
         .buttonStyle(.plain)
         .onHover { isPointerHovering = $0 }
