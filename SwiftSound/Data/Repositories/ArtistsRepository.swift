@@ -22,11 +22,8 @@ struct ArtistsRepository {
         return try await apiClient.request(request)
     }
 
-    func fetchArtists(
-        query: ArtistListQuery,
-        offset: Int? = nil
-    ) async throws -> [Artist] {
-        let response = try await fetchArtistList(query: query, offset: offset)
-        return response.artists
+    func fetchArtistDetail(id: Int) async throws -> ArtistDetail {
+        let response = try await apiClient.request(ArtistDetailRequest(id: id))
+        return response.data
     }
 }
