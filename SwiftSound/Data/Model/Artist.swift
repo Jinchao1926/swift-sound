@@ -132,14 +132,10 @@ extension Artist {
     }
 }
 
+// MARK: - ArtistIntroduction
 struct ArtistIntroduction: Decodable {
-    struct Introduction: Decodable {
-        let ti: String
-        let txt: String
-    }
-
-    let briefDesc: String
-    let introduction: [Introduction]
+    let ti: String
+    let txt: String
 }
 
 // MARK: - ArtistDetail

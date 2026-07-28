@@ -20,13 +20,15 @@ struct ArtistDetailPage: View {
     }
 
     var body: some View {
-        VStack(spacing: Layout.spacing) {
-            header
-            RouteTabView(
-                selectedRoute: route,
-                destinationRoute: { .artist(id: id, secondary: $0) }
-            )
-            content
+        ScrollView {
+            VStack(alignment: .leading, spacing: Layout.spacing) {
+                header
+                RouteTabView(
+                    selectedRoute: route,
+                    destinationRoute: { .artist(id: id, secondary: $0) }
+                )
+                content
+            }
         }
         .task {
             await viewModel.load()
@@ -67,10 +69,7 @@ struct ArtistDetailPage: View {
                             variant: .primary
                         ) {}
 
-                        ActionButton(
-                            "关注",
-                            systemName: "plus"
-                        ) {}
+                        ActionButton("关注", systemName: "plus" ) {}
                     }
                 }
 
@@ -90,7 +89,11 @@ struct ArtistDetailPage: View {
         case .mvs:
             ArtistMVsPage()
         case .profile:
-            ArtistProfilePage()
+            ArtistProfilePage(
+                name: viewModel.state.artist?.name,
+                state: viewModel.profileState,
+                load: viewModel.loadProfile
+            )
         case .similarArtists:
             SimilarArtistsPage()
         case .performances:
