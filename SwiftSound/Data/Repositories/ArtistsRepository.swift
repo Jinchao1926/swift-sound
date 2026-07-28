@@ -26,4 +26,9 @@ struct ArtistsRepository {
         let response = try await apiClient.request(ArtistDetailRequest(id: id))
         return response.data
     }
+
+    func fetchArtistDesc(id: Int) async throws -> ArtistDesc {
+        let response = try await apiClient.request(ArtistDescRequest(id: id))
+        return ArtistDesc(response: response)
+    }
 }
