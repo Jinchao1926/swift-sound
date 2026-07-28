@@ -14,7 +14,6 @@ struct NewMusicPage: View {
         VStack(spacing: 10) {
             RouteTabView(selectedRoute: route)
             content
-            Spacer(minLength: 0)
         }
     }
 

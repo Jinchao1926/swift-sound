@@ -69,7 +69,7 @@ struct ActionButton: View {
 private extension ActionButton {
     enum Layout {
         static let height: CGFloat = 37
-        static let cornerRadius: CGFloat = 6
+        static let cornerRadius: CGFloat = 8
         static let horizontalPadding: CGFloat = 14
         static let iconSpacing: CGFloat = 6
         static let font: Font = .font14

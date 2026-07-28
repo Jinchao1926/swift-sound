@@ -21,10 +21,9 @@ struct ArtistListPage: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 LazyVGrid(
-                    columns:
-                        [GridItem(.adaptive(minimum: 178), spacing: 20, alignment: .top)],
+                    columns: Layout.gridColumns,
                     alignment: .leading,
-                    spacing: 20
+                    spacing: Layout.gridSpacing
                 ) {
                     Section {
                         ForEach(viewModel.state.artists) { artist in
@@ -44,13 +43,26 @@ struct ArtistListPage: View {
                     }
                 }
             }
-            .padding(.top, 20)
+            .padding(.top, Layout.contentTopPadding)
         }
-        .padding(.horizontal, 40)
+        .padding(.horizontal, Layout.horizontalPadding)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .task {
             await viewModel.load()
         }
+    }
+}
+
+private extension ArtistListPage {
+    enum Layout {
+        static let minimumCardWidth: CGFloat = 178
+        static let gridSpacing: CGFloat = 20
+        static let contentTopPadding: CGFloat = 20
+        static let horizontalPadding: CGFloat = 40
+
+        static let gridColumns: [GridItem] = [
+            GridItem(.adaptive(minimum: minimumCardWidth), spacing: gridSpacing, alignment: .top)
+        ]
     }
 }
 
