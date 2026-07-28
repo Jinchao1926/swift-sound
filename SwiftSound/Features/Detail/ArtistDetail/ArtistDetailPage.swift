@@ -20,14 +20,13 @@ struct ArtistDetailPage: View {
     }
 
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: Layout.spacing) {
             header
             RouteTabView(
                 selectedRoute: route,
                 destinationRoute: { .artist(id: id, secondary: $0) }
             )
             content
-            Spacer(minLength: 0)
         }
         .task {
             await viewModel.load()
@@ -37,10 +36,10 @@ struct ArtistDetailPage: View {
     @ViewBuilder
     var header: some View {
         if let artist = viewModel.state.artist {
-            HStack(spacing: 25) {
+            HStack(spacing: Layout.headerSpacing) {
                 RemoteImage(url: artist.avatarURL)
-                    .frame(width: 170, height: 170)
-                    .rounded(radius: 170 / 2)
+                    .frame(width: Layout.avatarSize, height: Layout.avatarSize)
+                    .rounded(radius: Layout.avatarSize / 2)
 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(artist.name)
@@ -48,7 +47,7 @@ struct ArtistDetailPage: View {
                         .fontWeight(.semibold)
                         .foregroundStyle(Color.textPrimary)
 
-                    HStack(spacing: 20) {
+                    HStack(spacing: Layout.metadataSpacing) {
                         AliasText(alias: artist.aliases)
 
                         if let user = viewModel.state.user {
@@ -58,10 +57,10 @@ struct ArtistDetailPage: View {
                             }
                         }
                     }
-                    .padding(.top, 12)
-                    .padding(.bottom, 16)
+                    .padding(.top, Layout.metadataTopPadding)
+                    .padding(.bottom, Layout.metadataBottomPadding)
 
-                    HStack(spacing: 10) {
+                    HStack(spacing: Layout.actionSpacing) {
                         ActionButton(
                             "播放全部",
                             systemName: "play.fill",
@@ -77,7 +76,7 @@ struct ArtistDetailPage: View {
 
                 Spacer()
             }
-            .padding(.horizontal, 40)
+            .padding(.horizontal, Layout.horizontalPadding)
         }
     }
 
@@ -97,6 +96,19 @@ struct ArtistDetailPage: View {
         case .performances:
             ArtistPerformancesPage()
         }
+    }
+}
+
+private extension ArtistDetailPage {
+    enum Layout {
+        static let spacing: CGFloat = 10
+        static let headerSpacing: CGFloat = 25
+        static let avatarSize: CGFloat = 170
+        static let horizontalPadding: CGFloat = 40
+        static let metadataSpacing: CGFloat = 20
+        static let metadataTopPadding: CGFloat = 12
+        static let metadataBottomPadding: CGFloat = 16
+        static let actionSpacing: CGFloat = 10
     }
 }
 

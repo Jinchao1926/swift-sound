@@ -15,15 +15,23 @@ struct DetailContainerView: View {
             TopToolbarView()
 
             NavigationStack(path: $router.path) {
-                routeView(router.rootRoute) // 根页面（栈底）
+                routedPage(router.rootRoute) // 根页面（栈底）
                     .navigationDestination(for: AppRoute.self) { route in
-                        routeView(route)    // 捕获 path 路由生成子页面
+                        routedPage(route)    // 捕获 path 路由生成子页面
                             .navigationBarBackButtonHidden(true)    // hide system navigation back button
                     }
             }
         }
         .background(Color.surfacePrimary)
         .ignoresSafeArea(edges: .top)   // important
+    }
+
+    private func routedPage(_ route: AppRoute) -> some View {
+        VStack(spacing: 0) {
+            routeView(route)
+            Spacer(minLength: 0)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 
     @ViewBuilder
@@ -45,6 +53,8 @@ struct DetailContainerView: View {
             NewMusicPage(route: secondary)
         case .artist(let id, let secondary):
             ArtistDetailPage(id: id, route: secondary)
+        case .user(let id, let secondary):
+            UserDetailPage(id: id, route: secondary)
         }
     }
 }
