@@ -83,7 +83,10 @@ struct ArtistDetailPage: View {
     var content: some View {
         switch route {
         case .songs:
-            ArtistSongsPage()
+            ArtistSongsPage(
+                state: viewModel.songsState,
+                load: viewModel.loadPopularSongs
+            )
         case .albums:
             ArtistAlbumsPage()
         case .mvs:

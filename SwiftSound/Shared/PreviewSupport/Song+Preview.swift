@@ -74,4 +74,8 @@ extension Song {
         privilege: .preview
     )
 }
+
+extension Array where Element == Song {
+    static let songsPreview = [Song.preview, Song.preview1, Song.preview2]
+}
 #endif

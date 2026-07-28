@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct ArtistSongsPage: View {
+    let state: Loadable<[Song]>
+    let load: () async -> Void
+
     var body: some View {
         PlaceholderPage(title: "ArtistSongs")
     }
 }
 
 #Preview {
-    ArtistSongsPage()
+    ArtistSongsPage(state: .loaded(Array.songsPreview), load: {})
 }

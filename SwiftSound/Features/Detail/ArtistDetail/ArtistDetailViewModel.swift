@@ -10,6 +10,7 @@ import Combine
 
 final class ArtistDetailViewModel: ObservableObject {
     @Published private(set) var state: Loadable<ArtistDetail> = .idle
+    @Published private(set) var songsState: Loadable<[Song]> = .idle
     @Published private(set) var profileState: Loadable<ArtistDesc> = .idle
 
     private let id: Int
@@ -31,6 +32,18 @@ final class ArtistDetailViewModel: ObservableObject {
             state = .loaded(artist)
         } catch {
             state = .failed(error)
+        }
+    }
+
+    func loadPopularSongs() async {
+        guard !songsState.isLoadedOrLoading else { return }
+        songsState = .loading()
+
+        do {
+            let data = try await repository.fetchArtistPopularSongs(id: id)
+            songsState = .loaded(data)
+        } catch {
+            songsState = .failed(error)
         }
     }
 

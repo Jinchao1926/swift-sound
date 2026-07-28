@@ -173,7 +173,7 @@ private extension PlayerPlaylistPanelView {
 #Preview {
     HStack {
         PlayerPlaylistPanelView(
-            songs: [.preview, .preview1, .preview2],
+            songs: Array.songsPreview,
             currentIndex: 0,
             playbackState: .playing,
             onPlay: { _ in },
