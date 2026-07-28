@@ -21,7 +21,8 @@ final class ArtistDetailViewModel: ObservableObject {
     }
 
     func load() async {
-        if state.isLoading { return }
+        // 详情数据按歌手维度保持稳定，避免切换子 tab 或返回页面时重新进入 loading 导致 header 闪烁。
+        guard !state.isLoadedOrLoading else { return }
         state = .loading()
 
         do {

@@ -66,6 +66,32 @@ enum AppRoute: Identifiable, Hashable, Equatable {
 }
 
 extension AppRoute {
+    /// Canonical route for the page shell.
+    ///
+    /// Full routes preserve secondary tabs for history records.
+    /// Canonical routes strip secondary tabs, keeping only data identifying the page shell.
+    /// Use this value only with SwiftUI `.id(...)`, not for navigation.
+    private var canonicalPageRoute: AppRoute {
+        switch self {
+        case .featured:
+            return .featured()
+        case .newMusic:
+            return .newMusic()
+        case .artist(let id, _):
+            return .artist(id: id)
+        case .user(let id, _):
+            return .user(id: id)
+        default:
+            return self
+        }
+    }
+
+    /// Shell identity of the page mapped to the current route.
+    ///
+    /// Secondary route changes are pushed to global history without modifying the page shell identity.
+    /// SwiftUI rebuilds the target page only upon changes to the main page or detail object.
+    var pageRouteKey: AppRoute { canonicalPageRoute }
+
     /// Check whether two routes belong to the same top-level page.
     /// Ignores associated values, only compares the main enum case.
     ///
@@ -76,13 +102,16 @@ extension AppRoute {
     /// - Returns: True if both routes are the same top-level entry
     func matchesTopLevelRoute(_ route: AppRoute) -> Bool {
         switch (self, route) {
-        case (.featured, .featured),
-             (.podcast, .podcast),
-             (.follow, .follow),
-             (.favorite, .favorite),
-             (.played, .played),
-             (.download, .download),
-             (.newMusic, .newMusic):
+        case
+            (.featured, .featured),
+            (.podcast, .podcast),
+            (.follow, .follow),
+            (.favorite, .favorite),
+            (.played, .played),
+            (.download, .download),
+            (.newMusic, .newMusic),
+            (.artist, .artist),
+            (.user, .user):
             return true
         default:
             return false

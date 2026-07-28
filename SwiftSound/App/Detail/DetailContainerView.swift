@@ -14,13 +14,7 @@ struct DetailContainerView: View {
         VStack(spacing: 0) {
             TopToolbarView()
 
-            NavigationStack(path: $router.path) {
-                routedPage(router.rootRoute) // 根页面（栈底）
-                    .navigationDestination(for: AppRoute.self) { route in
-                        routedPage(route)    // 捕获 path 路由生成子页面
-                            .navigationBarBackButtonHidden(true)    // hide system navigation back button
-                    }
-            }
+            routedPage(router.currentRoute)
         }
         .background(Color.surfacePrimary)
         .ignoresSafeArea(edges: .top)   // important
@@ -31,6 +25,9 @@ struct DetailContainerView: View {
             routeView(route)
             Spacer(minLength: 0)
         }
+        // 完整 route 负责历史记录，pageKey 负责页面 shell 复用。
+        // 例如 NewMusic/Artist/User 的二级 tab 变化时，只更新内容，不重建外层页面状态。
+        .id(route.pageRouteKey)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 
