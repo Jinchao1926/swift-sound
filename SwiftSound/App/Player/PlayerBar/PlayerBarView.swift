@@ -58,9 +58,13 @@ struct PlayerBarView: View {
         .frame(maxWidth: .infinity)
         .frame(height: Layout.height)
         .contentShape(Rectangle())
-        .onTapGesture {
-            onActivate?()
-        }
+        .gesture(
+            // 子视图手势优先
+            TapGesture().onEnded {
+                onActivate?()
+            },
+            including: .none
+        )
     }
 
     private var nowPlaying: some View {
