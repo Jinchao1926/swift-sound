@@ -45,20 +45,36 @@ struct PlaybackQueue {
         return isReplayingCurrentSong ? .replay(song) : .play(song)
     }
 
-    mutating func append(_ song: Song) {
-        guard !songs.contains(where: { $0.id == song.id }) else { return }
+    mutating func append(_ song: Song) -> Bool {
+        guard !songs.contains(where: { $0.id == song.id }) else { return false }
         songs.append(song)
+
+        return true
     }
 
-    mutating func appendMany(_ array: [Song]) {
+    mutating func appendMany(_ array: [Song]) -> Bool {
         // 过滤掉已存在的歌曲
         let queueIds = songs.map(\.id)
         let newSongs = array.filter {
             !queueIds.contains($0.id)
         }
 
-        guard !newSongs.isEmpty else { return }
+        guard !newSongs.isEmpty else { return false }
         songs.append(contentsOf: newSongs)
+
+        return true
+    }
+
+    mutating func replace(with songs: [Song], startIndex: Int) -> QueueTransition {
+        self.songs = songs
+
+        guard let song = songs[safe: startIndex] else {
+            currentIndex = nil
+            return .stop
+        }
+
+        currentIndex = startIndex
+        return .play(song)
     }
 
     mutating func remove(songId: Song.ID, mode: PlaybackMode) -> QueueTransition {

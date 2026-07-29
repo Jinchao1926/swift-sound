@@ -14,6 +14,7 @@ struct HomeView: View {
     @StateObject private var lyricsStore = LyricsStore()
     @State private var isPlayerPresented = false
     @State private var isPlaylistPresented = false
+    @State private var pendingPlayerStoreEvent: PlayerStoreEvent?
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -30,6 +31,7 @@ struct HomeView: View {
                     PlayerBarView(
                         model: playerBarModel,
                         callback: playerCallback,
+                        playerStoreEvent: $pendingPlayerStoreEvent,
                         onActivate: {
                             withAnimation(.easeInOut(duration: 0.22)) {
                                 isPlayerPresented = true
@@ -62,6 +64,9 @@ struct HomeView: View {
             }
         }
         .frame(minHeight: 720)
+        .onReceive(playerStore.events) { event in
+            pendingPlayerStoreEvent = event
+        }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)) { _ in
             playerStore.flushPersistence()
         }

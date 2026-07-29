@@ -11,6 +11,7 @@ struct PlayerBarView: View {
     let model: PlayerPresentationModel
     let callback: PlayerControlsCallback
     let style: PlayerBarStyle
+    @Binding var playerStoreEvent: PlayerStoreEvent?
     let onActivate: (() -> Void)?
     let onTogglePlaylist: (() -> Void)?
 
@@ -18,12 +19,14 @@ struct PlayerBarView: View {
         model: PlayerPresentationModel,
         callback: PlayerControlsCallback,
         style: PlayerBarStyle = .compact,
+        playerStoreEvent: Binding<PlayerStoreEvent?> = .constant(nil),
         onActivate: (() -> Void)? = nil,
         onTogglePlaylist: (() -> Void)? = nil
     ) {
         self.model = model
         self.callback = callback
         self.style = style
+        self._playerStoreEvent = playerStoreEvent
         self.onActivate = onActivate
         self.onTogglePlaylist = onTogglePlaylist
     }
@@ -95,6 +98,9 @@ struct PlayerBarView: View {
                 .help("下一首")
 
             PlayerIconButton(systemName: "list.bullet", action: onTogglePlaylist)
+                .toast("已添加至播放列表", triggerID: playlistToastID) {
+                    playerStoreEvent = nil
+                }
                 .help("播放列表")
         }
         .frame(maxHeight: .infinity)
@@ -135,6 +141,11 @@ struct PlayerBarView: View {
 }
 
 private extension PlayerBarView {
+    var playlistToastID: UUID? {
+        guard case .playlistAddition(let id) = playerStoreEvent else { return nil }
+        return id
+    }
+
     var playbackModeIconName: String {
         switch model.playbackMode {
         case .listLoop:
@@ -178,4 +189,5 @@ private extension PlayerBarView {
         )
     }
     .frame(width: 1280, height: 250)
+    .background(Color.surfacePrimary)
 }

@@ -10,7 +10,8 @@ import Foundation
 enum PlayerAction {
     // Selection
     case playSong(Song)
-    case playQueue(startIndex: Int)
+    case playQueuedSong(at: Int)
+    case playQueue([Song], startIndex: Int)
 
     // Transport
     case play
