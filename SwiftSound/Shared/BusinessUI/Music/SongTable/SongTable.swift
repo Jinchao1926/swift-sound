@@ -58,15 +58,20 @@ struct SongTable: View {
                 sort: { lhs, rhs in
                     lhs.song.name.localizedStandardCompare(rhs.song.name)
                 },
-                content: { row, _ in
+                content: { row, context in
                     MusicTableTitleCell(
                         imageURL: row.imageURL,
                         title: row.title,
                         titleSuffix: row.titleSuffix,
-                        subTitle: row.subTitle
-                    ) {
-                        SongTableBadges(row: row)
-                    }
+                        subTitle: row.subTitle,
+                        isRowHovering: context.isHovering,
+                        onAction: {
+                            handleTitleAction($0, song: row.song)
+                        },
+                        badges: {
+                            SongTableBadges(row: row)
+                        }
+                    )
                 }
             ),
 
@@ -119,6 +124,16 @@ struct SongTable: View {
         static let likedWidth: CGFloat = 58
         static let durationWidth: CGFloat = 65
     }
+
+    private func handleTitleAction(_ action: MusicTableAction, song: Song) {
+        switch action {
+        case .addToPlaylist:
+            playerStore.send(.appendToQueue(song))
+
+        case .download, .comment, .more:
+            break
+        }
+    }
 }
 
 #Preview {
@@ -126,7 +141,7 @@ struct SongTable: View {
         SongTable(songs: Array.songsPreview)
     }
     .padding(20)
-    .frame(width: 700)
+    .frame(width: 800)
     .background(Color.surfaceSecondary)
     .environmentObject(PlayerStore())
 }
