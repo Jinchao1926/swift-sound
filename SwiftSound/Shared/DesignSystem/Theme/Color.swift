@@ -17,6 +17,7 @@ extension Color {
 
     static let textPrimary = Color(hex: 0x283248)
     static let textSecondary = Color(hex: 0x787F8E)
+    static let textTertiary = Color(hex: 0x9A98A3)
 
     static let textPrimaryOnDark = Color.white.opacity(0.92)
     static let textSecondaryOnDark = Color.white.opacity(0.48)

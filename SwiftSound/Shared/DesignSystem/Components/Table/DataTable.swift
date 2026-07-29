@@ -66,6 +66,7 @@ struct DataTable<Row: Identifiable>: View where Row.ID: Hashable {
         return HStack(spacing: 0) {
             ForEach(columns) { column in
                 column.content(row.value, context)
+                    .padding(.horizontal, style.cellHorizontalPadding)
                     .opacity(column.isVisible(context: context) ? 1 : 0)
                     .allowsHitTesting(column.isVisible(context: context))
                     .dataTableColumnFrame(column.width, alignment: column.alignment)
