@@ -2,7 +2,7 @@
 //  InfiniteScrollTrigger.swift
 //  SwiftSound
 //
-//  Created by Codex on 2026/7/23.
+//  Created by Jinchao Lin on 2026/7/23.
 //
 
 import SwiftUI
