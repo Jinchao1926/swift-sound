@@ -8,18 +8,30 @@
 import SwiftUI
 
 struct RouteTitleLink: View {
-    private let title: String
-    private let navigate: (AppRouter) -> Void
-
-    // MARK: - LifeCycle
-    init(_ title: String, route: AppRoute) {
-        self.title = title
-        self.navigate = { $0.navigate(to: route) }
+    enum Variant {
+        case large
+        case medium
     }
 
-    init<Route: SecondaryRouteProtocol>(_ title: String, route: Route) {
+    private let title: String
+    private let navigate: (AppRouter) -> Void
+    private let variant: Variant
+
+    // MARK: - LifeCycle
+    init(_ title: String, route: AppRoute, variant: Variant = .medium) {
         self.title = title
         self.navigate = { $0.navigate(to: route) }
+        self.variant = variant
+    }
+
+    init<Route: SecondaryRouteProtocol>(
+        _ title: String,
+        route: Route,
+        variant: Variant = .medium
+    ) {
+        self.title = title
+        self.navigate = { $0.navigate(to: route) }
+        self.variant = variant
     }
 
     // MARK: - UI
@@ -27,14 +39,32 @@ struct RouteTitleLink: View {
         RouteLink(navigate: navigate) {
             HStack(spacing: 4) {
                 Text(title)
-                    .font(.font16.weight(.medium))
+                    .font(titleFont)
 
                 Image(systemName: "chevron.right")
-                    .font(.font14)
+                    .font(chevornFont)
             }
             .foregroundStyle(Color.textPrimary)
             .contentShape(Rectangle())
             .frame(height: 40)
+        }
+    }
+
+    private var titleFont: Font {
+        switch variant {
+        case .large:
+            .font18.weight(.medium)
+        case .medium:
+            .font16.weight(.medium)
+        }
+    }
+
+    private var chevornFont: Font {
+        switch variant {
+        case .large:
+            .font16
+        case .medium:
+            .font14
         }
     }
 }

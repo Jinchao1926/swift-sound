@@ -28,6 +28,7 @@ struct ArtistDetailPage: View {
                     destinationRoute: { .artist(id: id, secondary: $0) }
                 )
                 content
+                    .padding(.horizontal, Layout.horizontalPadding)
             }
         }
         .task {
@@ -84,6 +85,7 @@ struct ArtistDetailPage: View {
         switch route {
         case .songs:
             ArtistSongsPage(
+                id: id,
                 state: viewModel.songsState,
                 load: viewModel.loadPopularSongs
             )

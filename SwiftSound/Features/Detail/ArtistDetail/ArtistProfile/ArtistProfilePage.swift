@@ -32,7 +32,6 @@ struct ArtistProfilePage: View {
                 .padding(.bottom, Layout.paragraphBottomInset)
             }
         }
-        .padding(.horizontal, Layout.horizontalInset)
         .padding(.vertical, Layout.verticalInset)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .task {
@@ -51,7 +50,6 @@ struct ArtistProfilePage: View {
 
 private extension ArtistProfilePage {
     enum Layout {
-        static let horizontalInset: CGFloat = 40
         static let verticalInset: CGFloat = 20
 
         static let paragraphLineSpacing: CGFloat = 10

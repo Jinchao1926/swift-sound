@@ -16,10 +16,11 @@ enum AppRoute: Identifiable, Hashable, Equatable {
     case favorite
     case played
     case download
-    //
+    // Others
     case newMusic(secondary: NewMusicRoute = .songs)
     // Details
     case artist(id: Int, secondary: ArtistRoute = .songs)
+    case artistPopularSongs(id: Int)
     case user(id: Int, secondary: UserRoute = .playlists)
 
     var id: Self { self }
