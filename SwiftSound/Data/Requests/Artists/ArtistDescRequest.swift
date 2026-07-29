@@ -2,7 +2,7 @@
 //  ArtistDescRequest.swift
 //  SwiftSound
 //
-//  Created by Jinchao Lin on 2026/6/15.
+//  Created by Jinchao Lin on 2026/7/28.
 //
 
 import Foundation
@@ -10,7 +10,7 @@ import Foundation
 struct ArtistDesc {
     let introduction: [ArtistIntroduction]
     let briefDesc: String
-    
+
     init(introduction: [ArtistIntroduction], briefDesc: String) {
         self.introduction = introduction
         self.briefDesc = briefDesc

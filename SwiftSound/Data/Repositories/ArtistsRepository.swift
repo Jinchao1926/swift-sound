@@ -27,6 +27,11 @@ struct ArtistsRepository {
         return response.data
     }
 
+    func fetchArtistPopularSongs(id: Int) async throws -> [Song] {
+        let response = try await apiClient.request(ArtistPopularSongsRequest(id: id))
+        return response.songs
+    }
+
     func fetchArtistDesc(id: Int) async throws -> ArtistDesc {
         let response = try await apiClient.request(ArtistDescRequest(id: id))
         return ArtistDesc(response: response)

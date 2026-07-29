@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SimilarArtistsPage: View {
     var body: some View {
-        PlaceholderPage(title: "SimilarArtists")
+        PlaceholderPage(title: "SimilarArtists - 需要登录")
     }
 }
 

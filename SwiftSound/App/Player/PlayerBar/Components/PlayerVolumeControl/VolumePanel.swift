@@ -2,7 +2,7 @@
 //  VolumePanel.swift
 //  SwiftSound
 //
-//  Created by Codex on 2026/7/6.
+//  Created by Jinchao Lin on 2026/7/6.
 //
 
 import SwiftUI

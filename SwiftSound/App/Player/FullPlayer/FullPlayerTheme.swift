@@ -2,7 +2,7 @@
 //  FullPlayerTheme.swift
 //  SwiftSound
 //
-//  Created by Codex on 2026/6/28.
+//  Created by Jinchao Lin on 2026/6/28.
 //
 
 import SwiftUI

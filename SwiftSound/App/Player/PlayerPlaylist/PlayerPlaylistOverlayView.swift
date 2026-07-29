@@ -58,7 +58,7 @@ private extension PlayerPlaylistOverlayView {
 
 #Preview {
     PlayerPlaylistOverlayView(
-        songs: [.preview, .preview1, .preview2],
+        songs: Array.songsPreview,
         currentIndex: 0,
         playbackState: .playing,
         onDismiss: {},

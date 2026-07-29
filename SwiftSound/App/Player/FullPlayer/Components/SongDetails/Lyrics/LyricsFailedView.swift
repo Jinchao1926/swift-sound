@@ -2,7 +2,7 @@
 //  LyricsFailedView.swift
 //  SwiftSound
 //
-//  Created by Codex on 2026/7/3.
+//  Created by Jinchao Lin on 2026/7/3.
 //
 
 import SwiftUI
