@@ -19,25 +19,10 @@ struct DataTableHeaderCell<Row: Identifiable>: View {
             guard column.isSortable else { return }
             sortState.cycle(columnID: column.id)
         } label: {
-            HStack(spacing: 10) {
-                if column.alignment == .trailing {
-                    Spacer(minLength: 0)
-                }
-
-                Text(column.title)
-                    .lineLimit(1)
-
-                if showsSortStatus {
-                    sortStatus
-                }
-
-                if column.alignment == .leading {
-                    Spacer(minLength: 0)
-                }
-            }
-            .font(.font14)
+            headerContent
+            .font(.font13)
             .foregroundStyle(style.headerForeground)
-            .padding(.horizontal, horizontalPadding)
+            .padding(.horizontal, style.cellHorizontalPadding)
             .frame(maxWidth: .infinity, alignment: column.alignment)
             .frame(height: height)
             .background(
@@ -52,16 +37,50 @@ struct DataTableHeaderCell<Row: Identifiable>: View {
         .opacity(column.isSortable && !isHovering && !isActive ? 0.82 : 1)
     }
 
-    private var sortStatus: some View {
+    @ViewBuilder
+    private var headerContent: some View {
+        if showsSortStatus {
+            ViewThatFits(in: .horizontal) {
+                headerContent(sortStatus: sortStatusLabel)
+                headerContent(sortStatus: sortStatusIcon)
+            }
+        } else {
+            headerContent(sortStatus: EmptyView())
+        }
+    }
+
+    private func headerContent<SortStatus: View>(
+        sortStatus: SortStatus
+    ) -> some View {
+        HStack(spacing: 10) {
+            if column.alignment == .trailing {
+                Spacer(minLength: 0)
+            }
+
+            Text(column.title)
+                .lineLimit(1)
+                .fixedSize(horizontal: true, vertical: false)
+
+            sortStatus
+
+            if column.alignment == .leading {
+                Spacer(minLength: 0)
+            }
+        }
+    }
+
+    private var sortStatusLabel: some View {
         HStack(spacing: 2) {
-            Image(systemName: sortDisplayState.systemImage)
-                .font(.font12)
+            sortStatusIcon
 
             Text(sortDisplayState.title)
-                .font(.font14)
+                .font(.font13)
         }
-        .foregroundStyle(style.headerForeground)
-        .lineLimit(1)
+    }
+
+    private var sortStatusIcon: some View {
+        Image(systemName: sortDisplayState.systemImage)
+            .font(.font10)
     }
 
     private var showsSortStatus: Bool {
@@ -81,5 +100,4 @@ struct DataTableHeaderCell<Row: Identifiable>: View {
     }
 
     private var height: CGFloat { 26 }
-    private var horizontalPadding: CGFloat { 6 }
 }

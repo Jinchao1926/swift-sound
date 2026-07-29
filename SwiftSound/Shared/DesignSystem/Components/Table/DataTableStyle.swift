@@ -10,6 +10,7 @@ import SwiftUI
 struct DataTableStyle {
     let headerHeight: CGFloat
     let rowHeight: CGFloat
+    let cellHorizontalPadding: CGFloat
     let cornerRadius: CGFloat
     let hoverFill: Color
     let divider: Color
@@ -20,6 +21,7 @@ struct DataTableStyle {
     static let plain = DataTableStyle(
         headerHeight: 38,
         rowHeight: 64,
+        cellHorizontalPadding: 6,
         cornerRadius: 8,
         hoverFill: .white,
         divider: Color.divider.opacity(0.55),

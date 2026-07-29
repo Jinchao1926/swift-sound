@@ -13,7 +13,7 @@ struct ArtistSongsPage: View {
     let load: () async -> Void
 
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             RouteTitleLink(
                 "热门歌曲",
                 route: .artistPopularSongs(id: id),
