@@ -31,6 +31,7 @@ struct DetailContainerView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 
+    // swiftlint:disable cyclomatic_complexity
     @ViewBuilder
     private func routeView(_ route: AppRoute) -> some View {
         switch route {
@@ -52,10 +53,13 @@ struct DetailContainerView: View {
             ArtistPopularSongsPage(id: id)
         case .artist(let id, let secondary):
             ArtistDetailPage(id: id, route: secondary)
+        case .album(let id, let secondary):
+            AlbumDetailPage(id: id, route: secondary)
         case .user(let id, let secondary):
             UserDetailPage(id: id, route: secondary)
         }
     }
+    // swiftlint:enable cyclomatic_complexity
 }
 
 #Preview {
