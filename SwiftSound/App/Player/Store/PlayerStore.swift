@@ -8,12 +8,28 @@
 import Foundation
 import Combine
 
+enum PlayerStoreEvent: Equatable {
+    case playlistAddition(id: UUID)
+
+    var id: UUID {
+        switch self {
+        case .playlistAddition(let id):
+            return id
+        }
+    }
+}
+
 /// Defines app-level playback store
 final class PlayerStore: ObservableObject {
     @Published private(set) var state: PlayerState
 
     private let persistence: PlayerStatePersistence
     private var playbackCoordinator: PlaybackCoordinator?
+    private let eventSubject = PassthroughSubject<PlayerStoreEvent, Never>()
+
+    var events: AnyPublisher<PlayerStoreEvent, Never> {
+        eventSubject.eraseToAnyPublisher()
+    }
 
     init(
         state: PlayerState? = nil,
@@ -42,6 +58,10 @@ final class PlayerStore: ObservableObject {
     func flushPersistence() {
         persistNow()
     }
+
+    private func emit(_ event: PlayerStoreEvent) {
+        eventSubject.send(event)
+    }
 }
 
 // MARK: - Reducer
@@ -60,11 +80,19 @@ private extension PlayerStore {
     func reduceSelectionAction(_ action: PlayerAction) -> Bool {
         switch action {
         case .playSong(let song):
+            let previousQueueSongIDs = queueSongIDs()
             handleQueueTransition(state.queue.play(song))
+            emitPlaylistAdditionIfNeeded(before: previousQueueSongIDs)
             return true
 
-        case .playQueue(let startIndex):
+        case .playQueuedSong(let startIndex):
             handleQueueTransition(state.queue.play(at: startIndex))
+            return true
+
+        case .playQueue(let songs, let startIndex):
+            let previousQueueSongIDs = queueSongIDs()
+            handleQueueTransition(state.queue.replace(with: songs, startIndex: startIndex))
+            emitPlaylistAdditionIfNeeded(before: previousQueueSongIDs)
             return true
 
         default:
@@ -126,11 +154,17 @@ private extension PlayerStore {
     func reduceQueueAction(_ action: PlayerAction) -> Bool {
         switch action {
         case .appendToQueue(let song):
-            state.queue.append(song)
+            let previousQueueSongIDs = queueSongIDs()
+            if state.queue.append(song) {
+                emitPlaylistAdditionIfNeeded(before: previousQueueSongIDs)
+            }
             return true
 
         case .appendManyToQueue(let array):
-            state.queue.appendMany(array)
+            let previousQueueSongIDs = queueSongIDs()
+            if state.queue.appendMany(array) {
+                emitPlaylistAdditionIfNeeded(before: previousQueueSongIDs)
+            }
             return true
 
         case .removeFromQueue(let songId):
@@ -258,5 +292,12 @@ private extension PlayerStore {
         case .noChange:
             break
         }
+    }
+
+    func queueSongIDs() -> [Song.ID] { state.queue.songs.map(\.id) }
+
+    func emitPlaylistAdditionIfNeeded(before previousQueueSongIDs: [Song.ID]) {
+        guard previousQueueSongIDs != queueSongIDs() else { return }
+        emit(.playlistAddition(id: UUID()))
     }
 }

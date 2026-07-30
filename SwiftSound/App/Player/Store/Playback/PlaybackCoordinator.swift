@@ -34,7 +34,7 @@ final class PlaybackCoordinator {
 
     func handle(action: PlayerAction, state: PlayerState) {
         switch action {
-        case .playSong, .playQueue, .next, .previous:
+        case .playSong, .playQueuedSong, .playQueue, .next, .previous:
             syncCurrentTrack(with: state)
 
         case .play, .pause, .togglePlayPause:

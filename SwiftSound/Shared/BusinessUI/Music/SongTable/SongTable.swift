@@ -45,7 +45,7 @@ struct SongTable: View {
                         index: context.index + 1,
                         isRowHovering: context.isHovering
                     ) {
-                        playerStore.send(.playSong(row.song))
+                        playerStore.send(.playQueue(songs, startIndex: context.index))
                     }
                 }
             ),
