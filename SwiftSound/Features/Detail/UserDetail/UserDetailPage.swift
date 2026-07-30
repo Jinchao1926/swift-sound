@@ -12,7 +12,10 @@ struct UserDetailPage: View {
     let route: UserRoute
 
     var body: some View {
-        Text("UserDetailPage: \(id)")
+        VStack {
+            Text("UserDetailPage: \(id)")
+            content
+        }
     }
 
     @ViewBuilder

@@ -40,7 +40,7 @@ struct SongTable: View {
                 title: "#",
                 width: .fixed(Layout.indexWidth),
                 alignment: .center,
-                content: { row, context in
+                content: { _, context in
                     MusicTableIndexCell(
                         index: context.index + 1,
                         isRowHovering: context.isHovering
@@ -83,10 +83,12 @@ struct SongTable: View {
                     lhs.song.album.name.localizedStandardCompare(rhs.song.album.name)
                 },
                 content: { row, _ in
-                    Text(row.song.album.name)
-                        .font(.font14)
-                        .foregroundStyle(Color.textSecondary)
-                        .lineLimit(1)
+                    RouteLink(route: .album(id: row.id)) {
+                        Text(row.song.album.name)
+                            .font(.font14)
+                            .foregroundStyle(Color.textSecondary)
+                            .lineLimit(1)
+                    }
                 }
             ),
 

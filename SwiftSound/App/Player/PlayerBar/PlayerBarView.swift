@@ -63,7 +63,7 @@ struct PlayerBarView: View {
             TapGesture().onEnded {
                 onActivate?()
             },
-            including: .none
+            including: .gesture
         )
     }
 
