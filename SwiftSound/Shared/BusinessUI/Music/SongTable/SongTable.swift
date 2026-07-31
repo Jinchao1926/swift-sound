@@ -25,12 +25,13 @@ struct SongTable: View {
         DataTable(
             rows: rows,
             columns: columns,
-            style: style
+            style: style,
+            isRowHighlighted: { $0.playbackStatus.isCurrent }
         )
     }
 
     private var rows: [SongTableRow] {
-        songs.map { SongTableRow(song: $0) }
+        songs.map { SongTableRow(song: $0, playbackStatus: playbackStatus(for: $0)) }
     }
 
     private var columns: [DataTableColumn<SongTableRow>] {
@@ -40,12 +41,18 @@ struct SongTable: View {
                 title: "#",
                 width: .fixed(Layout.indexWidth),
                 alignment: .center,
-                content: { _, context in
+                content: { row, context in
+                    let rowState = rowState(for: row, context: context)
+
                     MusicTableIndexCell(
                         index: context.index + 1,
-                        isRowHovering: context.isHovering
+                        rowState: rowState
                     ) {
-                        playerStore.send(.playQueue(songs, startIndex: context.index))
+                        if rowState.isPlaying {
+                            playerStore.send(.pause)
+                        } else {
+                            playerStore.send(.playQueue(songs, startIndex: context.index))
+                        }
                     }
                 }
             ),
@@ -59,12 +66,14 @@ struct SongTable: View {
                     lhs.song.name.localizedStandardCompare(rhs.song.name)
                 },
                 content: { row, context in
+                    let rowState = rowState(for: row, context: context)
+
                     MusicTableTitleCell(
                         imageURL: row.imageURL,
                         title: row.title,
                         titleSuffix: row.titleSuffix,
                         subTitle: row.subTitle,
-                        isRowHovering: context.isHovering,
+                        rowState: rowState,
                         onAction: {
                             handleTitleAction($0, song: row.song)
                         },
@@ -125,6 +134,26 @@ struct SongTable: View {
         static let albumWidth: CGFloat = 220
         static let likedWidth: CGFloat = 58
         static let durationWidth: CGFloat = 65
+    }
+
+    private func playbackStatus(for song: Song) -> SongTablePlaybackStatus {
+        guard playerStore.state.currentSong?.id == song.id else {
+            return .notCurrent
+        }
+
+        return playerStore.state.playbackState == .playing
+            ? .currentPlaying
+            : .currentPaused
+    }
+
+    private func rowState(
+        for row: SongTableRow,
+        context: DataTableRowContext
+    ) -> SongTableRowState {
+        SongTableRowState(
+            isHovering: context.isHovering,
+            playbackStatus: row.playbackStatus
+        )
     }
 
     private func handleTitleAction(_ action: MusicTableAction, song: Song) {

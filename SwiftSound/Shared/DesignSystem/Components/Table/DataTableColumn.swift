@@ -20,6 +20,7 @@ enum DataTableColumnVisibility {
 struct DataTableRowContext {
     let index: Int
     let isHovering: Bool
+    let isHighlighted: Bool
 }
 
 struct DataTableColumn<Row>: Identifiable {

@@ -19,7 +19,7 @@ struct MusicTableTitleCell<Badges: View>: View {
     let title: String
     let titleSuffix: String?
     let subTitle: String?
-    let isRowHovering: Bool
+    let rowState: SongTableRowState
     let onAction: (MusicTableAction) -> Void
     let badges: Badges
 
@@ -28,7 +28,7 @@ struct MusicTableTitleCell<Badges: View>: View {
         title: String,
         titleSuffix: String? = nil,
         subTitle: String? = nil,
-        isRowHovering: Bool = false,
+        rowState: SongTableRowState = .init(),
         onAction: @escaping (MusicTableAction) -> Void = { _ in },
         @ViewBuilder badges: () -> Badges
     ) {
@@ -36,7 +36,7 @@ struct MusicTableTitleCell<Badges: View>: View {
         self.title = title
         self.titleSuffix = titleSuffix
         self.subTitle = subTitle
-        self.isRowHovering = isRowHovering
+        self.rowState = rowState
         self.onAction = onAction
         self.badges = badges()
     }
@@ -53,7 +53,7 @@ struct MusicTableTitleCell<Badges: View>: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            if isRowHovering {
+            if rowState.showsActions {
                 MusicTableActionView(onAction: onAction)
             }
         }
@@ -64,13 +64,13 @@ struct MusicTableTitleCell<Badges: View>: View {
         HStack(spacing: Layout.titleInset) {
             Text(title)
                 .font(.font14)
-                .foregroundStyle(Color.textPrimary)
+                .foregroundStyle(rowState.titleColor)
                 .lineLimit(1)
 
             if let titleSuffix {
                 Text(titleSuffix)
                     .font(.font14)
-                    .foregroundStyle(Color.textSecondary)
+                    .foregroundStyle(rowState.titleSuffixColor)
                     .lineLimit(1)
             }
         }
@@ -83,7 +83,7 @@ struct MusicTableTitleCell<Badges: View>: View {
             if let subTitle {
                 Text(subTitle)
                     .font(.font13)
-                    .foregroundStyle(Color.textSecondary)
+                    .foregroundStyle(rowState.subTitleColor)
                     .lineLimit(1)
                     .padding(.leading, Layout.titleInset)
             }
@@ -149,7 +149,7 @@ private enum Layout {
             title: Song.preview1.name,
             titleSuffix: "",
             subTitle: Song.preview.artistName,
-            isRowHovering: true
+            rowState: .init(isHovering: true, playbackStatus: .currentPlaying)
         ) {
             SongBadges.vip
             SongBadges.mv
