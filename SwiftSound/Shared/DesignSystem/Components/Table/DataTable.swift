@@ -11,6 +11,7 @@ struct DataTable<Row: Identifiable>: View where Row.ID: Hashable {
     let rows: [Row]
     let columns: [DataTableColumn<Row>]
     let style: DataTableStyle
+    let isRowHighlighted: (Row) -> Bool
 
     @State private var hoveredRowID: Row.ID?
     @State private var sortState = DataTableSortState()
@@ -18,11 +19,13 @@ struct DataTable<Row: Identifiable>: View where Row.ID: Hashable {
     init(
         rows: [Row],
         columns: [DataTableColumn<Row>],
-        style: DataTableStyle = .plain
+        style: DataTableStyle = .plain,
+        isRowHighlighted: @escaping (Row) -> Bool = { _ in false }
     ) {
         self.rows = rows
         self.columns = columns
         self.style = style
+        self.isRowHighlighted = isRowHighlighted
     }
 
     var body: some View {
@@ -58,9 +61,11 @@ struct DataTable<Row: Identifiable>: View where Row.ID: Hashable {
 
     private func dataRow(_ row: DataTableRow<Row>, index: Int) -> some View {
         let isHovering = hoveredRowID == row.value.id
+        let isHighlighted = isRowHighlighted(row.value)
         let context = DataTableRowContext(
             index: index,
-            isHovering: isHovering
+            isHovering: isHovering,
+            isHighlighted: isHighlighted
         )
 
         return HStack(spacing: 0) {
@@ -75,7 +80,7 @@ struct DataTable<Row: Identifiable>: View where Row.ID: Hashable {
         .frame(height: style.rowHeight)
         .background(
             RoundedRectangle(cornerRadius: style.cornerRadius, style: .continuous)
-                .fill(isHovering ? style.hoverFill : Color.clear)
+                .fill(isHovering || isHighlighted ? style.hoverFill : Color.clear)
         )
         .contentShape(Rectangle())
         .onHover { hovering in
