@@ -10,10 +10,10 @@ import Foundation
 /// API returned `tracks` could be null; call detail API for full response.
 struct TopPlaylistsResponse: nonisolated Decodable {
     let playlists: [Playlist]
-    let code: Int
     let total: Int
     let more: Bool
     let cat: String
+    let code: Int
 }
 
 struct TopPlaylistsRequest: APIRequest {

@@ -10,7 +10,6 @@ import Foundation
 struct ArtistPopularSongsResponse: nonisolated Decodable {
     let songs: [Song]
     let code: Int
-    let more: Bool
 }
 
 struct ArtistPopularSongsRequest: APIRequest {

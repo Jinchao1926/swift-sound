@@ -1,5 +1,5 @@
 //
-//  ArtistSongsPage.swift
+//  ArtistPopularSongsPage.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/7/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ArtistSongsPage: View {
+struct ArtistPopularSongsPage: View {
     let id: Int
     let state: Loadable<[Song]>
     let load: () async -> Void
@@ -16,7 +16,7 @@ struct ArtistSongsPage: View {
         VStack(alignment: .leading, spacing: 0) {
             RouteTitleLink(
                 "热门歌曲",
-                route: .artistPopularSongs(id: id),
+                route: .artistSongs(id: id),
                 variant: .large
             )
 
@@ -33,7 +33,7 @@ struct ArtistSongsPage: View {
     }
 }
 
-private extension ArtistSongsPage {
+private extension ArtistPopularSongsPage {
     enum Layout {
         static let bottomInset: CGFloat = 20
         static let tableTopPadding: CGFloat = 12
@@ -41,7 +41,7 @@ private extension ArtistSongsPage {
 }
 
 #Preview {
-    ArtistSongsPage(
+    ArtistPopularSongsPage(
         id: Artist.preview.id,
         state: .loaded(Array.songsPreview),
         load: {}
