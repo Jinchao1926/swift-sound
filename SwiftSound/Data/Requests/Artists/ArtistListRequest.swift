@@ -129,8 +129,8 @@ enum ArtistInitial: Equatable, Identifiable {
 // MARK: - ArtistListResponse
 struct ArtistListResponse: nonisolated Decodable {
     let artists: [Artist]
-    let code: Int
     let more: Bool
+    let code: Int
 }
 
 extension ArtistListResponse: PaginatedResponse {

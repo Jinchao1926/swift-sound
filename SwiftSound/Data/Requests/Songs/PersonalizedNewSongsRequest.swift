@@ -9,8 +9,8 @@ import Foundation
 
 struct PersonalizedNewSongsResponse: nonisolated Decodable {
     let result: [NewSong]
-    let code: Int
     let category: Int
+    let code: Int
 }
 
 struct PersonalizedNewSongsRequest: APIRequest {

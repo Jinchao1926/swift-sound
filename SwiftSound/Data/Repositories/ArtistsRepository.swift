@@ -27,13 +27,22 @@ struct ArtistsRepository {
         return response.data
     }
 
+    func fetchArtistDesc(id: Int) async throws -> ArtistDesc {
+        let response = try await apiClient.request(ArtistDescRequest(id: id))
+        return ArtistDesc(response: response)
+    }
+
     func fetchArtistPopularSongs(id: Int) async throws -> [Song] {
         let response = try await apiClient.request(ArtistPopularSongsRequest(id: id))
         return response.songs
     }
 
-    func fetchArtistDesc(id: Int) async throws -> ArtistDesc {
-        let response = try await apiClient.request(ArtistDescRequest(id: id))
-        return ArtistDesc(response: response)
+    func fetchArtistSongs(
+        id: Int,
+        offset: Int = 0,
+        limit: Int = 50
+    ) async throws -> ArtistSongsResponse {
+        let request = ArtistSongsRequest(id: id, offset: offset, limit: limit)
+        return try await apiClient.request(request)
     }
 }

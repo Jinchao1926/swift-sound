@@ -1,0 +1,708 @@
+{
+    "songs": [
+        {
+            "rtUrls": [],
+            "ar": [
+                {
+                    "id": 2116,
+                    "name": "陈奕迅"
+                }
+            ],
+            "al": {
+                "id": 6452,
+                "name": "Life Continues…",
+                "picUrl": "https://p4.music.126.net/3mi073axgjg-g-79ObwwEQ==/109951171836582062.jpg",
+                "pic_str": "109951171836582062",
+                "pic": 109951171836582060
+            },
+            "st": 1,
+            "noCopyrightRcmd": null,
+            "artistClassics": true,
+            "songJumpInfo": null,
+            "djId": 0,
+            "no": 3,
+            "fee": 1,
+            "mv": 303142,
+            "cd": "1",
+            "t": 0,
+            "v": 456,
+            "dt": 233560,
+            "cp": 7003,
+            "crbt": null,
+            "cf": "",
+            "h": {
+                "br": 320000,
+                "fid": 0,
+                "size": 9344566,
+                "vd": -27575,
+                "sr": 44100
+            },
+            "sq": {
+                "br": 862262,
+                "fid": 0,
+                "size": 25173762,
+                "vd": -28243,
+                "sr": 44100
+            },
+            "hr": null,
+            "l": {
+                "br": 128000,
+                "fid": 0,
+                "size": 3737853,
+                "vd": -23218,
+                "sr": 44100
+            },
+            "rtUrl": null,
+            "ftype": 0,
+            "rtype": 0,
+            "rurl": null,
+            "pst": 0,
+            "alia": [],
+            "pop": 100,
+            "rt": "600902000005377598",
+            "mst": 9,
+            "mark": 17179877376,
+            "a": null,
+            "m": {
+                "br": 192000,
+                "fid": 0,
+                "size": 5606757,
+                "vd": -24974,
+                "sr": 44100
+            },
+            "name": "最佳损友",
+            "id": 65800,
+            "privilege": {
+                "id": 65800,
+                "fee": 1,
+                "payed": 0,
+                "st": 0,
+                "pl": 0,
+                "dl": 0,
+                "sp": 7,
+                "cp": 1,
+                "subp": 1,
+                "cs": false,
+                "maxbr": 999000,
+                "fl": 0,
+                "toast": false,
+                "flag": 3638276,
+                "preSell": false,
+                "playMaxbr": 999000,
+                "downloadMaxbr": 999000,
+                "maxBrLevel": "vivid",
+                "playMaxBrLevel": "vivid",
+                "downloadMaxBrLevel": "vivid",
+                "plLevel": "none",
+                "dlLevel": "none",
+                "flLevel": "none",
+                "rscl": null,
+                "freeTrialPrivilege": {
+                    "resConsumable": true,
+                    "userConsumable": false,
+                    "listenType": null,
+                    "cannotListenReason": null,
+                    "playReason": null,
+                    "freeLimitTagType": null
+                },
+                "rightSource": 0,
+                "chargeInfoList": [
+                    {
+                        "rate": 128000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 192000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 320000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 999000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    }
+                ],
+                "code": 0,
+                "message": null,
+                "plLevels": null,
+                "dlLevels": null,
+                "ignoreCache": null,
+                "bd": null
+            }
+        },
+        {
+            "rtUrls": [],
+            "ar": [
+                {
+                    "id": 2116,
+                    "name": "陈奕迅"
+                }
+            ],
+            "al": {
+                "id": 6451,
+                "name": "What's Going On…?",
+                "picUrl": "https://p3.music.126.net/oSMs7RzJFx0TgWCqRC8XjA==/109951171844247587.jpg",
+                "pic_str": "109951171844247587",
+                "pic": 109951171844247580
+            },
+            "st": 1,
+            "noCopyrightRcmd": null,
+            "artistClassics": true,
+            "songJumpInfo": null,
+            "djId": 0,
+            "no": 5,
+            "fee": 1,
+            "mv": 303140,
+            "cd": "01",
+            "t": 0,
+            "v": 172,
+            "dt": 258902,
+            "cp": 7003,
+            "crbt": null,
+            "cf": "",
+            "h": {
+                "br": 320000,
+                "fid": 0,
+                "size": 10359162,
+                "vd": -32859,
+                "sr": 44100
+            },
+            "sq": {
+                "br": 1567785,
+                "fid": 0,
+                "size": 50737963,
+                "vd": -32910,
+                "sr": 44100
+            },
+            "hr": null,
+            "l": {
+                "br": 128000,
+                "fid": 0,
+                "size": 4143691,
+                "vd": -28666,
+                "sr": 44100
+            },
+            "rtUrl": null,
+            "ftype": 0,
+            "rtype": 0,
+            "rurl": null,
+            "pst": 0,
+            "alia": [],
+            "pop": 100,
+            "rt": "600902000001108413",
+            "mst": 9,
+            "mark": 17179877376,
+            "a": null,
+            "m": {
+                "br": 192000,
+                "fid": 0,
+                "size": 6215515,
+                "vd": -30259,
+                "sr": 44100
+            },
+            "name": "富士山下",
+            "id": 65766,
+            "privilege": {
+                "id": 65766,
+                "fee": 1,
+                "payed": 0,
+                "st": 0,
+                "pl": 0,
+                "dl": 0,
+                "sp": 7,
+                "cp": 1,
+                "subp": 1,
+                "cs": false,
+                "maxbr": 999000,
+                "fl": 0,
+                "toast": false,
+                "flag": 3638276,
+                "preSell": false,
+                "playMaxbr": 999000,
+                "downloadMaxbr": 999000,
+                "maxBrLevel": "vivid",
+                "playMaxBrLevel": "vivid",
+                "downloadMaxBrLevel": "vivid",
+                "plLevel": "none",
+                "dlLevel": "none",
+                "flLevel": "none",
+                "rscl": null,
+                "freeTrialPrivilege": {
+                    "resConsumable": true,
+                    "userConsumable": false,
+                    "listenType": null,
+                    "cannotListenReason": null,
+                    "playReason": null,
+                    "freeLimitTagType": null
+                },
+                "rightSource": 0,
+                "chargeInfoList": [
+                    {
+                        "rate": 128000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 192000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 320000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 999000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    }
+                ],
+                "code": 0,
+                "message": null,
+                "plLevels": null,
+                "dlLevels": null,
+                "ignoreCache": null,
+                "bd": null
+            }
+        },
+        {
+            "rtUrls": [],
+            "ar": [
+                {
+                    "id": 2116,
+                    "name": "陈奕迅"
+                }
+            ],
+            "al": {
+                "id": 6341,
+                "name": "？",
+                "picUrl": "https://p3.music.126.net/Po0tJTtv4aBaYozWlnojHg==/18546562139313276.jpg",
+                "pic_str": "18546562139313276",
+                "pic": 18546562139313276
+            },
+            "st": 1,
+            "noCopyrightRcmd": null,
+            "artistClassics": true,
+            "songJumpInfo": null,
+            "djId": 0,
+            "no": 1,
+            "fee": 1,
+            "mv": 0,
+            "cd": "1",
+            "t": 0,
+            "v": 75,
+            "dt": 271226,
+            "cp": 7003,
+            "crbt": null,
+            "cf": "",
+            "h": {
+                "br": 320000,
+                "fid": 0,
+                "size": 10851309,
+                "vd": -51501,
+                "sr": 44100
+            },
+            "sq": {
+                "br": 901339,
+                "fid": 0,
+                "size": 30558424,
+                "vd": -51828,
+                "sr": 44100
+            },
+            "hr": null,
+            "l": {
+                "br": 128000,
+                "fid": 0,
+                "size": 4340550,
+                "vd": -47188,
+                "sr": 44100
+            },
+            "rtUrl": null,
+            "ftype": 0,
+            "rtype": 0,
+            "rurl": null,
+            "pst": 0,
+            "alia": [],
+            "pop": 100,
+            "rt": "600902000009048672",
+            "mst": 9,
+            "mark": 8192,
+            "a": null,
+            "m": {
+                "br": 192000,
+                "fid": 0,
+                "size": 6510803,
+                "vd": -48895,
+                "sr": 44100
+            },
+            "name": "孤独患者",
+            "id": 64093,
+            "privilege": {
+                "id": 64093,
+                "fee": 1,
+                "payed": 0,
+                "st": 0,
+                "pl": 0,
+                "dl": 0,
+                "sp": 7,
+                "cp": 1,
+                "subp": 1,
+                "cs": false,
+                "maxbr": 999000,
+                "fl": 0,
+                "toast": false,
+                "flag": 3638276,
+                "preSell": false,
+                "playMaxbr": 999000,
+                "downloadMaxbr": 999000,
+                "maxBrLevel": "vivid",
+                "playMaxBrLevel": "vivid",
+                "downloadMaxBrLevel": "vivid",
+                "plLevel": "none",
+                "dlLevel": "none",
+                "flLevel": "none",
+                "rscl": null,
+                "freeTrialPrivilege": {
+                    "resConsumable": true,
+                    "userConsumable": false,
+                    "listenType": null,
+                    "cannotListenReason": null,
+                    "playReason": null,
+                    "freeLimitTagType": null
+                },
+                "rightSource": 0,
+                "chargeInfoList": [
+                    {
+                        "rate": 128000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 192000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 320000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 999000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    }
+                ],
+                "code": 0,
+                "message": null,
+                "plLevels": null,
+                "dlLevels": null,
+                "ignoreCache": null,
+                "bd": null
+            }
+        },
+        {
+            "rtUrls": [],
+            "ar": [
+                {
+                    "id": 2116,
+                    "name": "陈奕迅"
+                }
+            ],
+            "al": {
+                "id": 6434,
+                "name": "认了吧",
+                "picUrl": "https://p4.music.126.net/o_OjL_NZNoeog9fIjBXAyw==/18782957139233959.jpg",
+                "pic_str": "18782957139233959",
+                "pic": 18782957139233960
+            },
+            "st": 1,
+            "noCopyrightRcmd": null,
+            "artistClassics": true,
+            "songJumpInfo": null,
+            "djId": 0,
+            "no": 2,
+            "fee": 1,
+            "mv": 303133,
+            "cd": "1",
+            "t": 0,
+            "v": 89,
+            "dt": 285000,
+            "cp": 7003,
+            "crbt": null,
+            "cf": "",
+            "h": {
+                "br": 320001,
+                "fid": 0,
+                "size": 11403015,
+                "vd": -55708,
+                "sr": 44100
+            },
+            "sq": {
+                "br": 934480,
+                "fid": 0,
+                "size": 33290869,
+                "vd": -55646,
+                "sr": 44100
+            },
+            "hr": null,
+            "l": {
+                "br": 128001,
+                "fid": 0,
+                "size": 4561232,
+                "vd": -51453,
+                "sr": 44100
+            },
+            "rtUrl": null,
+            "ftype": 0,
+            "rtype": 0,
+            "rurl": null,
+            "pst": 0,
+            "alia": [],
+            "pop": 100,
+            "rt": "600902000005371186",
+            "mst": 9,
+            "mark": 17179877376,
+            "a": null,
+            "m": {
+                "br": 192001,
+                "fid": 0,
+                "size": 6841826,
+                "vd": -53121,
+                "sr": 44100
+            },
+            "name": "淘汰",
+            "id": 65528,
+            "privilege": {
+                "id": 65528,
+                "fee": 1,
+                "payed": 0,
+                "st": 0,
+                "pl": 0,
+                "dl": 0,
+                "sp": 7,
+                "cp": 1,
+                "subp": 1,
+                "cs": false,
+                "maxbr": 999000,
+                "fl": 0,
+                "toast": false,
+                "flag": 3638276,
+                "preSell": false,
+                "playMaxbr": 999000,
+                "downloadMaxbr": 999000,
+                "maxBrLevel": "vivid",
+                "playMaxBrLevel": "vivid",
+                "downloadMaxBrLevel": "vivid",
+                "plLevel": "none",
+                "dlLevel": "none",
+                "flLevel": "none",
+                "rscl": null,
+                "freeTrialPrivilege": {
+                    "resConsumable": true,
+                    "userConsumable": false,
+                    "listenType": null,
+                    "cannotListenReason": null,
+                    "playReason": null,
+                    "freeLimitTagType": null
+                },
+                "rightSource": 0,
+                "chargeInfoList": [
+                    {
+                        "rate": 128000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 192000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 320000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 999000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    }
+                ],
+                "code": 0,
+                "message": null,
+                "plLevels": null,
+                "dlLevels": null,
+                "ignoreCache": null,
+                "bd": null
+            },
+            "eq": "pop"
+        },
+        {
+            "rtUrls": [],
+            "ar": [
+                {
+                    "id": 2116,
+                    "name": "陈奕迅"
+                }
+            ],
+            "al": {
+                "id": 34611604,
+                "name": "The Best Moment",
+                "picUrl": "https://p4.music.126.net/kAKoBg1AOVrgvO4WEOywoA==/109951169594708968.jpg",
+                "pic_str": "109951169594708968",
+                "pic": 109951169594708960
+            },
+            "st": 1,
+            "noCopyrightRcmd": null,
+            "artistClassics": false,
+            "songJumpInfo": null,
+            "djId": 0,
+            "no": 9,
+            "fee": 1,
+            "mv": 14490612,
+            "cd": "01",
+            "t": 0,
+            "v": 21,
+            "dt": 232133,
+            "cp": 2706568,
+            "crbt": null,
+            "cf": "",
+            "h": {
+                "br": 320002,
+                "fid": 0,
+                "size": 9288142,
+                "vd": -46849,
+                "sr": 44100
+            },
+            "sq": {
+                "br": 903174,
+                "fid": 0,
+                "size": 26207135,
+                "vd": -47582,
+                "sr": 44100
+            },
+            "hr": null,
+            "l": {
+                "br": 128002,
+                "fid": 0,
+                "size": 3715283,
+                "vd": -42637,
+                "sr": 44100
+            },
+            "rtUrl": null,
+            "ftype": 0,
+            "rtype": 0,
+            "rurl": null,
+            "pst": 0,
+            "alia": [],
+            "pop": 100,
+            "rt": null,
+            "mst": 9,
+            "mark": 17179877376,
+            "a": null,
+            "m": {
+                "br": 192002,
+                "fid": 0,
+                "size": 5572902,
+                "vd": -44259,
+                "sr": 44100
+            },
+            "name": "十面埋伏",
+            "id": 409931770,
+            "privilege": {
+                "id": 409931770,
+                "fee": 1,
+                "payed": 0,
+                "st": 0,
+                "pl": 0,
+                "dl": 0,
+                "sp": 7,
+                "cp": 1,
+                "subp": 1,
+                "cs": false,
+                "maxbr": 999000,
+                "fl": 0,
+                "toast": false,
+                "flag": 3638276,
+                "preSell": false,
+                "playMaxbr": 999000,
+                "downloadMaxbr": 999000,
+                "maxBrLevel": "vivid",
+                "playMaxBrLevel": "vivid",
+                "downloadMaxBrLevel": "vivid",
+                "plLevel": "none",
+                "dlLevel": "none",
+                "flLevel": "none",
+                "rscl": null,
+                "freeTrialPrivilege": {
+                    "resConsumable": true,
+                    "userConsumable": false,
+                    "listenType": null,
+                    "cannotListenReason": null,
+                    "playReason": null,
+                    "freeLimitTagType": null
+                },
+                "rightSource": 0,
+                "chargeInfoList": [
+                    {
+                        "rate": 128000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 192000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 320000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 999000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    }
+                ],
+                "code": 0,
+                "message": null,
+                "plLevels": null,
+                "dlLevels": null,
+                "ignoreCache": null,
+                "bd": null
+            }
+        }
+    ],
+    "more": true,
+    "total": 1834,
+    "code": 200
+}

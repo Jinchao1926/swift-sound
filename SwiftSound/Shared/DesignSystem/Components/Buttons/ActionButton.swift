@@ -13,7 +13,7 @@ struct ActionButton: View {
         case secondary
     }
 
-    let title: String
+    let title: String?
     let systemName: String?
     let variant: Variant
     let action: () -> Void
@@ -21,7 +21,7 @@ struct ActionButton: View {
     @State private var isHovering = false
 
     init(
-        _ title: String,
+        _ title: String? = nil,
         systemName: String? = nil,
         variant: Variant = .secondary,
         action: @escaping () -> Void
@@ -40,8 +40,10 @@ struct ActionButton: View {
                         .font(Layout.font)
                 }
 
-                Text(title)
-                    .font(Layout.font)
+                if let title {
+                    Text(title)
+                        .font(Layout.font)
+                }
             }
             .foregroundStyle(variant.foregroundColor)
             .padding(.horizontal, Layout.horizontalPadding)
