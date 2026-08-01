@@ -11,6 +11,7 @@ import Combine
 final class ArtistDetailViewModel: ObservableObject {
     @Published private(set) var state: Loadable<ArtistDetail> = .idle
     @Published private(set) var songsState: Loadable<[Song]> = .idle
+    @Published private(set) var albumState: Loadable<Paginated<Album>> = .idle
     @Published private(set) var profileState: Loadable<ArtistDesc> = .idle
 
     private let id: Int
@@ -44,6 +45,31 @@ final class ArtistDetailViewModel: ObservableObject {
             songsState = .loaded(data)
         } catch {
             songsState = .failed(error)
+        }
+    }
+
+    func loadAlbums() async {
+        guard !albumState.isLoadedOrLoading else { return }
+        albumState = .loading()
+
+        do {
+            let response = try await repository.fetchArtistAlbums(id: id)
+            albumState = .loaded(Paginated(response))
+        } catch {
+            albumState = .failed(error)
+        }
+    }
+
+    func loadMoreAlbums() async {
+        guard var page = albumState.value, page.canLoadMore else { return }
+        albumState = .loading(page)
+
+        do {
+            let response = try await repository.fetchArtistAlbums(id: id, offset: page.nextOffset)
+            page.append(response)
+            albumState = .loaded(page)
+        } catch {
+            albumState = .loaded(page)
         }
     }
 

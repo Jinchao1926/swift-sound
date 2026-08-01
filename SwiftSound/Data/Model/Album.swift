@@ -72,7 +72,7 @@ import Foundation
 }
 */
 /** 专辑 */
-struct Album: Codable {
+struct Album: Codable, Identifiable {
     let id: Int
     let name: String
     let artist: Artist?
@@ -81,6 +81,7 @@ struct Album: Codable {
     let alias: [String]?
     let transNames: [String]?
     let publishTime: Int?
+    let size: Int?
     let company: String?
     let description: String?
 }
