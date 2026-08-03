@@ -45,4 +45,13 @@ struct ArtistsRepository {
         let request = ArtistSongsRequest(id: id, offset: offset, limit: limit)
         return try await apiClient.request(request)
     }
+
+    func fetchArtistAlbums(
+        id: Int,
+        offset: Int = 0,
+        limit: Int = 40
+    ) async throws -> ArtistAlbumsResponse {
+        let request = ArtistAlbumsRequest(id: id, offset: offset, limit: limit)
+        return try await apiClient.request(request)
+    }
 }

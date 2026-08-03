@@ -90,7 +90,11 @@ struct ArtistDetailPage: View {
                 load: viewModel.loadPopularSongs
             )
         case .albums:
-            ArtistAlbumsPage()
+            ArtistAlbumsPage(
+                state: viewModel.albumState,
+                load: viewModel.loadAlbums,
+                loadMore: viewModel.loadMoreAlbums
+            )
         case .mvs:
             ArtistMVsPage()
         case .profile:

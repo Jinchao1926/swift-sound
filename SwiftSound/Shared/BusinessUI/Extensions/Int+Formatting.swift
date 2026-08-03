@@ -23,18 +23,5 @@ extension Int {
         }
     }
 
-    /// Seconds as `m:ss` text.
-    var minuteSecondText: String {
-        let minutes = self / 60
-        let remainingSeconds = self % 60
-
-        return String(format: "%02d:%02d", minutes, remainingSeconds)
-    }
-}
-
-extension TimeInterval {
-    /// Milliseconds as `m:ss` text.
-    var millisecondsMinuteSecondText: String {
-        Int(max(0, self / 1000)).minuteSecondText
-    }
+    var songCountText: String { "\(self)首" }
 }

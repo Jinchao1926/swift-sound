@@ -24,7 +24,7 @@ struct ArtistSongsPage: View {
                     .fontWeight(.semibold)
                     .foregroundStyle(Color.textPrimary)
 
-                HStack(spacing: Layout.actionInternalInset) {
+                HStack(spacing: Layout.actionSpacing) {
                     ActionButton(
                         "播放全部",
                         systemName: "play.fill",
@@ -33,8 +33,8 @@ struct ArtistSongsPage: View {
                     ActionButton("下载", systemName: "square.and.arrow.down.fill") {}
                     ActionButton(systemName: "ellipsis") {}
                 }
-                .padding(.top, Layout.actionTopInset)
-                .padding(.bottom, Layout.actionBottomInset)
+                .padding(.top, Layout.actionTopMargin)
+                .padding(.bottom, Layout.actionBottomMargin)
 
                 SongTable(songs: viewModel.state.songs)
 
@@ -48,7 +48,7 @@ struct ArtistSongsPage: View {
                     }
                 }
             }
-            .padding(.horizontal, Layout.horizontalInset)
+            .padding(.horizontal, Layout.horizontalPadding)
             .task {
                 await viewModel.load()
             }
@@ -57,10 +57,10 @@ struct ArtistSongsPage: View {
 }
 
 private enum Layout {
-    static let horizontalInset: CGFloat = 40
-    static let actionTopInset: CGFloat = 25
-    static let actionBottomInset: CGFloat = 15
-    static let actionInternalInset: CGFloat = 10
+    static let horizontalPadding: CGFloat = 40
+    static let actionTopMargin: CGFloat = 25
+    static let actionBottomMargin: CGFloat = 15
+    static let actionSpacing: CGFloat = 10
 }
 
 #Preview {
