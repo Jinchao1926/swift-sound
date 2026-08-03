@@ -22,12 +22,11 @@ struct ArtistAlbumsPage: View {
             ) {
                 Section {
                     ForEach(state.albums) { album in
-                        RouteLink(route: .album(id: album.id)) {
-                            AlbumCard(album: album) {
-                                playAlbum(album.id)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                        AlbumCard(album: album) {
+                            playAlbum(album.id)
                         }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .routeLink(to: .album(id: album.id))
                     }
                 } footer: {
                     if state.value != nil {
