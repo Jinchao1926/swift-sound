@@ -92,7 +92,7 @@ struct SongTable: View {
                     lhs.song.album.name.localizedStandardCompare(rhs.song.album.name)
                 },
                 content: { row, _ in
-                    RouteLink(route: .album(id: row.id)) {
+                    RouteLink(route: .album(id: row.song.album.id)) {
                         Text(row.song.album.name)
                             .font(.font14)
                             .foregroundStyle(Color.textSecondary)

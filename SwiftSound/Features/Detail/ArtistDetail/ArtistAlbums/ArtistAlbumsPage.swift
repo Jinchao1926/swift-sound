@@ -11,6 +11,7 @@ struct ArtistAlbumsPage: View {
     let state: Loadable<Paginated<Album>>
     let load: () async -> Void
     let loadMore: () async -> Void
+    let playAlbum: (Album.ID) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -22,8 +23,10 @@ struct ArtistAlbumsPage: View {
                 Section {
                     ForEach(state.albums) { album in
                         RouteLink(route: .album(id: album.id)) {
-                            AlbumCard(album: album)
-                                .frame(maxWidth: .infinity)
+                            AlbumCard(album: album) {
+                                playAlbum(album.id)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
                     }
                 } footer: {
@@ -70,7 +73,8 @@ extension Loadable where Value == Paginated<Album> {
         ArtistAlbumsPage(
             state: .loaded(Paginated(items: [Album.preview], canLoadMore: true)),
             load: {},
-            loadMore: {}
+            loadMore: {},
+            playAlbum: { _ in }
         )
     }
     .frame(minWidth: 600, minHeight: 600)

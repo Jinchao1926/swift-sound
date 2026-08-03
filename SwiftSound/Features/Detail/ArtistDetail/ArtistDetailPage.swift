@@ -12,6 +12,8 @@ struct ArtistDetailPage: View {
     let route: ArtistRoute
 
     @StateObject private var viewModel: ArtistDetailViewModel
+    @State private var loadingAlbumID: Album.ID?
+    @EnvironmentObject private var playerStore: PlayerStore
 
     init(id: Int, route: ArtistRoute) {
         self.id = id
@@ -93,7 +95,8 @@ struct ArtistDetailPage: View {
             ArtistAlbumsPage(
                 state: viewModel.albumState,
                 load: viewModel.loadAlbums,
-                loadMore: viewModel.loadMoreAlbums
+                loadMore: viewModel.loadMoreAlbums,
+                playAlbum: playAlbum
             )
         case .mvs:
             ArtistMVsPage()
@@ -107,6 +110,26 @@ struct ArtistDetailPage: View {
             SimilarArtistsPage()
         case .performances:
             ArtistPerformancesPage()
+        }
+    }
+
+    private func playAlbum(_ albumID: Album.ID) {
+        guard loadingAlbumID == nil else { return }
+        loadingAlbumID = albumID
+
+        let viewModel = viewModel
+        let playerStore = playerStore
+
+        Task {
+            defer { loadingAlbumID = nil }
+
+            do {
+                let songs = try await viewModel.fetchAlbumSongs(id: albumID)
+                guard !songs.isEmpty else { return }
+                playerStore.send(.playQueue(songs, startIndex: 0))
+            } catch {
+                return
+            }
         }
     }
 }
@@ -126,4 +149,5 @@ private extension ArtistDetailPage {
 
 #Preview {
     ArtistDetailPage(id: Artist.preview.id, route: .songs)
+        .environmentObject(PlayerStore())
 }
