@@ -36,13 +36,13 @@ struct ArtistSongsPage: View {
                 .padding(.top, Layout.actionTopMargin)
                 .padding(.bottom, Layout.actionBottomMargin)
 
-                SongTable(songs: viewModel.state.songs)
+                SongTable(songs: viewModel.state.items)
 
                 if viewModel.state.value != nil {
                     InfiniteScrollFooter(
                         canLoadMore: viewModel.state.canLoadMore,
                         isLoading: viewModel.state.isLoading,
-                        loadKey: viewModel.state.songs.count
+                        loadKey: viewModel.state.items.count
                     ) {
                         await viewModel.loadMore()
                     }

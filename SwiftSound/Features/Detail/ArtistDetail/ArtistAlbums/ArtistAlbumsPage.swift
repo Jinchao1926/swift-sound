@@ -21,7 +21,7 @@ struct ArtistAlbumsPage: View {
                 spacing: Layout.gridSpacing
             ) {
                 Section {
-                    ForEach(state.albums) { album in
+                    ForEach(state.items) { album in
                         AlbumCard(album: album) {
                             playAlbum(album.id)
                         }
@@ -33,7 +33,7 @@ struct ArtistAlbumsPage: View {
                         InfiniteScrollFooter(
                             canLoadMore: state.canLoadMore,
                             isLoading: state.isLoading,
-                            loadKey: state.albums.count
+                            loadKey: state.items.count
                         ) {
                             await loadMore()
                         }
@@ -60,11 +60,6 @@ private extension ArtistAlbumsPage {
             GridItem(.adaptive(minimum: minimumCardWidth), spacing: gridSpacing, alignment: .top)
         ]
     }
-}
-
-extension Loadable where Value == Paginated<Album> {
-    var albums: [Album] { value?.items ?? [] }
-    var canLoadMore: Bool { value?.canLoadMore ?? false }
 }
 
 #Preview {

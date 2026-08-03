@@ -17,7 +17,7 @@ struct HeroBannerSection: View {
         ) { columns in
             VStack(alignment: .leading, spacing: 0) {
                 Carousel(
-                    items: viewModel.state.banners,
+                    items: viewModel.state.items,
                     columns: columns,
                 ) {
                     BannerImageView(banner: $0)

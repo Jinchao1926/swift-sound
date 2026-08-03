@@ -26,7 +26,7 @@ struct ArtistListPage: View {
                     spacing: Layout.gridSpacing
                 ) {
                     Section {
-                        ForEach(viewModel.state.artists) { artist in
+                        ForEach(viewModel.state.items) { artist in
                             ArtistCard(artist: artist)
                                 .frame(maxWidth: .infinity)
                                 .routeLink(to: .artist(id: artist.id))
@@ -35,7 +35,7 @@ struct ArtistListPage: View {
                         InfiniteScrollFooter(
                             canLoadMore: viewModel.state.canLoadMore,
                             isLoading: viewModel.state.isLoading,
-                            loadKey: viewModel.state.artists.count
+                            loadKey: viewModel.state.items.count
                         ) {
                             await viewModel.loadMore()
                         }

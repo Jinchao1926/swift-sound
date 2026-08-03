@@ -26,6 +26,17 @@ extension Loadable {
         }
     }
 
+    func value(or defaultValue: @autoclosure () -> Value) -> Value {
+        value ?? defaultValue()
+    }
+
+    func value<Output>(
+        _ keyPath: KeyPath<Value, Output>,
+        or defaultValue: @autoclosure () -> Output
+    ) -> Output {
+        value?[keyPath: keyPath] ?? defaultValue()
+    }
+
     var error: Error? {
         if case let .failed(error) = self {
             return error
@@ -47,5 +58,21 @@ extension Loadable {
         case .idle, .failed:
             return false
         }
+    }
+}
+
+extension Loadable where Value: RangeReplaceableCollection {
+    var items: Value {
+        value(or: .init())
+    }
+}
+
+extension Loadable where Value: PaginatedValue {
+    var items: [Value.Element] {
+        value(\.items, or: [])
+    }
+
+    var canLoadMore: Bool {
+        value(\.canLoadMore, or: false)
     }
 }

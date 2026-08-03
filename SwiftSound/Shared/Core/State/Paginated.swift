@@ -14,7 +14,14 @@ protocol PaginatedResponse: Decodable {
     var canLoadMore: Bool { get }
 }
 
-struct Paginated<Element> {
+protocol PaginatedValue {
+    associatedtype Element
+
+    var items: [Element] { get }
+    var canLoadMore: Bool { get }
+}
+
+struct Paginated<Element>: PaginatedValue {
     private(set) var items: [Element]
     private(set) var canLoadMore: Bool
 
