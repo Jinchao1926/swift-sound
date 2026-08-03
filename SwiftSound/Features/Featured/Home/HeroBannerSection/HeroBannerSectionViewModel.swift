@@ -29,9 +29,3 @@ final class HeroBannerSectionViewModel: ObservableObject {
         }
     }
 }
-
-extension Loadable where Value == [Banner] {
-    var banners: [Banner] {
-        value ?? []
-    }
-}

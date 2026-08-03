@@ -48,8 +48,3 @@ final class ArtistSongsViewModel: ObservableObject {
         }
     }
 }
-
-extension Loadable where Value == Paginated<Song> {
-    var songs: [Song] { value?.items ?? [] }
-    var canLoadMore: Bool { value?.canLoadMore ?? false }
-}

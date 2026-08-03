@@ -58,9 +58,3 @@ final class OfficialPlaylistSectionViewModel: ObservableObject {
         }
     }
 }
-
-extension Loadable where Value == [Playlist] {
-    var playlists: [Playlist] {
-        value ?? []
-    }
-}

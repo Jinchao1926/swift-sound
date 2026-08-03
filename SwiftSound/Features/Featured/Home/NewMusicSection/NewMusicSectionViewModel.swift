@@ -37,9 +37,3 @@ final class NewMusicSectionViewModel: ObservableObject {
         }
     }
 }
-
-extension Loadable where Value == [NewSongsGroup] {
-    var songGroups: [NewSongsGroup] {
-        value ?? []
-    }
-}

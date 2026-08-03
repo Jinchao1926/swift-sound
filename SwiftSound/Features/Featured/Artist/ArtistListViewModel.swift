@@ -120,8 +120,3 @@ private extension ArtistListQuery {
         )
     }
 }
-
-extension Loadable where Value == Paginated<Artist> {
-    var artists: [Artist] { value?.items ?? [] }
-    var canLoadMore: Bool { value?.canLoadMore ?? false }
-}

@@ -21,7 +21,7 @@ struct OfficialPlaylistSection: View {
                     .padding(.horizontal, 30)
 
                 Carousel(
-                    items: viewModel.state.playlists,
+                    items: viewModel.state.items,
                     columns: columns,
                     showsDots: false,
                     isAutoScrollEnabled: false,

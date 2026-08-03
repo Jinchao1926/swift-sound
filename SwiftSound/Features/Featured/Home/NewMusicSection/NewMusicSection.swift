@@ -20,7 +20,7 @@ struct NewMusicSection: View {
                     .padding(.horizontal, 40)
 
                 Carousel(
-                    items: viewModel.state.songGroups,
+                    items: viewModel.state.items,
                     columns: columns,
                     showsDots: false,
                     isAutoScrollEnabled: false,
