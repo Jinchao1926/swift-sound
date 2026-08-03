@@ -1,0 +1,414 @@
+{
+    "resourceState": true,
+    "songs": [
+        {
+            "rtUrls": [],
+            "ar": [
+                {
+                    "id": 2116,
+                    "name": "陈奕迅",
+                    "alia": [
+                        "Eason Chan"
+                    ]
+                }
+            ],
+            "al": {
+                "id": 288740361,
+                "name": "K歌之王 AIR",
+                "picUrl": "https://p2.music.126.net/IDAl-BxdZpWpNb-_3r_Shg==/109951172160870872.jpg",
+                "pic_str": "109951172160870872",
+                "pic": 109951172160870880
+            },
+            "st": 1,
+            "noCopyrightRcmd": null,
+            "artistClassics": null,
+            "songJumpInfo": null,
+            "rtype": 0,
+            "rurl": null,
+            "pst": 0,
+            "alia": [],
+            "pop": 100,
+            "rt": "",
+            "mst": 9,
+            "cp": 7003,
+            "crbt": null,
+            "cf": "",
+            "h": {
+                "br": 320000,
+                "fid": 0,
+                "size": 8857644,
+                "vd": -54081,
+                "sr": 44100
+            },
+            "sq": {
+                "br": 924979,
+                "fid": 0,
+                "size": 25599697,
+                "vd": -54078,
+                "sr": 44100
+            },
+            "hr": null,
+            "l": {
+                "br": 128000,
+                "fid": 0,
+                "size": 3543084,
+                "vd": -49788,
+                "sr": 44100
+            },
+            "rtUrl": null,
+            "ftype": 0,
+            "no": 1,
+            "fee": 1,
+            "djId": 0,
+            "mv": 34702399,
+            "cd": "01",
+            "t": 0,
+            "v": 7,
+            "dt": 221372,
+            "mark": 17179877376,
+            "a": null,
+            "m": {
+                "br": 192000,
+                "fid": 0,
+                "size": 5314604,
+                "vd": -51475,
+                "sr": 44100
+            },
+            "name": "K歌之王 AIR (Day Version)",
+            "id": 2756303345,
+            "videoInfo": {
+                "moreThanOne": false,
+                "video": {
+                    "vid": "34702399",
+                    "type": 0,
+                    "title": "K歌之王 AIR (Day Version / Lyric Video / China Version)",
+                    "playTime": 24888,
+                    "coverUrl": "https://p1.music.126.net/YaSNoyzxrB9CvHxkxDWR8Q==/109951172252811757.jpg",
+                    "publishTime": 1762531200007,
+                    "artists": null
+                }
+            },
+            "privilege": {
+                "id": 2756303345,
+                "fee": 1,
+                "payed": 0,
+                "st": 0,
+                "pl": 0,
+                "dl": 0,
+                "sp": 7,
+                "cp": 1,
+                "subp": 1,
+                "cs": false,
+                "maxbr": 999000,
+                "fl": 0,
+                "toast": false,
+                "flag": 2065412,
+                "preSell": false,
+                "playMaxbr": 999000,
+                "downloadMaxbr": 999000,
+                "maxBrLevel": "sky",
+                "playMaxBrLevel": "sky",
+                "downloadMaxBrLevel": "sky",
+                "plLevel": "none",
+                "dlLevel": "none",
+                "flLevel": "none",
+                "rscl": null,
+                "freeTrialPrivilege": {
+                    "resConsumable": true,
+                    "userConsumable": false,
+                    "listenType": null,
+                    "cannotListenReason": null,
+                    "playReason": null,
+                    "freeLimitTagType": null
+                },
+                "rightSource": 0,
+                "chargeInfoList": [
+                    {
+                        "rate": 128000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 192000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 320000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 999000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    }
+                ],
+                "code": 0,
+                "message": null,
+                "plLevels": null,
+                "dlLevels": null,
+                "ignoreCache": null,
+                "bd": null
+            }
+        },
+        {
+            "rtUrls": [],
+            "ar": [
+                {
+                    "id": 2116,
+                    "name": "陈奕迅",
+                    "alia": [
+                        "Eason Chan"
+                    ]
+                }
+            ],
+            "al": {
+                "id": 288740361,
+                "name": "K歌之王 AIR",
+                "picUrl": "https://p2.music.126.net/IDAl-BxdZpWpNb-_3r_Shg==/109951172160870872.jpg",
+                "pic_str": "109951172160870872",
+                "pic": 109951172160870880
+            },
+            "st": 1,
+            "noCopyrightRcmd": null,
+            "artistClassics": null,
+            "songJumpInfo": null,
+            "rtype": 0,
+            "rurl": null,
+            "pst": 0,
+            "alia": [],
+            "pop": 95,
+            "rt": "",
+            "mst": 9,
+            "cp": 7003,
+            "crbt": null,
+            "cf": "",
+            "h": {
+                "br": 320000,
+                "fid": 0,
+                "size": 8793905,
+                "vd": -37445,
+                "sr": 44100
+            },
+            "sq": {
+                "br": 897991,
+                "fid": 0,
+                "size": 24674567,
+                "vd": -37422,
+                "sr": 44100
+            },
+            "hr": null,
+            "l": {
+                "br": 128000,
+                "fid": 0,
+                "size": 3517588,
+                "vd": -33129,
+                "sr": 44100
+            },
+            "rtUrl": null,
+            "ftype": 0,
+            "no": 2,
+            "fee": 1,
+            "djId": 0,
+            "mv": 34700947,
+            "cd": "01",
+            "t": 0,
+            "v": 6,
+            "dt": 219784,
+            "mark": 17179877376,
+            "a": null,
+            "m": {
+                "br": 192000,
+                "fid": 0,
+                "size": 5276360,
+                "vd": -34830,
+                "sr": 44100
+            },
+            "name": "K歌之王 AIR (Night Version)",
+            "id": 2756302379,
+            "videoInfo": {
+                "moreThanOne": false,
+                "video": {
+                    "vid": "34700947",
+                    "type": 0,
+                    "title": "K歌之王 AIR (Night Version)",
+                    "playTime": 31964,
+                    "coverUrl": "https://p1.music.126.net/n3VBVTVjIzVa8ibr7gSJ1w==/109951172244712634.jpg",
+                    "publishTime": 1762358400007,
+                    "artists": null
+                }
+            },
+            "privilege": {
+                "id": 2756302379,
+                "fee": 1,
+                "payed": 0,
+                "st": 0,
+                "pl": 0,
+                "dl": 0,
+                "sp": 7,
+                "cp": 1,
+                "subp": 1,
+                "cs": false,
+                "maxbr": 999000,
+                "fl": 0,
+                "toast": false,
+                "flag": 2065412,
+                "preSell": false,
+                "playMaxbr": 999000,
+                "downloadMaxbr": 999000,
+                "maxBrLevel": "sky",
+                "playMaxBrLevel": "sky",
+                "downloadMaxBrLevel": "sky",
+                "plLevel": "none",
+                "dlLevel": "none",
+                "flLevel": "none",
+                "rscl": null,
+                "freeTrialPrivilege": {
+                    "resConsumable": true,
+                    "userConsumable": false,
+                    "listenType": null,
+                    "cannotListenReason": null,
+                    "playReason": null,
+                    "freeLimitTagType": null
+                },
+                "rightSource": 0,
+                "chargeInfoList": [
+                    {
+                        "rate": 128000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 192000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 320000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    },
+                    {
+                        "rate": 999000,
+                        "chargeUrl": null,
+                        "chargeMessage": null,
+                        "chargeType": 1
+                    }
+                ],
+                "code": 0,
+                "message": null,
+                "plLevels": null,
+                "dlLevels": null,
+                "ignoreCache": null,
+                "bd": null
+            }
+        }
+    ],
+    "code": 200,
+    "album": {
+        "songs": [],
+        "paid": false,
+        "onSale": false,
+        "mark": 8192,
+        "awardTags": null,
+        "displayTags": null,
+        "blurPicUrl": "https://p2.music.126.net/IDAl-BxdZpWpNb-_3r_Shg==/109951172160870872.jpg",
+        "companyId": 0,
+        "pic": 109951172160870880,
+        "artists": [
+            {
+                "img1v1Id": 18686200114669624,
+                "topicPerson": 0,
+                "trans": "",
+                "picId": 0,
+                "musicSize": 0,
+                "albumSize": 0,
+                "briefDesc": "",
+                "picUrl": "",
+                "img1v1Url": "https://p2.music.126.net/VnZiScyynLG7atLIZ2YPkw==/18686200114669622.jpg",
+                "followed": false,
+                "alias": [],
+                "name": "陈奕迅",
+                "id": 2116,
+                "img1v1Id_str": "18686200114669622"
+            }
+        ],
+        "copyrightId": 7003,
+        "picId": 109951172160870880,
+        "artist": {
+            "img1v1Id": 109951173289562420,
+            "topicPerson": 0,
+            "trans": "",
+            "picId": 109951173289563400,
+            "musicSize": 1856,
+            "albumSize": 133,
+            "briefDesc": "",
+            "picUrl": "https://p2.music.126.net/5KJI2mq0G0OQHQaAfAJfwg==/109951173289563385.jpg",
+            "img1v1Url": "https://p2.music.126.net/jj0EasWfUZpf1LW2SFeN-A==/109951173289562420.jpg",
+            "followed": false,
+            "alias": [
+                "Eason Chan"
+            ],
+            "name": "陈奕迅",
+            "id": 2116,
+            "picId_str": "109951173289563385",
+            "img1v1Id_str": "109951173289562420"
+        },
+        "briefDesc": "",
+        "publishTime": 1761148800000,
+        "company": "Universal Music Ltd.",
+        "picUrl": "https://p2.music.126.net/IDAl-BxdZpWpNb-_3r_Shg==/109951172160870872.jpg",
+        "commentThreadId": "R_AL_3_288740361",
+        "subType": "录音室版",
+        "status": 1,
+        "description": "《K歌之王》诞生 25 周年\n陈奕迅 x 陈辉阳 x 英国知名管弦乐团 The Heritage Orchestra 合作重新演绎经典\n\n自 2000 年推出以来，《K歌之王》唱进无数歌迷的心坎里。这首作品曾陪伴我们走过青春的懵懂、爱情的喜与悲，它不只是 K 房里的「必点金曲」，更是许多人情感世界中的一部分。如今，踏入第 25 个年头，这首经典之作也随著我们的成长悄然蜕变。\n\n为纪念这首歌诞生 25 周年，Eason 特别邀请原作曲人及监制陈辉阳，再度合作，并携手国际知名的英国管弦乐团 The Heritage Orchestra，重新诠释这首触动人心的旋律。全新版本融合管弦乐编制，在熟悉的旋律中注入崭新的生命力与情感深度，让这首陪伴无数人走过高低起伏的歌曲，以全新姿态再次触动乐迷的心弦。 \n\n监制陈辉阳形容这次合作是一种 「An old soul with a fresh appearance」 的概念。Eason 特别远赴伦敦与乐团现场录制歌曲。录音选址历史悠久的 AIR Studios Lyndhurst Hall，该录音室改装自建于 1884 年的大教堂，多部荷里活电影曾在此进行原声录制，如《星际启示录》及《布达佩斯大酒店》等。宏伟的空间与卓越的声学效果，为此曲营造出庄严而动人的氛围。\n\n新版《K歌之王》同样有粤语与国语两个版本，并命名为《K歌之王 AIR (Day Version)》及《K歌之王 AIR (Night Version)》。监制陈辉阳表示两个版本在编曲上各具特色，展现歌曲在不同语境下的情感演绎。值得一提的是，乐曲中加入多达九段独奏部份，由曾参与 Hans Zimmer 及《占士邦》系列电影配乐的顶尖乐手演奏，为乐迷带来层次丰富的听觉享受。\n\n当被问及 25 年后再监制这歌的感受，陈辉阳坦言 Eason 如今的声音更具深度和立体感，「如果细听新版本，你会发现 Eason 的演绎更成熟，那些细腻的情绪，只有经岁月沉澱后，才能唱得出来。」 \n\n《K歌之王 AIR (Day Version)》及《K歌之王 AIR (Night Version)》10 月 23 日 21:00 正式于各大音乐平台上架。\n\n",
+        "tags": "",
+        "alias": [],
+        "name": "K歌之王 AIR",
+        "id": 288740361,
+        "type": "Single",
+        "size": 2,
+        "picId_str": "109951172160870872",
+        "info": {
+            "commentThread": {
+                "id": "R_AL_3_288740361",
+                "resourceInfo": {
+                    "id": 288740361,
+                    "userId": -1,
+                    "name": "K歌之王 AIR",
+                    "imgUrl": "http://p3.music.126.net/IDAl-BxdZpWpNb-_3r_Shg==/109951172160870872.jpg",
+                    "creator": null,
+                    "encodedId": null,
+                    "subTitle": null,
+                    "webUrl": null
+                },
+                "resourceType": 3,
+                "commentCount": 639,
+                "likedCount": 0,
+                "shareCount": 3660,
+                "hotCount": 6,
+                "latestLikedUsers": null,
+                "resourceOwnerId": -1,
+                "resourceTitle": "K歌之王 AIR",
+                "resourceId": 288740361
+            },
+            "latestLikedUsers": null,
+            "liked": false,
+            "comments": null,
+            "resourceType": 3,
+            "resourceId": 288740361,
+            "commentCount": 639,
+            "likedCount": 0,
+            "shareCount": 3660,
+            "threadId": "R_AL_3_288740361"
+        }
+    }
+}

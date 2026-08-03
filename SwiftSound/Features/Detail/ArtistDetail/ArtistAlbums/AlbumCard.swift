@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AlbumCard: View {
     let album: Album
+    let onPlay: () -> Void
 
     @State private var isHovering = false
     @State private var isPlayButtonHovering = false
@@ -89,7 +90,9 @@ struct AlbumCard: View {
     }
 
     private var playButton: some View {
-        Button {} label: {
+        Button {
+            onPlay()
+        } label: {
             Image(systemName: "play.fill")
                 .font(.font24)
                 .foregroundStyle(Color.white)
@@ -126,7 +129,7 @@ private extension AlbumCard {
 
 #Preview {
     VStack {
-        AlbumCard(album: .preview)
+        AlbumCard(album: .preview) {}
     }
     .frame(width: 220)
     .padding()
