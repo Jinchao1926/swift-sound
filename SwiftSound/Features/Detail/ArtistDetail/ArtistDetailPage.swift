@@ -99,7 +99,11 @@ struct ArtistDetailPage: View {
                 playAlbum: playAlbum
             )
         case .mvs:
-            ArtistMVsPage()
+            ArtistMVsPage(
+                state: viewModel.mvState,
+                load: viewModel.loadMVs,
+                loadMore: viewModel.loadMoreMVs
+            )
         case .profile:
             ArtistProfilePage(
                 name: viewModel.state.artist?.name,

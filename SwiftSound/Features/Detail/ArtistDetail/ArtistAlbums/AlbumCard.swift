@@ -44,7 +44,7 @@ struct AlbumCard: View {
                 .scaledToFill()
 
             if isHovering {
-                Color.black.opacity(Layout.coverOverlayOpacity)
+                Color.black.opacity(0.28)
 
                 playButton
                     .padding(Layout.playButtonMargin)
@@ -116,7 +116,6 @@ private extension AlbumCard {
         static let width: CGFloat = 178
         static let radius: CGFloat = 8
         static let recordVisibleHeight: CGFloat = 10
-        static let coverOverlayOpacity: Double = 0.28
 
         static let textSpacing: CGFloat = 4
         static let textHorizontalMargin: CGFloat = 13

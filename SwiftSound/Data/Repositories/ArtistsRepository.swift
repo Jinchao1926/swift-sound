@@ -54,4 +54,13 @@ struct ArtistsRepository {
         let request = ArtistAlbumsRequest(id: id, offset: offset, limit: limit)
         return try await apiClient.request(request)
     }
+
+    func fetchArtistMVs(
+        id: Int,
+        offset: Int = 0,
+        limit: Int = 18
+    ) async throws -> ArtistMVsResponse {
+        let request = ArtistMVsRequest(id: id, offset: offset, limit: limit)
+        return try await apiClient.request(request)
+    }
 }

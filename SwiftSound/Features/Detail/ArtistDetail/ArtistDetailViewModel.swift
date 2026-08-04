@@ -12,6 +12,7 @@ final class ArtistDetailViewModel: ObservableObject {
     @Published private(set) var state: Loadable<ArtistDetail> = .idle
     @Published private(set) var songsState: Loadable<[Song]> = .idle
     @Published private(set) var albumState: Loadable<Paginated<Album>> = .idle
+    @Published private(set) var mvState: Loadable<Paginated<MV>> = .idle
     @Published private(set) var profileState: Loadable<ArtistDesc> = .idle
 
     private let id: Int
@@ -42,6 +43,7 @@ final class ArtistDetailViewModel: ObservableObject {
         }
     }
 
+    // MARK: - Songs
     func loadPopularSongs() async {
         guard !songsState.isLoadedOrLoading else { return }
         songsState = .loading()
@@ -54,6 +56,7 @@ final class ArtistDetailViewModel: ObservableObject {
         }
     }
 
+    // MARK: - Albums
     func loadAlbums() async {
         guard !albumState.isLoadedOrLoading else { return }
         albumState = .loading()
@@ -84,6 +87,33 @@ final class ArtistDetailViewModel: ObservableObject {
         return response.songs
     }
 
+    // MARK: - MVs
+    func loadMVs() async {
+        guard !mvState.isLoadedOrLoading else { return }
+        mvState = .loading()
+
+        do {
+            let response = try await repository.fetchArtistMVs(id: id)
+            mvState = .loaded(Paginated(response))
+        } catch {
+            mvState = .failed(error)
+        }
+    }
+
+    func loadMoreMVs() async {
+        guard var page = mvState.value, page.canLoadMore else { return }
+        mvState = .loading(page)
+
+        do {
+            let response = try await repository.fetchArtistMVs(id: id, offset: page.nextOffset)
+            page.append(response)
+            mvState = .loaded(page)
+        } catch {
+            mvState = .loaded(page)
+        }
+    }
+
+    // MARK: - Profile
     func loadProfile() async {
         guard !profileState.isLoadedOrLoading else { return }
         profileState = .loading()

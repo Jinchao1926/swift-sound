@@ -1,0 +1,61 @@
+{
+    "mvs": [
+        {
+            "id": 14236176,
+            "name": "夕阳无限好",
+            "status": 0,
+            "artist": {
+                "img1v1Id": 18686200114669624,
+                "topicPerson": 0,
+                "musicSize": 0,
+                "albumSize": 0,
+                "alias": [],
+                "picId": 0,
+                "briefDesc": "",
+                "picUrl": "",
+                "img1v1Url": "http://p1.music.126.net/VnZiScyynLG7atLIZ2YPkw==/18686200114669622.jpg",
+                "trans": "",
+                "name": "陈奕迅",
+                "id": 2116,
+                "img1v1Id_str": "18686200114669622"
+            },
+            "imgurl": "http://p1.music.126.net/R9MbEWZ9IBRrrfauJbY8nw==/109951173573691735.jpg",
+            "artistName": "陈奕迅",
+            "imgurl16v9": "http://p1.music.126.net/R9MbEWZ9IBRrrfauJbY8nw==/109951173573691735.jpg",
+            "duration": 246000,
+            "playCount": 1038,
+            "publishTime": "2026-07-17",
+            "subed": false
+        },
+        {
+            "id": 14236175,
+            "name": "幸福摩天轮 (合)",
+            "status": 0,
+            "artist": {
+                "img1v1Id": 18686200114669624,
+                "topicPerson": 0,
+                "musicSize": 0,
+                "albumSize": 0,
+                "alias": [],
+                "picId": 0,
+                "briefDesc": "",
+                "picUrl": "",
+                "img1v1Url": "http://p1.music.126.net/VnZiScyynLG7atLIZ2YPkw==/18686200114669622.jpg",
+                "trans": "",
+                "name": "张敬轩",
+                "id": 6462,
+                "img1v1Id_str": "18686200114669622"
+            },
+            "imgurl": "http://p1.music.126.net/KON-gzvW96Xum4PTpe2M_w==/109951173573758282.jpg",
+            "artistName": "张敬轩",
+            "imgurl16v9": "http://p1.music.126.net/KON-gzvW96Xum4PTpe2M_w==/109951173573758282.jpg",
+            "duration": 603000,
+            "playCount": 6922,
+            "publishTime": "2026-07-17",
+            "subed": false
+        }
+    ],
+    "time": 1784217609558,
+    "hasMore": true,
+    "code": 200
+}

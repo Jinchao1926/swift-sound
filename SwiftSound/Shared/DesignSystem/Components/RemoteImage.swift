@@ -14,7 +14,7 @@ struct RemoteImage: View {
 
     init(
         url: URL?,
-        size: Int = 200,
+        size: Int? = 200,
         contentMode: SwiftUI.ContentMode = .fill
     ) {
         self.url = url?.httpsURL.sizedImageURL(size)
