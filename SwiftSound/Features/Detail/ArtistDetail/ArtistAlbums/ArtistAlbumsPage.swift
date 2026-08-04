@@ -14,33 +14,30 @@ struct ArtistAlbumsPage: View {
     let playAlbum: (Album.ID) -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            LazyVGrid(
-                columns: Layout.gridColumns,
-                alignment: .leading,
-                spacing: Layout.gridSpacing
-            ) {
-                Section {
-                    ForEach(state.items) { album in
-                        AlbumCard(album: album) {
-                            playAlbum(album.id)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .routeLink(to: .album(id: album.id))
+        LazyVGrid(
+            columns: Layout.gridColumns,
+            alignment: .leading,
+            spacing: Layout.gridSpacing
+        ) {
+            Section {
+                ForEach(state.items) { album in
+                    AlbumCard(album: album) {
+                        playAlbum(album.id)
                     }
-                } footer: {
-                    if state.value != nil {
-                        InfiniteScrollFooter(
-                            canLoadMore: state.canLoadMore,
-                            isLoading: state.isLoading,
-                            loadKey: state.items.count
-                        ) {
-                            await loadMore()
-                        }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .routeLink(to: .album(id: album.id))
+                }
+            } footer: {
+                if state.value != nil {
+                    InfiniteScrollFooter(
+                        canLoadMore: state.canLoadMore,
+                        isLoading: state.isLoading,
+                        loadKey: state.items.count
+                    ) {
+                        await loadMore()
                     }
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .topLeading)
         }
         .padding(.top, Layout.contentTopPadding)
         .frame(maxWidth: .infinity, alignment: .topLeading)
