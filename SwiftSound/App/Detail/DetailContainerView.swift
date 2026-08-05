@@ -57,6 +57,8 @@ struct DetailContainerView: View {
             AlbumDetailPage(id: id, route: secondary)
         case .user(let id, let secondary):
             UserDetailPage(id: id, route: secondary)
+        case .mv(let id):
+            MVDetailPage(id: id)
         }
     }
     // swiftlint:enable cyclomatic_complexity

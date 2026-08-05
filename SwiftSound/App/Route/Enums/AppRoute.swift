@@ -23,6 +23,7 @@ enum AppRoute: Identifiable, Hashable, Equatable {
     case artistSongs(id: Int)
     case album(id: Int, secondary: AlbumRoute = .songs)
     case user(id: Int, secondary: UserRoute = .playlists)
+    case mv(id: Int)
 
     var id: Self { self }
 

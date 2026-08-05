@@ -35,6 +35,8 @@ SwiftSound is a SwiftUI macOS app inspired by NetEase Cloud Music for Mac. The g
 - Define custom SwiftUI colors with HEX values in the shared theme extensions.
 - Avoid placeholder UI once a referenced design exists.
 - The Xcode project already sets `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor`; prefer relying on that default instead of adding explicit `@MainActor` annotations unless a file needs to override the default.
+- Name layout distance values by their role: use `padding` or `contentPadding` for inner space, `margin` or `outerSpacing` for outer space, and `spacing` only for distance between sibling views.
+- For SwiftUI stacks such as `VStack(spacing:)`, prefer semantic names like `itemSpacing`, `rowSpacing`, `sectionSpacing`, or `controlSpacing` based on the arranged content.
 
 ## Testing
 

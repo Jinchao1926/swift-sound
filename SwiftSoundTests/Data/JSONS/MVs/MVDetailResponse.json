@@ -1,0 +1,63 @@
+{
+    "loadingPic": "",
+    "bufferPic": "",
+    "loadingPicFS": "",
+    "bufferPicFS": "",
+    "subed": false,
+    "mp": {
+        "id": 14236176,
+        "fee": 0,
+        "mvFee": 65536,
+        "payed": 0,
+        "pl": 480,
+        "dl": 0,
+        "cp": 1,
+        "sid": 0,
+        "st": 0,
+        "normal": false,
+        "unauthorized": false,
+        "msg": null
+    },
+    "data": {
+        "id": 14236176,
+        "name": "夕阳无限好",
+        "artistId": 2116,
+        "artistName": "陈奕迅",
+        "briefDesc": "",
+        "desc": "",
+        "cover": "http://p1.music.126.net/R9MbEWZ9IBRrrfauJbY8nw==/109951173573691735.jpg",
+        "coverId_str": "109951173573691735",
+        "coverId": 109951173573691730,
+        "playCount": 1079,
+        "subCount": 0,
+        "shareCount": 0,
+        "commentCount": 4,
+        "duration": 246000,
+        "nType": 0,
+        "publishTime": "2026-07-17",
+        "price": null,
+        "brs": [
+            {
+                "size": 16388132,
+                "br": 240,
+                "point": 0
+            },
+            {
+                "size": 26110834,
+                "br": 480,
+                "point": 0
+            }
+        ],
+        "artists": [
+            {
+                "id": 2116,
+                "name": "陈奕迅",
+                "img1v1Url": null,
+                "followed": false
+            }
+        ],
+        "commentThreadId": "R_MV_5_14236176",
+        "videoGroup": []
+    },
+    "code": 200
+}

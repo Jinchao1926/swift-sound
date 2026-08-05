@@ -22,6 +22,7 @@ struct ArtistMVsPage: View {
                 ForEach(state.items) { mv in
                     MVCard(mv: mv)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .routeLink(to: .mv(id: mv.id))
                 }
             } footer: {
                 if state.value != nil {
