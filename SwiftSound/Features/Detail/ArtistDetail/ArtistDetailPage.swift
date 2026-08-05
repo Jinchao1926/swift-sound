@@ -53,7 +53,7 @@ struct ArtistDetailPage: View {
                         .foregroundStyle(Color.textPrimary)
 
                     HStack(spacing: Layout.metadataSpacing) {
-                        AliasText(alias: artist.aliases)
+                        SeparatedText(artist.aliases)
 
                         if let user = viewModel.state.user {
                             RouteLink(route: .user(id: user.userId)) {
