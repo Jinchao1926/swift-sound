@@ -2,7 +2,7 @@
 //  View+ToastPopover.swift
 //  SwiftSound
 //
-//  Created by Codex on 2026/7/29.
+//  Created by Jinchao Lin on 2026/7/29.
 //
 
 import SwiftUI
