@@ -39,6 +39,8 @@ struct SongTableRow: Identifiable {
         let seconds = max(song.duration / 1000, 0)
         return String(format: "%02d:%02d", seconds / 60, seconds % 60)
     }
+
+    var popularityValue: Int { song.popularity ?? 0 }
 }
 
 enum SongTablePlaybackStatus: Equatable {

@@ -9,13 +9,13 @@ import SwiftUI
 
 struct SongTable: View {
     let songs: [Song]
-    let style: DataTableStyle
+    let style: SongTableStyle
 
     @EnvironmentObject private var playerStore: PlayerStore
 
     init(
         songs: [Song],
-        style: DataTableStyle = .plain
+        style: SongTableStyle = .default
     ) {
         self.songs = songs
         self.style = style
@@ -25,118 +25,35 @@ struct SongTable: View {
         DataTable(
             rows: rows,
             columns: columns,
-            style: style,
+            style: style.dataTableStyle,
             isRowHighlighted: { $0.playbackStatus.isCurrent }
         )
     }
+}
 
-    private var rows: [SongTableRow] {
+private extension SongTable {
+    var rows: [SongTableRow] {
         songs.map { SongTableRow(song: $0, playbackStatus: playbackStatus(for: $0)) }
     }
 
-    private var columns: [DataTableColumn<SongTableRow>] {
-        [
-            DataTableColumn(
-                id: "index",
-                title: "#",
-                width: .fixed(Layout.indexWidth),
-                alignment: .center,
-                content: { row, context in
-                    let rowState = rowState(for: row, context: context)
+    var columns: [DataTableColumn<SongTableRow>] {
+        var columns = [indexColumn, titleColumn]
 
-                    MusicTableIndexCell(
-                        index: context.index + 1,
-                        rowState: rowState
-                    ) {
-                        if rowState.isPlaying {
-                            playerStore.send(.pause)
-                        } else {
-                            playerStore.send(.playQueue(songs, startIndex: context.index))
-                        }
-                    }
-                }
-            ),
+        if style.showsAlbumColumn {
+            columns.append(albumColumn)
+        }
 
-            DataTableColumn(
-                id: "title",
-                title: "标题",
-                width: .flexible(min: Layout.titleMinWidth),
-                alignment: .leading,
-                sort: { lhs, rhs in
-                    lhs.song.name.localizedStandardCompare(rhs.song.name)
-                },
-                content: { row, context in
-                    let rowState = rowState(for: row, context: context)
+        columns.append(likedColumn)
+        columns.append(durationColumn)
 
-                    MusicTableTitleCell(
-                        imageURL: row.imageURL,
-                        title: row.title,
-                        titleSuffix: row.titleSuffix,
-                        subTitle: row.subTitle,
-                        rowState: rowState,
-                        onAction: {
-                            handleTitleAction($0, song: row.song)
-                        },
-                        badges: {
-                            SongTableBadges(row: row)
-                        }
-                    )
-                }
-            ),
+        if style.showsPopularityColumn {
+            columns.append(popularityColumn)
+        }
 
-            DataTableColumn(
-                id: "album",
-                title: "专辑",
-                width: .fixed(Layout.albumWidth),
-                sort: { lhs, rhs in
-                    lhs.song.album.name.localizedStandardCompare(rhs.song.album.name)
-                },
-                content: { row, _ in
-                    RouteLink(route: .album(id: row.song.album.id)) {
-                        Text(row.song.album.name)
-                            .font(.font14)
-                            .foregroundStyle(Color.textSecondary)
-                            .lineLimit(1)
-                    }
-                }
-            ),
-
-            DataTableColumn(
-                id: "liked",
-                title: "喜欢",
-                width: .fixed(Layout.likedWidth),
-                content: { row, _ in
-                    MusicTableFavoriteButton(liked: row.isLiked)
-                }
-            ),
-
-            DataTableColumn(
-                id: "duration",
-                title: "时长",
-                width: .fixed(Layout.durationWidth),
-                sort: { lhs, rhs in
-                    lhs.song.duration.compare(rhs.song.duration)
-                },
-                content: { row, _ in
-                    Text(row.durationText)
-                        .font(.font13)
-                        .foregroundStyle(Color.textTertiary)
-                        .monospacedDigit()
-                        .lineLimit(1)
-                }
-            )
-        ]
+        return columns
     }
 
-    private enum Layout {
-        static let indexWidth: CGFloat = 54
-        static let titleMinWidth: CGFloat = 160
-        static let albumWidth: CGFloat = 220
-        static let likedWidth: CGFloat = 58
-        static let durationWidth: CGFloat = 65
-    }
-
-    private func playbackStatus(for song: Song) -> SongTablePlaybackStatus {
+    func playbackStatus(for song: Song) -> SongTablePlaybackStatus {
         guard playerStore.state.currentSong?.id == song.id else {
             return .notCurrent
         }
@@ -146,7 +63,7 @@ struct SongTable: View {
             : .currentPaused
     }
 
-    private func rowState(
+    func rowState(
         for row: SongTableRow,
         context: DataTableRowContext
     ) -> SongTableRowState {
@@ -156,7 +73,7 @@ struct SongTable: View {
         )
     }
 
-    private func handleTitleAction(_ action: MusicTableAction, song: Song) {
+    func handleTitleAction(_ action: MusicTableAction, song: Song) {
         switch action {
         case .addToPlaylist:
             playerStore.send(.appendToQueue(song))
@@ -167,9 +84,141 @@ struct SongTable: View {
     }
 }
 
+// MARK: - Columns
+private extension SongTable {
+    var indexColumn: DataTableColumn<SongTableRow> {
+        DataTableColumn(
+            id: "index",
+            title: "#",
+            width: .fixed(Layout.indexWidth),
+            alignment: .center,
+            content: { row, context in
+                let rowState = rowState(for: row, context: context)
+
+                MusicTableIndexCell(
+                    index: context.index + 1,
+                    rowState: rowState
+                ) {
+                    if rowState.isPlaying {
+                        playerStore.send(.pause)
+                    } else {
+                        playerStore.send(.playQueue(songs, startIndex: context.index))
+                    }
+                }
+            }
+        )
+    }
+
+    var titleColumn: DataTableColumn<SongTableRow> {
+        DataTableColumn(
+            id: "title",
+            title: "标题",
+            width: .flexible(min: Layout.titleMinWidth),
+            alignment: .leading,
+            sort: { lhs, rhs in
+                lhs.song.name.localizedStandardCompare(rhs.song.name)
+            },
+            content: { row, context in
+                let rowState = rowState(for: row, context: context)
+
+                MusicTableTitleCell(
+                    imageURL: row.imageURL,
+                    title: row.title,
+                    titleSuffix: row.titleSuffix,
+                    subTitle: row.subTitle,
+                    rowState: rowState,
+                    onAction: {
+                        handleTitleAction($0, song: row.song)
+                    },
+                    badges: {
+                        SongTableBadges(row: row)
+                    }
+                )
+            }
+        )
+    }
+
+    var albumColumn: DataTableColumn<SongTableRow> {
+        DataTableColumn(
+            id: "album",
+            title: "专辑",
+            width: .fixed(Layout.albumWidth),
+            sort: { lhs, rhs in
+                lhs.song.album.name.localizedStandardCompare(rhs.song.album.name)
+            },
+            content: { row, _ in
+                RouteLink(route: .album(id: row.song.album.id)) {
+                    Text(row.song.album.name)
+                        .font(.font14)
+                        .foregroundStyle(Color.textSecondary)
+                        .lineLimit(1)
+                }
+            }
+        )
+    }
+
+    var likedColumn: DataTableColumn<SongTableRow> {
+        DataTableColumn(
+            id: "liked",
+            title: "喜欢",
+            width: .fixed(Layout.likedWidth),
+            content: { row, _ in
+                MusicTableFavoriteButton(liked: row.isLiked)
+            }
+        )
+    }
+
+    var durationColumn: DataTableColumn<SongTableRow> {
+        DataTableColumn(
+            id: "duration",
+            title: "时长",
+            width: .fixed(Layout.durationWidth),
+            sort: { lhs, rhs in
+                lhs.song.duration.compare(rhs.song.duration)
+            },
+            content: { row, _ in
+                Text(row.durationText)
+                    .font(.font13)
+                    .foregroundStyle(Color.textTertiary)
+                    .monospacedDigit()
+                    .lineLimit(1)
+            }
+        )
+    }
+
+    var popularityColumn: DataTableColumn<SongTableRow> {
+        DataTableColumn(
+            id: "popularity",
+            title: "热度",
+            width: .fixed(Layout.popularityWidth),
+            sort: { lhs, rhs in
+                lhs.popularityValue.compare(rhs.popularityValue)
+            },
+            content: { row, _ in
+                SongPopularityBar(value: row.popularityValue)
+            }
+        )
+    }
+}
+
+// MARK: - Layout
+private extension SongTable {
+    enum Layout {
+        static let indexWidth: CGFloat = 54
+        static let titleMinWidth: CGFloat = 160
+        static let albumWidth: CGFloat = 220
+        static let likedWidth: CGFloat = 58
+        static let durationWidth: CGFloat = 65
+        static let popularityWidth: CGFloat = 92
+    }
+}
+
 #Preview {
     VStack {
-        SongTable(songs: Array.songsPreview)
+        SongTable(
+            songs: Array.songsPreview,
+            style: .albumSongs
+        )
     }
     .padding(20)
     .frame(width: 800)

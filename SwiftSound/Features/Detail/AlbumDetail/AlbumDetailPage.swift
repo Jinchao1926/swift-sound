@@ -24,9 +24,15 @@ struct AlbumDetailPage: View {
             VStack(spacing: Layout.spacing) {
                 if let album = viewModel.state.album {
                     AlbumDetailHeader(album: album)
+                        .padding(.horizontal, Layout.horizontalPadding)
                 }
 
+                RouteTabView(
+                    selectedRoute: route,
+                    destinationRoute: { .album(id: id, secondary: $0) }
+                )
                 content
+                    .padding(.horizontal, Layout.horizontalPadding)
             }
         }
         .task {
@@ -38,7 +44,7 @@ struct AlbumDetailPage: View {
     var content: some View {
         switch route {
         case .songs:
-            AlbumSongsPage()
+            AlbumSongsPage(songs: viewModel.state.songs)
         case .comments:
             AlbumCommentsPage()
         case .profile:
@@ -50,6 +56,7 @@ struct AlbumDetailPage: View {
 private extension AlbumDetailPage {
     enum Layout {
         static let spacing: CGFloat = 10
+        static let horizontalPadding: CGFloat = 40
     }
 }
 

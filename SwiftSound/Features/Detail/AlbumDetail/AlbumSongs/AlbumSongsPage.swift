@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct AlbumSongsPage: View {
+    let songs: [Song]
+
     var body: some View {
-        PlaceholderPage(title: "AlbumSongs")
+        SongTable(songs: songs, style: .albumSongs)
     }
 }
 
 #Preview {
-    AlbumSongsPage()
+    AlbumSongsPage(songs: Array.songsPreview)
 }
