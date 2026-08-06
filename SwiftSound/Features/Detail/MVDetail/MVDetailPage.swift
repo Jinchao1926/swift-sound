@@ -52,19 +52,32 @@ struct MVDetailPage: View {
 private extension MVDetailPage {
     func artistInfo(for mv: MVDetail) -> some View {
         HStack(spacing: Layout.artistSpacing) {
-            Avatar(url: mv.artists.first?.avatarURL, size: Layout.artistAvatarSize)
-                .routeLink(to: .artist(id: mv.artistId))
+            if mv.artists.count > 1 {
+                Text("歌手:")
+                    .font(.font14)
+                    .foregroundStyle(Color.textPrimary)
 
-            Text(mv.artistName)
-                .font(.font14)
-                .foregroundStyle(Color.textSecondary)
+                SeparatedText(
+                    items: mv.artists.map {
+                        SeparatedText.Item(title: $0.name, route: .artist(id: $0.id))
+                    },
+                    font: .font14
+                )
+            } else {
+                Avatar(url: mv.artists.first?.avatarURL, size: Layout.artistAvatarSize)
+                    .routeLink(to: .artist(id: mv.artistId))
 
-            RoundedButton(
-                "+ 关注",
-                font: .font13,
-                width: Layout.followButtonWidth,
-                height: Layout.followButtonHeight
-            ) {}
+                Text(mv.artistName)
+                    .font(.font14)
+                    .foregroundStyle(Color.textSecondary)
+
+                RoundedButton(
+                    "+ 关注",
+                    font: .font13,
+                    width: Layout.followButtonWidth,
+                    height: Layout.followButtonHeight
+                ) {}
+            }
 
             Spacer(minLength: 0)
         }
@@ -92,7 +105,7 @@ private extension MVDetailPage {
             }
         }
         .font(.font13)
-        .foregroundStyle(Color.textSecondary)
+        .foregroundStyle(Color.textTertiary)
     }
 
     func metadataButton(_ systemName: String) -> IconButton {
