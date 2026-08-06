@@ -79,6 +79,8 @@ struct Song: Codable, Identifiable {
     let tns: [String]?
     let aliases: [String]
     let mvId: Int
+    // 歌曲热度，网易云接口字段为 pop，通常为 0...100
+    let popularity: Int?
     // 付费类型，参考 FeeType 枚举
     let fee: FeeType?
     // 用于表示各种曲目属性（VIP、独家、高品质等）的位标志
@@ -101,6 +103,7 @@ struct Song: Codable, Identifiable {
         tns: [String]?,
         aliases: [String],
         mvId: Int,
+        popularity: Int? = nil,
         fee: FeeType?,
         mark: Int?,
         highQualityAudio: SongAudioFile? = nil,
@@ -119,6 +122,7 @@ struct Song: Codable, Identifiable {
         self.tns = tns
         self.aliases = aliases
         self.mvId = mvId
+        self.popularity = popularity
         self.fee = fee
         self.mark = mark
         self.highQualityAudio = highQualityAudio
@@ -146,6 +150,7 @@ struct Song: Codable, Identifiable {
         case mvId
         case mv
         case mvid
+        case popularity = "pop"
         case fee
         case mark
         case highQualityAudio = "h"
@@ -177,6 +182,7 @@ struct Song: Codable, Identifiable {
             ?? container.decodeIfPresent(Int.self, forKey: .mvid)
             ?? container.decodeIfPresent(Int.self, forKey: .mv)
             ?? 0
+        popularity = try container.decodeIfPresent(Int.self, forKey: .popularity)
         fee = try container.decodeIfPresent(FeeType.self, forKey: .fee)
         mark = try container.decodeIfPresent(Int.self, forKey: .mark)
         highQualityAudio = try container.decodeIfPresent(SongAudioFile.self, forKey: .highQualityAudio)
@@ -199,6 +205,7 @@ struct Song: Codable, Identifiable {
         try container.encodeIfPresent(tns, forKey: .tns)
         try container.encode(aliases, forKey: .aliases)
         try container.encode(mvId, forKey: .mvId)
+        try container.encodeIfPresent(popularity, forKey: .popularity)
         try container.encodeIfPresent(fee, forKey: .fee)
         try container.encodeIfPresent(mark, forKey: .mark)
         try container.encodeIfPresent(highQualityAudio, forKey: .highQualityAudio)
