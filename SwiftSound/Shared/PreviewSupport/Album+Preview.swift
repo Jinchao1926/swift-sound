@@ -12,8 +12,8 @@ extension Album {
     static let preview = Album(
         id: 6365,
         name: "DUO 陈奕迅2010演唱会",
-        artist: nil,
-        artists: nil,
+        artist: Artist.preview,
+        artists: [Artist.preview],
         picUrl: "https://p1.music.126.net/7dbK-A_In2Wol92TDMYIGw==/6636652185368776.jpg",
         alias: nil,
         transNames: nil,
