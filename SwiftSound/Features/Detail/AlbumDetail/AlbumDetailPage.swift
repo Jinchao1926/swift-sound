@@ -23,8 +23,11 @@ struct AlbumDetailPage: View {
         ScrollView {
             VStack(spacing: Layout.spacing) {
                 if let album = viewModel.state.album {
-                    AlbumDetailHeader(album: album)
-                        .padding(.horizontal, Layout.horizontalPadding)
+                    AlbumDetailHeader(
+                        album: album,
+                        subCount: viewModel.dynamicState.value?.subCount
+                    )
+                    .padding(.horizontal, Layout.horizontalPadding)
                 }
 
                 RouteTabView(
@@ -36,7 +39,7 @@ struct AlbumDetailPage: View {
             }
         }
         .task {
-            await viewModel.load()
+            await viewModel.loadAlbum()
         }
     }
 
@@ -48,7 +51,7 @@ struct AlbumDetailPage: View {
         case .comments:
             AlbumCommentsPage()
         case .profile:
-            AlbumProfilePage()
+            AlbumProfilePage(description: viewModel.state.album?.description)
         }
     }
 }

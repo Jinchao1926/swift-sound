@@ -18,4 +18,9 @@ struct AlbumsRepository {
         let response = try await apiClient.request(AlbumDetailRequest(id: id))
         return response
     }
+
+    func fetchAlbumDetailDynamic(id: Int) async throws -> AlbumDetailDynamic {
+        let response = try await apiClient.request(AlbumDetailDynamicRequest(id: id))
+        return response.dynamic
+    }
 }

@@ -22,7 +22,6 @@ struct AlbumDetailRequest: APIRequest {
     let cachePolicy: APICachePolicy = .memory(ttl: .infinity)
 
     init(id: Int) {
-        debugPrint("AlbumDetailRequest: \(id)")
         self.queryItems = [
             URLQueryItem(name: "id", value: String(id))
         ]
