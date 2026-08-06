@@ -82,6 +82,8 @@ extension AppRoute {
             return .newMusic()
         case .artist(let id, _):
             return .artist(id: id)
+        case .album(let id, _):
+            return .album(id: id)
         case .user(let id, _):
             return .user(id: id)
         default:

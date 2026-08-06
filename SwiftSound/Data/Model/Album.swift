@@ -85,3 +85,29 @@ struct Album: Codable, Identifiable {
     let company: String?
     let description: String?
 }
+
+/**
+ {
+     "onSale": false,
+     "albumNearbyProduct": {
+         "url": "https://music.163.com/store/product/column?id=209003",
+         "title": "陈奕迅正版实体专辑",
+         "subTitle": "点击购买"
+     },
+     "commentCount": 2234,
+     "likedCount": 0,
+     "shareCount": 14798,
+     "isSub": false,
+     "subTime": 0,
+     "subCount": 226775,
+     "code": 200
+ }
+ */
+struct AlbumDetailDynamic: Decodable {
+    let commentCount: Int
+    let likedCount: Int
+    let shareCount: Int
+    let subCount: Int
+    let isSub: Bool
+    let subTime: Int
+}

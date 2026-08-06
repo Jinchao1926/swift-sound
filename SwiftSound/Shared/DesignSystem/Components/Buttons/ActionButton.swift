@@ -37,12 +37,12 @@ struct ActionButton: View {
             HStack(spacing: Layout.iconSpacing) {
                 if let systemName {
                     Image(systemName: systemName)
-                        .font(Layout.font)
+                        .font(.font16)
                 }
 
                 if let title {
                     Text(title)
-                        .font(Layout.font)
+                        .font(.font13)
                 }
             }
             .foregroundStyle(variant.foregroundColor)
@@ -74,7 +74,6 @@ private extension ActionButton {
         static let cornerRadius: CGFloat = 8
         static let horizontalPadding: CGFloat = 14
         static let iconSpacing: CGFloat = 6
-        static let font: Font = .font14
     }
 }
 
