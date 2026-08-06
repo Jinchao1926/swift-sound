@@ -40,8 +40,10 @@ struct Avatar: View {
         .background(Color.surfaceSecondary)
         .clipShape(Circle())
         .overlay {
-            Circle()
-                .strokeBorder(Color.divider, lineWidth: 1)
+            if url == nil {
+                Circle()
+                    .strokeBorder(Color.divider, lineWidth: 1)
+            }
         }
     }
 }

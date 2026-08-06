@@ -17,13 +17,13 @@ final class ArtistDetailViewModel: ObservableObject {
 
     private let id: Int
     private let repository: ArtistsRepository
-    private let albumRepository: AlbumRepository
+    private let albumRepository: AlbumsRepository
 
     // MARK: - LifeCycle
     init(
         id: Int,
         repository: ArtistsRepository = ArtistsRepository(),
-        albumRepository: AlbumRepository = AlbumRepository()
+        albumRepository: AlbumsRepository = AlbumsRepository()
     ) {
         self.id = id
         self.repository = repository

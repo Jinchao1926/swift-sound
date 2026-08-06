@@ -112,8 +112,6 @@ struct ArtistDetailPage: View {
             )
         case .similarArtists:
             SimilarArtistsPage()
-        case .performances:
-            ArtistPerformancesPage()
         }
     }
 

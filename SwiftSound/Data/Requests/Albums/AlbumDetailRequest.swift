@@ -7,6 +7,7 @@
 
 import Foundation
 
+typealias AlbumDetail = AlbumDetailResponse
 struct AlbumDetailResponse: nonisolated Decodable {
     let songs: [Song]
     let album: Album

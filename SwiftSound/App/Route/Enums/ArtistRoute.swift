@@ -13,7 +13,6 @@ enum ArtistRoute: RouteTabProtocol {
     case mvs
     case profile
     case similarArtists
-    case performances
 
     var title: String {
         switch self {
@@ -27,8 +26,6 @@ enum ArtistRoute: RouteTabProtocol {
             return "歌手详情"
         case .similarArtists:
             return "相似歌手"
-        case .performances:
-            return "演出"
         }
     }
 }
