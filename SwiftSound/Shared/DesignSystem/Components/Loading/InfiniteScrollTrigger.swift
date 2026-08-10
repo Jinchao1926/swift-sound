@@ -25,21 +25,10 @@ struct InfiniteScrollFooter<LoadKey: Equatable>: View {
                 )
 
             if isLoading {
-                loadingIndicator
+                LoadingView()
             }
         }
         .frame(maxWidth: .infinity)
-    }
-
-    private var loadingIndicator: some View {
-        HStack {
-            Spacer()
-            ProgressView()
-                .controlSize(.small)
-            Spacer()
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 19.5)
     }
 }
 

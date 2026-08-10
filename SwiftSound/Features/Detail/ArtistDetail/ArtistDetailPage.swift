@@ -127,5 +127,6 @@ private extension ArtistDetailPage {
 
 #Preview {
     ArtistDetailPage(id: Artist.preview.id, route: .songs)
+        .environmentObject(AppRouter())
         .environmentObject(PlayerStore())
 }

@@ -37,6 +37,7 @@ struct ArtistSongsPage: View {
                 .padding(.bottom, Layout.actionBottomMargin)
 
                 SongTable(songs: viewModel.state.items)
+                    .loadingPlaceholder(viewModel.state.isInitialLoading)
 
                 if viewModel.state.value != nil {
                     InfiniteScrollFooter(
