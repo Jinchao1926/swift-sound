@@ -10,6 +10,7 @@ import SwiftUI
 struct AlbumDetailHeader: View {
     let album: Album
     let subCount: Int?
+    let onPlayAll: () -> Void
 
     var body: some View {
         HStack(spacing: Layout.spacing) {
@@ -52,7 +53,9 @@ struct AlbumDetailHeader: View {
                         "播放全部",
                         systemName: "play.fill",
                         variant: .primary
-                    ) {}
+                    ) {
+                        onPlayAll()
+                    }
                     ActionButton(subscribeTitle, systemName: "plus.square.fill" ) {}
                     ActionButton("下载", systemName: "arrow.down.square.fill" ) {}
                     ActionButton(systemName: "ellipsis" ) {}
@@ -106,7 +109,7 @@ private extension AlbumDetailHeader {
 
 #Preview {
     VStack {
-        AlbumDetailHeader(album: .preview, subCount: 7275)
+        AlbumDetailHeader(album: .preview, subCount: 7275, onPlayAll: {})
     }
     .padding()
 }
