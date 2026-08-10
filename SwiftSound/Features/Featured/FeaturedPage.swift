@@ -13,13 +13,13 @@ struct FeaturedPage: View {
     var body: some View {
         VStack(spacing: 10) {
             RouteTabView(selectedRoute: route)
+                .padding(.horizontal, Layout.horizontalPadding)
+
             ScrollView(.vertical, showsIndicators: false) {
                 content
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
-                    .padding(.bottom, 35)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .padding(.bottom, Layout.bottomPadding)
     }
 
     @ViewBuilder
@@ -36,6 +36,13 @@ struct FeaturedPage: View {
         case .vip:
             VIPPage()
         }
+    }
+}
+
+private extension FeaturedPage {
+    enum Layout {
+        static let bottomPadding: CGFloat = 20
+        static let horizontalPadding: CGFloat = 40
     }
 }
 

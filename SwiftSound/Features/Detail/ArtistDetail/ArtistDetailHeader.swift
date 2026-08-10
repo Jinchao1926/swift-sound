@@ -51,7 +51,6 @@ struct ArtistDetailHeader: View {
 
             Spacer()
         }
-        .padding(.horizontal, Layout.horizontalPadding)
     }
 }
 
@@ -59,7 +58,6 @@ private extension ArtistDetailHeader {
     enum Layout {
         static let headerSpacing: CGFloat = 25
         static let avatarSize: CGFloat = 170
-        static let horizontalPadding: CGFloat = 40
         static let metadataSpacing: CGFloat = 20
         static let metadataTopPadding: CGFloat = 12
         static let metadataBottomPadding: CGFloat = 16

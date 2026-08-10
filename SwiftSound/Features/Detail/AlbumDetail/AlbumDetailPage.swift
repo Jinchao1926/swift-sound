@@ -29,7 +29,6 @@ struct AlbumDetailPage: View {
                         subCount: viewModel.dynamicState.value?.subCount,
                         onPlayAll: playAllSongs
                     )
-                    .padding(.horizontal, Layout.horizontalPadding)
                 }
 
                 RouteTabView(
@@ -40,9 +39,10 @@ struct AlbumDetailPage: View {
                         tabTrailingSlot
                     }
                 )
+
                 content
-                    .padding(.horizontal, Layout.horizontalPadding)
             }
+            .padding(.horizontal, Layout.horizontalPadding)
         }
         .task {
             await viewModel.loadAlbum()

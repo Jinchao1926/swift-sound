@@ -40,7 +40,6 @@ struct RouteTabView<Route, Trailing>: View where Route: RouteTabProtocol, Traili
             trailingSlot()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 40)
         .padding(.top, 10)
     }
 }

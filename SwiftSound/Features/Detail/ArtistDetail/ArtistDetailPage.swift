@@ -38,8 +38,8 @@ struct ArtistDetailPage: View {
                 )
 
                 content
-                    .padding(.horizontal, Layout.horizontalPadding)
             }
+            .padding(.horizontal, Layout.horizontalPadding)
         }
         .task {
             await viewModel.load()
