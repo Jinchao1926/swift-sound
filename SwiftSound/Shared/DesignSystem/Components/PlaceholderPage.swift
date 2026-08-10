@@ -20,7 +20,6 @@ struct PlaceholderPage: View {
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .padding(32)
     }
 }
 
