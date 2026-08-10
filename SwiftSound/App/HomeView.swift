@@ -30,7 +30,7 @@ struct HomeView: View {
                 if let playerBarModel = PlayerPresentationModel(state: playerStore.state) {
                     PlayerBarView(
                         model: playerBarModel,
-                        callback: playerCallback,
+                        actions: playerActions,
                         playerStoreEvent: $pendingPlayerStoreEvent,
                         onActivate: {
                             withAnimation(.easeInOut(duration: 0.22)) {
@@ -45,7 +45,7 @@ struct HomeView: View {
             if isPlayerPresented, let playerModel = PlayerPresentationModel(state: playerStore.state) {
                 FullPlayerView(
                     model: playerModel,
-                    callback: playerCallback,
+                    actions: playerActions,
                     onCollapse: {
                         withAnimation(.easeInOut(duration: 0.22)) {
                             isPlayerPresented = false
@@ -87,8 +87,8 @@ struct HomeView: View {
         }
     }
 
-    private var playerCallback: PlayerControlsCallback {
-        PlayerControlsCallback(
+    private var playerActions: PlayerControlsActions {
+        PlayerControlsActions(
             onTogglePlayPause: {
                 playerStore.send(.togglePlayPause)
             },

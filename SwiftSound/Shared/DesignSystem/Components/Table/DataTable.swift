@@ -97,7 +97,7 @@ struct DataTable<Row: Identifiable>: View where Row.ID: Hashable {
             let columnID = sortState.columnID,
             let order = sortState.order,
             let column = columns.first(where: { $0.id == columnID }),
-            let compare = column.compare
+            let compare = column.sortComparator
         else {
             return tableRows
         }

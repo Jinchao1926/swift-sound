@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PlayerBarView: View {
     let model: PlayerPresentationModel
-    let callback: PlayerControlsCallback
+    let actions: PlayerControlsActions
     let style: PlayerBarStyle
     @Binding var playerStoreEvent: PlayerStoreEvent?
     let onActivate: (() -> Void)?
@@ -17,14 +17,14 @@ struct PlayerBarView: View {
 
     init(
         model: PlayerPresentationModel,
-        callback: PlayerControlsCallback,
+        actions: PlayerControlsActions,
         style: PlayerBarStyle = .compact,
         playerStoreEvent: Binding<PlayerStoreEvent?> = .constant(nil),
         onActivate: (() -> Void)? = nil,
         onTogglePlaylist: (() -> Void)? = nil
     ) {
         self.model = model
-        self.callback = callback
+        self.actions = actions
         self.style = style
         self._playerStoreEvent = playerStoreEvent
         self.onActivate = onActivate
@@ -36,7 +36,7 @@ struct PlayerBarView: View {
             PlayerProgressTrack(
                 currentTime: model.currentTime,
                 duration: model.duration,
-                onSeek: callback.onSeek
+                onSeek: actions.onSeek
             )
             .zIndex(1)
 
@@ -87,18 +87,18 @@ struct PlayerBarView: View {
 
     private var transportControls: some View {
         HStack(alignment: .center, spacing: Layout.transportSpacing) {
-            PlayerIconButton(systemName: playbackModeIconName, action: callback.onCyclePlaybackMode)
+            PlayerIconButton(systemName: playbackModeIconName, action: actions.onCyclePlaybackMode)
                 .help(playbackModeHelpText)
 
-            PlayerIconButton(systemName: "backward.end.fill", action: callback.onPrevious)
+            PlayerIconButton(systemName: "backward.end.fill", action: actions.onPrevious)
                 .help("上一首")
 
             PlayerPlayPauseButton(
                 isPlaying: model.playbackState.isPlaybackActive,
-                action: callback.onTogglePlayPause
+                action: actions.onTogglePlayPause
             )
 
-            PlayerIconButton(systemName: "forward.end.fill", action: callback.onNext)
+            PlayerIconButton(systemName: "forward.end.fill", action: actions.onNext)
                 .help("下一首")
 
             PlayerIconButton(systemName: "list.bullet", action: onTogglePlaylist)
@@ -120,8 +120,8 @@ struct PlayerBarView: View {
             PlayerVolumeControl(
                 volume: model.volume,
                 isMuted: model.isMuted,
-                onSetVolume: callback.onSetVolume,
-                onToggleMute: callback.onToggleMute
+                onSetVolume: actions.onSetVolume,
+                onToggleMute: actions.onToggleMute
             )
             PlayerIconButton(systemName: "ellipsis").help("更多操作")
         }
@@ -180,7 +180,7 @@ private extension PlayerBarView {
 #Preview {
     VStack {
         Spacer()
-        PlayerBarView(model: .preview(), callback: .preview)
+        PlayerBarView(model: .preview(), actions: .preview)
     }
     .frame(width: 1280, height: 250)
 
@@ -188,7 +188,7 @@ private extension PlayerBarView {
         Spacer()
         PlayerBarView(
             model: .preview(),
-            callback: .preview,
+            actions: .preview,
             style: PlayerBarStyle.fullPlayer(themeColor: Color.yellow)
         )
     }

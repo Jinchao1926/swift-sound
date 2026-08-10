@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FullPlayerView: View {
     let model: PlayerPresentationModel
-    let callback: PlayerControlsCallback
+    let actions: PlayerControlsActions
     let onCollapse: () -> Void
     let onTogglePlaylist: (() -> Void)?
 
@@ -30,7 +30,7 @@ struct FullPlayerView: View {
 
             PlayerBarView(
                 model: model,
-                callback: callback,
+                actions: actions,
                 style: theme.playerBarStyle,
                 onActivate: onCollapse,
                 onTogglePlaylist: onTogglePlaylist
@@ -69,7 +69,7 @@ struct FullPlayerView: View {
             SongDetailsView(
                 song: model.song,
                 currentTime: model.currentTime,
-                onSeek: callback.onSeekAndPlay
+                onSeek: actions.onSeekAndPlay
             )
                 .frame(width: Layout.songInfoWidth)
                 .frame(maxHeight: .infinity, alignment: .topLeading)
@@ -105,7 +105,7 @@ private extension FullPlayerView {
 #Preview {
     FullPlayerView(
         model: .preview(),
-        callback: .preview,
+        actions: .preview,
         onCollapse: {},
         onTogglePlaylist: {}
     )

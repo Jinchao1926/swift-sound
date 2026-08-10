@@ -11,7 +11,7 @@ struct ArtistAlbumsPage: View {
     let state: Loadable<Paginated<Album>>
     let load: () async -> Void
     let loadMore: () async -> Void
-    let playAlbum: (Album.ID) -> Void
+    let onPlayAlbum: (Album.ID) -> Void
 
     var body: some View {
         LazyVGrid(
@@ -22,7 +22,7 @@ struct ArtistAlbumsPage: View {
             Section {
                 ForEach(state.items) { album in
                     AlbumCard(album: album) {
-                        playAlbum(album.id)
+                        onPlayAlbum(album.id)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .routeLink(to: .album(id: album.id))
@@ -65,7 +65,7 @@ private extension ArtistAlbumsPage {
             state: .loaded(Paginated(items: [Album.preview], canLoadMore: true)),
             load: {},
             loadMore: {},
-            playAlbum: { _ in }
+            onPlayAlbum: { _ in }
         )
     }
     .frame(minWidth: 600, minHeight: 600)
