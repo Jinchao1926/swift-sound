@@ -11,6 +11,7 @@ import Combine
 final class AlbumDetailViewModel: ObservableObject {
     @Published private(set) var state: Loadable<AlbumDetail> = .idle
     @Published private(set) var dynamicState: Loadable<AlbumDetailDynamic> = .idle
+    @Published var songSearchText = ""
 
     private let id: Int
     private let repository: AlbumsRepository
@@ -51,6 +52,18 @@ final class AlbumDetailViewModel: ObservableObject {
             dynamicState = .loaded(data)
         } catch {
             dynamicState = .failed(error)
+        }
+    }
+
+    var filteredSongs: [Song] {
+        let keyword = songSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !keyword.isEmpty else { return state.songs }
+
+        return state.songs.filter {
+            $0.name.range(
+                of: keyword,
+                options: [.caseInsensitive, .diacriticInsensitive]
+            ) != nil
         }
     }
 }

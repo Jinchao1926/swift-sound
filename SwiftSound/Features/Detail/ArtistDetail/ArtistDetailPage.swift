@@ -27,7 +27,8 @@ struct ArtistDetailPage: View {
                 header
                 RouteTabView(
                     selectedRoute: route,
-                    destinationRoute: { .artist(id: id, secondary: $0) }
+                    destinationRoute: { .artist(id: id, secondary: $0) },
+                    badgeText: tabBadgeText
                 )
                 content
                     .padding(.horizontal, Layout.horizontalPadding)
@@ -132,6 +133,19 @@ struct ArtistDetailPage: View {
             } catch {
                 return
             }
+        }
+    }
+
+    private func tabBadgeText(for route: ArtistRoute) -> String? {
+        guard let artist = viewModel.state.artist else { return nil }
+
+        switch route {
+        case .albums:
+            return artist.albumSize?.formatted()
+        case .mvs:
+            return artist.mvSize?.formatted()
+        default:
+            return nil
         }
     }
 }

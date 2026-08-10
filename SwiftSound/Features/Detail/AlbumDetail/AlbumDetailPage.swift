@@ -32,7 +32,11 @@ struct AlbumDetailPage: View {
 
                 RouteTabView(
                     selectedRoute: route,
-                    destinationRoute: { .album(id: id, secondary: $0) }
+                    destinationRoute: { .album(id: id, secondary: $0) },
+                    badgeText: tabBadgeText,
+                    trailingSlot: {
+                        tabTrailingSlot
+                    }
                 )
                 content
                     .padding(.horizontal, Layout.horizontalPadding)
@@ -44,14 +48,32 @@ struct AlbumDetailPage: View {
     }
 
     @ViewBuilder
+    private var tabTrailingSlot: some View {
+        if route == .songs {
+            SearchBar(text: $viewModel.songSearchText)
+        }
+    }
+
+    @ViewBuilder
     var content: some View {
         switch route {
         case .songs:
-            AlbumSongsPage(songs: viewModel.state.songs)
+            AlbumSongsPage(songs: viewModel.filteredSongs)
         case .comments:
             AlbumCommentsPage()
         case .profile:
             AlbumProfilePage(description: viewModel.state.album?.description)
+        }
+    }
+
+    private func tabBadgeText(for route: AlbumRoute) -> String? {
+        switch route {
+        case .songs:
+            return viewModel.state.songs.count.formatted()
+        case .comments:
+            return viewModel.dynamicState.value?.commentCount.formatted()
+        default:
+            return nil
         }
     }
 }
@@ -65,4 +87,5 @@ private extension AlbumDetailPage {
 
 #Preview {
     AlbumDetailPage(id: Album.preview.id, route: .songs)
+        .environmentObject(PlayerStore())
 }
