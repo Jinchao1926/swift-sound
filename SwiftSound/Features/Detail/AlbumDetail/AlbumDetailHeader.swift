@@ -85,7 +85,7 @@ struct AlbumDetailHeader: View {
             return "收藏"
         }
 
-        return "\(subCount)"
+        return subCount.formatted()
     }
 }
 
