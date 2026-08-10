@@ -14,6 +14,7 @@ struct PlaylistsRepository {
         self.apiClient = apiClient
     }
 
+    // MARK: - Playlist
     func fetchTopPlaylists(
         category: String,
         offset: Int = 0,
@@ -27,5 +28,16 @@ struct PlaylistsRepository {
     func fetchPlaylistDetail(_ id: Int) async throws -> Playlist {
         let response = try await apiClient.request(PlaylistDetailRequest(id: id))
         return response.playlist
+    }
+
+    // MARK: - Toplist
+    func fetchToplists() async throws -> [Playlist] {
+        let response = try await apiClient.request(ToplistsRequest())
+        return response.list
+    }
+
+    func fetchToplistDetails() async throws -> [Playlist] {
+        let response = try await apiClient.request(ToplistDetailsRequest())
+        return response.list
     }
 }
