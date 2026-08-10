@@ -12,6 +12,7 @@ struct AlbumDetailPage: View {
     let route: AlbumRoute
 
     @StateObject private var viewModel: AlbumDetailViewModel
+    @EnvironmentObject private var playerStore: PlayerStore
 
     init(id: Int, route: AlbumRoute) {
         self.id = id
@@ -25,7 +26,8 @@ struct AlbumDetailPage: View {
                 if let album = viewModel.state.album {
                     AlbumDetailHeader(
                         album: album,
-                        subCount: viewModel.dynamicState.value?.subCount
+                        subCount: viewModel.dynamicState.value?.subCount,
+                        onPlayAll: playAllSongs
                     )
                     .padding(.horizontal, Layout.horizontalPadding)
                 }
@@ -75,6 +77,14 @@ struct AlbumDetailPage: View {
         default:
             return nil
         }
+    }
+}
+
+// MARK: - Actions
+private extension AlbumDetailPage {
+    func playAllSongs() {
+        guard !viewModel.state.songs.isEmpty else { return }
+        playerStore.send(.playQueue(viewModel.state.songs, startIndex: 0))
     }
 }
 
