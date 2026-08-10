@@ -30,7 +30,7 @@ struct FeaturedPage: View {
         case .playlistSquare:
             PlaylistSquarePage()
         case .ranking:
-            RankingPage()
+            RankingListPage()
         case .artist:
             ArtistListPage()
         case .vip:
