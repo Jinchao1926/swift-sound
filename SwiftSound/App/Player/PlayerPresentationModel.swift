@@ -29,7 +29,7 @@ struct PlayerPresentationModel {
     }
 }
 
-struct PlayerControlsCallback {
+struct PlayerControlsActions {
     let onTogglePlayPause: () -> Void
     let onPrevious: () -> Void
     let onNext: () -> Void

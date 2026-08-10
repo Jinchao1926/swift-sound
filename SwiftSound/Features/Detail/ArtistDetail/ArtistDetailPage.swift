@@ -60,7 +60,7 @@ struct ArtistDetailPage: View {
                 state: viewModel.albumState,
                 load: viewModel.loadAlbums,
                 loadMore: viewModel.loadMoreAlbums,
-                playAlbum: playAlbum
+                onPlayAlbum: playAlbum
             )
         case .mvs:
             ArtistMVsPage(

@@ -31,8 +31,8 @@ extension PlayerPresentationModel {
     }
 }
 
-extension PlayerControlsCallback {
-    static let preview = PlayerControlsCallback(
+extension PlayerControlsActions {
+    static let preview = PlayerControlsActions(
         onTogglePlayPause: {},
         onPrevious: {},
         onNext: {},
