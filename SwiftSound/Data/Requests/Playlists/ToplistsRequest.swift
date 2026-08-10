@@ -8,7 +8,7 @@
 import Foundation
 
 struct ToplistsResponse: nonisolated Decodable {
-    let list: [Playlist]
+    let list: [Toplist]
     let code: Int
 }
 

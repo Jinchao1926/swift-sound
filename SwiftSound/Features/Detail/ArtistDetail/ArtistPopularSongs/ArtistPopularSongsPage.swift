@@ -25,9 +25,9 @@ struct ArtistPopularSongsPage: View {
                     .padding(.top, Layout.tableTopMargin)
             }
         }
-        .loadingPlaceholder(state.isInitialLoading)
         .padding(.bottom, Layout.bottomMargin)
         .frame(maxWidth: .infinity, alignment: .topLeading)
+        .loadingPlaceholder(state.isInitialLoading)
         .task {
             await load()
         }

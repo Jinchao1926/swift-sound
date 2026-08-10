@@ -130,7 +130,7 @@ struct PlayerPlaylistPanelView: View {
 }
 
 private extension PlayerPlaylistPanelView {
-    func controlIcon(isCurrent: Bool) -> PlayableCoverImage.ControlIcon {
+    func controlIcon(isCurrent: Bool) -> PlaybackControl {
         isCurrent && playbackState.isPlaybackActive ? .pause : .play
     }
 
