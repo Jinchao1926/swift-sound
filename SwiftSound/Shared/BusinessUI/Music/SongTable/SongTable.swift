@@ -115,7 +115,7 @@ private extension SongTable {
             title: "标题",
             width: .flexible(min: Layout.titleMinWidth),
             alignment: .leading,
-            sort: { lhs, rhs in
+            sortComparator: { lhs, rhs in
                 lhs.song.name.localizedStandardCompare(rhs.song.name)
             },
             content: { row, context in
@@ -143,7 +143,7 @@ private extension SongTable {
             id: "album",
             title: "专辑",
             width: .fixed(Layout.albumWidth),
-            sort: { lhs, rhs in
+            sortComparator: { lhs, rhs in
                 lhs.song.album.name.localizedStandardCompare(rhs.song.album.name)
             },
             content: { row, _ in
@@ -173,7 +173,7 @@ private extension SongTable {
             id: "duration",
             title: "时长",
             width: .fixed(Layout.durationWidth),
-            sort: { lhs, rhs in
+            sortComparator: { lhs, rhs in
                 lhs.song.duration.compare(rhs.song.duration)
             },
             content: { row, _ in
@@ -191,7 +191,7 @@ private extension SongTable {
             id: "popularity",
             title: "热度",
             width: .fixed(Layout.popularityWidth),
-            sort: { lhs, rhs in
+            sortComparator: { lhs, rhs in
                 lhs.popularityValue.compare(rhs.popularityValue)
             },
             content: { row, _ in

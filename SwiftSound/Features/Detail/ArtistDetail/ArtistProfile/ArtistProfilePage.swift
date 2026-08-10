@@ -32,6 +32,7 @@ struct ArtistProfilePage: View {
                 .padding(.bottom, Layout.paragraphBottomInset)
             }
         }
+        .loadingPlaceholder(state.isInitialLoading)
         .padding(.vertical, Layout.verticalInset)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .task {

@@ -19,30 +19,29 @@ struct ArtistListPage: View {
                 onInitialSelect: viewModel.selectInitial
             )
 
-            VStack(alignment: .leading, spacing: 0) {
-                LazyVGrid(
-                    columns: Layout.gridColumns,
-                    alignment: .leading,
-                    spacing: Layout.gridSpacing
-                ) {
-                    Section {
-                        ForEach(viewModel.state.items) { artist in
-                            ArtistCard(artist: artist)
-                                .frame(maxWidth: .infinity)
-                                .routeLink(to: .artist(id: artist.id))
-                        }
-                    } footer: {
-                        InfiniteScrollFooter(
-                            canLoadMore: viewModel.state.canLoadMore,
-                            isLoading: viewModel.state.isLoading,
-                            loadKey: viewModel.state.items.count
-                        ) {
-                            await viewModel.loadMore()
-                        }
+            LazyVGrid(
+                columns: Layout.gridColumns,
+                alignment: .leading,
+                spacing: Layout.gridSpacing
+            ) {
+                Section {
+                    ForEach(viewModel.state.items) { artist in
+                        ArtistCard(artist: artist)
+                            .frame(maxWidth: .infinity)
+                            .routeLink(to: .artist(id: artist.id))
+                    }
+                } footer: {
+                    InfiniteScrollFooter(
+                        canLoadMore: viewModel.state.canLoadMore,
+                        isLoading: viewModel.state.isLoading,
+                        loadKey: viewModel.state.items.count
+                    ) {
+                        await viewModel.loadMore()
                     }
                 }
             }
             .padding(.top, Layout.contentTopPadding)
+            .loadingPlaceholder(viewModel.state.isInitialLoading)
         }
         .padding(.horizontal, Layout.horizontalPadding)
         .frame(maxWidth: .infinity, alignment: .topLeading)

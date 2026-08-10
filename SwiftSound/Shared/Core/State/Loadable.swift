@@ -51,6 +51,16 @@ extension Loadable {
         return false
     }
 
+    var isInitialLoading: Bool {
+        guard case .loading(let value) = self else { return false }
+
+        if case .none = value {
+            return true
+        }
+
+        return false
+    }
+
     var isLoadedOrLoading: Bool {
         switch self {
         case .loading, .loaded:

@@ -25,6 +25,7 @@ struct AlbumProfilePage: View {
             )
             .padding(.bottom, Layout.paragraphBottomInset)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 }
 
@@ -40,5 +41,8 @@ private extension AlbumProfilePage {
 }
 
 #Preview {
-    AlbumProfilePage(description: Album.preview.description)
+    VStack {
+        AlbumProfilePage(description: Album.preview.description)
+    }
+    .frame(width: 500, height: 600)
 }

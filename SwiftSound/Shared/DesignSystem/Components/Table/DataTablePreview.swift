@@ -42,7 +42,7 @@ private struct DataTablePreviewRow: Identifiable {
             id: "title",
             title: "标题",
             width: .flexible(min: 120),
-            sort: { lhs, rhs in
+            sortComparator: { lhs, rhs in
                 lhs.title.localizedStandardCompare(rhs.title)
             },
             content: { row, _ in
@@ -57,7 +57,7 @@ private struct DataTablePreviewRow: Identifiable {
             id: "album",
             title: "专辑",
             width: .fixed(180),
-            sort: { lhs, rhs in
+            sortComparator: { lhs, rhs in
                 lhs.album.localizedStandardCompare(rhs.album)
             },
             content: { row, _ in
@@ -86,7 +86,7 @@ private struct DataTablePreviewRow: Identifiable {
             title: "时长",
             width: .fixed(64),
             alignment: .trailing,
-            sort: { lhs, rhs in
+            sortComparator: { lhs, rhs in
                 lhs.duration.compare(rhs.duration)
             },
             content: { row, _ in

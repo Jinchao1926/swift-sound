@@ -36,6 +36,7 @@ struct ArtistMVsPage: View {
                 }
             }
         }
+        .loadingPlaceholder(state.isInitialLoading)
         .padding(.top, Layout.contentTopPadding)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .task {

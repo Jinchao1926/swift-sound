@@ -97,5 +97,6 @@ private extension AlbumDetailPage {
 
 #Preview {
     AlbumDetailPage(id: Album.preview.id, route: .songs)
+        .environmentObject(AppRouter())
         .environmentObject(PlayerStore())
 }

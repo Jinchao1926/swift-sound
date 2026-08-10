@@ -17,4 +17,5 @@ struct AlbumSongsPage: View {
 
 #Preview {
     AlbumSongsPage(songs: Array.songsPreview)
+        .environmentObject(PlayerStore())
 }
