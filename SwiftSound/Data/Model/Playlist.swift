@@ -242,7 +242,9 @@ struct Toplist: Decodable, Identifiable {
     let tracks: [ToplistSong]?
 }
 
-struct ToplistSong: Decodable {
+struct ToplistSong: Decodable, Identifiable {
     let first: String
     let second: String
+
+    var id: String { "\(first)-\(second)" }
 }
