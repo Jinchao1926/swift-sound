@@ -9,13 +9,13 @@ import SwiftUI
 
 struct PlayableSongCover: View {
     let url: URL?
-    let controlIcon: PlayableCoverImage.ControlIcon
+    let controlIcon: PlaybackControl
     let isHovering: Bool
     let onPlay: () -> Void
 
     init(
         url: URL? = nil,
-        controlIcon: PlayableCoverImage.ControlIcon = .play,
+        controlIcon: PlaybackControl = .play,
         isHovering: Bool = false,
         onPlay: @escaping () -> Void
     ) {

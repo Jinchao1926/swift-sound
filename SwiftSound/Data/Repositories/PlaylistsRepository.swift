@@ -31,12 +31,12 @@ struct PlaylistsRepository {
     }
 
     // MARK: - Toplist
-    func fetchToplists() async throws -> [Playlist] {
+    func fetchToplists() async throws -> [Toplist] {
         let response = try await apiClient.request(ToplistsRequest())
         return response.list
     }
 
-    func fetchToplistDetails() async throws -> [Playlist] {
+    func fetchToplistDetails() async throws -> [Toplist] {
         let response = try await apiClient.request(ToplistDetailsRequest())
         return response.list
     }

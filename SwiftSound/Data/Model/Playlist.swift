@@ -160,3 +160,91 @@ struct Playlist: Decodable, Identifiable {
     let subscribedCount: Int
     let subscribers: [User]
 }
+
+/**
+ {
+     "subscribers": [],
+     "subscribed": null,
+     "creator": null,
+     "artists": null,
+     "tracks": [
+         {
+             "first": "交个朋友 (Live)",
+             "second": "弹壳Danko"
+         },
+         {
+             "first": "Sunquan March（孙权进行曲）",
+             "second": "XiRXG"
+         },
+         {
+             "first": "小rapper",
+             "second": "Rapeter"
+         }
+     ],
+     "updateFrequency": "刚刚更新",
+     "backgroundCoverId": 0,
+     "backgroundCoverUrl": null,
+     "titleImage": 0,
+     "coverText": null,
+     "titleImageUrl": null,
+     "coverImageUrl": null,
+     "iconImageUrl": null,
+     "englishTitle": null,
+     "opRecommend": false,
+     "recommendInfo": null,
+     "socialPlaylistCover": null,
+     "tsSongCount": 0,
+     "algType": null,
+     "originalCoverId": 0,
+     "topTrackIds": null,
+     "promptedMgcInfo": null,
+     "playlistType": "UGC",
+     "uiPlaylistType": "UGC",
+     "mix": false,
+     "trackNumberUpdateTime": 1786343239967,
+     "trackUpdateTime": 1786356013891,
+     "privacy": 0,
+     "highQuality": false,
+     "specialType": 10,
+     "updateTime": 1786343244538,
+     "newImported": false,
+     "anonimous": false,
+     "coverImgId": 109951170048506930,
+     "coverImgUrl": "https://p2.music.126.net/rIi7Qzy2i2Y_1QD7cd0MYA==/109951170048506929.jpg",
+     "trackCount": 100,
+     "commentThreadId": "A_PL_0_19723756",
+     "totalDuration": 0,
+     "playCount": 6483569664,
+     "subscribedCount": 4206891,
+     "cloudTrackCount": 0,
+     "adType": 0,
+     "description": "云音乐中每天热度上升最快的100首单曲，每日更新。",
+     "ordered": true,
+     "status": 0,
+     "createTime": 1404115136883,
+     "tags": [],
+     "userId": 1,
+     "name": "飙升榜",
+     "id": 19723756,
+     "coverImgId_str": "109951170048506929",
+     "ToplistType": "S"
+ },
+ */
+struct Toplist: Decodable, Identifiable {
+    let id: Int
+    let name: String
+    let coverImgId: Int
+    let coverImgUrl: String
+    let createTime: Int
+    let description: String?
+    let tags: [String]
+    let updateFrequency: String
+    let tracks: [ToplistSong]?
+}
+
+struct ToplistSong: Decodable, Identifiable {
+    let first: String
+    let second: String
+
+    var id: String { "\(first)-\(second)" }
+}

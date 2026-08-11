@@ -8,20 +8,6 @@
 import SwiftUI
 
 struct PlayableCoverImage: View {
-    enum ControlIcon {
-        case play
-        case pause
-
-        var systemName: String {
-            switch self {
-            case .play:
-                return "play.fill"
-            case .pause:
-                return "pause.fill"
-            }
-        }
-    }
-
     struct Style {
         let imageSize: CGFloat
         let cornerRadius: CGFloat
@@ -49,12 +35,12 @@ struct PlayableCoverImage: View {
 
     struct InteractionState {
         let isHovering: Bool
-        let icon: ControlIcon
+        let icon: PlaybackControl
         let showsControl: Bool
 
         init(
             isHovering: Bool = false,
-            icon: ControlIcon = .play,
+            icon: PlaybackControl = .play,
             showsControl: Bool = false
         ) {
             self.isHovering = isHovering
@@ -89,7 +75,7 @@ struct PlayableCoverImage: View {
 
                 if effectiveHovering || interactionState.showsControl {
                     Color.black.opacity(style.overlayOpacity)
-                    playIcon
+                    playbackIcon
                 }
             }
             .frame(width: style.imageSize, height: style.imageSize)
@@ -101,9 +87,9 @@ struct PlayableCoverImage: View {
     }
 
     @ViewBuilder
-    private var playIcon: some View {
-        let view = PlayableCoverControlIcon(
-            systemName: interactionState.icon.systemName,
+    private var playbackIcon: some View {
+        let view = PlaybackControlIcon(
+            control: interactionState.icon,
             font: style.playButtonFont,
             size: style.playButtonSize,
             animatesHoverEffects: style.animatesHoverEffects
@@ -118,35 +104,6 @@ struct PlayableCoverImage: View {
 
     private var effectiveHovering: Bool {
         isPointerHovering || interactionState.isHovering
-    }
-}
-
-private struct PlayableCoverControlIcon: View {
-    let systemName: String
-    let font: Font
-    let size: CGFloat
-    let animatesHoverEffects: Bool
-
-    @State private var isHovering = false
-
-    var body: some View {
-        Image(systemName: systemName)
-            .font(font)
-            .foregroundStyle(backgroundColor)
-            .frame(width: size, height: size)
-            .scaleEffect(isScaled ? 1.16 : 1)
-            .animation(.spring(response: 0.22, dampingFraction: 0.72), value: isScaled)
-            .onHover { isHovering = $0 }
-    }
-
-    private var isScaled: Bool {
-        animatesHoverEffects && isHovering
-    }
-
-    private var backgroundColor: Color {
-        guard animatesHoverEffects else { return .white }
-
-        return isHovering ? .white : .white.opacity(0.8)
     }
 }
 

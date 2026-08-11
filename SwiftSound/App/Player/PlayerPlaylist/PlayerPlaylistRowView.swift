@@ -10,7 +10,7 @@ import SwiftUI
 struct PlayerPlaylistRowView: View {
     let song: Song
     let isCurrent: Bool
-    let controlIcon: PlayableCoverImage.ControlIcon
+    let controlIcon: PlaybackControl
     let onControlTap: () -> Void
     let onRemove: () -> Void
 
