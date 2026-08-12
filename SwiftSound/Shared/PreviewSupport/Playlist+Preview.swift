@@ -8,6 +8,30 @@
 import Foundation
 
 #if DEBUG
+extension Playlist {
+    static let preview = Playlist(
+        id: 19723756,
+        name: "飙升榜",
+        coverImgId: 109951170048506930,
+        coverImgUrl: "https://p1.music.126.net/rIi7Qzy2i2Y_1QD7cd0MYA==/109951170048506929.jpg",
+        coverText: nil,
+        createTime: 1404115136883,
+        creator: User.official,
+        description: "云音乐中每天热度上升最快的100首单曲，每日更新。",
+        tags: [],
+        updateFrequency: nil,
+        updateTime: 1786520598969,
+        trackUpdateTime: 1786520599073,
+        trackNumberUpdateTime: 1786520598860,
+        tracks: nil,
+        trackCount: 100,
+        playCount: 6484366336,
+        shareCount: 17118,
+        commentCount: 227610,
+        subscribedCount: 4207142,
+        subscribers: [User.preview]
+    )
+}
 extension Toplist {
     static let defaultPreview = Toplist(
         id: 5_059_661_515,

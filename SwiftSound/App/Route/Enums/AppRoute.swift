@@ -22,6 +22,7 @@ enum AppRoute: Identifiable, Hashable, Equatable {
     case artist(id: Int, secondary: ArtistRoute = .songs)
     case artistSongs(id: Int)
     case album(id: Int, secondary: AlbumRoute = .songs)
+    case playlist(id: Int, secondary: PlaylistRoute = .songs)
     case user(id: Int, secondary: UserRoute = .playlists)
     case mv(id: Int)
 
@@ -84,6 +85,8 @@ extension AppRoute {
             return .artist(id: id)
         case .album(let id, _):
             return .album(id: id)
+        case .playlist(let id, _):
+            return .playlist(id: id)
         case .user(let id, _):
             return .user(id: id)
         default:
@@ -116,6 +119,7 @@ extension AppRoute {
             (.download, .download),
             (.newMusic, .newMusic),
             (.artist, .artist),
+            (.playlist, .playlist),
             (.album, .album),
             (.user, .user):
             return true

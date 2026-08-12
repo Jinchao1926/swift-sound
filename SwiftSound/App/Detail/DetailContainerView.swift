@@ -55,6 +55,8 @@ struct DetailContainerView: View {
             ArtistDetailPage(id: id, route: secondary)
         case .album(let id, let secondary):
             AlbumDetailPage(id: id, route: secondary)
+        case .playlist(let id, let secondary):
+            PlaylistDetailPage(id: id, route: secondary)
         case .user(let id, let secondary):
             UserDetailPage(id: id, route: secondary)
         case .mv(let id):
