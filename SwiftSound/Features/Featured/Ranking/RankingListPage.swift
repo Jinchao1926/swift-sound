@@ -62,6 +62,7 @@ private extension RankingSectionView {
         ) {
             ForEach(section.toplists) {
                 OfficialRankingCard(toplist: $0)
+                    .routeLink(to: .playlist(id: $0.id))
             }
         }
     }
@@ -84,6 +85,7 @@ private extension RankingSectionView {
                     category: section.category,
                     variant: cardVariant(for: $0)
                 )
+                .routeLink(to: .playlist(id: $0.id))
             }
         }
     }

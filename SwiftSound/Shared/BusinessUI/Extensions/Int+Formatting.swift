@@ -8,20 +8,30 @@
 import Foundation
 
 extension Int {
-    var playCountText: String {
-        guard self >= 10_000 else {
+    var abbreviatedCountText: String {
+        switch self {
+        case 100_000_000...:
+            return formattedCount(divisor: 100_000_000, suffix: "亿")
+        case 10_000..<100_000_000:
+            return formattedCount(divisor: 10_000, suffix: "万")
+        default:
             return "\(self)"
-        }
-
-        let rawValue = Double(self) / 10_000
-        let rounded = (rawValue * 10).rounded() / 10    // 小数
-
-        if rounded.truncatingRemainder(dividingBy: 1) == 0 {
-            return "\(Int(rounded))万"
-        } else {
-            return String(format: "%.1f万", rounded)
         }
     }
 
     var songCountText: String { "\(self)首" }
+
+    private func formattedCount(divisor: Int, suffix: String) -> String {
+        let rawValue = Double(self) / Double(divisor)
+        let roundedValue = (rawValue * 10).rounded() / 10
+        let valueText: String
+
+        if roundedValue.truncatingRemainder(dividingBy: 1) == 0 {
+            valueText = "\(Int(roundedValue))"
+        } else {
+            valueText = String(format: "%.1f", roundedValue)
+        }
+
+        return "\(valueText)\(suffix)"
+    }
 }

@@ -11,12 +11,13 @@ struct PlayCountBadge: View {
     let count: Int
 
     var body: some View {
-        HStack(spacing: 0) {
+        HStack(spacing: 2) {
             Image(systemName: "headphones")
                 .font(.font12)
 
-            Text(count.playCountText)
+            Text(count.abbreviatedCountText)
                 .font(.font14)
+                .fontWeight(.medium)
         }
         .foregroundStyle(.white)
         .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
@@ -24,8 +25,10 @@ struct PlayCountBadge: View {
 }
 
 #Preview {
-    VStack {
+    VStack(alignment: .leading) {
         PlayCountBadge(count: 110000)
+
+        PlayCountBadge(count: 6484366336)
     }
     .padding()
     .background(Color.green)

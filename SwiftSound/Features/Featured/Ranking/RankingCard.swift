@@ -50,7 +50,6 @@ struct RankingCard: View {
         }
         .frame(width: Layout.size, height: Layout.size)
         .rounded(radius: Layout.cornerRadius)
-        .routeLink(to: .featured())
         .onHover { isHovering = $0 }
     }
 }

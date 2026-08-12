@@ -33,7 +33,9 @@ struct AlbumDetailPage: View {
 
                 RouteTabView(
                     selectedRoute: route,
-                    destinationRoute: { .album(id: id, secondary: $0) },
+                    destinationRoute: {
+                        .album(id: id, secondary: $0)
+                    },
                     badgeText: tabBadgeText,
                     trailingSlot: {
                         tabTrailingSlot
