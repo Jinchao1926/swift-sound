@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct PlaylistSongsPage: View {
+    let songs: [Song]
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        SongTable(songs: songs)
     }
 }
 
 #Preview {
-    PlaylistSongsPage()
+    PlaylistSongsPage(songs: Array.songsPreview)
+        .environmentObject(PlayerStore())
 }

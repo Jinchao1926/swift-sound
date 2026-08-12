@@ -54,7 +54,7 @@ struct PlaylistDetailPage: View {
     private var content: some View {
         switch route {
         case .songs:
-            PlaylistSongsPage()
+            PlaylistSongsPage(songs: viewModel.filteredSongs)
         case .comments:
             PlaylistCommentsPage()
         case .subscribers:

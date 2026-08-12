@@ -35,4 +35,17 @@ final class PlaylistDetailViewModel: ObservableObject {
             state = .failed(error)
         }
     }
+
+    var filteredSongs: [Song] {
+        let songs = state.value?.tracks ?? []
+        let keyword = songSearchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !keyword.isEmpty else { return songs }
+
+        return songs.filter {
+            $0.name.range(
+                of: keyword,
+                options: [.caseInsensitive, .diacriticInsensitive]
+            ) != nil
+        }
+    }
 }
