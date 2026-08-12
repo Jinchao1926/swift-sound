@@ -43,10 +43,12 @@ struct ActionButton: View {
                 if let title {
                     Text(title)
                         .font(.font13)
+                        .lineLimit(1)
                 }
             }
             .foregroundStyle(variant.foregroundColor)
             .padding(.horizontal, Layout.horizontalPadding)
+            .fixedSize(horizontal: true, vertical: false)
             .frame(height: Layout.height)
         }
         .buttonStyle(.plain)

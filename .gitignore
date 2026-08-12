@@ -8,6 +8,7 @@ DerivedData/
 build/
 .build/
 *.moved-aside
+.codex-derived-data
 
 # Xcode user-specific state
 *.xcuserstate

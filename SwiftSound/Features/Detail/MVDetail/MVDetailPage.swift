@@ -94,7 +94,7 @@ private extension MVDetailPage {
 
             HStack(spacing: Layout.actionSpacing) {
                 HStack(spacing: 0) {
-                    Text(mv.subCount.playCountText)
+                    Text(mv.subCount.abbreviatedCountText)
                     metadataButton("hand.thumbsup")
                 }
                 metadataButton("plus.square")

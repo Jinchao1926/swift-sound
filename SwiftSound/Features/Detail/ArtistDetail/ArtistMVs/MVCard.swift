@@ -33,7 +33,7 @@ struct MVCard: View {
                     Spacer()
                     Image(systemName: "headphones")
                         .font(.font14)
-                    Text(mv.playCount.playCountText)
+                    Text(mv.playCount.abbreviatedCountText)
                         .font(.font14)
                         .fontWeight(.semibold)
                 }
