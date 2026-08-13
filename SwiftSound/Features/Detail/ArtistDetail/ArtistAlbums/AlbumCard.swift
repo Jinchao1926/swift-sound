@@ -105,7 +105,7 @@ struct AlbumCard: View {
     }
 
     private var metadataText: String {
-        [album.size?.songCountText, album.publishTime?.millisecondsYearMonthDayText]
+        [album.size?.formattedSongCount(), album.publishTime?.formattedMillisecondsYearMonthDay()]
             .compactMap { $0 }
             .joined(separator: " · ")
     }

@@ -8,7 +8,7 @@
 import Foundation
 
 extension Int {
-    var abbreviatedCountText: String {
+    func formattedCount() -> String {
         switch self {
         case 100_000_000...:
             return formattedCount(divisor: 100_000_000, suffix: "亿")
@@ -19,7 +19,7 @@ extension Int {
         }
     }
 
-    var songCountText: String { "\(self)首" }
+    func formattedSongCount() -> String { "\(self)首" }
 
     private func formattedCount(divisor: Int, suffix: String) -> String {
         let rawValue = Double(self) / Double(divisor)

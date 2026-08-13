@@ -34,14 +34,14 @@ struct PlaylistDetailHeader: View {
 
                 HStack(spacing: Layout.creatorSpacing) {
                     HStack(spacing: Layout.creatorSpacing / 2) {
-                        Avatar(url: URL(string: playlist.creator.avatarUrl), size: Layout.avatarSize)
+                        Avatar(url: playlist.creator.avatarURL, size: Layout.avatarSize)
 
                         Text(playlist.creator.nickname)
                             .foregroundStyle(Color.textSecondary)
                     }
                     .routeLink(to: .user(id: playlist.creator.userId))
 
-                    Text("\(playlist.updateTime.millisecondsYearMonthDayText) 更新")
+                    Text("\(playlist.updateTime.formattedMillisecondsYearMonthDay()) 更新")
                         .foregroundStyle(Color.textTertiary)
                 }
                 .font(.font13)
@@ -56,7 +56,7 @@ struct PlaylistDetailHeader: View {
                     ) {
                         onPlayAll()
                     }
-                    ActionButton(playlist.subscribedCount.abbreviatedCountText, systemName: "plus.square.fill" ) {}
+                    ActionButton(playlist.subscribedCount.formattedCount(), systemName: "plus.square.fill" ) {}
                     ActionButton("下载", systemName: "arrow.down.square.fill" ) {}
                     ActionButton(systemName: "ellipsis" ) {}
                 }

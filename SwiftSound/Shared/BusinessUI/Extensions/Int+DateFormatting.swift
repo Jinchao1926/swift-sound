@@ -9,7 +9,7 @@ import Foundation
 
 extension Int {
     /// Seconds as `m:ss` text.
-    var minuteSecondText: String {
+    func formattedMinuteSecond() -> String {
         let minutes = self / 60
         let remainingSeconds = self % 60
 
@@ -17,7 +17,7 @@ extension Int {
     }
 
     /// Milliseconds since 1970 as `yyyy-MM-dd` text.
-    var millisecondsYearMonthDayText: String {
+    func formattedMillisecondsYearMonthDay() -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(self) / 1000)
         return DateFormatter.yearMonthDay.string(from: date)
     }
@@ -25,8 +25,8 @@ extension Int {
 
 extension TimeInterval {
     /// Milliseconds as `m:ss` text.
-    var millisecondsMinuteSecondText: String {
-        Int(max(0, self / 1000)).minuteSecondText
+    func formattedMillisecondsMinuteSecond() -> String {
+        Int(max(0, self / 1000)).formattedMinuteSecond()
     }
 }
 
