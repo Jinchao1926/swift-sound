@@ -37,15 +37,11 @@ struct ArtistDetailHeader: View {
                 .padding(.bottom, Layout.metadataBottomPadding)
 
                 HStack(spacing: Layout.actionSpacing) {
-                    ActionButton(
-                        "播放全部",
-                        systemName: "play.fill",
-                        variant: .primary
-                    ) {
+                    MusicActionButtons.playAll {
                         onPlayAll()
                     }
 
-                    ActionButton("关注", systemName: "plus" ) {}
+                    MusicActionButtons.follow {}
                 }
             }
 
