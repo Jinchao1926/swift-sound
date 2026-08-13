@@ -8,11 +8,62 @@
 import SwiftUI
 
 struct PlaylistSubscribersPage: View {
+    let state: Loadable<Paginated<User>>
+    let load: () async -> Void
+    let loadMore: () async -> Void
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        LazyVGrid(
+            columns: Layout.gridColumns,
+            alignment: .leading,
+            spacing: Layout.gridSpacing
+        ) {
+            Section {
+                ForEach(state.items) {
+                    SubscriberCard(user: $0)
+                        .routeLink(to: .user(id: $0.id))
+                }
+            } footer: {
+                if state.value != nil {
+                    InfiniteScrollFooter(
+                        canLoadMore: state.canLoadMore,
+                        isLoading: state.isLoading,
+                        loadKey: state.items.count
+                    ) {
+                        await loadMore()
+                    }
+                }
+            }
+        }
+        .padding(.top, Layout.contentTopPadding)
+        .frame(maxWidth: .infinity, alignment: .topLeading)
+        .loadingPlaceholder(state.isInitialLoading)
+        .task {
+            await load()
+        }
+    }
+}
+
+private extension PlaylistSubscribersPage {
+    enum Layout {
+        static let minimumCardWidth: CGFloat = 180
+        static let gridSpacing: CGFloat = 10
+        static let contentTopPadding: CGFloat = 10
+
+        static let gridColumns: [GridItem] = [
+            GridItem(.adaptive(minimum: minimumCardWidth), spacing: gridSpacing, alignment: .top)
+        ]
     }
 }
 
 #Preview {
-    PlaylistSubscribersPage()
+    VStack {
+        PlaylistSubscribersPage(
+            state: .loaded(Paginated(items: [User.preview], canLoadMore: true)),
+            load: {},
+            loadMore: {}
+        )
+    }
+    .frame(minWidth: 600, minHeight: 600)
+    .padding(.horizontal, 40)
 }

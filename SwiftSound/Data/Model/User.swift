@@ -46,14 +46,35 @@ import Foundation
  },
  */
 
+enum Gender: Int, Decodable {
+    case unknow = 0
+    case male
+    case female
+}
+
 struct Identity: Decodable {
     let identityLevel: Int
     let identityIconUrl: String
 }
 
-struct User: Decodable {
+struct User: Decodable, Identifiable {
     let userId: Int
     let nickname: String
+    let gender: Gender
     let avatarUrl: String
     let avatarDetail: Identity?
+    let description: String?
+    let signature: String?
+
+    var id: Int { userId }
+}
+
+extension User {
+    var avatarURL: URL? { URL(string: avatarUrl) }
+    var safeSignature: String {
+        guard let signature, !signature.isEmpty else {
+            return "这个用户很懒，什么都没留下"
+        }
+        return signature
+    }
 }
