@@ -39,7 +39,7 @@ struct LyricsLineView: View {
                 Image(systemName: "play.fill")
                     .font(.system(size: Layout.seekControlIconSize, weight: .semibold))
 
-                Text(line.time.millisecondsMinuteSecondText)
+                Text(line.time.formattedMillisecondsMinuteSecond())
                     .font(.font13)
                     .monospacedDigit()
             }

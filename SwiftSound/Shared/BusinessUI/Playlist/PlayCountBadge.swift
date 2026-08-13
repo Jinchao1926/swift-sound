@@ -15,7 +15,7 @@ struct PlayCountBadge: View {
             Image(systemName: "headphones")
                 .font(.font12)
 
-            Text(count.abbreviatedCountText)
+            Text(count.formattedCount())
                 .font(.font14)
                 .fontWeight(.medium)
         }

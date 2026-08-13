@@ -33,7 +33,7 @@ struct MVCard: View {
                     Spacer()
                     Image(systemName: "headphones")
                         .font(.font14)
-                    Text(mv.playCount.abbreviatedCountText)
+                    Text(mv.playCount.formattedCount())
                         .font(.font14)
                         .fontWeight(.semibold)
                 }
@@ -42,7 +42,7 @@ struct MVCard: View {
 
                 HStack {
                     Spacer()
-                    Text(TimeInterval(mv.duration).millisecondsMinuteSecondText)
+                    Text(TimeInterval(mv.duration).formattedMillisecondsMinuteSecond())
                         .font(.font12)
                 }
             }

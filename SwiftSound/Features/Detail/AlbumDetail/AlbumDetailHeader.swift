@@ -39,7 +39,7 @@ struct AlbumDetailHeader: View {
                     }
 
                     if let publishTime = album.publishTime {
-                        Text("\(publishTime.millisecondsYearMonthDayText) 发布")
+                        Text("\(publishTime.formattedMillisecondsYearMonthDay()) 发布")
                             .foregroundStyle(Color.textTertiary)
                     }
                 }

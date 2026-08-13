@@ -116,7 +116,7 @@ struct PlayerPlaylistRowView: View {
     }
 
     private var durationText: String {
-        Int(song.durationTimeInterval.rounded()).minuteSecondText
+        Int(song.durationTimeInterval.rounded()).formattedMinuteSecond()
     }
 }
 
