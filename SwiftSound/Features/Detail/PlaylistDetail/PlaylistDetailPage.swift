@@ -58,7 +58,11 @@ struct PlaylistDetailPage: View {
         case .comments:
             PlaylistCommentsPage()
         case .subscribers:
-            PlaylistSubscribersPage()
+            PlaylistSubscribersPage(
+                state: viewModel.subscriberState,
+                load: viewModel.loadSubscribers,
+                loadMore: viewModel.loadMoreSubscribers
+            )
         }
     }
 
@@ -74,9 +78,9 @@ struct PlaylistDetailPage: View {
         case .songs:
             return viewModel.state.value?.tracks?.count.formatted()
         case .comments:
-            return viewModel.state.value?.commentCount.abbreviatedCountText
-        default:
-            return nil
+            return viewModel.state.value?.commentCount.formattedCount()
+        case .subscribers:
+            return viewModel.state.value?.subscribedCount.formattedCount()
         }
     }
 }

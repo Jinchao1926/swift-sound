@@ -40,4 +40,14 @@ struct PlaylistsRepository {
         let response = try await apiClient.request(ToplistDetailsRequest())
         return response.list
     }
+
+    // MARK: - Subscribers
+    func fetchPlaylistSubscribers(
+        id: Int,
+        offset: Int = 0,
+        limit: Int = 20
+    ) async throws -> PlaylistSubscribersResponse {
+        let request = PlaylistSubscribersRequest(id: id, offset: offset, limit: limit)
+        return try await apiClient.request(request)
+    }
 }
