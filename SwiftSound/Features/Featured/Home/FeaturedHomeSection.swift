@@ -38,7 +38,7 @@ struct FeaturedHomeSection<Content: View>: View {
             } action: { newValue in
                 availableWidth = newValue
             }
-            .padding(.top, 16)
+            .padding(.bottom, 16)
     }
 }
 

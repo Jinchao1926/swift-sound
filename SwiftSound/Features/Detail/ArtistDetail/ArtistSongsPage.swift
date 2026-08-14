@@ -25,13 +25,9 @@ struct ArtistSongsPage: View {
                     .foregroundStyle(Color.textPrimary)
 
                 HStack(spacing: Layout.actionSpacing) {
-                    ActionButton(
-                        "播放全部",
-                        systemName: "play.fill",
-                        variant: .primary
-                    ) {}
-                    ActionButton("下载", systemName: "square.and.arrow.down.fill") {}
-                    ActionButton(systemName: "ellipsis") {}
+                    MusicActionButtons.playAll {}
+                    MusicActionButtons.download(icon: .squareAndArrowDown) {}
+                    MusicActionButtons.more {}
                 }
                 .padding(.top, Layout.actionTopMargin)
                 .padding(.bottom, Layout.actionBottomMargin)

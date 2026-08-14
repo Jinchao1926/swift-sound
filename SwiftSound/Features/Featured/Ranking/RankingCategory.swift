@@ -24,10 +24,10 @@ enum RankingCategory: String, CaseIterable, Hashable, Identifiable {
             return [
                 991_319_590,
                 5_059_661_515,
+                5_059_642_708,
                 5_059_633_707,
                 2_809_513_713,
-                745_956_260,
-                60_198
+                745_956_260
             ]
         case .official:
             return [1_9723_756, 3_779_629, 3_778_678, 2_884_035]

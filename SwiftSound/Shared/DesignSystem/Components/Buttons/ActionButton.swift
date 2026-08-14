@@ -119,8 +119,8 @@ private extension ActionButton.Variant {
 
 #Preview {
     HStack {
-        ActionButton("播放全部", systemName: "play.fill", variant: .primary) {}
-        ActionButton("关注", systemName: "plus") {}
+        ActionButton("主要操作", systemName: "star.fill", variant: .primary) {}
+        ActionButton("次要操作", systemName: "gearshape") {}
     }
     .padding()
 }

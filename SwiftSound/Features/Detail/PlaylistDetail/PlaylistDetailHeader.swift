@@ -49,16 +49,12 @@ struct PlaylistDetailHeader: View {
                 Spacer()
 
                 HStack(spacing: Layout.buttonSpacing) {
-                    ActionButton(
-                        "播放全部",
-                        systemName: "play.fill",
-                        variant: .primary
-                    ) {
+                    MusicActionButtons.playAll {
                         onPlayAll()
                     }
-                    ActionButton(playlist.subscribedCount.formattedCount(), systemName: "plus.square.fill" ) {}
-                    ActionButton("下载", systemName: "arrow.down.square.fill" ) {}
-                    ActionButton(systemName: "ellipsis" ) {}
+                    MusicActionButtons.favorite(playlist.subscribedCount.formattedCount()) {}
+                    MusicActionButtons.download {}
+                    MusicActionButtons.more {}
                 }
             }
 

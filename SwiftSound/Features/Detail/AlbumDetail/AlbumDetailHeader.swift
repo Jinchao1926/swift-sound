@@ -49,16 +49,12 @@ struct AlbumDetailHeader: View {
                 Spacer()
 
                 HStack(spacing: Layout.buttonSpacing) {
-                    ActionButton(
-                        "播放全部",
-                        systemName: "play.fill",
-                        variant: .primary
-                    ) {
+                    MusicActionButtons.playAll {
                         onPlayAll()
                     }
-                    ActionButton(subscribeTitle, systemName: "plus.square.fill" ) {}
-                    ActionButton("下载", systemName: "arrow.down.square.fill" ) {}
-                    ActionButton(systemName: "ellipsis" ) {}
+                    MusicActionButtons.favorite(subscribeTitle) {}
+                    MusicActionButtons.download {}
+                    MusicActionButtons.more {}
                 }
             }
             .padding(.top, Layout.recordVisibleHeight)

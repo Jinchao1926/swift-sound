@@ -24,6 +24,7 @@ struct HeroBannerSection: View {
                 }
             }
             .padding(.horizontal, 10)
+            .loadingPlaceholder(viewModel.state.isInitialLoading)
             .task {
                 await viewModel.load()
             }
