@@ -11,7 +11,7 @@ struct SongsGroupPage: View {
     let songs: [NewSong]
 
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 0) {
             ForEach(songs) {
                 NewSongCover(song: $0)
             }
@@ -41,7 +41,8 @@ struct NewSongCover: View {
 
             hoverActions
         }
-        .padding(Layout.inset)
+        .padding(.vertical, Layout.verticalPadding)
+        .padding(.horizontal, Layout.horizontalPadding)
         .background(
             RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous)
                 .fill(isHovering ? Color.white : Color.clear)
@@ -51,7 +52,8 @@ struct NewSongCover: View {
     }
 
     enum Layout {
-        static let inset: CGFloat = 10
+        static let horizontalPadding: CGFloat = 10
+        static let verticalPadding: CGFloat = 18
         static let cornerRadius: CGFloat = 8
         static let contentSpacing: CGFloat = 10
         static let metadataSpacing: CGFloat = 5

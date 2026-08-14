@@ -39,8 +39,8 @@ struct PlayableSongCover: View {
     }
 
     enum Layout {
-        static let imageSize: CGFloat = 65
-        static let cornerRadius: CGFloat = 8
+        static let imageSize: CGFloat = 50
+        static let cornerRadius: CGFloat = 6
     }
 }
 

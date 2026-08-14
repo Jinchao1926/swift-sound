@@ -17,9 +17,9 @@ struct FeaturedPage: View {
 
             ScrollView(.vertical, showsIndicators: false) {
                 content
+                    .padding(.bottom, Layout.bottomPadding)
             }
         }
-        .padding(.bottom, Layout.bottomPadding)
     }
 
     @ViewBuilder

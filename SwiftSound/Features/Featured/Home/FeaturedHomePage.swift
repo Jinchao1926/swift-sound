@@ -9,9 +9,11 @@ import SwiftUI
 
 struct FeaturedHomePage: View {
     var body: some View {
-        HeroBannerSection()
-        OfficialPlaylistSection()
-        NewMusicSection()
+        VStack(spacing: 0) {
+            HeroBannerSection()
+            OfficialPlaylistSection()
+            NewMusicSection()
+        }
     }
 }
 

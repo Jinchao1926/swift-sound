@@ -13,8 +13,9 @@ struct OfficialPlaylistSection: View {
 
     var body: some View {
         FeaturedHomeSection(
-            columnCandidates: [6, 5, 4],
-            minItemWidth: Layout.minCardWidth
+            columnCandidates: [6, 5],
+            minItemWidth: Layout.minCardWidth,
+            spacing: Layout.cardSpacing
         ) { columns in
             VStack(alignment: .leading, spacing: 0) {
                 RouteTitleLink("官方歌单", route: FeaturedRoute.playlistSquare)
@@ -32,6 +33,7 @@ struct OfficialPlaylistSection: View {
                 }
             }
             .padding(.horizontal, 10)
+            .loadingPlaceholder(viewModel.state.isInitialLoading)
             .task {
                 await viewModel.load()
             }
@@ -41,7 +43,8 @@ struct OfficialPlaylistSection: View {
 
 private extension OfficialPlaylistSection {
     enum Layout {
-        static let minCardWidth: CGFloat = 180
+        static let minCardWidth: CGFloat = 142
+        static let cardSpacing: CGFloat = 15
     }
 }
 

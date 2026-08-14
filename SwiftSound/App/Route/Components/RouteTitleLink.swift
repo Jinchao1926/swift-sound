@@ -53,7 +53,7 @@ struct RouteTitleLink: View {
     private var titleFont: Font {
         switch variant {
         case .large:
-            .font18.weight(.medium)
+            .font18.weight(.semibold)
         case .medium:
             .font16.weight(.medium)
         }
