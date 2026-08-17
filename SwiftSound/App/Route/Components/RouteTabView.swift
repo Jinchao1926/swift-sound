@@ -14,6 +14,8 @@ struct RouteTabView<Route, Trailing>: View where Route: RouteTabProtocol, Traili
     private let badgeText: (Route) -> String?
     private let trailingSlot: () -> Trailing
 
+    @EnvironmentObject private var router: AppRouter
+
     init(
         selectedRoute: Route,
         destinationRoute: @escaping (Route) -> AppRoute,
@@ -27,15 +29,16 @@ struct RouteTabView<Route, Trailing>: View where Route: RouteTabProtocol, Traili
     }
 
     var body: some View {
-        HStack(spacing: 24) {
-            ForEach(Array(Route.allCases)) {
-                RouteTabItem(
-                    route: $0,
-                    badgeText: badgeText($0),
-                    isSelected: $0 == selectedRoute,
-                    destinationRoute: destinationRoute
-                )
-            }
+        HStack(spacing: 0) {
+            SelectableTabView(
+                items: Array(Route.allCases),
+                selectedID: selectedRoute.id,
+                title: \.title,
+                badgeText: badgeText,
+                onSelected: { route in
+                    router.navigate(to: destinationRoute(route))
+                }
+            )
             Spacer()
             trailingSlot()
         }
@@ -68,56 +71,6 @@ extension RouteTabView where Route: SecondaryRouteProtocol, Trailing == EmptyVie
     }
 }
 
-// MARK: - RouteTabItem
-private struct RouteTabItem<Route: RouteTabProtocol>: View {
-    let route: Route
-    let badgeText: String?
-    let isSelected: Bool
-    let destinationRoute: (Route) -> AppRoute
-
-    @EnvironmentObject private var router: AppRouter
-
-    init(
-        route: Route,
-        badgeText: String? = nil,
-        isSelected: Bool,
-        destinationRoute: @escaping (Route) -> AppRoute
-    ) {
-        self.route = route
-        self.badgeText = badgeText
-        self.isSelected = isSelected
-        self.destinationRoute = destinationRoute
-    }
-
-    var body: some View {
-        Button {
-            router.navigate(to: destinationRoute(route))
-        } label: {
-            VStack(spacing: 3) {
-                HStack(alignment: .top, spacing: 2) {
-                    Text(route.title)
-                        .font(.font16.weight(.medium))
-                        .foregroundStyle(isSelected ? Color.textPrimary : Color.textSecondary)
-
-                    if let badgeText, !badgeText.isEmpty {
-                        Text(badgeText)
-                            .font(.font11.weight(.semibold))
-                            .foregroundStyle(Color.textSecondary)
-                    }
-                }
-
-                Capsule(style: .continuous)
-                    .fill(isSelected ? Color.accentPrimary : Color.clear)
-                    .frame(width: 18, height: 3)
-            }
-            .frame(height: 30)
-            .contentShape(Rectangle())
-            .pointerStyle(.link)
-        }
-        .buttonStyle(.plain)
-    }
-}
-
 // MARK: - Preview
 #Preview {
     VStack(alignment: .leading, spacing: 18) {
@@ -138,7 +91,7 @@ private struct RouteTabItem<Route: RouteTabProtocol>: View {
             badgeText: {
                 switch $0 {
                 case .songs:
-                    return "2"
+                    return "100"
                 case .comments:
                     return "639"
                 case .profile:
