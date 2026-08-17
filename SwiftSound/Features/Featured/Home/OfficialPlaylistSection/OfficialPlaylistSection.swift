@@ -18,7 +18,7 @@ struct OfficialPlaylistSection: View {
             spacing: Layout.cardSpacing
         ) { columns in
             VStack(alignment: .leading, spacing: 0) {
-                RouteTitleLink("官方歌单", route: FeaturedRoute.playlistSquare)
+                RouteTitleLink("官方歌单", route: FeaturedRoute.playlistDiscovery)
                     .padding(.horizontal, 30)
 
                 Carousel(

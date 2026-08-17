@@ -8,11 +8,19 @@
 import SwiftUI
 
 struct SelectableCapsule: View {
+    enum Width: Equatable {
+        case fixed(CGFloat)
+        case fitContent
+    }
+
     let title: String
     let font: Font
     let isSelected: Bool
-    let width: CGFloat
+    let width: Width
     let height: CGFloat
+    let defaultBackgroundColor: Color
+    let contentPadding: CGFloat
+    let accessorySystemImage: String?
     let action: () -> Void
 
     @State private var isHovering = false
@@ -21,8 +29,11 @@ struct SelectableCapsule: View {
         _ title: String,
         isSelected: Bool,
         font: Font = .font14,
-        width: CGFloat = 80,
-        height: CGFloat = 33,
+        width: Width = .fixed(80),
+        height: CGFloat = 32,
+        defaultBackgroundColor: Color = .white,
+        contentPadding: CGFloat = 16,
+        accessorySystemImage: String? = nil,
         action: @escaping () -> Void
     ) {
         self.title = title
@@ -30,14 +41,16 @@ struct SelectableCapsule: View {
         self.isSelected = isSelected
         self.width = width
         self.height = height
+        self.defaultBackgroundColor = defaultBackgroundColor
+        self.contentPadding = contentPadding
+        self.accessorySystemImage = accessorySystemImage
         self.action = action
     }
 
     var body: some View {
-        Text(title)
+        capsuleContent
             .font(font)
             .foregroundStyle(foregroundColor)
-            .frame(width: width, height: height)
             .background(
                 Capsule(style: .continuous)
                     .fill(backgroundColor)
@@ -61,6 +74,33 @@ struct SelectableCapsule: View {
             .accessibilityAction(named: title, action)
     }
 
+    @ViewBuilder
+    private var capsuleContent: some View {
+        switch width {
+        case .fixed(let width):
+            label
+                .frame(width: width, height: height)
+        case .fitContent:
+            label
+                .padding(.horizontal, contentPadding)
+                .frame(height: height)
+                .fixedSize(horizontal: true, vertical: false)
+        }
+    }
+
+    @ViewBuilder
+    private var label: some View {
+        if let accessorySystemImage {
+            HStack(spacing: 6) {
+                Text(title)
+                Image(systemName: accessorySystemImage)
+                    .font(.font10)
+            }
+        } else {
+            Text(title)
+        }
+    }
+
     private var isActive: Bool { isSelected || isHovering }
 
     private var foregroundColor: Color {
@@ -68,7 +108,7 @@ struct SelectableCapsule: View {
     }
 
     private var backgroundColor: Color {
-        isActive ? Color.accentPrimary.opacity(0.08) : .white
+        isActive ? Color.accentPrimary.opacity(0.08) : defaultBackgroundColor
     }
 
     private var borderColor: Color {

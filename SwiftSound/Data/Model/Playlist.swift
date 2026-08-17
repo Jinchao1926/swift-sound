@@ -9,6 +9,31 @@ import Foundation
 
 /**
  {
+     "name": "华语",
+     "resourceCount": 550,
+     "imgId": 0,
+     "imgUrl": null,
+     "type": 0,
+     "category": 0,
+     "resourceType": 0,
+     "hot": true,
+     "activity": false
+ }
+ */
+struct PlaylistCategory: Decodable, Identifiable {
+    let name: String
+    let resourceCount: Int
+    let type: Int
+    let category: Int
+    let resourceType: Int
+    let hot: Bool
+    let activity: Bool
+
+    var id: String { name }
+}
+
+/**
+ {
      "name": "KPOP红心宝藏 | 高收藏率KPop仙曲推荐",
      "id": 13559051641,
      "trackNumberUpdateTime": 1778755150002,

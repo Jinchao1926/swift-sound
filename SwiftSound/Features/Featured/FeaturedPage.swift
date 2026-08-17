@@ -27,8 +27,8 @@ struct FeaturedPage: View {
         switch route {
         case .featured:
             FeaturedHomePage()
-        case .playlistSquare:
-            PlaylistSquarePage()
+        case .playlistDiscovery:
+            PlaylistDiscoveryPage()
         case .ranking:
             RankingListPage()
         case .artist:
