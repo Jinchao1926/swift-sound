@@ -70,7 +70,7 @@ struct RouteTitleLink: View {
 }
 
 #Preview {
-    RouteTitleLink("官方歌单", route: FeaturedRoute.playlistSquare)
+    RouteTitleLink("官方歌单", route: FeaturedRoute.playlistDiscovery)
         .padding()
         .environmentObject(AppRouter())
 }

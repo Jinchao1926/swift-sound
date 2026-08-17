@@ -9,7 +9,7 @@ import Foundation
 
 enum FeaturedRoute: SecondaryRouteProtocol {
     case featured
-    case playlistSquare
+    case playlistDiscovery
     case ranking
     case artist
     case vip
@@ -20,7 +20,7 @@ enum FeaturedRoute: SecondaryRouteProtocol {
         switch self {
         case .featured:
             return "精选"
-        case .playlistSquare:
+        case .playlistDiscovery:
             return "歌单广场"
         case .ranking:
             return "排行榜"

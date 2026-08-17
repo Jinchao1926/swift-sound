@@ -91,7 +91,7 @@ extension View {
 
 #Preview {
     VStack(spacing: 12) {
-        RouteLink(route: FeaturedRoute.playlistSquare) {
+        RouteLink(route: FeaturedRoute.playlistDiscovery) {
             HStack(spacing: 4) {
                 Text("歌单广场")
                     .font(.font16.weight(.medium))
@@ -108,7 +108,7 @@ extension View {
             .font(.font14)
             .foregroundStyle(Color.textSecondary)
             .padding(12)
-            .routeLink(to: FeaturedRoute.playlistSquare)
+            .routeLink(to: FeaturedRoute.playlistDiscovery)
     }
     .padding()
     .environmentObject(AppRouter())

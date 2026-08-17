@@ -14,6 +14,12 @@ struct PlaylistsRepository {
         self.apiClient = apiClient
     }
 
+    // MARK: - Playlist Category
+    func fetchPlaylistCategories() async throws -> [PlaylistCategoryGroup] {
+        let response = try await apiClient.request(PlaylistCategoriesRequest())
+        return PlaylistCategoryParser.parse(response)
+    }
+
     // MARK: - Playlist
     func fetchTopPlaylists(
         category: String,
