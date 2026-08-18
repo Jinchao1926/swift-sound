@@ -13,9 +13,24 @@ struct PlaylistDiscoveryCategoryPicker: View {
     let onSelected: (PlaylistCategory) -> Void
 
     @State private var selectedGroupID: Int?
-
     private var selectedGroup: PlaylistCategoryGroup? {
         groups.first { $0.id == selectedGroupID } ?? groups.first
+    }
+
+    // MARK: - LifeCycle
+    init(
+        groups: [PlaylistCategoryGroup],
+        selectedCategoryID: String?,
+        onSelected: @escaping (PlaylistCategory) -> Void
+    ) {
+        self.groups = groups
+        self.selectedCategoryID = selectedCategoryID
+        self.onSelected = onSelected
+
+        let groupId = groups.first { group in
+            group.subs.contains { $0.id == selectedCategoryID }
+        }?.id
+        _selectedGroupID = State(initialValue: groupId)
     }
 
     var body: some View {

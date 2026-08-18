@@ -73,6 +73,6 @@ private extension PlaylistDiscoveryPage {
     ScrollView {
         PlaylistDiscoveryPage()
     }
-    .frame(width: 500, height: 600)
+    .frame(width: 800, height: 600)
     .padding()
 }

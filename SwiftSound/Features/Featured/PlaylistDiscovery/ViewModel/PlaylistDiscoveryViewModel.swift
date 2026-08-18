@@ -26,7 +26,12 @@ final class PlaylistDiscoveryViewModel: ObservableObject {
         categoryState = .loading()
 
         do {
-            let categories = try await repository.fetchPlaylistCategories()
+            let shortcutTitles = Set(PlaylistDiscoveryShortcut.all.map(\.title))
+            let groups = try await repository.fetchPlaylistCategories()
+            let categories = groups.compactMap {
+                let subs = $0.subs.filter { !shortcutTitles.contains($0.name) }
+                return PlaylistCategoryGroup(id: $0.id, name: $0.name, subs: subs)
+            }
             categoryState = .loaded(categories)
         } catch {
             categoryState = .failed(error)
