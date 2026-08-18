@@ -16,6 +16,11 @@ struct TopPlaylistsResponse: nonisolated Decodable {
     let code: Int
 }
 
+extension TopPlaylistsResponse: PaginatedResponse {
+    var items: [Playlist] { playlists }
+    var canLoadMore: Bool { more }
+}
+
 struct TopPlaylistsRequest: APIRequest {
     typealias Response = TopPlaylistsResponse
 

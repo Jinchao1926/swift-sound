@@ -22,10 +22,10 @@ final class OfficialPlaylistSectionViewModel: ObservableObject {
         state = .loading()
 
         do {
-            let playlists = try await repository.fetchTopPlaylists(category: "官方", limit: 6)
+            let response = try await repository.fetchTopPlaylists(category: "官方", limit: 6)
 //            state = .loaded(playlists)
 
-            let detailedPlaylists = await fetchDetailedPlaylists(for: playlists)
+            let detailedPlaylists = await fetchDetailedPlaylists(for: response.playlists)
             state = .loaded(detailedPlaylists)
         } catch {
             state = .failed(error)

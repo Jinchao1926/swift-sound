@@ -79,7 +79,6 @@ private extension PlaylistDiscoveryCard {
     VStack {
         PlaylistDiscoveryCard(playlist: .preview) {}
     }
-//    .frame(width: 220)
     .padding()
     .background(Color.surfacePrimary)
 }
