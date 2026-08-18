@@ -9,14 +9,20 @@ import SwiftUI
 
 struct PlayCountBadge: View {
     let count: Int
+    let fontSize: CGFloat
+
+    init(count: Int, fontSize: CGFloat = 14) {
+        self.count = count
+        self.fontSize = fontSize
+    }
 
     var body: some View {
         HStack(spacing: 2) {
             Image(systemName: "headphones")
-                .font(.font12)
+                .font(.system(size: fontSize - 2))
 
             Text(count.formattedCount())
-                .font(.font14)
+                .font(.system(size: fontSize))
                 .fontWeight(.medium)
         }
         .foregroundStyle(.white)

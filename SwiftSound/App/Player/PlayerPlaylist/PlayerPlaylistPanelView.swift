@@ -94,7 +94,7 @@ struct PlayerPlaylistPanelView: View {
                         song: song,
                         isCurrent: isCurrent,
                         controlIcon: controlIcon(isCurrent: isCurrent),
-                        onControlTap: {
+                        onPlaybackTap: {
                             handleControlTap(index: index, isCurrent: isCurrent)
                         },
                         onRemove: {

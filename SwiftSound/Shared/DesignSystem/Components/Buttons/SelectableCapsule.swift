@@ -18,8 +18,8 @@ struct SelectableCapsule: View {
     let isSelected: Bool
     let width: Width
     let height: CGFloat
-    let defaultBackgroundColor: Color
     let contentPadding: CGFloat
+    let defaultBackgroundColor: Color
     let accessorySystemImage: String?
     let action: () -> Void
 
@@ -31,8 +31,8 @@ struct SelectableCapsule: View {
         font: Font = .font14,
         width: Width = .fixed(80),
         height: CGFloat = 32,
-        defaultBackgroundColor: Color = .white,
         contentPadding: CGFloat = 16,
+        defaultBackgroundColor: Color = .white,
         accessorySystemImage: String? = nil,
         action: @escaping () -> Void
     ) {
@@ -41,8 +41,8 @@ struct SelectableCapsule: View {
         self.isSelected = isSelected
         self.width = width
         self.height = height
-        self.defaultBackgroundColor = defaultBackgroundColor
         self.contentPadding = contentPadding
+        self.defaultBackgroundColor = defaultBackgroundColor
         self.accessorySystemImage = accessorySystemImage
         self.action = action
     }

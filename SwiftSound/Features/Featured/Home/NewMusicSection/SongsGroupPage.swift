@@ -30,6 +30,8 @@ struct NewSongCover: View {
         HStack(spacing: Layout.contentSpacing) {
             PlayableSongCover(
                 url: URL(string: song.picUrl),
+                controlIcon: controlIcon,
+                isCurrent: isCurrent,
                 isHovering: isHovering
             ) {
                 playerStore.send(.playSong(song.song))
@@ -62,6 +64,14 @@ struct NewSongCover: View {
 }
 
 private extension NewSongCover {
+    var isCurrent: Bool {
+        playerStore.state.currentSong?.id == song.song.id
+    }
+
+    var controlIcon: PlaybackControl {
+        isCurrent && playerStore.state.playbackState.isPlaybackActive ? .pause : .play
+    }
+
     var songInfo: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(song.name)

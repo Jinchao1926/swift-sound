@@ -14,16 +14,17 @@ struct ArtistCard: View {
 
     var body: some View {
         VStack(spacing: 10) {
-            PlayableCoverImage(
-                url: artist.avatarURL,
-                style: .init(
-                    imageSize: 138,
-                    cornerRadius: 69,
-                    playButtonFont: .font32,
-                    playButtonSize: 25
-                ),
-                interactionState: .init(isHovering: isHovering)
-            ) {}
+            RemoteImage(url: artist.avatarURL)
+                .frame(width: 138, height: 138)
+                .playbackOverlay(
+                    configuration: .init(
+                        buttonSize: 25,
+                        iconFont: .font32
+                    ),
+                    isExternalHovering: isHovering,
+                    onPlaybackTap: {}
+                )
+                .rounded(radius: 69)
 
             Text(artist.name)
                 .font(.font14)
