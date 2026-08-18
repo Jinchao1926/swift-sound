@@ -16,7 +16,7 @@ struct NewMusicSection: View {
             minItemWidth: Layout.minCardWidth
         ) { columns in
             VStack(alignment: .leading, spacing: 0) {
-                RouteTitleLink("最新音乐", route: AppRoute.newMusic())
+                RouteTitleLink("最新音乐", route: .newMusic())
                     .padding(.horizontal, 40)
 
                 Carousel(

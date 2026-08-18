@@ -38,7 +38,7 @@ struct PlaylistCover: View {
                 alignment: .bottom
             )
         }
-        .clipShape(RoundedRectangle(cornerRadius: 6))
+        .rounded()
         .pointerStyle(.link)
         .onHover { isHovering = $0 }
         .task(id: playlist.coverURL) {

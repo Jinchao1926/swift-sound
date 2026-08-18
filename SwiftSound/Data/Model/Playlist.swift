@@ -34,6 +34,23 @@ struct PlaylistCategory: Decodable, Identifiable {
 
 /**
  {
+     "id": 11002,
+     "name": "ACG",
+     "type": 0,
+     "category": 4,
+     "hot": false
+ }
+ */
+struct FeaturedPlaylistTag: Decodable, Identifiable {
+    let id: Int
+    let name: String
+    let type: Int
+    let category: Int
+    let hot: Bool
+}
+
+/**
+ {
      "name": "KPOP红心宝藏 | 高收藏率KPop仙曲推荐",
      "id": 13559051641,
      "trackNumberUpdateTime": 1778755150002,
