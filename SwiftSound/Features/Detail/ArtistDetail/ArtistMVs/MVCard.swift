@@ -24,38 +24,20 @@ struct MVCard: View {
     }
 
     private var cover: some View {
-        ZStack {
-            RemoteImage(url: URL(string: mv.imgurl), size: nil)
-                .frame(width: Layout.width, height: Layout.coverHeight)
-
-            VStack {
-                HStack(spacing: Layout.badgeSpacing) {
-                    Spacer()
-                    Image(systemName: "headphones")
-                        .font(.font14)
-                    Text(mv.playCount.formattedCount())
-                        .font(.font14)
-                        .fontWeight(.semibold)
-                }
-
-                Spacer()
-
-                HStack {
+        RemoteImage(url: URL(string: mv.imgurl), size: nil)
+            .frame(width: Layout.width, height: Layout.coverHeight)
+            .overlay(alignment: .topTrailing) {
+                VStack {
+                    PlayCountBadge(count: mv.playCount)
                     Spacer()
                     Text(TimeInterval(mv.duration).formattedMillisecondsMinuteSecond())
                         .font(.font12)
                 }
+                .foregroundStyle(Color.textPrimaryOnDark)
+                .padding(Layout.overlayPadding)
             }
-            .foregroundStyle(Color.textPrimaryOnDark)
-            .padding(Layout.overlayPadding)
-
-            if isHovering {
-                Color.black.opacity(0.28)
-                playIcon
-            }
-        }
-        .frame(width: Layout.width, height: Layout.coverHeight)
-        .rounded(radius: Layout.radius)
+            .playbackOverlay(isExternalHovering: isHovering)
+            .rounded(radius: Layout.radius)
     }
 
     private var title: some View {
@@ -64,15 +46,8 @@ struct MVCard: View {
             .foregroundStyle(Color.textPrimary)
             .lineLimit(1)
             .truncationMode(.tail)
-            .padding(Layout.titleMargin)
+            .padding(Layout.titlePadding)
             .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    private var playIcon: some View {
-        Image(systemName: "play.fill")
-            .font(.font24)
-            .foregroundStyle(Color.white)
-            .frame(width: Layout.playIconSize, height: Layout.playIconSize)
     }
 }
 
@@ -85,8 +60,7 @@ private extension MVCard {
         static let overlayPadding: CGFloat = 8
         static let badgeSpacing: CGFloat = 2
 
-        static let titleMargin: CGFloat = 10
-        static let playIconSize: CGFloat = 32
+        static let titlePadding: CGFloat = 10
     }
 }
 

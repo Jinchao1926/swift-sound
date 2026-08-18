@@ -186,6 +186,10 @@ struct Playlist: Decodable, Identifiable {
     let subscribers: [User]
 }
 
+extension Playlist {
+    var coverURL: URL? { URL(string: coverImgUrl) }
+}
+
 /**
  {
      "subscribers": [],
