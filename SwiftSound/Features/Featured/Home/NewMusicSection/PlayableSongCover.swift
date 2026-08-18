@@ -10,37 +10,39 @@ import SwiftUI
 struct PlayableSongCover: View {
     let url: URL?
     let controlIcon: PlaybackControl
+    let isCurrent: Bool
     let isHovering: Bool
     let onPlay: () -> Void
 
     init(
         url: URL? = nil,
         controlIcon: PlaybackControl = .play,
+        isCurrent: Bool = false,
         isHovering: Bool = false,
         onPlay: @escaping () -> Void
     ) {
         self.url = url
         self.controlIcon = controlIcon
+        self.isCurrent = isCurrent
         self.isHovering = isHovering
         self.onPlay = onPlay
     }
 
     var body: some View {
-        PlayableCoverImage(
-            url: url,
-            style: .init(
-                imageSize: Layout.imageSize,
-                cornerRadius: Layout.cornerRadius,
-                animatesHoverEffects: true
-            ),
-            interactionState: .init(isHovering: isHovering, icon: controlIcon),
-            onControlTap: onPlay
-        )
-    }
-
-    enum Layout {
-        static let imageSize: CGFloat = 50
-        static let cornerRadius: CGFloat = 6
+        RemoteImage(url: url)
+            .frame(width: 50, height: 50)
+            .playbackOverlay(
+                configuration: .init(
+                    visibility: isCurrent ? .always : .onHover,
+                    control: controlIcon,
+                    tapTarget: .content,
+                    buttonSize: 24,
+                    iconFont: .font20
+                ),
+                isExternalHovering: isHovering,
+                onPlaybackTap: onPlay
+            )
+            .rounded()
     }
 }
 

@@ -58,16 +58,16 @@ private extension OfficialRankingCard {
         ZStack(alignment: .topLeading) {
             stackedRemoteImage(offset: Layout.imageLayerOffset * 2, opacity: 0.2)
             stackedRemoteImage(offset: Layout.imageLayerOffset, opacity: 0.4)
-            PlayableCoverImage(
-                url: coverImageURL,
-                style: .init(
-                    imageSize: Layout.imageSize,
-                    cornerRadius: Layout.cornerRadius,
-                    playButtonFont: .font24,
-                    playButtonSize: Layout.playButtonSize
-                ),
-                onControlTap: {}
-            )
+            RemoteImage(url: coverImageURL)
+                .frame(width: Layout.imageSize, height: Layout.imageSize)
+                .playbackOverlay(
+                    configuration: .init(
+                        buttonSize: Layout.playButtonSize,
+                        iconFont: .font24
+                    ),
+                    onPlaybackTap: {}
+                )
+                .rounded()
         }
         .frame(
             width: Layout.imageSize + Layout.imageLayerOffset * 2,

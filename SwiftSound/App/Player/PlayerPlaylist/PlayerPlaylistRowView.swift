@@ -11,7 +11,7 @@ struct PlayerPlaylistRowView: View {
     let song: Song
     let isCurrent: Bool
     let controlIcon: PlaybackControl
-    let onControlTap: () -> Void
+    let onPlaybackTap: () -> Void
     let onRemove: () -> Void
 
     @State private var isHovering = false
@@ -38,21 +38,20 @@ struct PlayerPlaylistRowView: View {
     }
 
     private var coverImage: some View {
-        PlayableCoverImage(
-            url: URL(string: song.album.picUrl),
-            style: .init(
-                imageSize: Layout.coverSize,
-                cornerRadius: Layout.coverCornerRadius,
-                playButtonFont: .font16,
-                playButtonSize: 22,
-                animatesHoverEffects: false
-            ),
-            interactionState: .init(
-                isHovering: isHovering,
-                icon: controlIcon
-            ),
-            onControlTap: onControlTap
-        )
+        RemoteImage(url: URL(string: song.album.picUrl))
+            .frame(width: Layout.coverSize, height: Layout.coverSize)
+            .playbackOverlay(
+                configuration: .init(
+                    visibility: isCurrent ? .always : .onHover,
+                    control: controlIcon,
+                    tapTarget: .content,
+                    buttonSize: 22,
+                    iconFont: .font16
+                ),
+                isExternalHovering: isHovering,
+                onPlaybackTap: onPlaybackTap
+            )
+            .rounded()
     }
 
     private var titleLine: some View {
@@ -136,13 +135,23 @@ private extension PlayerPlaylistRowView {
 }
 
 #Preview {
-    PlayerPlaylistRowView(
-        song: .preview,
-        isCurrent: true,
-        controlIcon: .pause,
-        onControlTap: {},
-        onRemove: {}
-    )
+    VStack(spacing: 0) {
+        PlayerPlaylistRowView(
+            song: .preview,
+            isCurrent: true,
+            controlIcon: .pause,
+            onPlaybackTap: {},
+            onRemove: {}
+        )
+
+        PlayerPlaylistRowView(
+            song: .preview1,
+            isCurrent: false,
+            controlIcon: .play,
+            onPlaybackTap: {},
+            onRemove: {}
+        )
+    }
     .frame(width: 470)
     .background(Color.white)
 }
