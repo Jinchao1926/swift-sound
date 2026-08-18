@@ -56,8 +56,7 @@ struct PlaylistDiscoveryCard: View {
                 .foregroundStyle(Color.textSecondary)
                 .lineLimit(1)
         }
-        .padding(.horizontal, Layout.textPadding)
-        .padding(.vertical, Layout.textPadding)
+        .padding(Layout.textPadding)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

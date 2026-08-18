@@ -23,6 +23,10 @@ struct PlaylistDiscoveryPage: View {
                 spacing: Layout.gridSpacing
             ) {
                 Section {
+                    if viewModel.hasFeaturedPlaylist {
+                        FeaturedPlaylistEntry(playlist: viewModel.featuredPlaylistState.value)
+                    }
+
                     ForEach(viewModel.playlistState.items) {
                         PlaylistDiscoveryCard(playlist: $0) {
                             // ...
@@ -46,10 +50,10 @@ struct PlaylistDiscoveryPage: View {
         .padding(.horizontal, Layout.horizontalPadding)
         .padding(.top, Layout.topPadding)
         .task {
-            await viewModel.loadCategory()
+            await viewModel.load()
         }
         .task(id: viewModel.selection) {
-            await viewModel.loadPlaylists()
+            await viewModel.loadSelection()
         }
     }
 }

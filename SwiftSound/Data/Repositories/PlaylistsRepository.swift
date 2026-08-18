@@ -47,6 +47,22 @@ struct PlaylistsRepository {
         return response.list
     }
 
+    // MARK: - Featured Playlist
+    func fetchFeaturedPlaylistTags() async throws -> [FeaturedPlaylistTag] {
+        let response = try await apiClient.request(FeaturedPlaylistTagsRequest())
+        return response.tags
+    }
+
+    func fetchFeaturedPlaylists(
+        id: Int,
+        offset: Int = 0,
+        limit: Int = 24
+    ) async throws -> FeaturedPlaylistsResponse {
+        let request = FeaturedPlaylistsRequest(id: id, offset: offset, limit: limit)
+        let response = try await apiClient.request(request)
+        return response
+    }
+
     // MARK: - Subscribers
     func fetchPlaylistSubscribers(
         id: Int,

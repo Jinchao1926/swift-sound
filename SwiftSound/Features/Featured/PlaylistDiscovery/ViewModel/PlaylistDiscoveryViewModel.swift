@@ -13,11 +13,33 @@ final class PlaylistDiscoveryViewModel: ObservableObject {
     @Published private(set) var categoryState: Loadable<[PlaylistCategoryGroup]> = .idle
     @Published private(set) var playlistState: Loadable<Paginated<Playlist>> = .idle
 
+    @Published private(set) var featuredTagState: Loadable<[FeaturedPlaylistTag]> = .idle
+    @Published private(set) var featuredPlaylistState: Loadable<Playlist> = .idle
+
     private let repository: PlaylistsRepository
+    private var featuredPlaylistSelection: PlaylistDiscoverySelection?
+
+    var hasFeaturedPlaylist: Bool {
+        hasFeaturedPlaylist(for: selection)
+    }
 
     // MARK: - LifeCycle
     init(repository: PlaylistsRepository = PlaylistsRepository()) {
         self.repository = repository
+    }
+
+    func load() async {
+        async let loadCategory: () = loadCategory()
+        async let loadFeaturedTags: () = loadFeaturedTags()
+        _ = await (loadCategory, loadFeaturedTags)
+
+        await loadFeaturedPlaylistIfNeeded()
+    }
+
+    func loadSelection() async {
+        async let loadPlaylists: () = loadPlaylists()
+        async let loadFeaturedPlaylists: () = loadFeaturedPlaylistIfNeeded()
+        _ = await (loadPlaylists, loadFeaturedPlaylists)
     }
 
     // MARK: - Category
@@ -45,10 +67,10 @@ final class PlaylistDiscoveryViewModel: ObservableObject {
 
         do {
             let response = try await repository.fetchTopPlaylists(category: requestSelection.id)
-            guard !Task.isCancelled, requestSelection == selection else { return }
+            guard isCurrentSelection(requestSelection) else { return }
             playlistState = .loaded(Paginated(response))
         } catch {
-            guard !Task.isCancelled, requestSelection == selection else { return }
+            guard isCurrentSelection(requestSelection) else { return }
             playlistState = .failed(error)
         }
     }
@@ -63,12 +85,66 @@ final class PlaylistDiscoveryViewModel: ObservableObject {
                 category: requestSelection.id,
                 offset: page.nextOffset
             )
-            guard !Task.isCancelled, requestSelection == selection else { return }
+            guard isCurrentSelection(requestSelection) else { return }
             page.append(response)
             playlistState = .loaded(page)
         } catch {
-            guard !Task.isCancelled, requestSelection == selection else { return }
+            guard isCurrentSelection(requestSelection) else { return }
             playlistState = .loaded(page)
         }
+    }
+
+    // MARK: - Featured
+    private func hasFeaturedPlaylist(for selection: PlaylistDiscoverySelection) -> Bool {
+        featuredTagState.items.contains { $0.name == selection.id }
+    }
+
+    func loadFeaturedTags() async {
+        if featuredTagState.isLoading { return }
+        featuredTagState = .loading()
+
+        do {
+            let tags = try await repository.fetchFeaturedPlaylistTags()
+            featuredTagState = .loaded(tags)
+        } catch {
+            featuredTagState = .failed(error)
+        }
+    }
+
+    func loadFeaturedPlaylistIfNeeded() async {
+        let requestSelection = selection
+        guard hasFeaturedPlaylist(for: requestSelection) else {
+            featuredPlaylistSelection = nil
+            featuredPlaylistState = .idle
+            return
+        }
+
+        if featuredPlaylistSelection == requestSelection,
+           featuredPlaylistState.isLoadedOrLoading {
+            return
+        }
+
+        featuredPlaylistSelection = requestSelection
+        featuredPlaylistState = .loading()
+
+        do {
+            let response = try await repository.fetchFeaturedPlaylists(id: 0, limit: 1)
+            guard isCurrentSelection(requestSelection) else { return }
+
+            if let playlist = response.playlists.first {
+                featuredPlaylistState = .loaded(playlist)
+            } else {
+                featuredPlaylistState = .idle
+            }
+        } catch {
+            guard isCurrentSelection(requestSelection) else { return }
+            featuredPlaylistState = .failed(error)
+        }
+    }
+}
+
+private extension PlaylistDiscoveryViewModel {
+    func isCurrentSelection(_ requestSelection: PlaylistDiscoverySelection) -> Bool {
+        !Task.isCancelled && requestSelection == selection
     }
 }

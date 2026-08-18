@@ -8,6 +8,7 @@
 import Foundation
 
 #if DEBUG
+// swiftlint:disable line_length
 extension Playlist {
     static let preview = Playlist(
         id: 19723756,
@@ -31,7 +32,31 @@ extension Playlist {
         subscribedCount: 4207142,
         subscribers: [User.preview]
     )
+
+    static let featuredPreview = Playlist(
+        id: 3001035934,
+        name: "国风新潮大赏 | 歌声岂合世间闻",
+        coverImgId: 109951168239184660,
+        coverImgUrl: "http://p1.music.126.net/6lhQ6jqPaBfsRdOJEgeiYw==/109951168239184663.jpg",
+        coverText: nil,
+        createTime: 1569494978983,
+        creator: User.official,
+        description: "随着继承并弘扬传统文化的呼声日益高涨，诸多制作精良的古装影视作品问世，广受都市人们的喜爱。同时，结合中国元素的流行歌曲，也备受瞩目。\n\n本歌单收录了含人声的国风摇滚、说唱、电子、戏腔、民谣。当然还有国风爵士等类型少量收录，有机会会继续收录哒！\n\n此刻，就让我们沉溺在不一样的国风浪潮中，感受华夏大地的悠扬古韵吧！\n\n（封面来源网络，侵删致歉。）",
+        tags: [],
+        updateFrequency: nil,
+        updateTime: 1724396094000,
+        trackUpdateTime: 1785149100260,
+        trackNumberUpdateTime: 1724205059438,
+        tracks: nil,
+        trackCount: 137,
+        playCount: 13605744,
+        shareCount: 1545,
+        commentCount: 341,
+        subscribedCount: 79161,
+        subscribers: [User.preview]
+    )
 }
+
 extension Toplist {
     static let defaultPreview = Toplist(
         id: 5_059_661_515,
@@ -85,4 +110,5 @@ extension Toplist {
         ]
     )
 }
+// swiftlint:enable line_length
 #endif
