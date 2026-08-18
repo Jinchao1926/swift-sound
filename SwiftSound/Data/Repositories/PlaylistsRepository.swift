@@ -25,10 +25,10 @@ struct PlaylistsRepository {
         category: String,
         offset: Int = 0,
         limit: Int = 24
-    ) async throws -> [Playlist] {
+    ) async throws -> TopPlaylistsResponse {
         let request = TopPlaylistsRequest(category: category, offset: offset, limit: limit)
         let response = try await apiClient.request(request)
-        return response.playlists
+        return response
     }
 
     func fetchPlaylistDetail(_ id: Int) async throws -> Playlist {

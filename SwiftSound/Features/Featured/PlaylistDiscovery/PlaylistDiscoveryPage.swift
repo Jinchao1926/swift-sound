@@ -9,20 +9,47 @@ import SwiftUI
 
 struct PlaylistDiscoveryPage: View {
     @StateObject private var viewModel = PlaylistDiscoveryViewModel()
-    @State private var selection: PlaylistDiscoverySelection = .recommendation
 
     var body: some View {
         VStack(alignment: .leading, spacing: Layout.contentSpacing) {
             PlaylistDiscoveryCategoryBar(
-                categoryGroups: viewModel.state.value ?? [],
-                selection: $selection
+                categoryGroups: viewModel.categoryState.value ?? [],
+                selection: $viewModel.selection
             )
-            Spacer()
+
+            LazyVGrid(
+                columns: Layout.gridColumns,
+                alignment: .leading,
+                spacing: Layout.gridSpacing
+            ) {
+                Section {
+                    ForEach(viewModel.playlistState.items) {
+                        PlaylistDiscoveryCard(playlist: $0) {
+                            // ...
+                        }
+                        .routeLink(to: .playlist(id: $0.id))
+                    }
+                } footer: {
+                    if viewModel.playlistState.value != nil {
+                        InfiniteScrollFooter(
+                            canLoadMore: viewModel.playlistState.canLoadMore,
+                            isLoading: viewModel.playlistState.isLoading,
+                            loadKey: viewModel.playlistState.items.count
+                        ) {
+                            await viewModel.loadMorePlaylists()
+                        }
+                    }
+                }
+            }
+            .loadingPlaceholder(viewModel.playlistState.isInitialLoading)
         }
         .padding(.horizontal, Layout.horizontalPadding)
         .padding(.top, Layout.topPadding)
         .task {
-            await viewModel.load()
+            await viewModel.loadCategory()
+        }
+        .task(id: viewModel.selection) {
+            await viewModel.loadPlaylists()
         }
     }
 }
@@ -32,9 +59,20 @@ private extension PlaylistDiscoveryPage {
         static let topPadding: CGFloat = 3
         static let horizontalPadding: CGFloat = 40
         static let contentSpacing: CGFloat = 25
+
+        static let minimumCardWidth: CGFloat = 116
+        static let gridSpacing: CGFloat = 15
+
+        static let gridColumns: [GridItem] = [
+            GridItem(.adaptive(minimum: minimumCardWidth), spacing: gridSpacing, alignment: .top)
+        ]
     }
 }
 
 #Preview {
-    PlaylistDiscoveryPage()
+    ScrollView {
+        PlaylistDiscoveryPage()
+    }
+    .frame(width: 500, height: 600)
+    .padding()
 }

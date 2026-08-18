@@ -15,9 +15,9 @@ enum PlaylistDiscoverySelection: Hashable {
     var id: String {
         switch self {
         case .recommendation:
-            return "recommendation"
+            return "推荐"
         case .official:
-            return "official"
+            return "官方"
         case .category(let categoryID):
             return categoryID
         }
