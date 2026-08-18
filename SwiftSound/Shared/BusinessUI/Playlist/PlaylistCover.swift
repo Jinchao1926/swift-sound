@@ -15,7 +15,7 @@ struct PlaylistCover: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            RemoteImage(url: coverImageURL)
+            RemoteImage(url: playlist.coverURL)
                 .aspectRatio(1, contentMode: .fit)
 
             Color.clear
@@ -41,8 +41,8 @@ struct PlaylistCover: View {
         .clipShape(RoundedRectangle(cornerRadius: 6))
         .pointerStyle(.link)
         .onHover { isHovering = $0 }
-        .task(id: coverImageURL) {
-            await updatePanelColor(from: coverImageURL)
+        .task(id: playlist.coverURL) {
+            await updatePanelColor(from: playlist.coverURL)
         }
         .animation(.easeInOut(duration: 0.18), value: isHovering)
     }
@@ -55,7 +55,6 @@ fileprivate extension PlaylistCover {
     }
 
     var tracks: [Song] { Array((playlist.tracks ?? []).prefix(3)) }
-    var coverImageURL: URL? { URL(string: playlist.coverImgUrl) }
 
     func updatePanelColor(from imageURL: URL?) async {
         panelColor = nil

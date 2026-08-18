@@ -29,5 +29,9 @@ struct PlayButton: View {
 }
 
 #Preview {
-    PlayButton()
+    VStack {
+        PlayButton()
+    }
+    .padding()
+    .background(Color.surfacePrimary)
 }

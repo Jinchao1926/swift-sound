@@ -12,7 +12,6 @@ struct AlbumCard: View {
     let onPlay: () -> Void
 
     @State private var isHovering = false
-    @State private var isPlayButtonHovering = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -39,19 +38,18 @@ struct AlbumCard: View {
     }
 
     private var coverAlbum: some View {
-        ZStack(alignment: .bottomTrailing) {
-            RemoteImage(url: URL(string: album.picUrl))
-                .scaledToFill()
-
-            if isHovering {
-                Color.black.opacity(0.28)
-
-                playButton
-                    .padding(Layout.playButtonMargin)
-            }
-        }
-        .frame(width: Layout.width, height: Layout.width)
-        .rounded(radius: Layout.radius)
+        RemoteImage(url: URL(string: album.picUrl))
+            .frame(width: Layout.width, height: Layout.width)
+            .playbackOverlay(
+                configuration: .init(
+                    placement: .bottomTrailing(inset: Layout.playButtonPadding),
+                    buttonSize: Layout.playButtonSize,
+                    iconFont: .font24
+                ),
+                isExternalHovering: isHovering,
+                onPlaybackTap: onPlay
+            )
+            .rounded(radius: Layout.radius)
     }
 
     private var recordPeek: some View {
@@ -84,24 +82,9 @@ struct AlbumCard: View {
                     .lineLimit(1)
             }
         }
-        .padding(.horizontal, Layout.textHorizontalMargin)
-        .padding(.vertical, Layout.textVerticalMargin)
+        .padding(.horizontal, Layout.textHorizontalPadding)
+        .padding(.vertical, Layout.textVerticalPadding)
         .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    private var playButton: some View {
-        Button {
-            onPlay()
-        } label: {
-            Image(systemName: "play.fill")
-                .font(.font24)
-                .foregroundStyle(Color.white)
-                .frame(width: Layout.playButtonSize, height: Layout.playButtonSize)
-                .scaleEffect(isPlayButtonHovering ? 1.12 : 1)
-                .animation(.spring(response: 0.22, dampingFraction: 0.72), value: isPlayButtonHovering)
-        }
-        .buttonStyle(.plain)
-        .onHover { isPlayButtonHovering = $0 }
     }
 
     private var metadataText: String {
@@ -118,11 +101,11 @@ private extension AlbumCard {
         static let recordVisibleHeight: CGFloat = 10
 
         static let textSpacing: CGFloat = 4
-        static let textHorizontalMargin: CGFloat = 13
-        static let textVerticalMargin: CGFloat = 10
+        static let textHorizontalPadding: CGFloat = 13
+        static let textVerticalPadding: CGFloat = 10
 
         static let playButtonSize: CGFloat = 32
-        static let playButtonMargin: CGFloat = 15
+        static let playButtonPadding: CGFloat = 15
     }
 }
 
