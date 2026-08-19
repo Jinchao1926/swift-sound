@@ -54,11 +54,11 @@ struct PlaylistsRepository {
     }
 
     func fetchFeaturedPlaylists(
-        category: String,
-        offset: Int = 0,
+        category: String? = nil,
+        before: Int? = nil,
         limit: Int = 24
     ) async throws -> FeaturedPlaylistsResponse {
-        let request = FeaturedPlaylistsRequest(category: category, offset: offset, limit: limit)
+        let request = FeaturedPlaylistsRequest(category: category, before: before, limit: limit)
         let response = try await apiClient.request(request)
         return response
     }

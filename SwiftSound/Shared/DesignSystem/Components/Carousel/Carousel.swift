@@ -287,7 +287,7 @@ private struct BannerPreviewItem: Identifiable {
             .overlay(
                 Text(String(describing: item.value))
                     .font(.title)
-                    .foregroundColor(.blue)
+                    .foregroundStyle(.blue)
             )
     }
     .frame(width: 760, height: 164)
@@ -309,7 +309,7 @@ private struct BannerPreviewItem: Identifiable {
             .overlay(
                 Text(String(describing: item.value))
                     .font(.title)
-                    .foregroundColor(.blue)
+                    .foregroundStyle(.blue)
             )
     }
     .frame(width: 760, height: 164)

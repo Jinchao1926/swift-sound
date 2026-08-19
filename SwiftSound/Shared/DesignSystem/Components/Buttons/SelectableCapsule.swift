@@ -91,7 +91,7 @@ struct SelectableCapsule: View {
     @ViewBuilder
     private var label: some View {
         if let accessorySystemImage {
-            HStack(spacing: 6) {
+            HStack(spacing: 4) {
                 Text(title)
                 Image(systemName: accessorySystemImage)
                     .font(.font10)
