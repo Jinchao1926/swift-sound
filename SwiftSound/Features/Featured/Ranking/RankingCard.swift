@@ -65,15 +65,15 @@ private extension RankingCard {
                 .font(.font14.weight(.semibold))
                 .foregroundStyle(.white)
                 .lineLimit(1)
-                .padding(.top, Layout.titleTopPadding)
-                .padding(.horizontal, Layout.titleHorizontalPadding)
+                .padding(.top, Layout.titleTopInset)
+                .padding(.horizontal, Layout.titleHorizontalInset)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 
         case .flag(let flag):
             Text(flag)
                 .font(.system(size: Layout.flagSize))
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                .padding(Layout.flagPadding)
+                .padding(Layout.flagInset)
         }
     }
 
@@ -109,9 +109,9 @@ private extension RankingCard {
         static let playButtonMargin: CGFloat = 15
         static let playIconSize: CGFloat = 24
 
-        static let titleTopPadding: CGFloat = 20
-        static let titleHorizontalPadding: CGFloat = 5
+        static let titleTopInset: CGFloat = 20
+        static let titleHorizontalInset: CGFloat = 5
         static let flagSize: CGFloat = 17
-        static let flagPadding: CGFloat = 8
+        static let flagInset: CGFloat = 8
     }
 }

@@ -29,7 +29,7 @@ struct SubscriberCard: View {
                 .foregroundStyle(Color.textSecondary)
                 .lineLimit(1)
         }
-        .padding(Layout.padding)
+        .padding(Layout.inset)
         .onHover { isHovering = $0 }
         .background(
             RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous)
@@ -59,7 +59,7 @@ private extension SubscriberCard {
         static let spacing: CGFloat = 10
         static let avatarSize: CGFloat = 140
         static let userSpacing: CGFloat = 2
-        static let padding: CGFloat = 20
+        static let inset: CGFloat = 20
         static let cornerRadius: CGFloat = 6
     }
 }

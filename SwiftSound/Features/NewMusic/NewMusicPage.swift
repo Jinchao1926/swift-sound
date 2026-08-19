@@ -15,8 +15,8 @@ struct NewMusicPage: View {
             RouteTabView(selectedRoute: route)
             content
         }
-        .padding(.bottom, Layout.bottomPadding)
-        .padding(.horizontal, Layout.horizontalPadding)
+        .padding(.bottom, Layout.bottomInset)
+        .padding(.horizontal, Layout.horizontalInset)
     }
 
     @ViewBuilder
@@ -32,8 +32,8 @@ struct NewMusicPage: View {
 
 private extension NewMusicPage {
     enum Layout {
-        static let bottomPadding: CGFloat = 20
-        static let horizontalPadding: CGFloat = 40
+        static let bottomInset: CGFloat = 20
+        static let horizontalInset: CGFloat = 40
     }
 }
 

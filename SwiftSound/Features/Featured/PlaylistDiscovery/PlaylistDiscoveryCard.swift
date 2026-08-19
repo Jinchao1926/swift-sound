@@ -30,11 +30,11 @@ struct PlaylistDiscoveryCard: View {
             .frame(width: Layout.width, height: Layout.width)
             .overlay(alignment: .topLeading) {
                 PlayCountBadge(count: playlist.playCount, fontSize: 11)
-                    .padding(Layout.buttonPadding)
+                    .padding(Layout.buttonInset)
             }
             .playbackOverlay(
                 configuration: .init(
-                    placement: .bottomTrailing(inset: Layout.buttonPadding),
+                    placement: .bottomTrailing(inset: Layout.buttonInset),
                     iconFont: .font32
                 ),
                 isExternalHovering: isHovering,
@@ -56,7 +56,7 @@ struct PlaylistDiscoveryCard: View {
                 .foregroundStyle(Color.textSecondary)
                 .lineLimit(1)
         }
-        .padding(Layout.textPadding)
+        .padding(Layout.textInset)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
@@ -67,10 +67,10 @@ private extension PlaylistDiscoveryCard {
         static let radius: CGFloat = 6
 
         static let textSpacing: CGFloat = 4
-        static let textPadding: CGFloat = 6
+        static let textInset: CGFloat = 6
 
         static let playButtonSize: CGFloat = 26
-        static let buttonPadding: CGFloat = 12
+        static let buttonInset: CGFloat = 12
     }
 }
 

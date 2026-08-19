@@ -43,7 +43,7 @@ struct PlaylistDetailPage: View {
 
                 content
             }
-            .padding(.horizontal, Layout.horizontalPadding)
+            .padding(.horizontal, Layout.horizontalInset)
         }
         .task {
             await viewModel.load()
@@ -97,7 +97,7 @@ private extension PlaylistDetailPage {
 private extension PlaylistDetailPage {
     enum Layout {
         static let spacing: CGFloat = 10
-        static let horizontalPadding: CGFloat = 40
+        static let horizontalInset: CGFloat = 40
     }
 }
 

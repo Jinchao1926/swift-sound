@@ -13,11 +13,11 @@ struct FeaturedPage: View {
     var body: some View {
         VStack(spacing: 10) {
             RouteTabView(selectedRoute: route)
-                .padding(.horizontal, Layout.horizontalPadding)
+                .padding(.horizontal, Layout.horizontalInset)
 
             ScrollView(.vertical, showsIndicators: false) {
                 content
-                    .padding(.bottom, Layout.bottomPadding)
+                    .padding(.bottom, Layout.bottomInset)
             }
         }
     }
@@ -41,8 +41,8 @@ struct FeaturedPage: View {
 
 private extension FeaturedPage {
     enum Layout {
-        static let bottomPadding: CGFloat = 20
-        static let horizontalPadding: CGFloat = 40
+        static let bottomInset: CGFloat = 20
+        static let horizontalInset: CGFloat = 40
     }
 }
 

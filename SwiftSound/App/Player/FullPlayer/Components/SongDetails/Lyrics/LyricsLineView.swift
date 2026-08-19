@@ -44,7 +44,7 @@ struct LyricsLineView: View {
                     .monospacedDigit()
             }
             .foregroundStyle(seekControlTintColor)
-            .padding(.horizontal, Layout.seekControlHorizontalPadding)
+            .padding(.horizontal, Layout.seekControlHorizontalInset)
             .frame(height: Layout.seekControlHeight)
             .overlay {
                 Capsule()
@@ -98,7 +98,7 @@ extension LyricsLineView {
         static let rowHeight: CGFloat = 30
         static let seekControlHeight: CGFloat = 26
         static let seekControlContentSpacing: CGFloat = 6
-        static let seekControlHorizontalPadding: CGFloat = 10
+        static let seekControlHorizontalInset: CGFloat = 10
         static let seekControlIconSize: CGFloat = 8
     }
 }

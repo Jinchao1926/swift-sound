@@ -18,7 +18,7 @@ struct PlaylistDetailHeader: View {
                 .rounded(radius: Layout.cornerRadius)
                 .overlay(alignment: .topTrailing) {
                     PlayCountBadge(count: playlist.playCount)
-                        .padding(Layout.badgePadding)
+                        .padding(Layout.badgeInset)
                 }
 
             VStack(alignment: .leading, spacing: 0) {
@@ -30,7 +30,7 @@ struct PlaylistDetailHeader: View {
                 Text(playlist.description)
                     .font(.font14)
                     .foregroundStyle(Color.textSecondary)
-                    .padding(.vertical, Layout.descriptionPadding)
+                    .padding(.vertical, Layout.descriptionInset)
 
                 HStack(spacing: Layout.creatorSpacing) {
                     HStack(spacing: Layout.creatorSpacing / 2) {
@@ -67,11 +67,11 @@ struct PlaylistDetailHeader: View {
 private extension PlaylistDetailHeader {
     enum Layout {
         static let spacing: CGFloat = 25
-        static let badgePadding: CGFloat = 10
+        static let badgeInset: CGFloat = 10
         static let size: CGFloat = 170
         static let cornerRadius: CGFloat = 8
 
-        static let descriptionPadding: CGFloat = 16
+        static let descriptionInset: CGFloat = 16
         static let creatorSpacing: CGFloat = 10
         static let avatarSize: CGFloat = 25
 

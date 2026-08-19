@@ -34,7 +34,7 @@ struct MVCard: View {
                         .font(.font12)
                 }
                 .foregroundStyle(Color.textPrimaryOnDark)
-                .padding(Layout.overlayPadding)
+                .padding(Layout.overlayInset)
             }
             .playbackOverlay(isExternalHovering: isHovering)
             .rounded(radius: Layout.radius)
@@ -46,7 +46,7 @@ struct MVCard: View {
             .foregroundStyle(Color.textPrimary)
             .lineLimit(1)
             .truncationMode(.tail)
-            .padding(Layout.titlePadding)
+            .padding(Layout.titleInset)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
@@ -57,10 +57,10 @@ private extension MVCard {
         static let coverHeight: CGFloat = 140
         static let radius: CGFloat = 6
 
-        static let overlayPadding: CGFloat = 8
+        static let overlayInset: CGFloat = 8
         static let badgeSpacing: CGFloat = 2
 
-        static let titlePadding: CGFloat = 10
+        static let titleInset: CGFloat = 10
     }
 }
 

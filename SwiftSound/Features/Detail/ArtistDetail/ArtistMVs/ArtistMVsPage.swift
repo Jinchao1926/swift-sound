@@ -30,7 +30,7 @@ struct ArtistMVsPage: View {
                 }
             }
         }
-        .padding(.top, Layout.contentTopPadding)
+        .padding(.top, Layout.contentTopInset)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .loadingPlaceholder(state.isInitialLoading)
         .task {
@@ -43,7 +43,7 @@ private extension ArtistMVsPage {
     enum Layout {
         static let minimumCardWidth: CGFloat = 240
         static let gridSpacing: CGFloat = 15
-        static let contentTopPadding: CGFloat = 5
+        static let contentTopInset: CGFloat = 5
 
         static let gridColumns: [GridItem] = [
             GridItem(.adaptive(minimum: minimumCardWidth), spacing: gridSpacing, alignment: .top)

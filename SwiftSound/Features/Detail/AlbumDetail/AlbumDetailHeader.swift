@@ -44,7 +44,7 @@ struct AlbumDetailHeader: View {
                     }
                 }
                 .font(.font13)
-                .padding(.top, Layout.artistTopPadding)
+                .padding(.top, Layout.artistTopInset)
 
                 Spacer()
 
@@ -95,7 +95,7 @@ private extension AlbumDetailHeader {
         static let albumRadius: CGFloat = 6
         static let recordVisibleHeight: CGFloat = 10
 
-        static let artistTopPadding: CGFloat = 16
+        static let artistTopInset: CGFloat = 16
         static let artistSpacing: CGFloat = 10
         static let avatarSize: CGFloat = 25
 

@@ -46,7 +46,7 @@ struct PlaylistDiscoveryCategoryPicker: View {
                 categoryGrid(for: selectedGroup)
             }
         }
-        .padding(Layout.padding)
+        .padding(Layout.inset)
         .frame(width: Layout.width)
         .background(Color.white)
     }
@@ -71,7 +71,7 @@ struct PlaylistDiscoveryCategoryPicker: View {
 private extension PlaylistDiscoveryCategoryPicker {
     enum Layout {
         static let width: CGFloat = 572
-        static let padding: CGFloat = 16
+        static let inset: CGFloat = 16
         static let sectionSpacing: CGFloat = 20
 
         static let categoryColumnCount = 6

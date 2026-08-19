@@ -30,7 +30,7 @@ struct VolumePanel: View {
                 .monospacedDigit()
         }
         .frame(width: VolumePanelLayout.panelWidth, height: VolumePanelLayout.panelHeight)
-        .padding(.top, VolumePanelLayout.shadowTopPadding)
+        .padding(.top, VolumePanelLayout.shadowTopInset)
         .frame(
             width: VolumePanelLayout.contentSize.width,
             height: VolumePanelLayout.contentSize.height,
@@ -144,12 +144,12 @@ enum VolumePanelLayout {
     static let arrowSize: CGFloat = 14
 
     // 阴影由 AppKit 根视图绘制，这些 padding 给阴影留出自然衰减空间，避免被窗口边界裁成矩形。
-    static let shadowHorizontalPadding: CGFloat = 12
-    static let shadowTopPadding: CGFloat = 2
-    static let shadowBottomPadding: CGFloat = 14
+    static let shadowHorizontalInset: CGFloat = 12
+    static let shadowTopInset: CGFloat = 2
+    static let shadowBottomInset: CGFloat = 14
     static let bubbleHeight = panelHeight + arrowSize / 2
     static let contentSize = CGSize(
-        width: panelWidth + shadowHorizontalPadding * 2,
-        height: bubbleHeight + shadowTopPadding + shadowBottomPadding
+        width: panelWidth + shadowHorizontalInset * 2,
+        height: bubbleHeight + shadowTopInset + shadowBottomInset
     )
 }

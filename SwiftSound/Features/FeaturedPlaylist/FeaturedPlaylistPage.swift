@@ -49,8 +49,8 @@ struct FeaturedPlaylistPage: View {
                 }
                 .loadingPlaceholder(viewModel.playlistState.isInitialLoading)
             }
-            .padding(.horizontal, Layout.horizontalPadding)
-            .padding(.vertical, Layout.verticalPadding)
+            .padding(.horizontal, Layout.horizontalInset)
+            .padding(.vertical, Layout.verticalInset)
         }
         .task {
             await viewModel.loadFeaturedTags()
@@ -67,7 +67,7 @@ private extension FeaturedPlaylistPage {
             "更多分类",
             isSelected: false,
             width: .fitContent,
-            contentPadding: Layout.morePadding,
+            contentPadding: Layout.moreInset,
             accessorySystemImage: isPickerPresented ? "chevron.up" : "chevron.down"
         ) {
             isPickerPresented.toggle()
@@ -88,15 +88,15 @@ private extension FeaturedPlaylistPage {
 private extension FeaturedPlaylistPage {
     enum Layout {
         static let spacing: CGFloat = 10
-        static let verticalPadding: CGFloat = 30
-        static let horizontalPadding: CGFloat = 40
-        static let morePadding: CGFloat = 16
+        static let verticalInset: CGFloat = 30
+        static let horizontalInset: CGFloat = 40
+        static let moreInset: CGFloat = 16
 
-        static let minimumCardWidth: CGFloat = 178
+        static let minCardWidth: CGFloat = 178
         static let gridSpacing: CGFloat = 20
 
         static let gridColumns: [GridItem] = [
-            GridItem(.adaptive(minimum: minimumCardWidth), spacing: gridSpacing, alignment: .top)
+            GridItem(.adaptive(minimum: minCardWidth), spacing: gridSpacing, alignment: .top)
         ]
     }
 }

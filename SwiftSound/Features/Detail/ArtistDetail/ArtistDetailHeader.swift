@@ -33,8 +33,8 @@ struct ArtistDetailHeader: View {
                         }
                     }
                 }
-                .padding(.top, Layout.metadataTopPadding)
-                .padding(.bottom, Layout.metadataBottomPadding)
+                .padding(.top, Layout.metadataTopInset)
+                .padding(.bottom, Layout.metadataBottomInset)
 
                 HStack(spacing: Layout.actionSpacing) {
                     MusicActionButtons.playAll {
@@ -55,8 +55,8 @@ private extension ArtistDetailHeader {
         static let headerSpacing: CGFloat = 25
         static let avatarSize: CGFloat = 170
         static let metadataSpacing: CGFloat = 20
-        static let metadataTopPadding: CGFloat = 12
-        static let metadataBottomPadding: CGFloat = 16
+        static let metadataTopInset: CGFloat = 12
+        static let metadataBottomInset: CGFloat = 16
         static let actionSpacing: CGFloat = 10
     }
 }

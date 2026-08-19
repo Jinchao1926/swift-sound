@@ -28,7 +28,7 @@ struct SearchBar: View {
             textField
             clearButton
         }
-        .padding(.horizontal, Layout.horizontalPadding)
+        .padding(.horizontal, Layout.horizontalInset)
         .frame(width: width, height: Layout.height)
         .roundedBackground(
             radius: Layout.cornerRadius,
@@ -79,7 +79,7 @@ private extension SearchBar {
         static let width: CGFloat = 75
         static let height: CGFloat = 32
         static let controlSpacing: CGFloat = 5
-        static let horizontalPadding: CGFloat = 11
+        static let horizontalInset: CGFloat = 11
         static let cornerRadius: CGFloat = height / 2
     }
 }

@@ -47,7 +47,7 @@ struct ActionButton: View {
                 }
             }
             .foregroundStyle(variant.foregroundColor)
-            .padding(.horizontal, Layout.horizontalPadding)
+            .padding(.horizontal, Layout.horizontalInset)
             .fixedSize(horizontal: true, vertical: false)
             .frame(height: Layout.height)
         }
@@ -74,7 +74,7 @@ private extension ActionButton {
     enum Layout {
         static let height: CGFloat = 37
         static let cornerRadius: CGFloat = 8
-        static let horizontalPadding: CGFloat = 14
+        static let horizontalInset: CGFloat = 14
         static let iconSpacing: CGFloat = 6
     }
 }

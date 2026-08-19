@@ -29,8 +29,8 @@ struct ArtistSongsPage: View {
                     MusicActionButtons.download(icon: .squareAndArrowDown) {}
                     MusicActionButtons.more {}
                 }
-                .padding(.top, Layout.actionTopMargin)
-                .padding(.bottom, Layout.actionBottomMargin)
+                .padding(.top, Layout.actionTopInset)
+                .padding(.bottom, Layout.actionBottomInset)
 
                 SongTable(songs: viewModel.state.items)
                     .loadingPlaceholder(viewModel.state.isInitialLoading)
@@ -39,7 +39,7 @@ struct ArtistSongsPage: View {
                     await viewModel.loadMore()
                 }
             }
-            .padding(.horizontal, Layout.horizontalPadding)
+            .padding(.horizontal, Layout.horizontalInset)
             .task {
                 await viewModel.load()
             }
@@ -48,9 +48,9 @@ struct ArtistSongsPage: View {
 }
 
 private enum Layout {
-    static let horizontalPadding: CGFloat = 40
-    static let actionTopMargin: CGFloat = 25
-    static let actionBottomMargin: CGFloat = 15
+    static let horizontalInset: CGFloat = 40
+    static let actionTopInset: CGFloat = 25
+    static let actionBottomInset: CGFloat = 15
     static let actionSpacing: CGFloat = 10
 }
 

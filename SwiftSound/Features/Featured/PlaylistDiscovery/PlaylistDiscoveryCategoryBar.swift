@@ -37,7 +37,7 @@ struct PlaylistDiscoveryCategoryBar: View {
             "更多分类",
             isSelected: moreCategoryIsActive,
             width: .fitContent,
-            contentPadding: Layout.moreContentPadding,
+            contentPadding: Layout.moreContentInset,
             accessorySystemImage: isPickerPresented ? "chevron.up" : "chevron.down"
         ) {
             isPickerPresented.toggle()
@@ -67,7 +67,7 @@ struct PlaylistDiscoveryCategoryBar: View {
 private extension PlaylistDiscoveryCategoryBar {
     enum Layout {
         static let spacing: CGFloat = 12
-        static let moreContentPadding: CGFloat = 16
+        static let moreContentInset: CGFloat = 16
     }
 }
 
