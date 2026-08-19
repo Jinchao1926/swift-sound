@@ -74,7 +74,6 @@ private extension FeaturedPlaylistEntry {
                 .padding(Layout.badgePadding)
         }
         .frame(width: Layout.badgeSize, height: Layout.badgeSize)
-        .clipped()
     }
 }
 
