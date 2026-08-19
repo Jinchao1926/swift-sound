@@ -31,19 +31,15 @@ struct ArtistListPage: View {
                             .routeLink(to: .artist(id: artist.id))
                     }
                 } footer: {
-                    InfiniteScrollFooter(
-                        canLoadMore: viewModel.state.canLoadMore,
-                        isLoading: viewModel.state.isLoading,
-                        loadKey: viewModel.state.items.count
-                    ) {
+                    InfiniteScrollFooter(state: viewModel.state) {
                         await viewModel.loadMore()
                     }
                 }
             }
-            .padding(.top, Layout.contentTopPadding)
+            .padding(.top, Layout.contentTopInset)
             .loadingPlaceholder(viewModel.state.isInitialLoading)
         }
-        .padding(.horizontal, Layout.horizontalPadding)
+        .padding(.horizontal, Layout.horizontalInset)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .task {
             await viewModel.load()
@@ -55,8 +51,8 @@ private extension ArtistListPage {
     enum Layout {
         static let minimumCardWidth: CGFloat = 178
         static let gridSpacing: CGFloat = 20
-        static let contentTopPadding: CGFloat = 20
-        static let horizontalPadding: CGFloat = 40
+        static let contentTopInset: CGFloat = 20
+        static let horizontalInset: CGFloat = 40
 
         static let gridColumns: [GridItem] = [
             GridItem(.adaptive(minimum: minimumCardWidth), spacing: gridSpacing, alignment: .top)

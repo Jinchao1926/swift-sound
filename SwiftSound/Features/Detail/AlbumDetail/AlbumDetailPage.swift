@@ -44,7 +44,7 @@ struct AlbumDetailPage: View {
 
                 content
             }
-            .padding(.horizontal, Layout.horizontalPadding)
+            .padding(.horizontal, Layout.horizontalInset)
         }
         .task {
             await viewModel.loadAlbum()
@@ -93,7 +93,7 @@ private extension AlbumDetailPage {
 private extension AlbumDetailPage {
     enum Layout {
         static let spacing: CGFloat = 10
-        static let horizontalPadding: CGFloat = 40
+        static let horizontalInset: CGFloat = 40
     }
 }
 

@@ -139,7 +139,7 @@ struct FloatingVolumePanelPresenter: NSViewRepresentable {
             let anchorRectOnScreen = window.convertToScreen(anchorRectInWindow)
             return CGRect(
                 x: anchorRectOnScreen.midX - VolumePanelLayout.contentSize.width / 2,
-                y: anchorRectOnScreen.maxY + Layout.verticalGap - VolumePanelLayout.shadowTopPadding,
+                y: anchorRectOnScreen.maxY + Layout.verticalGap - VolumePanelLayout.shadowTopInset,
                 width: VolumePanelLayout.contentSize.width,
                 height: VolumePanelLayout.contentSize.height
             )
@@ -249,8 +249,8 @@ private final class FloatingVolumePanelContentView: NSView {
         let arrowHalfWidth = VolumePanelLayout.arrowSize / 2
         let arrowHeight = VolumePanelLayout.arrowSize / 2
         let bubbleRect = CGRect(
-            x: rect.minX + VolumePanelLayout.shadowHorizontalPadding,
-            y: rect.minY + VolumePanelLayout.shadowTopPadding,
+            x: rect.minX + VolumePanelLayout.shadowHorizontalInset,
+            y: rect.minY + VolumePanelLayout.shadowTopInset,
             width: VolumePanelLayout.panelWidth,
             height: VolumePanelLayout.bubbleHeight
         )

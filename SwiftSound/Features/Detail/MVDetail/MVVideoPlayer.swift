@@ -46,7 +46,7 @@ struct MVVideoPlayer: View {
                     .multilineTextAlignment(.center)
             }
         }
-        .padding(Layout.videoStatePadding)
+        .padding(Layout.videoStateInset)
     }
 }
 
@@ -54,7 +54,7 @@ private extension MVVideoPlayer {
     enum Layout {
         static let videoAspectRatio: CGFloat = 16 / 9
         static let videoCornerRadius: CGFloat = 5
-        static let videoStatePadding: CGFloat = 20
+        static let videoStateInset: CGFloat = 20
         static let stateSpacing: CGFloat = 10
     }
 }

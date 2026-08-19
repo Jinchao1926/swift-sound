@@ -24,18 +24,12 @@ struct PlaylistSubscribersPage: View {
                         .routeLink(to: .user(id: $0.id))
                 }
             } footer: {
-                if state.value != nil {
-                    InfiniteScrollFooter(
-                        canLoadMore: state.canLoadMore,
-                        isLoading: state.isLoading,
-                        loadKey: state.items.count
-                    ) {
-                        await loadMore()
-                    }
+                InfiniteScrollFooter(state: state) {
+                    await loadMore()
                 }
             }
         }
-        .padding(.top, Layout.contentTopPadding)
+        .padding(.top, Layout.contentTopInset)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .loadingPlaceholder(state.isInitialLoading)
         .task {
@@ -48,7 +42,7 @@ private extension PlaylistSubscribersPage {
     enum Layout {
         static let minimumCardWidth: CGFloat = 180
         static let gridSpacing: CGFloat = 10
-        static let contentTopPadding: CGFloat = 10
+        static let contentTopInset: CGFloat = 10
 
         static let gridColumns: [GridItem] = [
             GridItem(.adaptive(minimum: minimumCardWidth), spacing: gridSpacing, alignment: .top)

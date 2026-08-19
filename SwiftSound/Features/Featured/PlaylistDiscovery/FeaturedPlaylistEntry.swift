@@ -71,7 +71,7 @@ private extension FeaturedPlaylistEntry {
             Image(systemName: "crown.fill")
                 .font(.font8)
                 .foregroundStyle(Color.white.opacity(0.6))
-                .padding(Layout.badgePadding)
+                .padding(Layout.badgeInset)
         }
         .frame(width: Layout.badgeSize, height: Layout.badgeSize)
     }
@@ -87,7 +87,7 @@ private extension FeaturedPlaylistEntry {
         static let backgroundImageHeight: CGFloat = imageSize - 18
 
         static let badgeSize: CGFloat = 45
-        static let badgePadding: CGFloat = 3
+        static let badgeInset: CGFloat = 3
         static let textVerticalSpacing: CGFloat = 6
         static let textHorizontalSpacing: CGFloat = 4
     }

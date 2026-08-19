@@ -25,18 +25,12 @@ struct ArtistMVsPage: View {
                         .routeLink(to: .mv(id: mv.id))
                 }
             } footer: {
-                if state.value != nil {
-                    InfiniteScrollFooter(
-                        canLoadMore: state.canLoadMore,
-                        isLoading: state.isLoading,
-                        loadKey: state.items.count
-                    ) {
-                        await loadMore()
-                    }
+                InfiniteScrollFooter(state: state) {
+                    await loadMore()
                 }
             }
         }
-        .padding(.top, Layout.contentTopPadding)
+        .padding(.top, Layout.contentTopInset)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .loadingPlaceholder(state.isInitialLoading)
         .task {
@@ -49,7 +43,7 @@ private extension ArtistMVsPage {
     enum Layout {
         static let minimumCardWidth: CGFloat = 240
         static let gridSpacing: CGFloat = 15
-        static let contentTopPadding: CGFloat = 5
+        static let contentTopInset: CGFloat = 5
 
         static let gridColumns: [GridItem] = [
             GridItem(.adaptive(minimum: minimumCardWidth), spacing: gridSpacing, alignment: .top)

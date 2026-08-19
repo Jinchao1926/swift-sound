@@ -37,8 +37,8 @@ struct MVDetailPage: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .topLeading)
-            .padding(.horizontal, Layout.padding)
-            .padding(.bottom, Layout.padding)
+            .padding(.horizontal, Layout.inset)
+            .padding(.bottom, Layout.inset)
         }
         .task {
             await viewModel.loadMV()
@@ -119,7 +119,7 @@ private extension MVDetailPage {
 
 private extension MVDetailPage {
     enum Layout {
-        static let padding: CGFloat = 40
+        static let inset: CGFloat = 40
         static let sectionSpacing: CGFloat = 25
 
         static let artistSpacing: CGFloat = 14

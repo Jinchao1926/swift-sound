@@ -43,8 +43,8 @@ struct NewSongCover: View {
 
             hoverActions
         }
-        .padding(.vertical, Layout.verticalPadding)
-        .padding(.horizontal, Layout.horizontalPadding)
+        .padding(.vertical, Layout.verticalInset)
+        .padding(.horizontal, Layout.horizontalInset)
         .background(
             RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous)
                 .fill(isHovering ? Color.white : Color.clear)
@@ -54,8 +54,8 @@ struct NewSongCover: View {
     }
 
     enum Layout {
-        static let horizontalPadding: CGFloat = 10
-        static let verticalPadding: CGFloat = 18
+        static let horizontalInset: CGFloat = 10
+        static let verticalInset: CGFloat = 18
         static let cornerRadius: CGFloat = 8
         static let contentSpacing: CGFloat = 10
         static let metadataSpacing: CGFloat = 5

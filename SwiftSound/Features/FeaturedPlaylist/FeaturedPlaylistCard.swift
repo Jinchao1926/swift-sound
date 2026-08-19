@@ -20,7 +20,7 @@ struct FeaturedPlaylistCard: View {
                 .aspectRatio(1, contentMode: .fit)
                 .playbackOverlay(
                     configuration: .init(
-                        placement: .bottomTrailing(inset: Layout.playButtonPadding),
+                        placement: .bottomTrailing(inset: Layout.playbackButtonInset),
                         style: .light,
                         iconFont: .font28
                     ),
@@ -36,14 +36,14 @@ struct FeaturedPlaylistCard: View {
                     .lineSpacing(2)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                    .padding(Layout.titlePadding)
+                    .padding(Layout.titleInset)
             }
             .frame(height: Layout.bottomTitleHeight)
             .background(themeColorLoader.color)
         }
         .overlay(alignment: .topTrailing) {
             PlayCountBadge(count: playlist.playCount)
-                .padding(Layout.badgePadding)
+                .padding(Layout.badgeInset)
         }
         .rounded()
         .onHover { isHovering = $0 }
@@ -57,9 +57,9 @@ struct FeaturedPlaylistCard: View {
 fileprivate extension FeaturedPlaylistCard {
     enum Layout {
         static let bottomTitleHeight: CGFloat = 58
-        static let titlePadding: CGFloat = 8
-        static let badgePadding: CGFloat = 10
-        static let playButtonPadding: CGFloat = 15
+        static let titleInset: CGFloat = 8
+        static let badgeInset: CGFloat = 10
+        static let playbackButtonInset: CGFloat = 15
     }
 }
 
