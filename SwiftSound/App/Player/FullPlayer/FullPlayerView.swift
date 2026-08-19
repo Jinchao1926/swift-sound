@@ -14,10 +14,10 @@ struct FullPlayerView: View {
     let onTogglePlaylist: (() -> Void)?
 
     @EnvironmentObject private var lyricsStore: LyricsStore
-    @State private var themeColor: Color?
+    @StateObject private var themeColorLoader = ThemeColorLoader()
 
     private var theme: FullPlayerTheme {
-        FullPlayerTheme(themeColor: themeColor)
+        FullPlayerTheme(themeColor: themeColorLoader.color)
     }
 
     var body: some View {
@@ -41,7 +41,10 @@ struct FullPlayerView: View {
         .ignoresSafeArea(edges: .top)   // important
         .task(id: model.song.id) {
             lyricsStore.loadLyricsIfNeeded(for: model.song.id)
-            await updateThemeColor()
+            await themeColorLoader.load(
+                from: URL(string: model.song.album.picUrl),
+                animation: .easeInOut(duration: 0.24)
+            )
         }
     }
 
@@ -75,19 +78,6 @@ struct FullPlayerView: View {
                 .frame(maxHeight: .infinity, alignment: .topLeading)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-}
-
-private extension FullPlayerView {
-    func updateThemeColor() async {
-        themeColor = nil
-
-        let color = await Color.themeColor(from: URL(string: model.song.album.picUrl))
-        guard !Task.isCancelled else { return }
-
-        withAnimation(.easeInOut(duration: 0.24)) {
-            themeColor = color
-        }
     }
 }
 

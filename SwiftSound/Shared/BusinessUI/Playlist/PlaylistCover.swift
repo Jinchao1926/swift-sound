@@ -11,7 +11,7 @@ struct PlaylistCover: View {
     let playlist: Playlist
 
     @State private var isHovering = false
-    @State private var panelColor: Color?
+    @StateObject private var themeColorLoader = ThemeColorLoader()
 
     var body: some View {
         VStack(spacing: 0) {
@@ -29,7 +29,7 @@ struct PlaylistCover: View {
             PlaylistCoverBottomPanel(
                 title: playlist.name,
                 tracks: tracks,
-                themeColor: panelColor,
+                themeColor: themeColorLoader.color,
                 isHovering: isHovering
             )
             .frame(
@@ -42,7 +42,7 @@ struct PlaylistCover: View {
         .pointerStyle(.link)
         .onHover { isHovering = $0 }
         .task(id: playlist.coverURL) {
-            await updatePanelColor(from: playlist.coverURL)
+            await themeColorLoader.load(from: playlist.coverURL)
         }
         .animation(.easeInOut(duration: 0.18), value: isHovering)
     }
@@ -55,15 +55,6 @@ fileprivate extension PlaylistCover {
     }
 
     var tracks: [Song] { Array((playlist.tracks ?? []).prefix(3)) }
-
-    func updatePanelColor(from imageURL: URL?) async {
-        panelColor = nil
-
-        let color = await Color.themeColor(from: imageURL)
-        guard !Task.isCancelled else { return }
-
-        panelColor = color
-    }
 }
 
 // MARK: - PlaylistCoverBottomPanel

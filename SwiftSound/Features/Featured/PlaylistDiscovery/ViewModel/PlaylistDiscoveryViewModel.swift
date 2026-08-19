@@ -20,7 +20,7 @@ final class PlaylistDiscoveryViewModel: ObservableObject {
     private var featuredPlaylistSelection: PlaylistDiscoverySelection?
 
     var hasFeaturedPlaylist: Bool {
-        hasFeaturedPlaylist(for: selection)
+        featuredPlaylistTag(for: selection) != nil
     }
 
     // MARK: - LifeCycle
@@ -95,8 +95,8 @@ final class PlaylistDiscoveryViewModel: ObservableObject {
     }
 
     // MARK: - Featured
-    private func hasFeaturedPlaylist(for selection: PlaylistDiscoverySelection) -> Bool {
-        featuredTagState.items.contains { $0.name == selection.id }
+    private func featuredPlaylistTag(for selection: PlaylistDiscoverySelection) -> FeaturedPlaylistTag? {
+        featuredTagState.items.first(where: { $0.name == selection.id })
     }
 
     func loadFeaturedTags() async {
@@ -113,7 +113,7 @@ final class PlaylistDiscoveryViewModel: ObservableObject {
 
     func loadFeaturedPlaylistIfNeeded() async {
         let requestSelection = selection
-        guard hasFeaturedPlaylist(for: requestSelection) else {
+        guard let featuredTag = featuredPlaylistTag(for: requestSelection) else {
             featuredPlaylistSelection = nil
             featuredPlaylistState = .idle
             return
@@ -128,7 +128,7 @@ final class PlaylistDiscoveryViewModel: ObservableObject {
         featuredPlaylistState = .loading()
 
         do {
-            let response = try await repository.fetchFeaturedPlaylists(id: 0, limit: 1)
+            let response = try await repository.fetchFeaturedPlaylists(category: featuredTag.name, limit: 1)
             guard isCurrentSelection(requestSelection) else { return }
 
             if let playlist = response.playlists.first {

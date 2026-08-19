@@ -9,9 +9,9 @@ import SwiftUI
 
 struct FeaturedPlaylistEntry: View {
     let playlist: Playlist?
-    @State private var themeColor: Color?
+    @StateObject private var themeColorLoader = ThemeColorLoader()
 
-    private var playlistColor: Color { themeColor ?? Color(hex: 0xA55E76) }
+    private var playlistColor: Color { themeColorLoader.color ?? Color(hex: 0xA55E76) }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -28,19 +28,7 @@ struct FeaturedPlaylistEntry: View {
                     }
                 }
                 .overlay(alignment: .topLeading) {
-                    ZStack(alignment: .topLeading) {
-                        Circle()
-                            .fill(Color.white.opacity(0.3))
-                            .frame(width: Layout.badgeSize, height: Layout.badgeSize)
-                            .offset(x: -Layout.badgeSize / 2, y: -Layout.badgeSize / 2)
-
-                        Image(systemName: "crown.fill")
-                            .font(.font8)
-                            .foregroundStyle(Color.white.opacity(0.6))
-                            .padding(Layout.badgePadding)
-                    }
-                    .frame(width: Layout.badgeSize, height: Layout.badgeSize)
-                    .clipped()
+                    crownView
                 }
                 .rounded()
 
@@ -54,7 +42,7 @@ struct FeaturedPlaylistEntry: View {
         }
         .frame(width: Layout.size)
         .task(id: playlist?.coverURL) {
-            await updateThemeColor(from: playlist?.coverURL)
+            await themeColorLoader.load(from: playlist?.coverURL)
         }
     }
 }
@@ -72,16 +60,21 @@ private extension FeaturedPlaylistEntry {
                 .rounded()
         }
     }
-}
 
-private extension FeaturedPlaylistEntry {
-    func updateThemeColor(from imageURL: URL?) async {
-        themeColor = nil
+    var crownView: some View {
+        ZStack(alignment: .topLeading) {
+            Circle()
+                .fill(Color.white.opacity(0.2))
+                .frame(width: Layout.badgeSize, height: Layout.badgeSize)
+                .offset(x: -Layout.badgeSize / 2, y: -Layout.badgeSize / 2)
 
-        let color = await Color.themeColor(from: imageURL)
-        guard !Task.isCancelled else { return }
-
-        themeColor = color
+            Image(systemName: "crown.fill")
+                .font(.font8)
+                .foregroundStyle(Color.white.opacity(0.6))
+                .padding(Layout.badgePadding)
+        }
+        .frame(width: Layout.badgeSize, height: Layout.badgeSize)
+        .clipped()
     }
 }
 
