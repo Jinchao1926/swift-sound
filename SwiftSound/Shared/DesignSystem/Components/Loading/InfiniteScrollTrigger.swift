@@ -7,33 +7,33 @@
 
 import SwiftUI
 
-struct InfiniteScrollFooter<LoadKey: Equatable>: View {
-    let canLoadMore: Bool
-    let isLoading: Bool
-    let loadKey: LoadKey
+struct InfiniteScrollFooter<Page: PaginatedValue>: View {
+    let state: Loadable<Page>
     let onLoadMore: () async -> Void
 
     var body: some View {
-        VStack(spacing: 0) {
-            Color.clear
-                .frame(height: 1)
-                .infiniteScrollTrigger(
-                    canLoadMore: canLoadMore,
-                    isLoading: isLoading,
-                    loadKey: loadKey,
-                    perform: onLoadMore
-                )
+        if let page = state.value {
+            VStack(spacing: 0) {
+                Color.clear
+                    .frame(height: 1)
+                    .infiniteScrollTrigger(
+                        canLoadMore: page.canLoadMore,
+                        isLoading: state.isLoading,
+                        loadKey: page.items.count,
+                        perform: onLoadMore
+                    )
 
-            if isLoading {
-                LoadingView()
+                if state.isLoading {
+                    LoadingView()
+                }
             }
+            .frame(maxWidth: .infinity)
         }
-        .frame(maxWidth: .infinity)
     }
 }
 
 extension View {
-    /// Triggers `action` once when this view appears for the current `loadKey`.
+    /// Triggers `action` once for each `loadKey` while this view is present.
     /// Put it on a sentinel view at the end of a lazy container.
     func infiniteScrollTrigger<LoadKey: Equatable>(
         canLoadMore: Bool,
@@ -62,20 +62,15 @@ private struct InfiniteScrollTriggerModifier<LoadKey: Equatable>: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .onAppear {
-                triggerIfNeeded()
+            .task(id: loadKey) {
+                guard canLoadMore,
+                      !isLoading,
+                      lastTriggeredLoadKey != loadKey else {
+                    return
+                }
+
+                lastTriggeredLoadKey = loadKey
+                await action()
             }
-    }
-
-    private func triggerIfNeeded() {
-        guard canLoadMore,
-              !isLoading,
-              lastTriggeredLoadKey != loadKey else {
-            return
-        }
-
-        lastTriggeredLoadKey = loadKey
-
-        Task { await action() }
     }
 }

@@ -31,11 +31,7 @@ struct ArtistListPage: View {
                             .routeLink(to: .artist(id: artist.id))
                     }
                 } footer: {
-                    InfiniteScrollFooter(
-                        canLoadMore: viewModel.state.canLoadMore,
-                        isLoading: viewModel.state.isLoading,
-                        loadKey: viewModel.state.items.count
-                    ) {
+                    InfiniteScrollFooter(state: viewModel.state) {
                         await viewModel.loadMore()
                     }
                 }

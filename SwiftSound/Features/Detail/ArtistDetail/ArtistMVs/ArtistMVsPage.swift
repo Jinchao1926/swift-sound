@@ -25,14 +25,8 @@ struct ArtistMVsPage: View {
                         .routeLink(to: .mv(id: mv.id))
                 }
             } footer: {
-                if state.value != nil {
-                    InfiniteScrollFooter(
-                        canLoadMore: state.canLoadMore,
-                        isLoading: state.isLoading,
-                        loadKey: state.items.count
-                    ) {
-                        await loadMore()
-                    }
+                InfiniteScrollFooter(state: state) {
+                    await loadMore()
                 }
             }
         }

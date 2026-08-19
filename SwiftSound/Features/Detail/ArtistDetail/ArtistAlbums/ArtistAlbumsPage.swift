@@ -15,31 +15,30 @@ struct ArtistAlbumsPage: View {
 
     var body: some View {
         LazyVGrid(
-            columns: Layout.gridColumns,
+            columns: [
+                GridItem(
+                    .adaptive(minimum: Layout.minCardWidth),
+                    spacing: Layout.rowSpacing,
+                    alignment: .top
+                )
+            ],
             alignment: .leading,
-            spacing: Layout.gridSpacing
+            spacing: Layout.columnSpacing
         ) {
             Section {
                 ForEach(state.items) { album in
                     AlbumCard(album: album) {
                         onPlayAlbum(album.id)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
                     .routeLink(to: .album(id: album.id))
                 }
             } footer: {
-                if state.value != nil {
-                    InfiniteScrollFooter(
-                        canLoadMore: state.canLoadMore,
-                        isLoading: state.isLoading,
-                        loadKey: state.items.count
-                    ) {
-                        await loadMore()
-                    }
+                InfiniteScrollFooter(state: state) {
+                    await loadMore()
                 }
             }
         }
-        .padding(.top, Layout.contentTopPadding)
+        .padding(.top, Layout.contentTopInset)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .loadingPlaceholder(state.isInitialLoading)
         .task {
@@ -50,13 +49,10 @@ struct ArtistAlbumsPage: View {
 
 private extension ArtistAlbumsPage {
     enum Layout {
-        static let minimumCardWidth: CGFloat = 178
-        static let gridSpacing: CGFloat = 10
-        static let contentTopPadding: CGFloat = 20
-
-        static let gridColumns: [GridItem] = [
-            GridItem(.adaptive(minimum: minimumCardWidth), spacing: gridSpacing, alignment: .top)
-        ]
+        static let minCardWidth: CGFloat = 176
+        static let rowSpacing: CGFloat = 20
+        static let columnSpacing: CGFloat = 20
+        static let contentTopInset: CGFloat = 20
     }
 }
 

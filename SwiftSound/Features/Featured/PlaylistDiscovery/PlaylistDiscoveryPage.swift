@@ -35,14 +35,8 @@ struct PlaylistDiscoveryPage: View {
                         .routeLink(to: .playlist(id: $0.id))
                     }
                 } footer: {
-                    if viewModel.playlistState.value != nil {
-                        InfiniteScrollFooter(
-                            canLoadMore: viewModel.playlistState.canLoadMore,
-                            isLoading: viewModel.playlistState.isLoading,
-                            loadKey: viewModel.playlistState.items.count
-                        ) {
-                            await viewModel.loadMorePlaylists()
-                        }
+                    InfiniteScrollFooter(state: viewModel.playlistState) {
+                        await viewModel.loadMorePlaylists()
                     }
                 }
             }

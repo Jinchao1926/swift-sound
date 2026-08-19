@@ -24,14 +24,8 @@ struct PlaylistSubscribersPage: View {
                         .routeLink(to: .user(id: $0.id))
                 }
             } footer: {
-                if state.value != nil {
-                    InfiniteScrollFooter(
-                        canLoadMore: state.canLoadMore,
-                        isLoading: state.isLoading,
-                        loadKey: state.items.count
-                    ) {
-                        await loadMore()
-                    }
+                InfiniteScrollFooter(state: state) {
+                    await loadMore()
                 }
             }
         }

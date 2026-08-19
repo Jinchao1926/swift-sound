@@ -35,14 +35,8 @@ struct ArtistSongsPage: View {
                 SongTable(songs: viewModel.state.items)
                     .loadingPlaceholder(viewModel.state.isInitialLoading)
 
-                if viewModel.state.value != nil {
-                    InfiniteScrollFooter(
-                        canLoadMore: viewModel.state.canLoadMore,
-                        isLoading: viewModel.state.isLoading,
-                        loadKey: viewModel.state.items.count
-                    ) {
-                        await viewModel.loadMore()
-                    }
+                InfiniteScrollFooter(state: viewModel.state) {
+                    await viewModel.loadMore()
                 }
             }
             .padding(.horizontal, Layout.horizontalPadding)
