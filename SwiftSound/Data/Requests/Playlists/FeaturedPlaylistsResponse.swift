@@ -27,9 +27,9 @@ struct FeaturedPlaylistsRequest: APIRequest {
     let queryItems: [URLQueryItem]
     let cachePolicy: APICachePolicy = .memory(ttl: 300)
 
-    init(id: Int, offset: Int = 0, limit: Int = 24) {
+    init(category: String, offset: Int = 0, limit: Int = 24) {
         self.queryItems = [
-            URLQueryItem(name: "id", value: String(id)),
+            URLQueryItem(name: "cat", value: category),
             URLQueryItem(name: "offset", value: String(offset)),
             URLQueryItem(name: "limit", value: String(limit))
         ]
