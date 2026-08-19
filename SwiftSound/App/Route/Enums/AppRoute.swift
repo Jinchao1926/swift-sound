@@ -18,7 +18,7 @@ enum AppRoute: Identifiable, Hashable, Equatable {
     case download
     // Others
     case newMusic(secondary: NewMusicRoute = .songs)
-    case featuredPlaylist
+    case featuredPlaylist(category: String)
     // Details
     case artist(id: Int, secondary: ArtistRoute = .songs)
     case artistSongs(id: Int)

@@ -41,7 +41,7 @@ struct PlaylistCategory: Decodable, Identifiable {
      "hot": false
  }
  */
-struct FeaturedPlaylistTag: Decodable, Identifiable {
+struct FeaturedPlaylistTag: Decodable, Identifiable, Hashable {
     let id: Int
     let name: String
     let type: Int

@@ -6,6 +6,28 @@
 import SwiftUI
 
 struct PlaybackOverlayConfiguration {
+    enum Style {
+        case dark
+        case light
+
+        @ViewBuilder
+        func overlayView(opacity: Double) -> some View {
+            switch self {
+            case .dark:
+                Color.black.opacity(opacity)
+            case .light:
+                LinearGradient(
+                    colors: [
+                        Color.white.opacity(opacity),
+                        Color.white.opacity(0)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            }
+        }
+    }
+
     enum Placement {
         case center
         case bottomTrailing(inset: CGFloat)
@@ -41,6 +63,7 @@ struct PlaybackOverlayConfiguration {
 
     let placement: Placement
     let visibility: Visibility
+    let style: Style
     let control: PlaybackControl
     let tapTarget: TapTarget
     let buttonSize: CGFloat
@@ -49,6 +72,7 @@ struct PlaybackOverlayConfiguration {
     init(
         placement: Placement = .center,
         visibility: Visibility = .onHover,
+        style: Style = .dark,
         control: PlaybackControl = .play,
         tapTarget: TapTarget = .playButton,
         buttonSize: CGFloat = 32,
@@ -56,6 +80,7 @@ struct PlaybackOverlayConfiguration {
     ) {
         self.placement = placement
         self.visibility = visibility
+        self.style = style
         self.control = control
         self.tapTarget = tapTarget
         self.buttonSize = buttonSize
@@ -64,7 +89,7 @@ struct PlaybackOverlayConfiguration {
 }
 
 private enum PlaybackOverlayDefaults {
-    static let overlayOpacity: Double = 0.28
+    static let overlayOpacity: Double = 0.38
     static let hoverScale: CGFloat = 1.12
     static let hoverAnimation = Animation.spring(response: 0.22, dampingFraction: 0.72)
 }
@@ -82,7 +107,7 @@ private struct PlaybackOverlayModifier: ViewModifier {
             .overlay {
                 if showsOverlay {
                     ZStack(alignment: configuration.placement.alignment) {
-                        Color.black.opacity(PlaybackOverlayDefaults.overlayOpacity)
+                        configuration.style.overlayView(opacity: PlaybackOverlayDefaults.overlayOpacity)
                             .allowsHitTesting(false)
 
                         playbackControl
@@ -190,6 +215,7 @@ extension View {
             .playbackOverlay(
                 configuration: .init(
                     placement: .bottomTrailing(inset: 10),
+                    style: .light,
                     control: .pause,
                     buttonSize: 32,
                     iconFont: .font24

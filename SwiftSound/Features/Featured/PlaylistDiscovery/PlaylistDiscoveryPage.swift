@@ -25,7 +25,7 @@ struct PlaylistDiscoveryPage: View {
                 Section {
                     if viewModel.hasFeaturedPlaylist {
                         FeaturedPlaylistEntry(playlist: viewModel.featuredPlaylistState.value)
-                            .routeLink(to: .featuredPlaylist)
+                            .routeLink(to: .featuredPlaylist(category: viewModel.selection.id))
                     }
 
                     ForEach(viewModel.playlistState.items) {

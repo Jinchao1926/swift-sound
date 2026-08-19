@@ -10,6 +10,7 @@ import SwiftUI
 extension Font {
     static let font32 = Font.system(size: 32, weight: .semibold)
     static let font28 = Font.system(size: 28, weight: .semibold)
+    static let font26 = Font.system(size: 26, weight: .semibold)
     static let font24 = Font.system(size: 24, weight: .semibold)
 
     // 正文/次级标题
