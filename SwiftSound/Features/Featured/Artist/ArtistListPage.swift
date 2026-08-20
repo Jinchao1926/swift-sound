@@ -20,9 +20,15 @@ struct ArtistListPage: View {
             )
 
             LazyVGrid(
-                columns: Layout.gridColumns,
+                columns: [
+                    GridItem(
+                        .adaptive(minimum: Layout.minCardWidth),
+                        spacing: Layout.rowSpacing,
+                        alignment: .top
+                    )
+                ],
                 alignment: .leading,
-                spacing: Layout.gridSpacing
+                spacing: Layout.columnSpacing
             ) {
                 Section {
                     ForEach(viewModel.state.items) { artist in
@@ -39,7 +45,8 @@ struct ArtistListPage: View {
             .padding(.top, Layout.contentTopInset)
             .loadingPlaceholder(viewModel.state.isInitialLoading)
         }
-        .padding(.horizontal, Layout.horizontalInset)
+        .padding(.leading, Layout.leadingInset)
+        .padding(.trailing, Layout.trailingInset)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .task {
             await viewModel.load()
@@ -49,14 +56,13 @@ struct ArtistListPage: View {
 
 private extension ArtistListPage {
     enum Layout {
-        static let minimumCardWidth: CGFloat = 178
-        static let gridSpacing: CGFloat = 20
-        static let contentTopInset: CGFloat = 20
-        static let horizontalInset: CGFloat = 40
+        static let minCardWidth: CGFloat = 176
+        static let rowSpacing: CGFloat = 20
+        static let columnSpacing: CGFloat = 20
 
-        static let gridColumns: [GridItem] = [
-            GridItem(.adaptive(minimum: minimumCardWidth), spacing: gridSpacing, alignment: .top)
-        ]
+        static let contentTopInset: CGFloat = 20
+        static let leadingInset: CGFloat = 40
+        static let trailingInset: CGFloat = 30
     }
 }
 

@@ -192,6 +192,19 @@ extension View {
             )
         )
     }
+
+    func circularPlaybackOverlay(
+          configuration: PlaybackOverlayConfiguration = .init(),
+          isExternalHovering: Bool = false,
+          onPlaybackTap: (() -> Void)? = nil
+    ) -> some View {
+        playbackOverlay(
+            configuration: configuration,
+            isExternalHovering: isExternalHovering,
+            onPlaybackTap: onPlaybackTap
+        )
+        .clipShape(Circle())
+    }
 }
 
 #Preview("Playback overlays") {
