@@ -18,8 +18,7 @@ struct RankingListPage: View {
         }
         .padding(.top, Layout.topInset)
         .padding(.bottom, Layout.bottomInsset)
-        .padding(.leading, Layout.leadingInset)
-        .padding(.trailing, Layout.trailingInset)
+        .padding(.horizontal, Layout.horizontalInset)
         .loadingPlaceholder(viewModel.state.isInitialLoading)
         .task {
             await viewModel.load()
@@ -31,8 +30,7 @@ private extension RankingListPage {
     enum Layout {
         static let topInset: CGFloat = 3
         static let bottomInsset: CGFloat = 40
-        static let leadingInset: CGFloat = 40
-        static let trailingInset: CGFloat = 30
+        static let horizontalInset: CGFloat = 40
         static let sectionSpacing: CGFloat = 32
     }
 }

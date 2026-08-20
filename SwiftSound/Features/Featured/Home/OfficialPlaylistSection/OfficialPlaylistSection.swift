@@ -28,7 +28,7 @@ struct OfficialPlaylistSection: View {
                 PlaylistCover(playlist: $0)
             }
         }
-        .padding(.leading, Layout.leadingInset)
+        .padding(.horizontal, Layout.horizontalInset)
         .padding(.bottom, Layout.bottomInset)
         .loadingPlaceholder(viewModel.state.isInitialLoading)
         .task {
@@ -43,7 +43,7 @@ private extension OfficialPlaylistSection {
         static let cardSpacing: CGFloat = 15
 
         static let titleHorizontalInset: CGFloat = 30
-        static let leadingInset: CGFloat = 10
+        static let horizontalInset: CGFloat = 10
         static let bottomInset: CGFloat = 16
     }
 }

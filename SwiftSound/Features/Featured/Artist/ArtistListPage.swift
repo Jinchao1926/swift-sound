@@ -45,8 +45,7 @@ struct ArtistListPage: View {
             .padding(.top, Layout.contentTopInset)
             .loadingPlaceholder(viewModel.state.isInitialLoading)
         }
-        .padding(.leading, Layout.leadingInset)
-        .padding(.trailing, Layout.trailingInset)
+        .padding(.horizontal, Layout.horizontalInset)
         .frame(maxWidth: .infinity, alignment: .topLeading)
         .task {
             await viewModel.load()
@@ -61,8 +60,7 @@ private extension ArtistListPage {
         static let columnSpacing: CGFloat = 20
 
         static let contentTopInset: CGFloat = 20
-        static let leadingInset: CGFloat = 40
-        static let trailingInset: CGFloat = 30
+        static let horizontalInset: CGFloat = 40
     }
 }
 

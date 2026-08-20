@@ -22,7 +22,7 @@ struct HeroBannerSection: View {
                 BannerImageView(banner: $0)
             }
         }
-        .padding(.leading, Layout.leadingInset)
+        .padding(.horizontal, Layout.horizontalInset)
         .padding(.bottom, Layout.bottomInset)
         .loadingPlaceholder(viewModel.state.isInitialLoading)
         .task {
@@ -36,7 +36,7 @@ private extension HeroBannerSection {
         static let minCardWidth: CGFloat = 372
         static let cardSpacing: CGFloat = 20
 
-        static let leadingInset: CGFloat = 10
+        static let horizontalInset: CGFloat = 10
         static let bottomInset: CGFloat = 16
     }
 }

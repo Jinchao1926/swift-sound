@@ -48,8 +48,7 @@ struct PlaylistDiscoveryPage: View {
             }
             .loadingPlaceholder(viewModel.playlistState.isInitialLoading)
         }
-        .padding(.leading, Layout.leadingInset)
-        .padding(.trailing, Layout.trailingInset)
+        .padding(.horizontal, Layout.horizontalInset)
         .padding(.top, Layout.topInset)
         .task {
             await viewModel.load()
@@ -63,8 +62,7 @@ struct PlaylistDiscoveryPage: View {
 private extension PlaylistDiscoveryPage {
     enum Layout {
         static let topInset: CGFloat = 3
-        static let leadingInset: CGFloat = 40
-        static let trailingInset: CGFloat = 30
+        static let horizontalInset: CGFloat = 40
         static let contentSpacing: CGFloat = 25
 
         static let minCardWidth: CGFloat = 115

@@ -39,9 +39,9 @@ struct ArtistDetailPage: View {
 
                 content
             }
-            .padding(.leading, Layout.leadingInset)
-            .padding(.trailing, Layout.trailingInset)
+            .padding(.horizontal, Layout.horizontalInset)
         }
+        .scrollIndicatorsWhileScrolling()
         .task {
             await viewModel.load()
         }
@@ -122,8 +122,7 @@ struct ArtistDetailPage: View {
 private extension ArtistDetailPage {
     enum Layout {
         static let spacing: CGFloat = 10
-        static let leadingInset: CGFloat = 40
-        static let trailingInset: CGFloat = 30
+        static let horizontalInset: CGFloat = 40
     }
 }
 
