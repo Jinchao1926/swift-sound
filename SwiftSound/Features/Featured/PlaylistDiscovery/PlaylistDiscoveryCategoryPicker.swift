@@ -52,7 +52,17 @@ struct PlaylistDiscoveryCategoryPicker: View {
     }
 
     private func categoryGrid(for group: PlaylistCategoryGroup) -> some View {
-        LazyVGrid(columns: Layout.gridColumns, alignment: .leading) {
+        LazyVGrid(
+            columns: Array(
+                repeating: GridItem(
+                    .fixed(Layout.categoryWidth),
+                    spacing: Layout.categoryRowSpacing
+                ),
+                count: Layout.categoryColumnCount
+            ),
+            alignment: .leading,
+            spacing: Layout.categoryColumnSpacing
+        ) {
             ForEach(group.subs) { category in
                 SelectableCapsule(
                     category.name,
@@ -76,15 +86,8 @@ private extension PlaylistDiscoveryCategoryPicker {
 
         static let categoryColumnCount = 6
         static let categoryWidth: CGFloat = 80
-        static let categorySpacing: CGFloat = 12
-
-        static let gridColumns: [GridItem] = Array(
-            repeating: GridItem(
-                .fixed(Layout.categoryWidth),
-                spacing: Layout.categorySpacing
-            ),
-            count: Layout.categoryColumnCount
-        )
+        static let categoryRowSpacing: CGFloat = 12
+        static let categoryColumnSpacing: CGFloat = 16
     }
 }
 

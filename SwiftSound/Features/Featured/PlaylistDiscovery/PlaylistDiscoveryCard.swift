@@ -16,35 +16,34 @@ struct PlaylistDiscoveryCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             playlistCover
-
-            metadata
+            playlistInfo
         }
-        .frame(width: Layout.width)
         .background(isHovering ? Color.white : Color.clear)
-        .rounded(radius: Layout.radius)
+        .rounded()
         .onHover { isHovering = $0 }
     }
 
     private var playlistCover: some View {
         RemoteImage(url: playlist.coverURL)
-            .frame(width: Layout.width, height: Layout.width)
+            .aspectRatio(1, contentMode: .fit)
+            .frame(maxWidth: .infinity)
             .overlay(alignment: .topLeading) {
                 PlayCountBadge(count: playlist.playCount, fontSize: 11)
-                    .padding(Layout.buttonInset)
+                    .padding(Layout.coverOverlayInset)
             }
             .playbackOverlay(
                 configuration: .init(
-                    placement: .bottomTrailing(inset: Layout.buttonInset),
+                    placement: .bottomTrailing(inset: Layout.coverOverlayInset),
                     iconFont: .font32
                 ),
                 isExternalHovering: isHovering,
-                onPlaybackTap: {}
+                onPlaybackTap: onPlay
             )
-            .rounded(radius: Layout.radius)
+            .rounded()
     }
 
-    private var metadata: some View {
-        VStack(alignment: .leading, spacing: Layout.textSpacing) {
+    private var playlistInfo: some View {
+        VStack(alignment: .leading, spacing: Layout.infoTextSpacing) {
             Text(playlist.name)
                 .font(.font13)
                 .fontWeight(.semibold)
@@ -56,28 +55,23 @@ struct PlaylistDiscoveryCard: View {
                 .foregroundStyle(Color.textSecondary)
                 .lineLimit(1)
         }
-        .padding(Layout.textInset)
+        .padding(Layout.infoPadding)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
 private extension PlaylistDiscoveryCard {
     enum Layout {
-        static let width: CGFloat = 116
-        static let radius: CGFloat = 6
-
-        static let textSpacing: CGFloat = 4
-        static let textInset: CGFloat = 6
-
-        static let playButtonSize: CGFloat = 26
-        static let buttonInset: CGFloat = 12
+        static let infoTextSpacing: CGFloat = 4
+        static let infoPadding: CGFloat = 6
+        static let coverOverlayInset: CGFloat = 12
+        static let previewWidth: CGFloat = 116
     }
 }
 
 #Preview {
-    VStack {
-        PlaylistDiscoveryCard(playlist: .preview) {}
-    }
-    .padding()
-    .background(Color.surfacePrimary)
+    PlaylistDiscoveryCard(playlist: .preview) {}
+        .frame(width: PlaylistDiscoveryCard.Layout.previewWidth)
+        .padding()
+        .background(Color.surfacePrimary)
 }

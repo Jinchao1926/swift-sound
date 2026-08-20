@@ -15,7 +15,7 @@ struct FeaturedPage: View {
             RouteTabView(selectedRoute: route)
                 .padding(.horizontal, Layout.horizontalInset)
 
-            ScrollView(.vertical, showsIndicators: false) {
+            ScrollView {
                 content
                     .padding(.bottom, Layout.bottomInset)
             }
