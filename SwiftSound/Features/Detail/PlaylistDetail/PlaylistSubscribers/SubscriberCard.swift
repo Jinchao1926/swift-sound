@@ -13,8 +13,8 @@ struct SubscriberCard: View {
     @State private var isHovering = false
 
     var body: some View {
-        VStack(spacing: Layout.spacing) {
-            Avatar(url: user.avatarURL, size: Layout.avatarSize)
+        VStack(spacing: Layout.contentSpacing) {
+            Avatar(url: user.avatarURL)
 
             HStack(spacing: Layout.userSpacing) {
                 Text(user.nickname)
@@ -56,18 +56,17 @@ struct SubscriberCard: View {
 
 private extension SubscriberCard {
     enum Layout {
-        static let spacing: CGFloat = 10
-        static let avatarSize: CGFloat = 140
-        static let userSpacing: CGFloat = 2
         static let inset: CGFloat = 20
         static let cornerRadius: CGFloat = 6
+
+        static let contentSpacing: CGFloat = 10
+        static let userSpacing: CGFloat = 2
     }
 }
 
 #Preview {
-    VStack {
-        SubscriberCard(user: .preview)
-    }
-    .padding()
-    .background(Color.divider)
+    SubscriberCard(user: .preview)
+        .frame(width: 180)
+        .padding()
+        .background(Color.surfacePrimary)
 }

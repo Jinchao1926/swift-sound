@@ -14,9 +14,15 @@ struct PlaylistSubscribersPage: View {
 
     var body: some View {
         LazyVGrid(
-            columns: Layout.gridColumns,
+            columns: [
+                GridItem(
+                    .adaptive(minimum: Layout.minCardWidth),
+                    spacing: Layout.rowSpacing,
+                    alignment: .top
+                )
+            ],
             alignment: .leading,
-            spacing: Layout.gridSpacing
+            spacing: Layout.columnSpacing
         ) {
             Section {
                 ForEach(state.items) {
@@ -40,24 +46,19 @@ struct PlaylistSubscribersPage: View {
 
 private extension PlaylistSubscribersPage {
     enum Layout {
-        static let minimumCardWidth: CGFloat = 180
-        static let gridSpacing: CGFloat = 10
+        static let minCardWidth: CGFloat = 176
+        static let rowSpacing: CGFloat = 20
+        static let columnSpacing: CGFloat = 20
         static let contentTopInset: CGFloat = 10
-
-        static let gridColumns: [GridItem] = [
-            GridItem(.adaptive(minimum: minimumCardWidth), spacing: gridSpacing, alignment: .top)
-        ]
     }
 }
 
 #Preview {
-    VStack {
-        PlaylistSubscribersPage(
-            state: .loaded(Paginated(items: [User.preview], canLoadMore: true)),
-            load: {},
-            loadMore: {}
-        )
-    }
+    PlaylistSubscribersPage(
+        state: .loaded(Paginated(items: [User.preview], canLoadMore: true)),
+        load: {},
+        loadMore: {}
+    )
     .frame(minWidth: 600, minHeight: 600)
     .padding(.horizontal, 40)
 }
