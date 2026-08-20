@@ -93,4 +93,5 @@ private extension FeaturedPlaylistEntry {
 
 #Preview {
     FeaturedPlaylistEntry(playlist: .featuredPreview)
+        .frame(width: 116)
 }
