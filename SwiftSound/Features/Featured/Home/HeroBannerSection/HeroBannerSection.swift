@@ -11,29 +11,32 @@ struct HeroBannerSection: View {
     @StateObject private var viewModel = HeroBannerSectionViewModel()
 
     var body: some View {
-        FeaturedHomeSection(
-            columnCandidates: [3, 2],
-            minItemWidth: Layout.minCardWidth
-        ) { columns in
-            VStack(alignment: .leading, spacing: 0) {
-                Carousel(
-                    items: viewModel.state.items,
-                    columns: columns,
-                ) {
-                    BannerImageView(banner: $0)
-                }
+        VStack(alignment: .leading, spacing: 0) {
+            Carousel(
+                items: viewModel.state.items,
+                configuration: CarouselConfiguration(
+                    sizing: .adaptive(minimum: Layout.minCardWidth),
+                    itemSpacing: Layout.cardSpacing
+                )
+            ) {
+                BannerImageView(banner: $0)
             }
-            .padding(.horizontal, 10)
-            .loadingPlaceholder(viewModel.state.isInitialLoading)
-            .task {
-                await viewModel.load()
-            }
+        }
+        .padding(.leading, Layout.leadingInset)
+        .padding(.bottom, Layout.bottomInset)
+        .loadingPlaceholder(viewModel.state.isInitialLoading)
+        .task {
+            await viewModel.load()
         }
     }
 }
 
 private extension HeroBannerSection {
     enum Layout {
-        static let minCardWidth: CGFloat = 380
+        static let minCardWidth: CGFloat = 372
+        static let cardSpacing: CGFloat = 20
+
+        static let leadingInset: CGFloat = 10
+        static let bottomInset: CGFloat = 16
     }
 }

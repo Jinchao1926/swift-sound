@@ -9,42 +9,42 @@ import SwiftUI
 
 struct OfficialPlaylistSection: View {
     @StateObject private var viewModel = OfficialPlaylistSectionViewModel()
-    @State private var availableWidth: CGFloat = 0
 
     var body: some View {
-        FeaturedHomeSection(
-            columnCandidates: [6, 5],
-            minItemWidth: Layout.minCardWidth,
-            spacing: Layout.cardSpacing
-        ) { columns in
-            VStack(alignment: .leading, spacing: 0) {
-                RouteTitleLink("官方歌单", route: FeaturedRoute.playlistDiscovery)
-                    .padding(.horizontal, 30)
+        VStack(alignment: .leading, spacing: 0) {
+            RouteTitleLink("官方歌单", route: FeaturedRoute.playlistDiscovery)
+                .padding(.horizontal, Layout.titleHorizontalInset)
 
-                Carousel(
-                    items: viewModel.state.items,
-                    columns: columns,
-                    showsDots: false,
-                    isAutoScrollEnabled: false,
-                    isInfiniteLoopEnabled: false,
-                    isLastPageBackfillEnabled: true
-                ) {
-                    PlaylistCover(playlist: $0)
-                }
+            Carousel(
+                items: viewModel.state.items,
+                configuration: CarouselConfiguration(
+                    sizing: .adaptive(minimum: Layout.minCardWidth),
+                    itemSpacing: Layout.cardSpacing,
+                    showsPageIndicators: false,
+                    pagingBehavior: .bounded,
+                    autoPaging: .disabled
+                )
+            ) {
+                PlaylistCover(playlist: $0)
             }
-            .padding(.horizontal, 10)
-            .loadingPlaceholder(viewModel.state.isInitialLoading)
-            .task {
-                await viewModel.load()
-            }
+        }
+        .padding(.leading, Layout.leadingInset)
+        .padding(.bottom, Layout.bottomInset)
+        .loadingPlaceholder(viewModel.state.isInitialLoading)
+        .task {
+            await viewModel.load()
         }
     }
 }
 
 private extension OfficialPlaylistSection {
     enum Layout {
-        static let minCardWidth: CGFloat = 142
+        static let minCardWidth: CGFloat = 140
         static let cardSpacing: CGFloat = 15
+
+        static let titleHorizontalInset: CGFloat = 30
+        static let leadingInset: CGFloat = 10
+        static let bottomInset: CGFloat = 16
     }
 }
 
