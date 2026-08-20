@@ -12,6 +12,21 @@ private struct CarouselPreviewItem: Identifiable {
     var id: Int { value }
 }
 
+private struct CarouselPreviewView: View {
+    let item: CarouselPreviewItem
+
+    var body: some View {
+        RoundedRectangle(cornerRadius: 6)
+            .fill(Color.blue.opacity(0.2))
+            .frame(height: 60)
+            .overlay {
+                Text(String(item.value))
+                    .font(.title)
+                    .foregroundStyle(.blue)
+            }
+    }
+}
+
 #Preview {
     VStack {
         Carousel(
@@ -19,17 +34,20 @@ private struct CarouselPreviewItem: Identifiable {
             configuration: CarouselConfiguration(
                 sizing: .flexible(columns: 2)
             )
-        ) { item in
-            RoundedRectangle(cornerRadius: 6)
-                .fill(Color.blue.opacity(0.2))
-                .overlay {
-                    Text(String(item.value))
-                        .font(.title)
-                        .foregroundStyle(.blue)
-                }
+        ) {
+            CarouselPreviewView(item: $0)
         }
-        .frame(width: 760, height: 164)
-        .padding(10)
+
+        Divider()
+
+        Carousel(
+            items: [1, 2, 3].map { CarouselPreviewItem(value: $0) },
+            configuration: CarouselConfiguration(
+                sizing: .flexible(columns: 2)
+            )
+        ) {
+            CarouselPreviewView(item: $0)
+        }
 
         Divider()
 
@@ -41,16 +59,10 @@ private struct CarouselPreviewItem: Identifiable {
                 pagingBehavior: .bounded,
                 autoPaging: .disabled
             )
-        ) { item in
-            RoundedRectangle(cornerRadius: 6)
-                .fill(Color.blue.opacity(0.2))
-                .overlay {
-                    Text(String(item.value))
-                        .font(.title)
-                        .foregroundStyle(.blue)
-                }
+        ) {
+            CarouselPreviewView(item: $0)
         }
-        .frame(width: 760, height: 164)
-        .padding(10)
     }
+    .frame(width: 600)
+    .padding()
 }
