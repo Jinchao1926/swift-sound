@@ -14,9 +14,15 @@ struct ArtistMVsPage: View {
 
     var body: some View {
         LazyVGrid(
-            columns: Layout.gridColumns,
+            columns: [
+                GridItem(
+                    .adaptive(minimum: Layout.minCardWidth),
+                    spacing: Layout.rowSpacing,
+                    alignment: .top
+                )
+            ],
             alignment: .leading,
-            spacing: Layout.gridSpacing
+            spacing: Layout.columnSpacing
         ) {
             Section {
                 ForEach(state.items) { mv in
@@ -41,24 +47,19 @@ struct ArtistMVsPage: View {
 
 private extension ArtistMVsPage {
     enum Layout {
-        static let minimumCardWidth: CGFloat = 240
-        static let gridSpacing: CGFloat = 15
+        static let minCardWidth: CGFloat = 240
+        static let rowSpacing: CGFloat = 20
+        static let columnSpacing: CGFloat = 20
         static let contentTopInset: CGFloat = 5
-
-        static let gridColumns: [GridItem] = [
-            GridItem(.adaptive(minimum: minimumCardWidth), spacing: gridSpacing, alignment: .top)
-        ]
     }
 }
 
 #Preview {
-    VStack {
-        ArtistMVsPage(
-            state: .loaded(Paginated(items: [MV.preview], canLoadMore: true)),
-            load: {},
-            loadMore: {},
-        )
-    }
+    ArtistMVsPage(
+        state: .loaded(Paginated(items: [MV.preview], canLoadMore: true)),
+        load: {},
+        loadMore: {},
+    )
     .frame(minWidth: 600, minHeight: 600)
     .padding(.horizontal, 40)
 }
