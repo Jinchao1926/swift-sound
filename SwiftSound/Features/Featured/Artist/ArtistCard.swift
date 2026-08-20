@@ -13,18 +13,16 @@ struct ArtistCard: View {
     @State private var isHovering = false
 
     var body: some View {
-        VStack(spacing: 10) {
-            RemoteImage(url: artist.avatarURL)
-                .frame(width: 138, height: 138)
-                .playbackOverlay(
+        VStack(spacing: Layout.contentSpacing) {
+            Avatar(url: artist.avatarURL)
+                .circularPlaybackOverlay(
                     configuration: .init(
-                        buttonSize: 25,
+                        buttonSize: Layout.playbackSize,
                         iconFont: .font32
                     ),
                     isExternalHovering: isHovering,
                     onPlaybackTap: {}
                 )
-                .rounded(radius: 69)
 
             Text(artist.name)
                 .font(.font14)
@@ -44,10 +42,16 @@ struct ArtistCard: View {
     }
 }
 
-#Preview {
-    VStack {
-        ArtistCard(artist: .preview)
+private extension ArtistCard {
+    enum Layout {
+        static let contentSpacing: CGFloat = 10
+        static let playbackSize: CGFloat = 25
     }
-    .padding()
-    .background(Color.divider)
+}
+
+#Preview {
+    ArtistCard(artist: .preview)
+        .frame(width: 180)
+        .padding()
+        .background(Color.divider)
 }

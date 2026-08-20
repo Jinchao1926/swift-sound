@@ -37,7 +37,6 @@ struct OfficialRankingCard: View {
                             Text(trackContent(for: track))
                                 .font(.font14)
                                 .lineLimit(1)
-                                .truncationMode(.tail)
                         }
                     }
                 }
@@ -47,9 +46,8 @@ struct OfficialRankingCard: View {
         .padding(.top, Layout.topSpacing)
         .padding(.bottom, Layout.spacing)
         .padding(.horizontal, Layout.spacing)
-        .frame(width: Layout.width, height: Layout.height)
         .background(Color.white)
-        .rounded(radius: Layout.cornerRadius)
+        .rounded()
     }
 }
 
@@ -124,11 +122,9 @@ private extension OfficialRankingCard {
 
 private extension OfficialRankingCard {
     enum Layout {
-        static let width: CGFloat = 378
-        static let height: CGFloat = 142
         static let cornerRadius: CGFloat = 6
-        static let spacing: CGFloat = 20
         static let topSpacing: CGFloat = 17
+        static let spacing: CGFloat = 20
 
         static let imageSize: CGFloat = 72
         static let playButtonSize: CGFloat = 24

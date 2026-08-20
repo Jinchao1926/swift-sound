@@ -19,8 +19,6 @@ struct RankingCard: View {
     let variant: Variant
     let onPlay: (() -> Void)?
 
-    @State private var isHovering = false
-
     init(
         toplist: Toplist,
         category: RankingCategory = .featured,
@@ -34,29 +32,27 @@ struct RankingCard: View {
     }
 
     var body: some View {
-        ZStack {
-            RemoteImage(url: URL(string: toplist.coverImgUrl))
-                .frame(width: Layout.size, height: Layout.size)
-
-            overlay
-
-            if isHovering {
-                Color.black.opacity(0.28)
-
-                playButton
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                    .padding(Layout.playButtonMargin)
+        RemoteImage(url: URL(string: toplist.coverImgUrl))
+            .aspectRatio(1, contentMode: .fit)
+            .frame(maxWidth: .infinity)
+            .overlay {
+                flagOverlay
             }
-        }
-        .frame(width: Layout.size, height: Layout.size)
-        .rounded(radius: Layout.cornerRadius)
-        .onHover { isHovering = $0 }
+            .playbackOverlay(
+                configuration: .init(
+                    placement: .bottomTrailing(inset: Layout.playbackButtonInset),
+                    buttonSize: Layout.playbackIconSize,
+                    iconFont: .font24
+                ),
+                onPlaybackTap: onPlay
+            )
+            .rounded()
     }
 }
 
 private extension RankingCard {
     @ViewBuilder
-    var overlay: some View {
+    var flagOverlay: some View {
         switch variant {
         case .default:
             EmptyView()
@@ -76,39 +72,24 @@ private extension RankingCard {
                 .padding(Layout.flagInset)
         }
     }
-
-    var playButton: some View {
-        Button {
-            onPlay?()
-        } label: {
-            PlaybackControlIcon(
-                control: .play,
-                font: .font24,
-                size: Layout.playIconSize,
-                animatesHoverEffects: true
-            )
-        }
-        .buttonStyle(.plain)
-    }
 }
 
 #Preview("Ranking cards") {
     HStack(spacing: 16) {
-        RankingCard(toplist: .defaultPreview)
-        RankingCard(toplist: .titlePreview, variant: .title)
-        RankingCard(toplist: .flagPreview, variant: .flag("🇺🇸"))
+        RankingCard(toplist: .defaultPreview) {}
+            .frame(width: 115)
+        RankingCard(toplist: .titlePreview, variant: .title) {}
+            .frame(width: 115)
+        RankingCard(toplist: .flagPreview, variant: .flag("🇺🇸")) {}
+            .frame(width: 115)
     }
     .padding()
 }
 
 private extension RankingCard {
     enum Layout {
-        static let size: CGFloat = 115
-        static let cornerRadius: CGFloat = 6
-
-        static let playButtonMargin: CGFloat = 15
-        static let playIconSize: CGFloat = 24
-
+        static let playbackButtonInset: CGFloat = 15
+        static let playbackIconSize: CGFloat = 24
         static let titleTopInset: CGFloat = 20
         static let titleHorizontalInset: CGFloat = 5
         static let flagSize: CGFloat = 17

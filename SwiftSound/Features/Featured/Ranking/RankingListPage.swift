@@ -17,8 +17,9 @@ struct RankingListPage: View {
             }
         }
         .padding(.top, Layout.topInset)
-        .padding(.bottom, Layout.inset)
-        .padding(.horizontal, Layout.inset)
+        .padding(.bottom, Layout.bottomInsset)
+        .padding(.leading, Layout.leadingInset)
+        .padding(.trailing, Layout.trailingInset)
         .loadingPlaceholder(viewModel.state.isInitialLoading)
         .task {
             await viewModel.load()
@@ -29,7 +30,9 @@ struct RankingListPage: View {
 private extension RankingListPage {
     enum Layout {
         static let topInset: CGFloat = 3
-        static let inset: CGFloat = 40
+        static let bottomInsset: CGFloat = 40
+        static let leadingInset: CGFloat = 40
+        static let trailingInset: CGFloat = 30
         static let sectionSpacing: CGFloat = 32
     }
 }
@@ -56,7 +59,7 @@ private extension RankingSectionView {
     var officialCards: some View {
         LazyVGrid(
             columns: [
-                GridItem(.adaptive(minimum: Layout.officialMinimumWidth), spacing: Layout.cardSpacing)
+                GridItem(.adaptive(minimum: Layout.officialMinWidth), spacing: Layout.cardSpacing)
             ],
             alignment: .leading,
             spacing: Layout.cardSpacing
@@ -72,7 +75,7 @@ private extension RankingSectionView {
         LazyVGrid(
             columns: [
                 GridItem(
-                    .adaptive(minimum: Layout.smallCardMinimumWidth),
+                    .adaptive(minimum: Layout.smallCardMinWidth),
                     spacing: Layout.cardSpacing,
                     alignment: .leading
                 )
@@ -137,7 +140,7 @@ private extension RankingSectionView {
     enum Layout {
         static let spacing: CGFloat = 12
         static let cardSpacing: CGFloat = 15
-        static let smallCardMinimumWidth: CGFloat = 115
-        static let officialMinimumWidth: CGFloat = 378
+        static let smallCardMinWidth: CGFloat = 115
+        static let officialMinWidth: CGFloat = 376
     }
 }

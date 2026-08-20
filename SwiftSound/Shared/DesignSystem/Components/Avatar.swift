@@ -9,12 +9,14 @@ import SwiftUI
 
 struct Avatar: View {
     let url: URL?
-    let size: CGFloat
+    let size: CGFloat?
     let fallbackSystemName: String
+
+    private var maxSize: CGFloat? { size == nil ? .infinity : nil }
 
     init(
         url: URL?,
-        size: CGFloat,
+        size: CGFloat? = nil,
         fallbackSystemName: String = "person"
     ) {
         self.url = url
@@ -37,6 +39,8 @@ struct Avatar: View {
             }
         }
         .frame(width: size, height: size)
+        .frame(maxWidth: maxSize, maxHeight: maxSize)
+        .aspectRatio(1, contentMode: .fit)
         .background(Color.surfaceSecondary)
         .clipShape(Circle())
         .overlay {

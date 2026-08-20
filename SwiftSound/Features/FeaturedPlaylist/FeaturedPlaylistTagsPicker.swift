@@ -18,7 +18,17 @@ struct FeaturedPlaylistTagsPicker: View {
                 .font(.font16)
                 .foregroundStyle(Color.textPrimary)
 
-            LazyVGrid(columns: Layout.gridColumns, alignment: .leading) {
+            LazyVGrid(
+                columns: Array(
+                    repeating: GridItem(
+                        .fixed(Layout.categoryWidth),
+                        spacing: Layout.categoryRowSpacing
+                    ),
+                    count: Layout.categoryColumnCount
+                ),
+                alignment: .leading,
+                spacing: Layout.categoryColumnSpacing
+            ) {
                 makeSelectableCapsule("全部分类", isSelected: selectedTag == nil) {
                     onSelected(nil)
                 }
@@ -59,15 +69,8 @@ private extension FeaturedPlaylistTagsPicker {
 
         static let categoryColumnCount = 6
         static let categoryWidth: CGFloat = 80
-        static let categorySpacing: CGFloat = 12
-
-        static let gridColumns: [GridItem] = Array(
-            repeating: GridItem(
-                .fixed(Layout.categoryWidth),
-                spacing: Layout.categorySpacing
-            ),
-            count: Layout.categoryColumnCount
-        )
+        static let categoryRowSpacing: CGFloat = 12
+        static let categoryColumnSpacing: CGFloat = 16
     }
 }
 

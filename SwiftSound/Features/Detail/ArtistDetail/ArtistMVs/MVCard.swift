@@ -17,17 +17,19 @@ struct MVCard: View {
             cover
             title
         }
-        .frame(width: Layout.width)
         .background(isHovering ? Color.white : Color.clear)
-        .rounded(radius: Layout.radius)
+        .rounded()
         .onHover { isHovering = $0 }
     }
 
     private var cover: some View {
-        RemoteImage(url: URL(string: mv.imgurl), size: nil)
-            .frame(width: Layout.width, height: Layout.coverHeight)
+        Color.clear
+            .aspectRatio(Layout.coverAspectRatio, contentMode: .fit)
+            .overlay {
+                RemoteImage(url: URL(string: mv.imgurl), size: nil)
+            }
             .overlay(alignment: .topTrailing) {
-                VStack {
+                VStack(alignment: .trailing) {
                     PlayCountBadge(count: mv.playCount)
                     Spacer()
                     Text(TimeInterval(mv.duration).formattedMillisecondsMinuteSecond())
@@ -37,7 +39,7 @@ struct MVCard: View {
                 .padding(Layout.overlayInset)
             }
             .playbackOverlay(isExternalHovering: isHovering)
-            .rounded(radius: Layout.radius)
+            .rounded()
     }
 
     private var title: some View {
@@ -45,22 +47,16 @@ struct MVCard: View {
             .font(.font14)
             .foregroundStyle(Color.textPrimary)
             .lineLimit(1)
-            .truncationMode(.tail)
             .padding(Layout.titleInset)
-            .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
 private extension MVCard {
     enum Layout {
-        static let width: CGFloat = 240
-        static let coverHeight: CGFloat = 140
-        static let radius: CGFloat = 6
-
+        static let coverAspectRatio: CGFloat = 25 / 14
+        static let titleInset: CGFloat = 10
         static let overlayInset: CGFloat = 8
         static let badgeSpacing: CGFloat = 2
-
-        static let titleInset: CGFloat = 10
     }
 }
 
@@ -68,6 +64,7 @@ private extension MVCard {
     VStack {
         MVCard(mv: .preview)
     }
+    .frame(width: 240)
     .padding()
     .background(Color.surfacePrimary)
 }

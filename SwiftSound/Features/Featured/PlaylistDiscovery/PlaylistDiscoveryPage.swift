@@ -18,9 +18,15 @@ struct PlaylistDiscoveryPage: View {
             )
 
             LazyVGrid(
-                columns: Layout.gridColumns,
+                columns: [
+                    GridItem(
+                        .adaptive(minimum: Layout.minCardWidth),
+                        spacing: Layout.rowSpacing,
+                        alignment: .top
+                    )
+                ],
                 alignment: .leading,
-                spacing: Layout.gridSpacing
+                spacing: Layout.columnSpacing
             ) {
                 Section {
                     if viewModel.hasFeaturedPlaylist {
@@ -42,7 +48,8 @@ struct PlaylistDiscoveryPage: View {
             }
             .loadingPlaceholder(viewModel.playlistState.isInitialLoading)
         }
-        .padding(.horizontal, Layout.horizontalInset)
+        .padding(.leading, Layout.leadingInset)
+        .padding(.trailing, Layout.trailingInset)
         .padding(.top, Layout.topInset)
         .task {
             await viewModel.load()
@@ -56,15 +63,13 @@ struct PlaylistDiscoveryPage: View {
 private extension PlaylistDiscoveryPage {
     enum Layout {
         static let topInset: CGFloat = 3
-        static let horizontalInset: CGFloat = 40
+        static let leadingInset: CGFloat = 40
+        static let trailingInset: CGFloat = 30
         static let contentSpacing: CGFloat = 25
 
-        static let minimumCardWidth: CGFloat = 116
-        static let gridSpacing: CGFloat = 15
-
-        static let gridColumns: [GridItem] = [
-            GridItem(.adaptive(minimum: minimumCardWidth), spacing: gridSpacing, alignment: .top)
-        ]
+        static let minCardWidth: CGFloat = 115
+        static let rowSpacing: CGFloat = 15
+        static let columnSpacing: CGFloat = 15
     }
 }
 

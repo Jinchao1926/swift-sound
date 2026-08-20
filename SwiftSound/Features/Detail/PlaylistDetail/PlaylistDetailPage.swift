@@ -43,7 +43,8 @@ struct PlaylistDetailPage: View {
 
                 content
             }
-            .padding(.horizontal, Layout.horizontalInset)
+            .padding(.leading, Layout.leadingInset)
+            .padding(.trailing, Layout.trailingInset)
         }
         .task {
             await viewModel.load()
@@ -97,7 +98,8 @@ private extension PlaylistDetailPage {
 private extension PlaylistDetailPage {
     enum Layout {
         static let spacing: CGFloat = 10
-        static let horizontalInset: CGFloat = 40
+        static let leadingInset: CGFloat = 40
+        static let trailingInset: CGFloat = 30
     }
 }
 
