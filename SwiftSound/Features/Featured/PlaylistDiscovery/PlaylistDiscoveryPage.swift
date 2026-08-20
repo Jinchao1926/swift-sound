@@ -67,7 +67,7 @@ private extension PlaylistDiscoveryPage {
         static let trailingInset: CGFloat = 30
         static let contentSpacing: CGFloat = 25
 
-        static let minCardWidth: CGFloat = 116
+        static let minCardWidth: CGFloat = 115
         static let rowSpacing: CGFloat = 15
         static let columnSpacing: CGFloat = 15
     }

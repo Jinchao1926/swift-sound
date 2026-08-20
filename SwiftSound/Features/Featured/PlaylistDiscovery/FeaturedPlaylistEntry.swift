@@ -16,9 +16,10 @@ struct FeaturedPlaylistEntry: View {
     var body: some View {
         VStack(spacing: 0) {
             playlistColor
-                .frame(width: Layout.size, height: Layout.size)
+                .aspectRatio(1, contentMode: .fit)
+                .frame(maxWidth: .infinity)
                 .overlay {
-                    VStack(spacing: Layout.imageOverlaySpacing) {
+                    VStack(spacing: Layout.imageOverlayInset) {
                         Text("精品歌单")
                             .font(.font16)
                             .fontWeight(.semibold)
@@ -37,10 +38,9 @@ struct FeaturedPlaylistEntry: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(Color.textPrimary)
                 .lineLimit(2)
-                .padding(.vertical, Layout.textVerticalSpacing)
-                .padding(.horizontal, Layout.textHorizontalSpacing)
+                .padding(.vertical, Layout.textVerticalInset)
+                .padding(.horizontal, Layout.textHorizontalInset)
         }
-        .frame(width: Layout.size)
         .task(id: playlist?.coverURL) {
             await themeColorLoader.load(from: playlist?.coverURL)
         }
@@ -79,17 +79,15 @@ private extension FeaturedPlaylistEntry {
 
 private extension FeaturedPlaylistEntry {
     enum Layout {
-        static let size: CGFloat = 116
-
-        static let imageOverlaySpacing: CGFloat = 14
+        static let imageOverlayInset: CGFloat = 14
         static let imageSize: CGFloat = 58
         static let backgroundImageWidth: CGFloat = imageSize + 18
         static let backgroundImageHeight: CGFloat = imageSize - 18
 
         static let badgeSize: CGFloat = 45
         static let badgeInset: CGFloat = 3
-        static let textVerticalSpacing: CGFloat = 6
-        static let textHorizontalSpacing: CGFloat = 4
+        static let textVerticalInset: CGFloat = 6
+        static let textHorizontalInset: CGFloat = 4
     }
 }
 
