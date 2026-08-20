@@ -46,6 +46,7 @@ struct AlbumDetailPage: View {
             }
             .padding(.horizontal, Layout.horizontalInset)
         }
+        .scrollIndicatorsWhileScrolling()
         .task {
             await viewModel.loadAlbum()
         }

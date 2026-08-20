@@ -28,6 +28,7 @@ struct NewMusicSection: View {
                 SongsGroupPage(songs: $0.songs)
             }
         }
+        .padding(.trailing, Layout.trailingInset)
         .padding(.bottom, Layout.bottomInset)
         .loadingPlaceholder(viewModel.state.isInitialLoading)
         .task {
@@ -42,6 +43,7 @@ private extension NewMusicSection {
         static let cardSpacing: CGFloat = 15
 
         static let titleHorizontalInset: CGFloat = 40
+        static let trailingInset: CGFloat = 10
         static let bottomInset: CGFloat = 16
     }
 }

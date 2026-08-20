@@ -40,6 +40,7 @@ struct MVDetailPage: View {
             .padding(.horizontal, Layout.inset)
             .padding(.bottom, Layout.inset)
         }
+        .scrollIndicatorsWhileScrolling()
         .task {
             await viewModel.loadMV()
         }

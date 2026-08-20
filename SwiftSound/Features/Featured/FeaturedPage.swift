@@ -19,6 +19,7 @@ struct FeaturedPage: View {
                 content
                     .padding(.bottom, Layout.bottomInset)
             }
+            .scrollIndicatorsWhileScrolling()
         }
     }
 

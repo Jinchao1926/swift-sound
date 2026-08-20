@@ -52,6 +52,7 @@ struct FeaturedPlaylistPage: View {
             .padding(.horizontal, Layout.horizontalInset)
             .padding(.vertical, Layout.verticalInset)
         }
+        .scrollIndicatorsWhileScrolling()
         .task {
             await viewModel.loadFeaturedTags()
         }
