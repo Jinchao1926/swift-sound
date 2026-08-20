@@ -11,28 +11,36 @@ struct BannerImageView: View {
     let banner: Banner
 
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            RemoteImage(url: URL(string: banner.imageUrl))
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-
-            Text(banner.typeTitle)
-                .font(.font9)
-                .foregroundStyle(Color.textSecondary)
-                .lineLimit(1)
-                .padding(.horizontal, 4)
-                .padding(.vertical, 2)
-                .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 4))
-                .padding(10)
-        }
-        .aspectRatio(Layout.aspectRatio, contentMode: .fit)
-        .clipShape(RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous))
+        RemoteImage(url: URL(string: banner.imageUrl), size: nil)
+            .aspectRatio(Layout.aspectRatio, contentMode: .fit)
+            .frame(maxWidth: .infinity)
+            .overlay(alignment: .bottomTrailing) {
+                Text(banner.typeTitle)
+                    .font(.font9)
+                    .foregroundStyle(Color.textSecondary)
+                    .lineLimit(1)
+                    .padding(.horizontal, Layout.textHorizontalInset)
+                    .padding(.vertical, Layout.textVerticalInset)
+                    .background(.white)
+                    .rounded(radius: Layout.cornerRadius)
+                    .padding(Layout.textInset)
+            }
+            .rounded()
     }
 }
 
 private extension BannerImageView {
     enum Layout {
         static let aspectRatio: CGFloat = 19 / 7
-        static let cornerRadius: CGFloat = 6
+        static let textHorizontalInset: CGFloat = 4
+        static let textVerticalInset: CGFloat = 4
+        static let cornerRadius: CGFloat = 4
+        static let textInset: CGFloat = 10
     }
+}
+
+#Preview {
+    BannerImageView(banner: .preview)
+        .frame(width: 380, height: 140)
+        .padding()
 }

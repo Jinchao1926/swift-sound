@@ -19,5 +19,6 @@ struct FeaturedHomePage: View {
 
 #Preview {
     FeaturedHomePage()
-        .frame(minWidth: 700, minHeight: 300)
+        .frame(minWidth: 700, minHeight: 600)
+        .environmentObject(PlayerStore())
 }

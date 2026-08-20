@@ -11,30 +11,27 @@ struct NewMusicSection: View {
     @StateObject private var viewModel = NewMusicSectionViewModel()
 
     var body: some View {
-        FeaturedHomeSection(
-            columnCandidates: [3, 2],
-            minItemWidth: Layout.minCardWidth
-        ) { columns in
-            VStack(alignment: .leading, spacing: 0) {
-                RouteTitleLink("最新音乐", route: .newMusic())
-                    .padding(.horizontal, 40)
+        VStack(alignment: .leading, spacing: 0) {
+            RouteTitleLink("最新音乐", route: .newMusic())
+                .padding(.horizontal, Layout.titleHorizontalInset)
 
-                Carousel(
-                    items: viewModel.state.items,
-                    columns: columns,
-                    showsDots: false,
-                    isAutoScrollEnabled: false,
-                    isInfiniteLoopEnabled: false,
-                    isLastPageBackfillEnabled: true
-                ) {
-                    SongsGroupPage(songs: $0.songs)
-                }
+            Carousel(
+                items: viewModel.state.items,
+                configuration: CarouselConfiguration(
+                    sizing: .adaptive(minimum: Layout.minCardWidth),
+                    itemSpacing: Layout.cardSpacing,
+                    showsPageIndicators: false,
+                    pagingBehavior: .bounded,
+                    autoPaging: .disabled
+                )
+            ) {
+                SongsGroupPage(songs: $0.songs)
             }
-            .padding(.trailing, 10)
-            .loadingPlaceholder(viewModel.state.isInitialLoading)
-            .task {
-                await viewModel.load()
-            }
+        }
+        .padding(.bottom, Layout.bottomInset)
+        .loadingPlaceholder(viewModel.state.isInitialLoading)
+        .task {
+            await viewModel.load()
         }
     }
 }
@@ -42,10 +39,15 @@ struct NewMusicSection: View {
 private extension NewMusicSection {
     enum Layout {
         static let minCardWidth: CGFloat = 380
+        static let cardSpacing: CGFloat = 15
+
+        static let titleHorizontalInset: CGFloat = 40
+        static let bottomInset: CGFloat = 16
     }
 }
 
 #Preview {
     NewMusicSection()
         .frame(minWidth: 600, minHeight: 300)
+        .environmentObject(PlayerStore())
 }

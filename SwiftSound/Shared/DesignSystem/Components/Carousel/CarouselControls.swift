@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct CarouselPageButton: View {
+/// Carousel 两侧的单向翻页按钮。
+struct CarouselArrowButton: View {
     let systemName: String
     let isVisible: Bool
     let isEnabled: Bool
@@ -27,14 +28,12 @@ struct CarouselPageButton: View {
 
     var body: some View {
         Button(action: guardedAction) {
-            ZStack {
-                Image(systemName: systemName)
-                    .font(.font14)
-                    .foregroundStyle(isEnabled ? Color.textPrimary : Color.textSecondary.opacity(0.45))
-            }
-            .frame(width: CarouselLayout.buttonWidth)
-            .frame(maxHeight: .infinity)
-            .contentShape(Rectangle())
+            Image(systemName: systemName)
+                .font(.font14)
+                .foregroundStyle(isEnabled ? Color.textPrimary : Color.textSecondary.opacity(0.45))
+                .frame(width: CarouselLayoutMetrics.navigationControlWidth)
+                .frame(maxHeight: .infinity)
+                .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .disabled(!canInteract)
@@ -53,7 +52,8 @@ struct CarouselPageButton: View {
     }
 }
 
-struct CarouselDots: View {
+/// 显示当前逻辑页码的分页指示器。
+struct CarouselPageIndicator: View {
     let pageCount: Int
     let currentPageIndex: Int
 
