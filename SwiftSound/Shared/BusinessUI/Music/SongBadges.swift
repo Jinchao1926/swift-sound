@@ -24,6 +24,18 @@ enum SongBadges {
         SongBadge("Hi-Res", tint: Color(hex: 0xD3A03B))
     }
 
+    static var immersive: SongBadge {
+        SongBadge("沉浸声", tint: Color(hex: 0xD3A03B))
+    }
+
+    static var master: SongBadge {
+        SongBadge("超清母带", tint: Color(hex: 0xD3A03B))
+    }
+
+    static var unavailable: SongBadge {
+        SongBadge("无音源", tint: Color.textSecondary)
+    }
+
     static var sq: SongBadge {
         SongBadge("SQ", tint: Color(hex: 0xD3A03B))
     }
@@ -34,6 +46,12 @@ enum SongBadges {
             return hiRes
         case .sq:
             return sq
+        case .immersive:
+            return immersive
+        case .jymaster:
+            return master
+        case .unavailable:
+            return unavailable
         }
     }
 

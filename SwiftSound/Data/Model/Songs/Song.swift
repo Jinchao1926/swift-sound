@@ -35,36 +35,15 @@ enum OriginCoverType: Int, Codable {
     }
 }
 
-struct SongPrivilege: Codable {
-    struct ChargeInfo: Codable {
-        let rate: Int
-        // 是否收费
-        let chargeType: Int?
-    }
-
-    let chargeInfoList: [ChargeInfo]
-}
-
-struct SongAudioFile: Codable {
-    let bitrate: Int
-    let fileId: Int
-    let size: Int?
-    let volumeDelta: Double?
-    let sampleRate: Int?
-
-    private enum CodingKeys: String, CodingKey {
-        case bitrate = "br"
-        case fileId = "fid"
-        case size
-        case volumeDelta = "vd"
-        case sampleRate = "sr"
-    }
-}
-
+// swiftlint:disable inclusive_language
 enum SongQualityBadgeKind {
     case hiRes
     case sq
+    case immersive
+    case jymaster
+    case unavailable
 }
+// swiftlint:enable inclusive_language
 
 struct Song: Codable, Identifiable {
     let id: Int
@@ -156,10 +135,28 @@ struct Song: Codable, Identifiable {
         case highQualityAudio = "h"
         case mediumQualityAudio = "m"
         case lowQualityAudio = "l"
+        case highQualityMusic = "hMusic"
+        case mediumQualityMusic = "mMusic"
+        case lowQualityMusic = "lMusic"
         case sqAudio = "sq"
         case hiResAudio = "hr"
+        case sqMusic = "sqMusic"
+        case hiResMusic = "hrMusic"
         case originCoverType
         case privilege
+    }
+
+    private static func decodeAudioFile(
+        from container: KeyedDecodingContainer<CodingKeys>,
+        keys: CodingKeys...
+    ) throws -> SongAudioFile? {
+        for key in keys {
+            if let audioFile = try container.decodeIfPresent(SongAudioFile.self, forKey: key) {
+                return audioFile
+            }
+        }
+
+        return nil
     }
 
     init(from decoder: any Decoder) throws {
@@ -185,11 +182,20 @@ struct Song: Codable, Identifiable {
         popularity = try container.decodeIfPresent(Int.self, forKey: .popularity)
         fee = try container.decodeIfPresent(FeeType.self, forKey: .fee)
         mark = try container.decodeIfPresent(Int.self, forKey: .mark)
-        highQualityAudio = try container.decodeIfPresent(SongAudioFile.self, forKey: .highQualityAudio)
-        mediumQualityAudio = try container.decodeIfPresent(SongAudioFile.self, forKey: .mediumQualityAudio)
-        lowQualityAudio = try container.decodeIfPresent(SongAudioFile.self, forKey: .lowQualityAudio)
-        sqAudio = try container.decodeIfPresent(SongAudioFile.self, forKey: .sqAudio)
-        hiResAudio = try container.decodeIfPresent(SongAudioFile.self, forKey: .hiResAudio)
+        highQualityAudio = try Self.decodeAudioFile(
+            from: container,
+            keys: .highQualityAudio, .highQualityMusic
+        )
+        mediumQualityAudio = try Self.decodeAudioFile(
+            from: container,
+            keys: .mediumQualityAudio, .mediumQualityMusic
+        )
+        lowQualityAudio = try Self.decodeAudioFile(
+            from: container,
+            keys: .lowQualityAudio, .lowQualityMusic
+        )
+        sqAudio = try Self.decodeAudioFile(from: container, keys: .sqAudio, .sqMusic)
+        hiResAudio = try Self.decodeAudioFile(from: container, keys: .hiResAudio, .hiResMusic)
         originCoverType = try container.decodeIfPresent(OriginCoverType.self, forKey: .originCoverType) ?? .none
         privilege = try container.decodeIfPresent(SongPrivilege.self, forKey: .privilege)
     }
@@ -240,6 +246,27 @@ extension Song {
 
     // 清晰度
     var qualityBadgeKind: SongQualityBadgeKind? {
+        if privilege?.status == -200 {
+            return .unavailable
+        }
+
+        return privilegeQualityBadgeKind ?? audioQualityBadgeKind
+    }
+
+    private var privilegeQualityBadgeKind: SongQualityBadgeKind? {
+        switch privilege?.maxBrLevel {
+        case "hires":
+            return .hiRes
+        case "sky":
+            return highQualityAudio == nil ? .immersive : .jymaster
+        case "jymaster":
+            return .jymaster
+        default:    // vivid / dolby ...
+            return nil
+        }
+    }
+
+    private var audioQualityBadgeKind: SongQualityBadgeKind? {
         if hiResAudio != nil {
             return .hiRes
         }

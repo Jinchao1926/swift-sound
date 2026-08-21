@@ -20,10 +20,8 @@ struct SongTableTitleCell: View {
             rowState: rowState,
             onAction: onAction
         ) {
-            HStack(spacing: Layout.metadataSpacing) {
+            HStack(spacing: Layout.linkSpacing) {
                 SongTableBadges(row: row)
-                    .padding(.trailing, Layout.badgeTrailingPadding)
-
                 artistLinks
             }
         }
@@ -45,7 +43,6 @@ struct SongTableTitleCell: View {
 
 private extension SongTableTitleCell {
     enum Layout {
-        static let metadataSpacing: CGFloat = 4
-        static let badgeTrailingPadding: CGFloat = 4
+        static let linkSpacing: CGFloat = 6
     }
 }
