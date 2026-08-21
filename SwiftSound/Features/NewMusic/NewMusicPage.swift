@@ -13,10 +13,14 @@ struct NewMusicPage: View {
     var body: some View {
         VStack(spacing: 10) {
             RouteTabView(selectedRoute: route)
-            content
+                .padding(.horizontal, Layout.horizontalInset)
+
+            ScrollView {
+                content
+                    .padding(.bottom, Layout.bottomInset)
+            }
+            .scrollIndicatorOverlay()
         }
-        .padding(.bottom, Layout.bottomInset)
-        .padding(.horizontal, Layout.horizontalInset)
     }
 
     @ViewBuilder
@@ -33,6 +37,7 @@ struct NewMusicPage: View {
 private extension NewMusicPage {
     enum Layout {
         static let bottomInset: CGFloat = 20
+
         static let horizontalInset: CGFloat = 40
     }
 }

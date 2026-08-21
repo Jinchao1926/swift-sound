@@ -18,15 +18,19 @@ struct DataTableStyle {
     let headerHoverFill: Color
     let headerCornerRadius: CGFloat
 
-    static let plain = DataTableStyle(
-        headerHeight: 38,
-        rowHeight: 64,
-        cellHorizontalPadding: 6,
-        cornerRadius: 8,
-        hoverFill: .white,
-        divider: Color.divider.opacity(0.55),
-        headerForeground: Color.textSecondary,
-        headerHoverFill: Color(hex: 0xF0F1F2),
-        headerCornerRadius: 6
-    )
+    static let plain = plain(rowHeight: 64)
+
+    static func plain(rowHeight: CGFloat) -> DataTableStyle {
+        DataTableStyle(
+            headerHeight: 38,
+            rowHeight: rowHeight,
+            cellHorizontalPadding: 6,
+            cornerRadius: 8,
+            hoverFill: .white,
+            divider: Color.divider.opacity(0.55),
+            headerForeground: Color.textSecondary,
+            headerHoverFill: Color(hex: 0xF0F1F2),
+            headerCornerRadius: 6
+        )
+    }
 }
