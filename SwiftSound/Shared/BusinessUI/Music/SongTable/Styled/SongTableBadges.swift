@@ -11,16 +11,18 @@ struct SongTableBadges: View {
     let row: SongTableRow
 
     var body: some View {
-        if let qualityBadgeKind = row.song.qualityBadgeKind {
-            SongBadges.quality(qualityBadgeKind)
-        }
+        HStack(spacing: 3) {
+            if let qualityBadgeKind = row.song.qualityBadgeKind {
+                SongBadges.quality(qualityBadgeKind)
+            }
 
-        if row.song.requiresVIP {
-            SongBadges.vip
-        }
+            if row.song.requiresVIP {
+                SongBadges.vip
+            }
 
-        if row.song.hasMV {
-            SongBadges.mv
+            if row.song.hasMV {
+                SongBadges.mv
+            }
         }
     }
 }
