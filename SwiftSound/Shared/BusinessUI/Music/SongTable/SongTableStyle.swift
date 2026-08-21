@@ -5,6 +5,8 @@
 //  Created by Jinchao Lin on 2026/8/6.
 //
 
+import Foundation
+
 struct SongTableStyle {
     let dataTableStyle: DataTableStyle
     let showsAlbumColumn: Bool
@@ -20,5 +22,11 @@ struct SongTableStyle {
         dataTableStyle: .plain,
         showsAlbumColumn: false,
         showsPopularityColumn: true
+    )
+
+    static let newSongs = SongTableStyle(
+        dataTableStyle: .plain(rowHeight: 56),
+        showsAlbumColumn: true,
+        showsPopularityColumn: false
     )
 }

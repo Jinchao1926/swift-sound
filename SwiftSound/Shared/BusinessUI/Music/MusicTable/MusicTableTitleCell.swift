@@ -14,31 +14,28 @@ enum MusicTableAction {
     case more
 }
 
-struct MusicTableTitleCell<Badges: View>: View {
+struct MusicTableTitleCell<Subtitle: View>: View {
     let imageURL: URL?
     let title: String
     let titleSuffix: String?
-    let subTitle: String?
     let rowState: SongTableRowState
     let onAction: (MusicTableAction) -> Void
-    let badges: Badges
+    let subtitle: Subtitle
 
     init(
         imageURL: URL?,
         title: String,
         titleSuffix: String? = nil,
-        subTitle: String? = nil,
         rowState: SongTableRowState = .init(),
         onAction: @escaping (MusicTableAction) -> Void = { _ in },
-        @ViewBuilder badges: () -> Badges
+        @ViewBuilder subtitle: () -> Subtitle
     ) {
         self.imageURL = imageURL
         self.title = title
         self.titleSuffix = titleSuffix
-        self.subTitle = subTitle
         self.rowState = rowState
         self.onAction = onAction
-        self.badges = badges()
+        self.subtitle = subtitle()
     }
 
     var body: some View {
@@ -49,7 +46,7 @@ struct MusicTableTitleCell<Badges: View>: View {
 
             VStack(alignment: .leading, spacing: Layout.contentInternalVInset) {
                 titleLine
-                subTitleLine
+                subtitleLine
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -76,19 +73,12 @@ struct MusicTableTitleCell<Badges: View>: View {
         }
     }
 
-    private var subTitleLine: some View {
-        HStack(spacing: Layout.badgeInset) {
-            badges
-
-            if let subTitle {
-                Text(subTitle)
-                    .font(.font13)
-                    .foregroundStyle(rowState.subTitleColor)
-                    .lineLimit(1)
-                    .padding(.leading, Layout.titleInset)
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
+    private var subtitleLine: some View {
+        subtitle
+            .font(.font13)
+            .foregroundStyle(rowState.subTitleColor)
+            .lineLimit(1)
+            .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -127,7 +117,6 @@ private enum Layout {
     static let imageCornerRadius: CGFloat = 4
 
     static let titleInset: CGFloat = 6
-    static let badgeInset: CGFloat = 4
     static let actionInset: CGFloat = 12
     static let actionSize: CGFloat = 18
 }
@@ -137,22 +126,18 @@ private enum Layout {
         MusicTableTitleCell(
             imageURL: URL(string: Song.preview.album.picUrl),
             title: Song.preview.name,
-            titleSuffix: "",
-            subTitle: Song.preview.artistName
+            titleSuffix: ""
         ) {
-            SongBadges.vip
-            SongBadges.mv
+            Text(Song.preview.artistName ?? "")
         }
 
         MusicTableTitleCell(
             imageURL: URL(string: Song.preview1.album.picUrl),
             title: Song.preview1.name,
             titleSuffix: "",
-            subTitle: Song.preview.artistName,
             rowState: .init(isHovering: true, playbackStatus: .currentPlaying)
         ) {
-            SongBadges.vip
-            SongBadges.mv
+            Text(Song.preview.artistName ?? "")
         }
     }
     .padding()
