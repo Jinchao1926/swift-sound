@@ -24,6 +24,7 @@ extension Color {
     static let textTertiaryOnDark = Color.white.opacity(0.28)
 
     static let divider = Color(hex: 0xE0E6ED)
+    static let scrollIndicator = Color(hex: 0xE1E5E9)
 }
 
 extension Color {

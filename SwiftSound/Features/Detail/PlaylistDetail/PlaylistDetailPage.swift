@@ -45,7 +45,7 @@ struct PlaylistDetailPage: View {
             }
             .padding(.horizontal, Layout.horizontalInset)
         }
-        .scrollIndicatorsWhileScrolling()
+        .scrollIndicatorOverlay()
         .task {
             await viewModel.load()
         }

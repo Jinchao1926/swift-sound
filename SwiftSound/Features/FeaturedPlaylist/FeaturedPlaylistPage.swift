@@ -19,7 +19,7 @@ struct FeaturedPlaylistPage: View {
     }
 
     var body: some View {
-        ScrollView(showsIndicators: false) {
+        ScrollView {
             VStack(spacing: Layout.spacing) {
                 HStack {
                     Text("精品歌单")
@@ -30,9 +30,15 @@ struct FeaturedPlaylistPage: View {
                 }
 
                 LazyVGrid(
-                    columns: Layout.gridColumns,
+                    columns: [
+                        GridItem(
+                            .adaptive(minimum: Layout.minCardWidth),
+                            spacing: Layout.gridRowSpacing,
+                            alignment: .top
+                        )
+                    ],
                     alignment: .leading,
-                    spacing: Layout.gridSpacing
+                    spacing: Layout.gridColumnSpacing
                 ) {
                     Section {
                         ForEach(viewModel.playlistState.items) {
@@ -52,7 +58,7 @@ struct FeaturedPlaylistPage: View {
             .padding(.horizontal, Layout.horizontalInset)
             .padding(.vertical, Layout.verticalInset)
         }
-        .scrollIndicatorsWhileScrolling()
+        .scrollIndicatorOverlay()
         .task {
             await viewModel.loadFeaturedTags()
         }
@@ -94,11 +100,8 @@ private extension FeaturedPlaylistPage {
         static let moreInset: CGFloat = 16
 
         static let minCardWidth: CGFloat = 178
-        static let gridSpacing: CGFloat = 20
-
-        static let gridColumns: [GridItem] = [
-            GridItem(.adaptive(minimum: minCardWidth), spacing: gridSpacing, alignment: .top)
-        ]
+        static let gridRowSpacing: CGFloat = 20
+        static let gridColumnSpacing: CGFloat = 20
     }
 }
 
