@@ -121,17 +121,11 @@ private extension SongTable {
             content: { row, context in
                 let rowState = rowState(for: row, context: context)
 
-                MusicTableTitleCell(
-                    imageURL: row.imageURL,
-                    title: row.title,
-                    titleSuffix: row.titleSuffix,
-                    subTitle: row.subTitle,
+                SongTableTitleCell(
+                    row: row,
                     rowState: rowState,
                     onAction: {
                         handleTitleAction($0, song: row.song)
-                    },
-                    badges: {
-                        SongTableBadges(row: row)
                     }
                 )
             }

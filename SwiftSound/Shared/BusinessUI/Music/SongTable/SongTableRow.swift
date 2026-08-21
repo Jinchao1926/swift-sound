@@ -31,8 +31,6 @@ struct SongTableRow: Identifiable {
         return "(\(song.aliases[0]))"
     }
 
-    var subTitle: String? { song.artistName }
-
     var isLiked: Bool { false }
 
     var durationText: String {
