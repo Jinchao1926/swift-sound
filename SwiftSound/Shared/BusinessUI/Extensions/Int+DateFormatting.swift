@@ -30,12 +30,27 @@ extension TimeInterval {
     }
 }
 
+extension Date {
+    /// Text in the `yyyy年M月` format.
+    func formattedChineseYearMonth() -> String {
+        DateFormatter.chineseYearMonth.string(from: self)
+    }
+}
+
 private extension DateFormatter {
     static let yearMonthDay: DateFormatter = {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .gregorian)
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+
+    static let chineseYearMonth: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.locale = Locale(identifier: "zh_CN")
+        formatter.dateFormat = "yyyy年M月"
         return formatter
     }()
 }
