@@ -29,6 +29,20 @@ enum AppRoute: Identifiable, Hashable, Equatable {
 
     var id: Self { self }
 
+    var isValid: Bool {
+        switch self {
+        case .artist(let id, _),
+             .artistSongs(let id),
+             .album(let id, _),
+             .playlist(let id, _),
+             .user(let id, _),
+             .mv(let id):
+            return id != 0
+        default:
+            return true
+        }
+    }
+
     var title: String {
         switch self {
         case .featured:
@@ -71,12 +85,11 @@ enum AppRoute: Identifiable, Hashable, Equatable {
 }
 
 extension AppRoute {
-    /// Canonical route for the page shell.
+    /// Route identity for the page shell.
     ///
-    /// Full routes preserve secondary tabs for history records.
-    /// Canonical routes strip secondary tabs, keeping only data identifying the page shell.
-    /// Use this value only with SwiftUI `.id(...)`, not for navigation.
-    private var canonicalPageRoute: AppRoute {
+    /// The complete route remains the only route enum. This projection removes
+    /// secondary-tab values so tab changes can reuse the same shell occurrence.
+    var pageRoute: AppRoute {
         switch self {
         case .featured:
             return .featured()
@@ -94,12 +107,6 @@ extension AppRoute {
             return self
         }
     }
-
-    /// Shell identity of the page mapped to the current route.
-    ///
-    /// Secondary route changes are pushed to global history without modifying the page shell identity.
-    /// SwiftUI rebuilds the target page only upon changes to the main page or detail object.
-    var pageRouteKey: AppRoute { canonicalPageRoute }
 
     /// Check whether two routes belong to the same top-level page.
     /// Ignores associated values, only compares the main enum case.

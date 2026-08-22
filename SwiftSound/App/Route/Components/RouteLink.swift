@@ -12,6 +12,7 @@ struct RouteLink<Label: View>: View {
 
     private let label: () -> Label
     private let navigate: (AppRouter) -> Void
+    private let isEnabled: Bool
 
     // MARK: - LifeCycle
     init(
@@ -20,11 +21,13 @@ struct RouteLink<Label: View>: View {
     ) {
         self.label = label
         self.navigate = navigate
+        self.isEnabled = true
     }
 
     init(route: AppRoute, @ViewBuilder label: @escaping () -> Label) {
         self.label = label
         self.navigate = { $0.navigate(to: route) }
+        self.isEnabled = route.isValid
     }
 
     init<Route: SecondaryRouteProtocol>(
@@ -33,6 +36,7 @@ struct RouteLink<Label: View>: View {
     ) {
         self.label = label
         self.navigate = { $0.navigate(to: route) }
+        self.isEnabled = route.destinationRoute.isValid
     }
 
     // MARK: - UI
@@ -44,7 +48,9 @@ struct RouteLink<Label: View>: View {
         }
         .contentShape(Rectangle())
         .buttonStyle(.plain)
-        .pointerStyle(.link)
+        .disabled(!isEnabled)
+        .opacity(isEnabled ? 1 : 0.5)
+        .pointerStyle(isEnabled ? .link : .default)
     }
 }
 
@@ -52,9 +58,11 @@ private struct RouteLinkModifier: ViewModifier {
     @EnvironmentObject private var router: AppRouter
 
     private let navigate: (AppRouter) -> Void
+    private let isEnabled: Bool
 
-    init(navigate: @escaping (AppRouter) -> Void) {
+    init(navigate: @escaping (AppRouter) -> Void, isEnabled: Bool = true) {
         self.navigate = navigate
+        self.isEnabled = isEnabled
     }
 
     func body(content: Content) -> some View {
@@ -63,7 +71,9 @@ private struct RouteLinkModifier: ViewModifier {
             .onTapGesture {
                 navigate(router)
             }
-            .pointerStyle(.link)
+            .disabled(!isEnabled)
+            .opacity(isEnabled ? 1 : 0.5)
+            .pointerStyle(isEnabled ? .link : .default)
             .accessibilityAddTraits(.isLink)
             .accessibilityAction {
                 navigate(router)
@@ -77,15 +87,17 @@ extension View {
     }
 
     func routeLink(to route: AppRoute) -> some View {
-        routeLink {
-            $0.navigate(to: route)
-        }
+        modifier(RouteLinkModifier(
+            navigate: { $0.navigate(to: route) },
+            isEnabled: route.isValid
+        ))
     }
 
     func routeLink<Route: SecondaryRouteProtocol>(to route: Route) -> some View {
-        routeLink {
-            $0.navigate(to: route)
-        }
+        modifier(RouteLinkModifier(
+            navigate: { $0.navigate(to: route) },
+            isEnabled: route.destinationRoute.isValid
+        ))
     }
 }
 

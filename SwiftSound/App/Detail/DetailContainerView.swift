@@ -27,7 +27,7 @@ struct DetailContainerView: View {
         }
         // 完整 route 负责历史记录，pageKey 负责页面 shell 复用。
         // 例如 NewMusic/Artist/User 的二级 tab 变化时，只更新内容，不重建外层页面状态。
-        .id(route.pageRouteKey)
+        .id(route.pageRoute)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 

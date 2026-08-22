@@ -16,7 +16,7 @@ struct FeaturedPage: View {
                 .padding(.horizontal, Layout.horizontalInset)
 
             ScrollView {
-                content
+                content(for: route)
                     .padding(.bottom, Layout.bottomInset)
             }
             .scrollIndicatorOverlay()
@@ -24,7 +24,7 @@ struct FeaturedPage: View {
     }
 
     @ViewBuilder
-    private var content: some View {
+    private func content(for route: FeaturedRoute) -> some View {
         switch route {
         case .featured:
             FeaturedHomePage()

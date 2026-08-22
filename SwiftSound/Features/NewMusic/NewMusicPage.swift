@@ -16,7 +16,7 @@ struct NewMusicPage: View {
                 .padding(.horizontal, Layout.horizontalInset)
 
             ScrollView {
-                content
+                content(for: route)
                     .padding(.bottom, Layout.bottomInset)
             }
             .scrollIndicatorOverlay()
@@ -24,7 +24,7 @@ struct NewMusicPage: View {
     }
 
     @ViewBuilder
-    private var content: some View {
+    private func content(for route: NewMusicRoute) -> some View {
         switch route {
         case .songs:
             NewSongsPage()

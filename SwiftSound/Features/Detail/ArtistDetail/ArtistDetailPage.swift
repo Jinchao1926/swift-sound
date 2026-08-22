@@ -37,7 +37,7 @@ struct ArtistDetailPage: View {
                     badgeText: tabBadgeText
                 )
 
-                content
+                content(for: route)
             }
             .padding(.horizontal, Layout.horizontalInset)
         }
@@ -48,7 +48,7 @@ struct ArtistDetailPage: View {
     }
 
     @ViewBuilder
-    var content: some View {
+    private func content(for route: ArtistRoute) -> some View {
         switch route {
         case .songs:
             ArtistPopularSongsPage(

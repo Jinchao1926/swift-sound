@@ -28,7 +28,8 @@ enum SongBadges {
         SongBadge("沉浸声", tint: Color(hex: 0xD3A03B))
     }
 
-    static var master: SongBadge {
+    // swiftlint:disable:next inclusive_language
+    static var jymaster: SongBadge {
         SongBadge("超清母带", tint: Color(hex: 0xD3A03B))
     }
 
@@ -49,7 +50,7 @@ enum SongBadges {
         case .immersive:
             return immersive
         case .jymaster:
-            return master
+            return jymaster
         case .unavailable:
             return unavailable
         }
