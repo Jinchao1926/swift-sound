@@ -14,12 +14,12 @@ struct UserDetailPage: View {
     var body: some View {
         VStack {
             Text("UserDetailPage: \(id)")
-            content
+            content(for: route)
         }
     }
 
     @ViewBuilder
-    var content: some View {
+    private func content(for route: UserRoute) -> some View {
         switch route {
         case .playlists:
             UserPlaylistsPage()

@@ -37,11 +37,11 @@ struct PlaylistDetailPage: View {
                     },
                     badgeText: tabBadgeText,
                     trailingSlot: {
-                        tabTrailingSlot
+                        tabTrailingSlot(for: route)
                     }
                 )
 
-                content
+                content(for: route)
             }
             .padding(.horizontal, Layout.horizontalInset)
         }
@@ -52,7 +52,7 @@ struct PlaylistDetailPage: View {
     }
 
     @ViewBuilder
-    private var content: some View {
+    private func content(for route: PlaylistRoute) -> some View {
         switch route {
         case .songs:
             PlaylistSongsPage(songs: viewModel.filteredSongs)
@@ -68,7 +68,7 @@ struct PlaylistDetailPage: View {
     }
 
     @ViewBuilder
-    private var tabTrailingSlot: some View {
+    private func tabTrailingSlot(for route: PlaylistRoute) -> some View {
         if route == .songs {
             SearchBar(text: $viewModel.songSearchText)
         }
