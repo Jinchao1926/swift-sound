@@ -10,7 +10,7 @@ import SwiftUI
 struct UserDetailHeader: View {
     private struct UserFollows {
         let title: String
-        let count: Int
+        let number: Int
     }
 
     let detail: UserDetail
@@ -54,9 +54,9 @@ struct UserDetailHeader: View {
     @ViewBuilder
     private var followsRow: some View {
         let follows = [
-            UserFollows(title: "关注", count: user.follows ?? 0),
-            UserFollows(title: "粉丝", count: user.followeds ?? 0)
-        ].filter { $0.count > 0 }
+            UserFollows(title: "关注", number: user.follows ?? 0),
+            UserFollows(title: "粉丝", number: user.followeds ?? 0)
+        ].filter { $0.number > 0 }
 
         if !follows.isEmpty {
             HStack(spacing: Layout.followSpacing) {
@@ -67,7 +67,7 @@ struct UserDetailHeader: View {
                             .frame(width: 1, height: Layout.separatorHeight)
                     }
 
-                    Text("\(follow.title) \(follow.count.formattedCount())")
+                    Text("\(follow.title) \(follow.number.formattedCount())")
                 }
             }
             .font(.font14.weight(.semibold))
