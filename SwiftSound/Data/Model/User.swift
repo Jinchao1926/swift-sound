@@ -52,9 +52,14 @@ enum Gender: Int, Decodable {
     case female
 }
 
-struct Identity: Decodable {
+struct AvatarDetail: Decodable {
     let identityLevel: Int
     let identityIconUrl: String
+}
+
+struct Identify: Decodable {
+    let imageUrl: String
+    let imageDesc: String
 }
 
 struct User: Decodable, Identifiable {
@@ -62,9 +67,14 @@ struct User: Decodable, Identifiable {
     let nickname: String
     let gender: Gender
     let avatarUrl: String
-    let avatarDetail: Identity?
+    let avatarDetail: AvatarDetail?
     let description: String?
     let signature: String?
+    let vipType: Int
+    let province: Int
+    let city: Int
+    let followeds: Int?
+    let follows: Int?
 
     var id: Int { userId }
 }
@@ -77,4 +87,6 @@ extension User {
         }
         return signature
     }
+
+    var isVIP: Bool { vipType > 0 }
 }

@@ -55,6 +55,10 @@ enum MusicActionButtons {
     static func more(action: @escaping () -> Void) -> some View {
         ActionButton(systemName: "ellipsis", action: action)
     }
+
+    static func message(action: @escaping () -> Void) -> some View {
+        ActionButton(systemName: "message.fill", action: action)
+    }
 }
 
 private extension MusicActionButtons {

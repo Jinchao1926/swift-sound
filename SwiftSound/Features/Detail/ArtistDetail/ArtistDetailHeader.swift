@@ -13,9 +13,7 @@ struct ArtistDetailHeader: View {
 
     var body: some View {
         HStack(spacing: Layout.headerSpacing) {
-            RemoteImage(url: detail.artist.avatarURL)
-                .frame(width: Layout.avatarSize, height: Layout.avatarSize)
-                .rounded(radius: Layout.avatarSize / 2)
+            Avatar(url: detail.artist.avatarURL, size: Layout.avatarSize)
 
             VStack(alignment: .leading, spacing: 0) {
                 Text(detail.artist.name)
@@ -23,7 +21,7 @@ struct ArtistDetailHeader: View {
                     .fontWeight(.semibold)
                     .foregroundStyle(Color.textPrimary)
 
-                HStack(spacing: Layout.metadataSpacing) {
+                HStack(spacing: Layout.detailSpacing) {
                     SeparatedText(detail.artist.aliases)
 
                     if let user = detail.user {
@@ -33,8 +31,8 @@ struct ArtistDetailHeader: View {
                         }
                     }
                 }
-                .padding(.top, Layout.metadataTopInset)
-                .padding(.bottom, Layout.metadataBottomInset)
+                .padding(.top, Layout.detailTopInset)
+                .padding(.bottom, Layout.detailBottomInset)
 
                 HStack(spacing: Layout.actionSpacing) {
                     MusicActionButtons.playAll {
@@ -54,9 +52,9 @@ private extension ArtistDetailHeader {
     enum Layout {
         static let headerSpacing: CGFloat = 25
         static let avatarSize: CGFloat = 170
-        static let metadataSpacing: CGFloat = 20
-        static let metadataTopInset: CGFloat = 12
-        static let metadataBottomInset: CGFloat = 16
+        static let detailSpacing: CGFloat = 20
+        static let detailTopInset: CGFloat = 12
+        static let detailBottomInset: CGFloat = 16
         static let actionSpacing: CGFloat = 10
     }
 }

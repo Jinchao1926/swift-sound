@@ -106,7 +106,7 @@ private extension NewAlbumsPage {
         static let filterSpacing: CGFloat = 10
         static let capsulePadding: CGFloat = 14
         static let horizontalInset: CGFloat = 40
-        
+
         static let minCardWidth: CGFloat = 176
         static let rowSpacing: CGFloat = 20
         static let columnSpacing: CGFloat = 20

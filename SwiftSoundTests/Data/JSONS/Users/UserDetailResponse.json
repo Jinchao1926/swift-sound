@@ -1,0 +1,107 @@
+{
+    "identify": {
+        "imageUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png",
+        "imageDesc": "原创歌手薛之谦",
+        "actionUrl": null
+    },
+    "level": 1,
+    "listenSongs": 24,
+    "userPoint": {
+        "userId": 97137413,
+        "balance": 0,
+        "updateTime": 1787466582432,
+        "version": 10,
+        "status": 0,
+        "blockBalance": 0
+    },
+    "mobileSign": false,
+    "pcSign": false,
+    "profile": {
+        "privacyItemUnlimit": {
+            "area": true,
+            "college": true,
+            "user_page_profile": true,
+            "gender": false,
+            "age": true,
+            "villageAge": true
+        },
+        "avatarDetail": {
+            "userType": null,
+            "identityLevel": 1,
+            "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png"
+        },
+        "djStatus": 10,
+        "vipType": 0,
+        "detailDescription": "原创歌手薛之谦",
+        "userType": 2,
+        "followed": false,
+        "avatarImgId": 109951172414278510,
+        "backgroundImgId": 109951172414270320,
+        "defaultAvatar": false,
+        "avatarUrl": "http://p1.music.126.net/PLrMsE0bTG2p1lL6QfKC9g==/109951172414278510.jpg",
+        "mutual": false,
+        "backgroundUrl": "http://p1.music.126.net/Z2x6knGRr7eRrZeOlgCngA==/109951172414270313.jpg",
+        "remarkName": null,
+        "authStatus": 1,
+        "expertTags": null,
+        "backgroundImgIdStr": "109951172414270313",
+        "avatarImgIdStr": "109951172414278510",
+        "description": "原创歌手薛之谦",
+        "experts": {},
+        "gender": 0,
+        "birthday": -2209017600000,
+        "province": 110000,
+        "city": 110101,
+        "nickname": "薛之谦",
+        "accountStatus": 0,
+        "createTime": 1450170569106,
+        "userId": 97137413,
+        "signature": "",
+        "authority": 0,
+        "allAuthTypes": [
+            {
+                "type": 2,
+                "desc": "原创歌手薛之谦",
+                "tags": null
+            },
+            {
+                "type": 400,
+                "desc": "",
+                "tags": null
+            }
+        ],
+        "followeds": 21146941,
+        "follows": 0,
+        "blacklist": false,
+        "artistId": 5781,
+        "eventCount": 18,
+        "allSubscribedCount": 0,
+        "playlistBeSubscribedCount": 3920,
+        "mainAuthType": {
+            "type": 2,
+            "desc": "原创歌手薛之谦",
+            "tags": null
+        },
+        "followTime": null,
+        "followMe": false,
+        "artistIdentity": [
+            3,
+            4
+        ],
+        "cCount": 0,
+        "inBlacklist": false,
+        "sDJPCount": 0,
+        "artistName": "薛之谦",
+        "playlistCount": 1,
+        "sCount": 0,
+        "newFollows": 0
+    },
+    "peopleCanSeeMyPlayRecord": false,
+    "bindings": [],
+    "adValid": true,
+    "code": 200,
+    "newUser": false,
+    "recallUser": true,
+    "createTime": 1450170569106,
+    "createDays": 3904
+}
