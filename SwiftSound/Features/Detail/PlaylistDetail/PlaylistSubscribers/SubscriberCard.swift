@@ -22,7 +22,7 @@ struct SubscriberCard: View {
                     .foregroundStyle(Color.textPrimary)
                     .lineLimit(1)
 
-                genderIcon
+                GenderView(gender: user.gender)
             }
 
             Text(user.safeSignature)
@@ -35,22 +35,6 @@ struct SubscriberCard: View {
             RoundedRectangle(cornerRadius: Layout.cornerRadius, style: .continuous)
                 .fill(isHovering ? .white : .clear)
         )
-    }
-
-    @ViewBuilder
-    private var genderIcon: some View {
-        switch user.gender {
-        case .male:
-            Image(systemName: "person.fill")
-                .font(.font14)
-                .foregroundStyle(Color.blue)
-        case .female:
-            Image(systemName: "person.fill")
-                .font(.font14)
-                .foregroundStyle(Color.pink)
-        case .unknow:
-            EmptyView()
-        }
     }
 }
 

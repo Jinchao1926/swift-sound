@@ -11,10 +11,34 @@ struct UserDetailPage: View {
     let id: Int
     let route: UserRoute
 
+    @StateObject private var viewModel: UserDetailViewModel
+
+    init(id: Int, route: UserRoute) {
+        self.id = id
+        self.route = route
+        self._viewModel = StateObject(wrappedValue: UserDetailViewModel(id: id))
+    }
+
     var body: some View {
-        VStack {
-            Text("UserDetailPage: \(id)")
-            content(for: route)
+        ScrollView {
+            VStack(alignment: .leading, spacing: Layout.spacing) {
+                if let detail = viewModel.state.value {
+                    UserDetailHeader(detail: detail)
+                }
+
+                RouteTabView(
+                    selectedRoute: route,
+                    destinationRoute: { .user(id: id, secondary: $0) },
+//                    badgeText: tabBadgeText
+                )
+
+                content(for: route)
+            }
+            .padding(.horizontal, Layout.horizontalInset)
+        }
+        .scrollIndicatorOverlay()
+        .task {
+            await viewModel.load()
         }
     }
 
@@ -28,6 +52,13 @@ struct UserDetailPage: View {
         case .podcasts:
             UserPodcastsPage()
         }
+    }
+}
+
+private extension UserDetailPage {
+    enum Layout {
+        static let spacing: CGFloat = 10
+        static let horizontalInset: CGFloat = 40
     }
 }
 
