@@ -38,11 +38,11 @@ struct VIPLevelView: View {
 
 private extension VIPLevelView {
     enum Layout {
-        static let size: CGFloat = 20
+        static let size: CGFloat = 18
         static let spacing: CGFloat = -8
         static let textLeading: CGFloat = 12
         static let textTrailing: CGFloat = 6
-        static let textHeight: CGFloat = 15
+        static let textHeight: CGFloat = 14
     }
 }
 

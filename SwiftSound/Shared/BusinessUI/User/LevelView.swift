@@ -12,7 +12,7 @@ struct LevelView: View {
 
     var body: some View {
         Text("LV. \(level)")
-            .font(.font12)
+            .font(.font11)
             .foregroundStyle(Color.textPrimary)
             .padding(.horizontal, 4)
             .background(

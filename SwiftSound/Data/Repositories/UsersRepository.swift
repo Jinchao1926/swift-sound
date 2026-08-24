@@ -14,8 +14,18 @@ struct UsersRepository {
         self.apiClient = apiClient
     }
 
-    func fetchUserDetail(id: Int) async throws -> UserDetail {
-        let response = try await apiClient.request(UserDetailRequest(id: id))
+    func fetchUserDetail(uid: Int) async throws -> UserDetail {
+        let response = try await apiClient.request(UserDetailRequest(uid: uid))
+        return response
+    }
+
+    func fetchUserPlaylists(
+        uid: Int,
+        offset: Int = 0,
+        limit: Int = 24
+    ) async throws -> UserPlaylistsResponse {
+        let request = UserPlaylistsRequest(uid: uid, offset: offset, limit: limit)
+        let response = try await apiClient.request(request)
         return response
     }
 }

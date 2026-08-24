@@ -23,7 +23,7 @@ struct ArtistListRequestTests {
         #expect(artist.name == "陈奕迅")
         #expect(artist.albumSize == 133)
         #expect(artist.musicSize == 1856)
-        #expect(artist.img1v1Url != nil)
-        #expect(artist.picUrl != nil)
+        #expect(artist.avatar != nil)
+        #expect(artist.cover != nil)
     }
 }

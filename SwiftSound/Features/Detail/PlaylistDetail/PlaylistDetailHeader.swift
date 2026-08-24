@@ -27,10 +27,12 @@ struct PlaylistDetailHeader: View {
                     .fontWeight(.semibold)
                     .foregroundStyle(Color.textPrimary)
 
-                Text(playlist.description)
-                    .font(.font14)
-                    .foregroundStyle(Color.textSecondary)
-                    .padding(.vertical, Layout.descriptionInset)
+                if let description = playlist.description {
+                    Text(description)
+                        .font(.font14)
+                        .foregroundStyle(Color.textSecondary)
+                        .padding(.vertical, Layout.descriptionInset)
+                }
 
                 HStack(spacing: Layout.creatorSpacing) {
                     HStack(spacing: Layout.creatorSpacing / 2) {

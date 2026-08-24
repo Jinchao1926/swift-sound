@@ -79,7 +79,7 @@ struct PlaylistDetailPage: View {
         case .songs:
             return viewModel.state.value?.tracks?.count.formatted()
         case .comments:
-            return viewModel.state.value?.commentCount.formattedCount()
+            return viewModel.state.value?.commentCount?.formattedCount()
         case .subscribers:
             return viewModel.state.value?.subscribedCount.formattedCount()
         }
