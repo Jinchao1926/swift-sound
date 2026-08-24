@@ -188,7 +188,7 @@ struct Playlist: Decodable, Identifiable {
     let coverText: [String]?
     let createTime: Int
     let creator: User
-    let description: String
+    let description: String?
     let tags: [String]
     let updateFrequency: String?
     let updateTime: Int
@@ -197,8 +197,8 @@ struct Playlist: Decodable, Identifiable {
     let tracks: [Song]?
     let trackCount: Int
     let playCount: Int
-    let shareCount: Int
-    let commentCount: Int
+    let shareCount: Int?
+    let commentCount: Int?
     let subscribedCount: Int
     let subscribers: [User]
 }

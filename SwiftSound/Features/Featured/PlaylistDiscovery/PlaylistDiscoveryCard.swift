@@ -65,13 +65,12 @@ private extension PlaylistDiscoveryCard {
         static let infoTextSpacing: CGFloat = 4
         static let infoPadding: CGFloat = 6
         static let coverOverlayInset: CGFloat = 12
-        static let previewWidth: CGFloat = 116
     }
 }
 
 #Preview {
     PlaylistDiscoveryCard(playlist: .preview) {}
-        .frame(width: PlaylistDiscoveryCard.Layout.previewWidth)
+        .frame(width: 116)
         .padding()
         .background(Color.surfacePrimary)
 }

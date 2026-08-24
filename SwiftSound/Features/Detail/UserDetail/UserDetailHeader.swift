@@ -87,10 +87,19 @@ struct UserDetailHeader: View {
 
     private var actionRow: some View {
         HStack(spacing: Layout.actionSpacing) {
+            let isArtist = detail.identify != nil
+            if isArtist {
+                ActionButton(
+                    "歌手页",
+                    systemName: "person",
+                    variant: .primary,
+                    action: {}
+                )
+            }
             ActionButton(
-                "歌手页",
-                systemName: "person",
-                variant: .primary,
+                "关注",
+                systemName: "plus",
+                variant: isArtist ? .secondary : .primary,
                 action: {}
             )
             MusicActionButtons.follow {}

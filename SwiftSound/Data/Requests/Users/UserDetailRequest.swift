@@ -25,9 +25,9 @@ struct UserDetailRequest: APIRequest {
     let queryItems: [URLQueryItem]
     let cachePolicy: APICachePolicy = .memory(ttl: .infinity)
 
-    init(id: Int) {
+    init(uid: Int) {
         self.queryItems = [
-            URLQueryItem(name: "uid", value: String(id))
+            URLQueryItem(name: "uid", value: String(uid))
         ]
     }
 }

@@ -57,14 +57,12 @@ private extension ArtistAlbumsPage {
 }
 
 #Preview {
-    VStack {
-        ArtistAlbumsPage(
-            state: .loaded(Paginated(items: [Album.preview], canLoadMore: true)),
-            load: {},
-            loadMore: {},
-            onPlayAlbum: { _ in }
-        )
-    }
+    ArtistAlbumsPage(
+        state: .loaded(Paginated(items: [Album.preview], canLoadMore: true)),
+        load: {},
+        loadMore: {},
+        onPlayAlbum: { _ in }
+    )
     .frame(minWidth: 600, minHeight: 600)
     .padding(.horizontal, 40)
 }
