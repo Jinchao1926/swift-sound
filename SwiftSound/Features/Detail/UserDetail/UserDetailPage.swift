@@ -46,7 +46,7 @@ struct UserDetailPage: View {
     private func content(for route: UserRoute) -> some View {
         switch route {
         case .playlists:
-            UserPlaylistsPage()
+            UserPlaylistsPage(viewModel: viewModel)
         case .notes:
             UserNotesPage()
         case .podcasts:
@@ -63,5 +63,8 @@ private extension UserDetailPage {
 }
 
 #Preview {
-    UserDetailPage(id: 123, route: .playlists)
+    ScrollView {
+        UserDetailPage(id: 1, route: .playlists)
+    }
+    .frame(width: 800, height: 600)
 }

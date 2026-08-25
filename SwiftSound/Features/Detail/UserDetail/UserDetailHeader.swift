@@ -17,7 +17,7 @@ struct UserDetailHeader: View {
     var user: User { detail.profile }
 
     var body: some View {
-        HStack(spacing: Layout.headerSpacing) {
+        HStack(alignment: .top, spacing: Layout.headerSpacing) {
             Avatar(url: user.avatarURL, size: Layout.avatarSize)
 
             VStack(alignment: .leading, spacing: Layout.detailSpacing) {
@@ -28,7 +28,10 @@ struct UserDetailHeader: View {
 
                 identityRow
                 followsRow
-                locationRow
+                VStack(alignment: .leading, spacing: Layout.signatureSpacing) {
+                    signatureRow
+                    locationRow
+                }
                 actionRow
             }
 
@@ -75,6 +78,15 @@ struct UserDetailHeader: View {
         }
     }
 
+    @ViewBuilder
+    private var signatureRow: some View {
+        if let signature = user.signature {
+            Text("简介：\(signature)")
+                .font(.font13)
+                .foregroundStyle(Color.textSecondary)
+        }
+    }
+
     private var locationRow: some View {
         let region = UserRegionFormatter.location(
             provinceCode: user.province,
@@ -102,7 +114,6 @@ struct UserDetailHeader: View {
                 variant: isArtist ? .secondary : .primary,
                 action: {}
             )
-            MusicActionButtons.follow {}
             MusicActionButtons.message {}
             MusicActionButtons.more {}
         }
@@ -115,6 +126,7 @@ private extension UserDetailHeader {
         static let avatarSize: CGFloat = 170
 
         static let detailSpacing: CGFloat = 12
+        static let signatureSpacing: CGFloat = 10
         static let identitySpacing: CGFloat = 4
         static let followSpacing: CGFloat = 10
         static let separatorHeight: CGFloat = 16

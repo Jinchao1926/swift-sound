@@ -21,7 +21,7 @@ struct PlaylistDetailHeader: View {
                         .padding(Layout.badgeInset)
                 }
 
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: Layout.detailSpacing) {
                 Text(playlist.name)
                     .font(.font18)
                     .fontWeight(.semibold)
@@ -31,7 +31,6 @@ struct PlaylistDetailHeader: View {
                     Text(description)
                         .font(.font14)
                         .foregroundStyle(Color.textSecondary)
-                        .padding(.vertical, Layout.descriptionInset)
                 }
 
                 HStack(spacing: Layout.creatorSpacing) {
@@ -46,7 +45,7 @@ struct PlaylistDetailHeader: View {
                     Text("\(playlist.updateTime.formattedMillisecondsYearMonthDay()) 更新")
                         .foregroundStyle(Color.textTertiary)
                 }
-                .font(.font13)
+                .font(.font12)
 
                 Spacer()
 
@@ -73,7 +72,7 @@ private extension PlaylistDetailHeader {
         static let size: CGFloat = 170
         static let cornerRadius: CGFloat = 8
 
-        static let descriptionInset: CGFloat = 16
+        static let detailSpacing: CGFloat = 16
         static let creatorSpacing: CGFloat = 10
         static let avatarSize: CGFloat = 25
 
