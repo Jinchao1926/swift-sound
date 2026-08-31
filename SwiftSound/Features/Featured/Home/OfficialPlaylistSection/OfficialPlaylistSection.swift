@@ -26,6 +26,7 @@ struct OfficialPlaylistSection: View {
                 )
             ) {
                 PlaylistCover(playlist: $0)
+                    .routeLink(to: .playlist(id: $0.id))
             }
         }
         .padding(.horizontal, Layout.horizontalInset)

@@ -26,7 +26,8 @@ extension User {
         city: 110101,
         followeds: 99999,
         follows: 576,
-        playlistCount: 797
+        playlistCount: 797,
+        artistId: nil
     )
 
     static let preview = User(
@@ -45,7 +46,8 @@ extension User {
         city: 110101,
         followeds: 21147216,
         follows: 0,
-        playlistCount: 0
+        playlistCount: 0,
+        artistId: 5781
     )
 }
 

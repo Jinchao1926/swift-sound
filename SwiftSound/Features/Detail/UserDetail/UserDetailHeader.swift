@@ -22,7 +22,7 @@ struct UserDetailHeader: View {
 
             VStack(alignment: .leading, spacing: Layout.detailSpacing) {
                 Text(user.nickname)
-                    .font(.font18)
+                    .font(.font20)
                     .fontWeight(.semibold)
                     .foregroundStyle(Color.textPrimary)
 
@@ -37,6 +37,7 @@ struct UserDetailHeader: View {
 
             Spacer()
         }
+        .padding(.top, Layout.headerPadding)
     }
 
     private var identityRow: some View {
@@ -70,50 +71,57 @@ struct UserDetailHeader: View {
                             .frame(width: 1, height: Layout.separatorHeight)
                     }
 
-                    Text("\(follow.title) \(follow.number.formattedCount())")
+                    Text("\(follow.title) \(follow.number)")
                 }
             }
-            .font(.font14.weight(.semibold))
+            .font(.font15.weight(.semibold))
             .foregroundStyle(Color.textPrimary)
         }
     }
 
     @ViewBuilder
     private var signatureRow: some View {
-        if let signature = user.signature {
+        if let signature = user.signature, !signature.isEmpty {
             Text("简介：\(signature)")
                 .font(.font13)
                 .foregroundStyle(Color.textSecondary)
         }
     }
 
+    @ViewBuilder
     private var locationRow: some View {
-        let region = UserRegionFormatter.location(
+        if let region = UserRegionFormatter.location(
             provinceCode: user.province,
             cityCode: user.city
-        )
-        return Text("地区：\(region)")
-            .font(.font13)
-            .foregroundStyle(Color.textTertiary)
+        ) {
+            Text("地区：\(region)")
+                .font(.font13)
+                .foregroundStyle(Color.textTertiary)
+        }
     }
 
+    @ViewBuilder
     private var actionRow: some View {
+        let artistID = detail.profile.artistId
+
         HStack(spacing: Layout.actionSpacing) {
-            let isArtist = detail.identify != nil
-            if isArtist {
+            if let artistID {
                 ActionButton(
                     "歌手页",
                     systemName: "person",
                     variant: .primary,
                     action: {}
                 )
+                .routeLink(to: .artist(id: artistID))
             }
+
             ActionButton(
                 "关注",
                 systemName: "plus",
-                variant: isArtist ? .secondary : .primary,
+                variant: artistID == nil ? .primary : .secondary,
                 action: {}
             )
+
             MusicActionButtons.message {}
             MusicActionButtons.more {}
         }
@@ -122,8 +130,9 @@ struct UserDetailHeader: View {
 
 private extension UserDetailHeader {
     enum Layout {
+        static let headerPadding: CGFloat = 10
         static let headerSpacing: CGFloat = 25
-        static let avatarSize: CGFloat = 170
+        static let avatarSize: CGFloat = 168
 
         static let detailSpacing: CGFloat = 12
         static let signatureSpacing: CGFloat = 10

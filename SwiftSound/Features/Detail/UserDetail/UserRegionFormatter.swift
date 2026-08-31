@@ -8,7 +8,7 @@
 import Foundation
 
 enum UserRegionFormatter {
-    static func location(provinceCode: Int, cityCode: Int) -> String {
+    static func location(provinceCode: Int, cityCode: Int) -> String? {
         let province = provinceNames[provinceCode]
         let city = cityNames[cityCode]
         let parts = [province, city]
@@ -19,7 +19,7 @@ enum UserRegionFormatter {
                 }
             }
 
-        return parts.isEmpty ? "未知" : parts.joined(separator: " ")
+        return parts.isEmpty ? nil : parts.joined(separator: " ")
     }
 
     private static let provinceNames: [Int: String] = [
