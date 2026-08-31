@@ -1,0 +1,124 @@
+{
+    "identify": {
+        "imageUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png",
+        "imageDesc": "网易云音乐官方歌单",
+        "actionUrl": null
+    },
+    "level": 10,
+    "listenSongs": 36732,
+    "userPoint": {
+        "userId": 1463586082,
+        "balance": 0,
+        "updateTime": 1788147797012,
+        "version": 10,
+        "status": 1,
+        "blockBalance": 0
+    },
+    "mobileSign": false,
+    "pcSign": false,
+    "profile": {
+        "privacyItemUnlimit": {
+            "area": false,
+            "college": false,
+            "user_page_profile": true,
+            "gender": true,
+            "age": false,
+            "villageAge": true
+        },
+        "avatarDetail": {
+            "userType": null,
+            "identityLevel": 1,
+            "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png"
+        },
+        "avatarImgId": 109951163951118290,
+        "birthday": -2209017600000,
+        "gender": 2,
+        "nickname": "云音乐官方歌单",
+        "vipType": 11,
+        "mutual": false,
+        "remarkName": null,
+        "djStatus": 0,
+        "avatarUrl": "http://p1.music.126.net/eHeoKe-NWVBMM8S3DCJfog==/109951163951118282.jpg",
+        "backgroundImgId": 109951165404950140,
+        "backgroundUrl": "http://p1.music.126.net/chlOFsm3eMrJGc4b9am18A==/109951165404950147.jpg",
+        "userType": 10,
+        "province": 0,
+        "city": 100,
+        "defaultAvatar": false,
+        "followed": false,
+        "detailDescription": "网易云音乐官方歌单",
+        "accountStatus": 0,
+        "experts": {},
+        "authStatus": 1,
+        "expertTags": null,
+        "avatarImgIdStr": "109951163951118282",
+        "backgroundImgIdStr": "109951165404950147",
+        "createTime": 1526883763316,
+        "description": "网易云音乐官方歌单",
+        "userId": 1463586082,
+        "signature": "精选好歌，非听不可！",
+        "authority": 0,
+        "allAuthTypes": [
+            {
+                "type": 10,
+                "desc": "网易云音乐官方歌单",
+                "tags": null
+            }
+        ],
+        "followeds": 77487,
+        "follows": 44,
+        "blacklist": false,
+        "eventCount": 711,
+        "allSubscribedCount": 0,
+        "playlistBeSubscribedCount": 32091732,
+        "mainAuthType": {
+            "type": 10,
+            "desc": "网易云音乐官方歌单",
+            "tags": null
+        },
+        "followTime": null,
+        "followMe": false,
+        "artistIdentity": [],
+        "cCount": 0,
+        "inBlacklist": false,
+        "sDJPCount": 0,
+        "playlistCount": 990,
+        "sCount": 0,
+        "newFollows": 44
+    },
+    "peopleCanSeeMyPlayRecord": false,
+    "bindings": [],
+    "adValid": false,
+    "code": 200,
+    "newUser": false,
+    "recallUser": true,
+    "createTime": 1526883763316,
+    "createDays": 3024,
+    "villageCard": {
+        "type": "VILLAGE_CARD",
+        "name": "村民证",
+        "privacyKey": "villageIDCard",
+        "imageUrl": "",
+        "targetUrl": "",
+        "villageCardTabExtensionVO": {
+            "encodedUserId": "7C0B23FB16BF90600435FC679A0DADC5",
+            "received": true,
+            "isSelf": false,
+            "url": "https://sg.music.163.com/g/cloud-card/result?fromNative=1&skipAni=1&full_screen=true&signUserId=7C0B23FB16BF90600435FC679A0DADC5",
+            "lastedUrl": null,
+            "lastedReceived": null,
+            "backgroundPic": null,
+            "hasPlayedV1": true,
+            "hasPlayedV2": false,
+            "encodedUserIdV2": "C62C1D6D026D0C0B8029F25504375AC5",
+            "urlV2": "https://sg.music.163.com/g/cloud-card-2?nm_style=sbt&market=personal",
+            "urlV3": null,
+            "fullCoverPic": null
+        }
+    },
+    "profileVillageInfo": {
+        "title": "领取村民证",
+        "imageUrl": null,
+        "targetUrl": "https://sg.music.163.com/g/cloud-card-3?full_screen=true&nm_style=sbt&market=wode"
+    }
+}

@@ -27,7 +27,7 @@ struct PlaylistDetailHeader: View {
                     .fontWeight(.semibold)
                     .foregroundStyle(Color.textPrimary)
 
-                if let description = playlist.description {
+                if let description = playlist.description?.replacingOccurrences(of: "\n", with: "") {
                     Text(description)
                         .font(.font14)
                         .foregroundStyle(Color.textSecondary)
