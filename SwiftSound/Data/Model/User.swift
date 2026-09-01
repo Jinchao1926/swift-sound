@@ -76,6 +76,7 @@ struct User: Decodable, Identifiable {
     let followeds: Int?
     let follows: Int?
     let playlistCount: Int?
+    let eventCount: Int?    // 笔记
     let artistId: Int?
 
     var id: Int { userId }

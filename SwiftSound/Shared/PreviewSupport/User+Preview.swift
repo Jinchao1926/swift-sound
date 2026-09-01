@@ -27,6 +27,7 @@ extension User {
         followeds: 99999,
         follows: 576,
         playlistCount: 797,
+        eventCount: nil,
         artistId: nil
     )
 
@@ -47,6 +48,7 @@ extension User {
         followeds: 21147216,
         follows: 0,
         playlistCount: 0,
+        eventCount: nil,
         artistId: 5781
     )
 }

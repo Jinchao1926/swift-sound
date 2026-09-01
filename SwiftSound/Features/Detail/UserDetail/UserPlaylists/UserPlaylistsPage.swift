@@ -15,7 +15,7 @@ struct UserPlaylistsPage: View {
         VStack(alignment: .leading, spacing: Layout.tabContentSpacing) {
             UserPlaylistTabView(
                 selectedTab: viewModel.selectedTab,
-                onSelect: select
+                onSelected: select
             )
 
             UserPlaylistSection(

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UserPodcastsPage: View {
     var body: some View {
-        PlaceholderPage(title: "UserPodcasts")
+        EmptyStateView()
     }
 }
 
