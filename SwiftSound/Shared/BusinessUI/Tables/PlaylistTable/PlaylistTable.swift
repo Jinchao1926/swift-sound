@@ -91,12 +91,10 @@ private extension PlaylistTable {
             title: "创建者",
             width: .fixed(Layout.creatorWidth),
             content: { row, _ in
-                RouteLink(route: .user(id: row.playlist.creator.userId)) {
-                    Text(row.creatorName)
-                        .font(.font13)
-                        .foregroundStyle(Color.textSecondary)
-                        .lineLimit(1)
-                }
+                MusicTableRouteLink(
+                    title: row.creatorName,
+                    route: .user(id: row.playlist.creator.userId)
+                )
             }
         )
     }
@@ -113,8 +111,8 @@ private extension PlaylistTable {
 
 #Preview {
     PlaylistTable(playlists: [.preview, .featuredPreview])
-    .padding(20)
-    .frame(width: 800)
-    .background(Color.surfaceSecondary)
-    .environmentObject(PlayerStore())
+        .padding(20)
+        .frame(width: 800)
+        .background(Color.surfaceSecondary)
+        .environmentObject(PlayerStore())
 }

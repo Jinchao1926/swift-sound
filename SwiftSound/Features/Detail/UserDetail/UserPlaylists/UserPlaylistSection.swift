@@ -7,6 +7,7 @@ import SwiftUI
 
 struct UserPlaylistSection: View {
     let collection: UserDetailViewModel.PlaylistCollection
+    let displayMode: PlaylistDisplayMode
     let onPageChange: (Int) -> Void
 
     var body: some View {
@@ -14,7 +15,7 @@ struct UserPlaylistSection: View {
             if collection.state.value != nil, collection.state.items.isEmpty {
                 EmptyStateView()
             } else {
-                playlistsGrid(collection.state.items)
+                playlists(collection.state.items)
                     .loadingPlaceholder(collection.state.isInitialLoading)
             }
 
@@ -29,6 +30,16 @@ struct UserPlaylistSection: View {
                 )
                 .frame(maxWidth: .infinity)
             }
+        }
+    }
+
+    @ViewBuilder
+    private func playlists(_ playlists: [Playlist]) -> some View {
+        switch displayMode {
+        case .grid:
+            playlistsGrid(playlists)
+        case .list:
+            PlaylistTable(playlists: playlists)
         }
     }
 

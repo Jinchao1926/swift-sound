@@ -115,12 +115,10 @@ private extension SongTable {
                 lhs.song.album.name.localizedStandardCompare(rhs.song.album.name)
             },
             content: { row, _ in
-                RouteLink(route: .album(id: row.song.album.id)) {
-                    Text(row.song.album.name)
-                        .font(.font13)
-                        .foregroundStyle(Color.textSecondary)
-                        .lineLimit(1)
-                }
+                MusicTableRouteLink(
+                    title: row.song.album.name,
+                    route: .album(id: row.song.album.id)
+                )
             }
         )
     }
@@ -181,12 +179,10 @@ private extension SongTable {
 }
 
 #Preview {
-    VStack {
-        SongTable(
-            songs: Array.songsPreview,
-            style: .albumSongs
-        )
-    }
+    SongTable(
+        songs: Array.songsPreview,
+        style: .albumSongs
+    )
     .padding(20)
     .frame(width: 800)
     .background(Color.surfaceSecondary)

@@ -9,14 +9,14 @@ import Foundation
 import Combine
 
 final class UserDetailViewModel: ObservableObject {
-    @Published private(set) var selectedTab = PlaylistTab.created
+    @Published private(set) var playlistSelection = PlaylistSelection()
 
     @Published private(set) var state: Loadable<UserDetail> = .idle
     @Published private var createdPlaylists = PlaylistCollection()
     @Published private var favoritePlaylists = PlaylistCollection()
 
     var selectedPlaylists: PlaylistCollection {
-        collection(for: selectedTab)
+        collection(for: playlistSelection.tab)
     }
 
     private let id: Int
@@ -42,14 +42,21 @@ final class UserDetailViewModel: ObservableObject {
         await loadPlaylistPage(1)
     }
 
-    func selectPlaylistTab(_ tab: PlaylistTab) async {
-        guard tab != selectedTab else { return }
-        selectedTab = tab
-        await loadPage(tab, page: 1)
+    func updatePlaylistSelection(_ action: PlaylistSelection.Action) async {
+        switch action {
+        case .tab(let tab):
+            guard tab != playlistSelection.tab else { return }
+            playlistSelection.apply(action)
+            await loadPage(tab, page: 1)
+
+        case .displayMode(let displayMode):
+            guard displayMode != playlistSelection.displayMode else { return }
+            playlistSelection.apply(action)
+        }
     }
 
     func loadPlaylistPage(_ page: Int) async {
-        await loadPage(selectedTab, page: page)
+        await loadPage(playlistSelection.tab, page: page)
     }
 
     private func loadPage(_ tab: PlaylistTab, page: Int) async {
