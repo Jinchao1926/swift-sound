@@ -9,14 +9,14 @@ import SwiftUI
 
 struct MusicTableIndexCell: View {
     let index: Int
-    let rowState: SongTableRowState
+    let rowState: MusicTableRowState
     let action: () -> Void
 
     @State private var isIconHovering = false
 
     init(
         index: Int,
-        rowState: SongTableRowState = .init(),
+        rowState: MusicTableRowState = .init(),
         action: @escaping () -> Void
     ) {
         self.index = index

@@ -32,7 +32,7 @@ private struct DataTablePreviewRow: Identifiable {
             width: .fixed(50),
             alignment: .center,
             content: { _, context in
-                Text(String(format: "%02d", context.index + 1))
+                Text(String(format: "%02d", context.rowNumber))
                     .font(.font12)
                     .foregroundStyle(Color.textSecondary)
             }

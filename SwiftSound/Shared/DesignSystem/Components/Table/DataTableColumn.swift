@@ -18,7 +18,7 @@ enum DataTableColumnVisibility {
 }
 
 struct DataTableRowContext {
-    let index: Int
+    let rowNumber: Int
     let isHovering: Bool
     let isHighlighted: Bool
 }
