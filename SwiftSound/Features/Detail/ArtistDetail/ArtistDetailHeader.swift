@@ -25,10 +25,9 @@ struct ArtistDetailHeader: View {
                     SeparatedText(detail.artist.aliases)
 
                     if let user = detail.user {
-                        RouteLink(route: .user(id: user.userId)) {
-                            Text("个人页 >")
-                                .foregroundStyle(Color.textSecondary)
-                        }
+                        Text("个人页 >")
+                            .foregroundStyle(Color.textSecondary)
+                            .routeLink(to: .user(id: user.userId))
                     }
                 }
                 .padding(.top, Layout.detailTopInset)

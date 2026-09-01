@@ -11,6 +11,7 @@ struct IconButton: View {
     let systemName: String
     let font: Font
     let size: CGFloat
+    let isSelected: Bool
     let action: (() -> Void)?
 
     @State private var isHovering = false
@@ -19,11 +20,13 @@ struct IconButton: View {
         systemName: String,
         font: Font = .font14,
         size: CGFloat = 20,
+        isSelected: Bool = false,
         action: (() -> Void)? = nil
     ) {
         self.systemName = systemName
         self.font = font
         self.size = size
+        self.isSelected = isSelected
         self.action = action
     }
 
@@ -33,7 +36,7 @@ struct IconButton: View {
         } label: {
             Image(systemName: systemName)
                 .font(font)
-                .foregroundStyle(isHovering ? Color.textPrimary : Color.textSecondary)
+                .foregroundStyle(isHovering || isSelected ? Color.textPrimary : Color.textSecondary)
                 .frame(width: size, height: size)
         }
         .buttonStyle(.plain)
@@ -43,6 +46,9 @@ struct IconButton: View {
 }
 
 #Preview {
-    IconButton(systemName: "envelope")
-        .padding()
+    HStack {
+        IconButton(systemName: "envelope")
+        IconButton(systemName: "envelope", isSelected: true)
+    }
+    .padding()
 }

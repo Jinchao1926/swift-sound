@@ -14,12 +14,13 @@ struct UserPlaylistsPage: View {
     var body: some View {
         VStack(alignment: .leading, spacing: Layout.tabContentSpacing) {
             UserPlaylistTabView(
-                selectedTab: viewModel.selectedTab,
-                onSelected: select
+                selection: viewModel.playlistSelection,
+                onAction: handleSelection
             )
 
             UserPlaylistSection(
                 collection: viewModel.selectedPlaylists,
+                displayMode: viewModel.playlistSelection.displayMode,
                 onPageChange: load
             )
         }
@@ -29,9 +30,9 @@ struct UserPlaylistsPage: View {
 }
 
 private extension UserPlaylistsPage {
-    func select(_ tab: PlaylistTab) {
+    func handleSelection(_ action: PlaylistSelection.Action) {
         Task {
-            await viewModel.selectPlaylistTab(tab)
+            await viewModel.updatePlaylistSelection(action)
         }
     }
 
