@@ -40,7 +40,7 @@ struct UserPlaylistCard: View {
                 isExternalHovering: isHovering,
                 onPlaybackTap: onPlay
             )
-            .rounded()
+            .rounded(radius: Layout.radius)
     }
 
     private var playlistInfo: some View {
@@ -63,6 +63,7 @@ struct UserPlaylistCard: View {
 
 private extension UserPlaylistCard {
     enum Layout {
+        static let radius: CGFloat = 8
         static let infoTextSpacing: CGFloat = 4
         static let infoPadding: CGFloat = 6
         static let coverOverlayInset: CGFloat = 12

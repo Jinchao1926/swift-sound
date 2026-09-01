@@ -6,16 +6,11 @@
 import SwiftUI
 
 struct UserPlaylistSection: View {
-    let title: String
     let collection: UserDetailViewModel.PlaylistCollection
     let onPageChange: (Int) -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: Layout.titleSpacing) {
-            Text(title)
-                .font(.font18.weight(.semibold))
-                .foregroundStyle(Color.textPrimary)
-
+        VStack(alignment: .leading, spacing: Layout.paginationSpacing) {
             playlistsGrid(collection.state.items)
                 .loadingPlaceholder(collection.state.isLoading)
 
@@ -28,7 +23,6 @@ struct UserPlaylistSection: View {
                     pageCount: collection.pageCount,
                     isEnabled: !collection.state.isLoading
                 )
-                .padding(.top, Layout.paginationTopPadding)
                 .frame(maxWidth: .infinity)
             }
         }
@@ -60,7 +54,6 @@ private extension UserPlaylistSection {
         static let minCardWidth: CGFloat = 176
         static let rowSpacing: CGFloat = 20
         static let columnSpacing: CGFloat = 20
-        static let titleSpacing: CGFloat = 12
-        static let paginationTopPadding: CGFloat = 6
+        static let paginationSpacing: CGFloat = 6
     }
 }

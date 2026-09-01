@@ -37,7 +37,6 @@ struct UserDetailHeader: View {
 
             Spacer()
         }
-        .padding(.top, Layout.headerPadding)
     }
 
     private var identityRow: some View {
@@ -130,7 +129,6 @@ struct UserDetailHeader: View {
 
 private extension UserDetailHeader {
     enum Layout {
-        static let headerPadding: CGFloat = 10
         static let headerSpacing: CGFloat = 25
         static let avatarSize: CGFloat = 168
 

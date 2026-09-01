@@ -37,7 +37,7 @@ struct ActionButton: View {
             HStack(spacing: Layout.iconSpacing) {
                 if let systemName {
                     Image(systemName: systemName)
-                        .font(.font16)
+                        .font(.font15)
                 }
 
                 if let title {
@@ -47,7 +47,7 @@ struct ActionButton: View {
                 }
             }
             .foregroundStyle(variant.foregroundColor)
-            .padding(.horizontal, Layout.horizontalInset)
+            .padding(.horizontal, horizontalInset)
             .fixedSize(horizontal: true, vertical: false)
             .frame(height: Layout.height)
         }
@@ -75,7 +75,12 @@ private extension ActionButton {
         static let height: CGFloat = 37
         static let cornerRadius: CGFloat = 8
         static let horizontalInset: CGFloat = 14
+        static let iconOnlyHorizontalInset: CGFloat = 10
         static let iconSpacing: CGFloat = 6
+    }
+
+    var horizontalInset: CGFloat {
+        title != nil ? Layout.horizontalInset : Layout.iconOnlyHorizontalInset
     }
 }
 
@@ -121,6 +126,7 @@ private extension ActionButton.Variant {
     HStack {
         ActionButton("主要操作", systemName: "star.fill", variant: .primary) {}
         ActionButton("次要操作", systemName: "gearshape") {}
+        ActionButton(systemName: "ellipsis") {}
     }
     .padding()
 }

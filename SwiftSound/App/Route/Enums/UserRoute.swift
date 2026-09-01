@@ -15,7 +15,7 @@ enum UserRoute: RouteTabProtocol {
     var title: String {
         switch self {
         case .playlists:
-            return "歌单"
+            return "音乐"
         case .notes:
             return "笔记"
         case .podcasts:
