@@ -23,13 +23,13 @@ enum PlaylistTab: CaseIterable, Hashable, Identifiable {
 
 struct UserPlaylistTabView: View {
     let selectedTab: PlaylistTab
-    let onSelect: (PlaylistTab) -> Void
+    let onSelected: (PlaylistTab) -> Void
 
     var body: some View {
         HStack(spacing: Layout.tabSpacing) {
             ForEach(PlaylistTab.allCases) { tab in
                 Button {
-                    onSelect(tab)
+                    onSelected(tab)
                 } label: {
                     Text(tab.title)
                         .font(.font14.weight(.medium))

@@ -11,8 +11,12 @@ struct UserPlaylistSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Layout.paginationSpacing) {
-            playlistsGrid(collection.state.items)
-                .loadingPlaceholder(collection.state.isLoading)
+            if collection.state.value != nil, collection.state.items.isEmpty {
+                EmptyStateView()
+            } else {
+                playlistsGrid(collection.state.items)
+                    .loadingPlaceholder(collection.state.isInitialLoading)
+            }
 
             if collection.pageCount > 1 {
                 PaginationControl(

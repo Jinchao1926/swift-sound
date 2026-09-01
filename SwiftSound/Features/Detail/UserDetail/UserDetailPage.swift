@@ -30,7 +30,7 @@ struct UserDetailPage: View {
                     RouteTabView(
                         selectedRoute: route,
                         destinationRoute: { .user(id: id, secondary: $0) },
-//                        badgeText: tabBadgeText
+                        badgeText: tabBadgeText
                     )
 
                     content(for: route) {
@@ -64,6 +64,15 @@ struct UserDetailPage: View {
             UserNotesPage()
         case .podcasts:
             UserPodcastsPage()
+        }
+    }
+
+    private func tabBadgeText(for route: UserRoute) -> String? {
+        switch route {
+        case .notes:
+            return viewModel.state.value?.profile.eventCount?.formatted()
+        default:
+            return nil
         }
     }
 }
