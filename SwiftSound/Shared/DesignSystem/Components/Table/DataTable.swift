@@ -63,7 +63,7 @@ struct DataTable<Row: Identifiable>: View where Row.ID: Hashable {
         let isHovering = hoveredRowID == row.value.id
         let isHighlighted = isRowHighlighted(row.value)
         let context = DataTableRowContext(
-            index: index,
+            rowNumber: index + 1,
             isHovering: isHovering,
             isHighlighted: isHighlighted
         )

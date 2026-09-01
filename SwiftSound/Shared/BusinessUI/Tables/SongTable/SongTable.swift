@@ -22,11 +22,11 @@ struct SongTable: View {
     }
 
     var body: some View {
-        DataTable(
+        MusicTable(
             rows: rows,
             columns: columns,
             style: style.dataTableStyle,
-            isRowHighlighted: { $0.playbackStatus.isCurrent }
+            onPlaybackAction: handlePlaybackAction
         )
     }
 }
@@ -37,7 +37,7 @@ private extension SongTable {
     }
 
     var columns: [DataTableColumn<SongTableRow>] {
-        var columns = [indexColumn, titleColumn]
+        var columns = [titleColumn]
 
         if style.showsAlbumColumn {
             columns.append(albumColumn)
@@ -53,7 +53,7 @@ private extension SongTable {
         return columns
     }
 
-    func playbackStatus(for song: Song) -> SongTablePlaybackStatus {
+    func playbackStatus(for song: Song) -> MusicTablePlaybackStatus {
         guard playerStore.state.currentSong?.id == song.id else {
             return .notCurrent
         }
@@ -63,17 +63,17 @@ private extension SongTable {
             : .currentPaused
     }
 
-    func rowState(
-        for row: SongTableRow,
-        context: DataTableRowContext
-    ) -> SongTableRowState {
-        SongTableRowState(
-            isHovering: context.isHovering,
-            playbackStatus: row.playbackStatus
-        )
+    func handlePlaybackAction(_ action: MusicTablePlaybackAction, row: SongTableRow) {
+        switch action {
+        case .play:
+            guard let startIndex = songs.firstIndex(where: { $0.id == row.id }) else { return }
+            playerStore.send(.playQueue(songs, startIndex: startIndex))
+        case .pause:
+            playerStore.send(.pause)
+        }
     }
 
-    func handleTitleAction(_ action: MusicTableAction, song: Song) {
+    func handleTitleAction(_ action: SongTableAction, song: Song) {
         switch action {
         case .addToPlaylist:
             playerStore.send(.appendToQueue(song))
@@ -86,44 +86,18 @@ private extension SongTable {
 
 // MARK: - Columns
 private extension SongTable {
-    var indexColumn: DataTableColumn<SongTableRow> {
-        DataTableColumn(
-            id: "index",
-            title: "#",
-            width: .fixed(Layout.indexWidth),
-            alignment: .center,
-            content: { row, context in
-                let rowState = rowState(for: row, context: context)
-
-                MusicTableIndexCell(
-                    index: context.index + 1,
-                    rowState: rowState
-                ) {
-                    if rowState.isPlaying {
-                        playerStore.send(.pause)
-                    } else {
-                        playerStore.send(.playQueue(songs, startIndex: context.index))
-                    }
-                }
-            }
-        )
-    }
-
     var titleColumn: DataTableColumn<SongTableRow> {
         DataTableColumn(
             id: "title",
             title: "标题",
             width: .flexible(min: Layout.titleMinWidth),
-            alignment: .leading,
             sortComparator: { lhs, rhs in
                 lhs.song.name.localizedStandardCompare(rhs.song.name)
             },
             content: { row, context in
-                let rowState = rowState(for: row, context: context)
-
                 SongTableTitleCell(
                     row: row,
-                    rowState: rowState,
+                    rowState: row.rowState(in: context),
                     onAction: {
                         handleTitleAction($0, song: row.song)
                     }
@@ -143,7 +117,7 @@ private extension SongTable {
             content: { row, _ in
                 RouteLink(route: .album(id: row.song.album.id)) {
                     Text(row.song.album.name)
-                        .font(.font14)
+                        .font(.font13)
                         .foregroundStyle(Color.textSecondary)
                         .lineLimit(1)
                 }
@@ -198,7 +172,6 @@ private extension SongTable {
 // MARK: - Layout
 private extension SongTable {
     enum Layout {
-        static let indexWidth: CGFloat = 54
         static let titleMinWidth: CGFloat = 160
         static let albumWidth: CGFloat = 220
         static let likedWidth: CGFloat = 58

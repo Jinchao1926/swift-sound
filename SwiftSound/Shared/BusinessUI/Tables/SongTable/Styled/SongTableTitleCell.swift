@@ -9,21 +9,25 @@ import SwiftUI
 
 struct SongTableTitleCell: View {
     let row: SongTableRow
-    let rowState: SongTableRowState
-    let onAction: (MusicTableAction) -> Void
+    let rowState: MusicTableRowState
+    let onAction: (SongTableAction) -> Void
 
     var body: some View {
         MusicTableTitleCell(
             imageURL: row.imageURL,
             title: row.title,
             titleSuffix: row.titleSuffix,
-            rowState: rowState,
-            onAction: onAction
+            rowState: rowState
         ) {
             HStack(spacing: Layout.linkSpacing) {
                 SongTableBadges(row: row)
                 artistLinks
             }
+        } actions: {
+            MusicTableActionView(
+                items: SongTableAction.items,
+                onAction: onAction
+            )
         }
     }
 
@@ -35,8 +39,8 @@ struct SongTableTitleCell: View {
                     route: .artist(id: $0.id)
                 )
             },
-            foregroundStyle: rowState.subTitleColor,
-            hoverForegroundStyle: rowState.isCurrent ? rowState.subTitleColor : Color.textPrimary
+            foregroundStyle: rowState.subtitleColor,
+            hoverForegroundStyle: rowState.isCurrent ? rowState.subtitleColor : Color.textPrimary
         )
     }
 }
