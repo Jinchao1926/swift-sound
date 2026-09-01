@@ -20,33 +20,46 @@ struct UserDetailPage: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: Layout.spacing) {
-                if let detail = viewModel.state.value {
-                    UserDetailHeader(detail: detail)
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(alignment: .leading, spacing: Layout.spacing) {
+                    if let detail = viewModel.state.value {
+                        UserDetailHeader(detail: detail)
+                    }
+
+                    RouteTabView(
+                        selectedRoute: route,
+                        destinationRoute: { .user(id: id, secondary: $0) },
+//                        badgeText: tabBadgeText
+                    )
+
+                    content(for: route) {
+                        withAnimation {
+                            proxy.scrollTo(ScrollTarget.top, anchor: .top)
+                        }
+                    }
                 }
-
-                RouteTabView(
-                    selectedRoute: route,
-                    destinationRoute: { .user(id: id, secondary: $0) },
-//                    badgeText: tabBadgeText
-                )
-
-                content(for: route)
+                .id(ScrollTarget.top)
+                .padding(.horizontal, Layout.horizontalInset)
             }
-            .padding(.horizontal, Layout.horizontalInset)
-        }
-        .scrollIndicatorOverlay()
-        .task {
-            await viewModel.load()
+            .scrollIndicatorOverlay()
+            .task {
+                await viewModel.load()
+            }
         }
     }
 
     @ViewBuilder
-    private func content(for route: UserRoute) -> some View {
+    private func content(
+        for route: UserRoute,
+        onScrollToTop: @escaping () -> Void
+    ) -> some View {
         switch route {
         case .playlists:
-            UserPlaylistsPage(viewModel: viewModel)
+            UserPlaylistsPage(
+                viewModel: viewModel,
+                onScrollToTop: onScrollToTop
+            )
         case .notes:
             UserNotesPage()
         case .podcasts:
@@ -56,6 +69,10 @@ struct UserDetailPage: View {
 }
 
 private extension UserDetailPage {
+    enum ScrollTarget: Hashable {
+        case top
+    }
+
     enum Layout {
         static let spacing: CGFloat = 10
         static let horizontalInset: CGFloat = 40

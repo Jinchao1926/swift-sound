@@ -9,23 +9,18 @@ import SwiftUI
 
 struct UserPlaylistsPage: View {
     @ObservedObject var viewModel: UserDetailViewModel
+    let onScrollToTop: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: Layout.sectionSpacing) {
-            UserPlaylistSection(
-                title: "Ta创建的歌单",
-                collection: viewModel.createdPlaylists,
-                onPageChange: { page in
-                    Task { await viewModel.loadCreated(page: page) }
-                }
+        VStack(alignment: .leading, spacing: Layout.tabContentSpacing) {
+            UserPlaylistTabView(
+                selectedTab: viewModel.selectedTab,
+                onSelect: select
             )
 
             UserPlaylistSection(
-                title: "Ta收藏的歌单",
-                collection: viewModel.favoritePlaylists,
-                onPageChange: { page in
-                    Task { await viewModel.loadFavorite(page: page) }
-                }
+                collection: viewModel.selectedPlaylists,
+                onPageChange: load
             )
         }
         .padding(.top, Layout.contentTopInset)
@@ -34,16 +29,32 @@ struct UserPlaylistsPage: View {
 }
 
 private extension UserPlaylistsPage {
+    func select(_ tab: PlaylistTab) {
+        Task {
+            await viewModel.selectPlaylistTab(tab)
+        }
+    }
+
+    func load(page: Int) {
+        onScrollToTop()
+        Task {
+            await viewModel.loadPlaylistPage(page)
+        }
+    }
+
     enum Layout {
-        static let contentTopInset: CGFloat = 10
+        static let contentTopInset: CGFloat = 20
         static let contentBottomInset: CGFloat = 40
-        static let sectionSpacing: CGFloat = 75
+        static let tabContentSpacing: CGFloat = 24
     }
 }
 
 #Preview {
     ScrollView {
-        UserPlaylistsPage(viewModel: UserDetailViewModel(id: User.official.userId))
+        UserPlaylistsPage(
+            viewModel: UserDetailViewModel(id: User.official.userId),
+            onScrollToTop: {}
+        )
     }
     .frame(minWidth: 600, minHeight: 600)
     .padding()
