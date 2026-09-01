@@ -23,5 +23,6 @@ struct PlaylistTableTitleCell: View {
                 onAction: onAction
             )
         }
+        .routeLink(to: .playlist(id: row.id))
     }
 }
