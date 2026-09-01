@@ -117,7 +117,7 @@ private extension SongTable {
             content: { row, _ in
                 RouteLink(route: .album(id: row.song.album.id)) {
                     Text(row.song.album.name)
-                        .font(.font14)
+                        .font(.font13)
                         .foregroundStyle(Color.textSecondary)
                         .lineLimit(1)
                 }
