@@ -58,7 +58,7 @@ private extension SongTable {
             return .notCurrent
         }
 
-        return playerStore.state.playbackState == .playing
+        return playerStore.state.playbackState.isPlaybackActive
             ? .currentPlaying
             : .currentPaused
     }

@@ -11,6 +11,8 @@ struct PlaylistTable: View {
     let playlists: [Playlist]
 
     @EnvironmentObject private var playerStore: PlayerStore
+    @State private var loadingPlaylistID: Playlist.ID?
+    @State private var playlistSongIDs: [Playlist.ID: Set<Song.ID>] = [:]
 
     var body: some View {
         MusicTable(
@@ -30,16 +32,37 @@ private extension PlaylistTable {
         [titleColumn, songCountColumn, creatorColumn]
     }
 
-    func playbackStatus(for _: Playlist) -> MusicTablePlaybackStatus {
-        .notCurrent
+    func playbackStatus(for playlist: Playlist) -> MusicTablePlaybackStatus {
+        let songIDs = playlistSongIDs[playlist.id] ?? Set(playlist.tracks?.map(\.id) ?? [])
+        guard
+            let currentSongID = playerStore.state.currentSong?.id,
+            songIDs.contains(currentSongID)
+        else {
+            return .notCurrent
+        }
+
+        return playerStore.state.playbackState.isPlaybackActive
+            ? .currentPlaying
+            : .currentPaused
     }
 
     func handlePlaybackAction(_ action: MusicTablePlaybackAction, row: PlaylistTableRow) {
         switch action {
         case .play:
-            break
+            play(playlist: row.playlist)
         case .pause:
             playerStore.send(.pause)
+        }
+    }
+
+    func play(playlist: Playlist) {
+        guard loadingPlaylistID == nil else { return }
+        loadingPlaylistID = playlist.id
+
+        Task {
+            defer { loadingPlaylistID = nil }
+            let songs = try await playerStore.play(source: .playlist(id: playlist.id))
+            playlistSongIDs[playlist.id] = Set(songs.map(\.id))
         }
     }
 
