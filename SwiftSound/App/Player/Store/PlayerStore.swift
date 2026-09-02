@@ -24,6 +24,7 @@ final class PlayerStore: ObservableObject {
     @Published private(set) var state: PlayerState
 
     private let persistence: PlayerStatePersistence
+    private let playableSongsProvider: PlayableSongsProviding
     private var playbackCoordinator: PlaybackCoordinator?
     private let eventSubject = PassthroughSubject<PlayerStoreEvent, Never>()
 
@@ -33,9 +34,11 @@ final class PlayerStore: ObservableObject {
 
     init(
         state: PlayerState? = nil,
-        persistence: PlayerStatePersistence = FilePlayerStatePersistence()
+        persistence: PlayerStatePersistence = FilePlayerStatePersistence(),
+        playableSongsProvider: PlayableSongsProviding = PlayableSongsRepository()
     ) {
         self.persistence = persistence
+        self.playableSongsProvider = playableSongsProvider
         let initialState = state ?? persistence.load() ?? PlayerState()
         self.state = initialState
         self.playbackCoordinator = PlaybackCoordinator(
@@ -57,6 +60,15 @@ final class PlayerStore: ObservableObject {
 
     func flushPersistence() {
         persistNow()
+    }
+
+    @discardableResult
+    func play(source: PlayableSource) async throws -> [Song] {
+        let songs = try await playableSongsProvider.fetchSongs(for: source)
+        guard !songs.isEmpty else { return [] }
+
+        send(.playQueue(songs, startIndex: 0))
+        return songs
     }
 
     private func emit(_ event: PlayerStoreEvent) {

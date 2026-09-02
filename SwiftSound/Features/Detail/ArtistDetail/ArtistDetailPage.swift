@@ -84,19 +84,11 @@ struct ArtistDetailPage: View {
         guard loadingAlbumID == nil else { return }
         loadingAlbumID = albumID
 
-        let viewModel = viewModel
         let playerStore = playerStore
 
         Task {
             defer { loadingAlbumID = nil }
-
-            do {
-                let songs = try await viewModel.fetchAlbumSongs(id: albumID)
-                guard !songs.isEmpty else { return }
-                playerStore.send(.playQueue(songs, startIndex: 0))
-            } catch {
-                return
-            }
+            try await playerStore.play(source: .album(id: albumID))
         }
     }
 

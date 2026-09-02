@@ -17,17 +17,14 @@ final class ArtistDetailViewModel: ObservableObject {
 
     private let id: Int
     private let repository: ArtistsRepository
-    private let albumRepository: AlbumsRepository
 
     // MARK: - LifeCycle
     init(
         id: Int,
-        repository: ArtistsRepository = ArtistsRepository(),
-        albumRepository: AlbumsRepository = AlbumsRepository()
+        repository: ArtistsRepository = ArtistsRepository()
     ) {
         self.id = id
         self.repository = repository
-        self.albumRepository = albumRepository
     }
 
     func load() async {
@@ -80,11 +77,6 @@ final class ArtistDetailViewModel: ObservableObject {
         } catch {
             albumState = .loaded(page)
         }
-    }
-
-    func fetchAlbumSongs(id: Album.ID) async throws -> [Song] {
-        let response = try await albumRepository.fetchAlbumDetail(id: id)
-        return response.songs
     }
 
     // MARK: - MVs
