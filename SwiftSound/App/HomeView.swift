@@ -103,7 +103,7 @@ struct HomeView: View {
             },
             onSeekAndPlay: {
                 playerStore.send(.seek(to: $0))
-                playerStore.send(.play)
+                playerStore.send(.resume)
             },
             onCyclePlaybackMode: {
                 playerStore.send(.cyclePlaybackMode)

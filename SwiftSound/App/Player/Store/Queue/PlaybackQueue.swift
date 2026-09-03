@@ -27,7 +27,7 @@ struct PlaybackQueue {
     // MARK: - Public
     mutating func play(_ song: Song) -> QueueTransition {
         if let index = songs.firstIndex(where: { $0.id == song.id }) {
-            let isReplayingCurrentSong = currentIndex == index
+            let isReplayingCurrentSong = currentSong?.id == song.id
             currentIndex = index
             return isReplayingCurrentSong ? .replay(song) : .play(song)
         } else {
@@ -40,7 +40,7 @@ struct PlaybackQueue {
     mutating func play(at index: Int) -> QueueTransition {
         guard let song = songs[safe: index] else { return .noChange }
 
-        let isReplayingCurrentSong = currentIndex == index
+        let isReplayingCurrentSong = currentSong?.id == song.id
         currentIndex = index
         return isReplayingCurrentSong ? .replay(song) : .play(song)
     }
@@ -66,6 +66,7 @@ struct PlaybackQueue {
     }
 
     mutating func replace(with songs: [Song], startIndex: Int) -> QueueTransition {
+        let previousCurrentSongID = currentSong?.id
         self.songs = songs
 
         guard let song = songs[safe: startIndex] else {
@@ -74,7 +75,7 @@ struct PlaybackQueue {
         }
 
         currentIndex = startIndex
-        return .play(song)
+        return previousCurrentSongID == song.id ? .replay(song) : .play(song)
     }
 
     mutating func remove(songId: Song.ID, mode: PlaybackMode) -> QueueTransition {

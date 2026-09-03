@@ -34,7 +34,7 @@ struct NewSongCover: View {
                 isCurrent: isCurrent,
                 isHovering: isHovering
             ) {
-                playerStore.send(.playSong(song.song))
+                playerStore.send(.play(.song(song.song)))
             }
 
             songInfo

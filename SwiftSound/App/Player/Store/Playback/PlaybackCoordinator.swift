@@ -34,10 +34,16 @@ final class PlaybackCoordinator {
 
     func handle(action: PlayerAction, state: PlayerState) {
         switch action {
-        case .playSong, .playQueuedSong, .playQueue, .next, .previous:
+        case .play(.song), .play(.songs), .play(.queueIndex):
+            syncTransport(with: state)
+
+        case .next, .previous:
             syncCurrentTrack(with: state)
 
-        case .play, .pause, .togglePlayPause:
+        case .play(.source):
+            break
+
+        case .resume, .pause, .togglePlayPause:
             syncTransport(with: state)
 
         case .seek(let timeInterval):

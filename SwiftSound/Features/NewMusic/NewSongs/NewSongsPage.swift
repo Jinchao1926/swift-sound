@@ -44,7 +44,7 @@ struct NewSongsPage: View {
 private extension NewSongsPage {
     func playAllSongs() {
         guard !viewModel.state.items.isEmpty else { return }
-        playerStore.send(.playQueue(viewModel.state.items, startIndex: 0))
+        playerStore.send(.play(.songs(viewModel.state.items, startIndex: 0)))
     }
 }
 

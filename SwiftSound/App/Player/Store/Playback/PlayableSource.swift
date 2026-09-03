@@ -16,7 +16,7 @@ protocol PlayableSongsProviding {
     func fetchSongs(for source: PlayableSource) async throws -> [Song]
 }
 
-struct PlayableSongsRepository: PlayableSongsProviding {
+struct PlayableSongsProvider: PlayableSongsProviding {
     private let playlistsRepository: PlaylistsRepository
     private let albumsRepository: AlbumsRepository
 

@@ -12,7 +12,6 @@ struct ArtistDetailPage: View {
     let route: ArtistRoute
 
     @StateObject private var viewModel: ArtistDetailViewModel
-    @State private var loadingAlbumID: Album.ID?
     @EnvironmentObject private var playerStore: PlayerStore
 
     init(id: Int, route: ArtistRoute) {
@@ -81,20 +80,12 @@ struct ArtistDetailPage: View {
     }
 
     private func playAlbum(_ albumID: Album.ID) {
-        guard loadingAlbumID == nil else { return }
-        loadingAlbumID = albumID
-
-        let playerStore = playerStore
-
-        Task {
-            defer { loadingAlbumID = nil }
-            try await playerStore.play(source: .album(id: albumID))
-        }
+        playerStore.send(.play(.source(.album(id: albumID))))
     }
 
     private func playAllSongs() {
         guard let songs = viewModel.songsState.value, !songs.isEmpty else { return }
-        playerStore.send(.playQueue(songs, startIndex: 0))
+        playerStore.send(.play(.songs(songs, startIndex: 0)))
     }
 
     private func tabBadgeText(for route: ArtistRoute) -> String? {

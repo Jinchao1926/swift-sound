@@ -47,6 +47,7 @@ enum PlaybackMode: String, CaseIterable, Codable {
 
 struct PlayerState {
     var queue: PlaybackQueue = PlaybackQueue()
+    var songIDsBySource: [PlayableSource: Set<Song.ID>] = [:]
 
     // playback states
     var playbackState: PlaybackState = .stopped

@@ -19,23 +19,33 @@ enum PlayerStoreEvent: Equatable {
     }
 }
 
+private enum PlayerEffectEvent {
+    case sourceLoaded(requestID: UUID, source: PlayableSource, songs: [Song])
+    case sourceLoadFailed(requestID: UUID)
+}
+
 /// Defines app-level playback store
 final class PlayerStore: ObservableObject {
+    // MARK: - State
     @Published private(set) var state: PlayerState
 
+    // MARK: - Dependencies
     private let persistence: PlayerStatePersistence
     private let playableSongsProvider: PlayableSongsProviding
     private var playbackCoordinator: PlaybackCoordinator?
+
+    // MARK: - Source Loading
+    private var sourceLoadingTask: Task<Void, Never>?
+    private var activeSourceRequestID: UUID?
+
+    // MARK: - Events
     private let eventSubject = PassthroughSubject<PlayerStoreEvent, Never>()
 
-    var events: AnyPublisher<PlayerStoreEvent, Never> {
-        eventSubject.eraseToAnyPublisher()
-    }
-
+    // MARK: - Lifecycle
     init(
         state: PlayerState? = nil,
         persistence: PlayerStatePersistence = FilePlayerStatePersistence(),
-        playableSongsProvider: PlayableSongsProviding = PlayableSongsRepository()
+        playableSongsProvider: PlayableSongsProviding = PlayableSongsProvider()
     ) {
         self.persistence = persistence
         self.playableSongsProvider = playableSongsProvider
@@ -52,7 +62,17 @@ final class PlayerStore: ObservableObject {
         )
     }
 
+    // MARK: - Public API
+    var events: AnyPublisher<PlayerStoreEvent, Never> {
+        eventSubject.eraseToAnyPublisher()
+    }
+
     func send(_ action: PlayerAction) {
+        if case .play(.source(let source)) = action {
+            load(source: source)
+            return
+        }
+
         reduce(action)
         playbackCoordinator?.handle(action: action, state: state)
         persist(after: action)
@@ -62,24 +82,55 @@ final class PlayerStore: ObservableObject {
         persistNow()
     }
 
-    @discardableResult
-    func play(source: PlayableSource) async throws -> [Song] {
-        let songs = try await playableSongsProvider.fetchSongs(for: source)
-        guard !songs.isEmpty else { return [] }
-
-        send(.playQueue(songs, startIndex: 0))
-        return songs
-    }
-
+    // MARK: - Event Publishing
     private func emit(_ event: PlayerStoreEvent) {
         eventSubject.send(event)
     }
 }
 
-// MARK: - Reducer
+// MARK: - Source Loading
 private extension PlayerStore {
+    func load(source: PlayableSource) {
+        // A newer request supersedes the previous source load.
+        let requestID = UUID()
+        activeSourceRequestID = requestID
+        sourceLoadingTask?.cancel()
+
+        sourceLoadingTask = Task { [weak self, playableSongsProvider] in
+            do {
+                let songs = try await playableSongsProvider.fetchSongs(for: source)
+                guard !Task.isCancelled else { return }
+                self?.receive(.sourceLoaded(requestID: requestID, source: source, songs: songs))
+            } catch {
+                guard !Task.isCancelled else { return }
+                self?.receive(.sourceLoadFailed(requestID: requestID))
+            }
+        }
+    }
+
+    func receive(_ event: PlayerEffectEvent) {
+        switch event {
+        case .sourceLoaded(let requestID, let source, let songs):
+            // Ignore responses from cancelled or superseded requests.
+            guard requestID == activeSourceRequestID, !songs.isEmpty else { return }
+            state.songIDsBySource[source] = Set(songs.map(\.id))
+
+            let startIndex = state.currentSong.flatMap { currentSong in
+                songs.firstIndex { $0.id == currentSong.id }
+            } ?? 0
+            send(.play(.songs(songs, startIndex: startIndex)))
+
+        case .sourceLoadFailed(let requestID):
+            guard requestID == activeSourceRequestID else { return }
+        }
+    }
+}
+
+// MARK: - Action Reduction
+private extension PlayerStore {
+    // MARK: Action Routing
     func reduce(_ action: PlayerAction) {
-        if reduceSelectionAction(action) { return }
+        if reducePlayAction(action) { return }
         if reducePlaybackStateAction(action) { return }
         if reducePlaybackNavigationAction(action) { return }
         if reducePlaybackTimeAction(action) { return }
@@ -88,23 +139,28 @@ private extension PlayerStore {
         reduceAudioAction(action)
     }
 
+    // MARK: Play
     @discardableResult
-    func reduceSelectionAction(_ action: PlayerAction) -> Bool {
+    func reducePlayAction(_ action: PlayerAction) -> Bool {
         switch action {
-        case .playSong(let song):
+        case .play(.song(let song)):
             let previousQueueSongIDs = queueSongIDs()
             handleQueueTransition(state.queue.play(song))
             emitPlaylistAdditionIfNeeded(before: previousQueueSongIDs)
             return true
 
-        case .playQueuedSong(let startIndex):
-            handleQueueTransition(state.queue.play(at: startIndex))
-            return true
-
-        case .playQueue(let songs, let startIndex):
+        case .play(.songs(let songs, let startIndex)):
+            guard songs[safe: startIndex] != nil else { return true }
             let previousQueueSongIDs = queueSongIDs()
             handleQueueTransition(state.queue.replace(with: songs, startIndex: startIndex))
             emitPlaylistAdditionIfNeeded(before: previousQueueSongIDs)
+            return true
+
+        case .play(.source):
+            return true
+
+        case .play(.queueIndex(let queueIndex)):
+            handleQueueTransition(state.queue.play(at: queueIndex))
             return true
 
         default:
@@ -112,10 +168,11 @@ private extension PlayerStore {
         }
     }
 
+    // MARK: Transport
     @discardableResult
     func reducePlaybackStateAction(_ action: PlayerAction) -> Bool {
         switch action {
-        case .play:
+        case .resume:
             if state.currentSong != nil {
                 state.playbackState = .playing
             }
@@ -126,7 +183,18 @@ private extension PlayerStore {
             return true
 
         case .togglePlayPause:
-            togglePlayPause()
+            switch state.playbackState {
+            case .stopped:
+                if state.currentSong != nil {
+                    state.playbackState = .playing
+                }
+            case .playing:
+                state.playbackState = .paused
+            case .paused:
+                state.playbackState = .playing
+            default:
+                break
+            }
             return true
 
         default:
@@ -134,6 +202,7 @@ private extension PlayerStore {
         }
     }
 
+    // MARK: Navigation
     @discardableResult
     func reducePlaybackNavigationAction(_ action: PlayerAction) -> Bool {
         switch action {
@@ -150,6 +219,7 @@ private extension PlayerStore {
         }
     }
 
+    // MARK: Time
     @discardableResult
     func reducePlaybackTimeAction(_ action: PlayerAction) -> Bool {
         switch action {
@@ -162,6 +232,7 @@ private extension PlayerStore {
         }
     }
 
+    // MARK: Queue
     @discardableResult
     func reduceQueueAction(_ action: PlayerAction) -> Bool {
         switch action {
@@ -195,6 +266,7 @@ private extension PlayerStore {
         }
     }
 
+    // MARK: Mode
     @discardableResult
     func reduceModeAction(_ action: PlayerAction) -> Bool {
         switch action {
@@ -211,6 +283,7 @@ private extension PlayerStore {
         }
     }
 
+    // MARK: Audio
     func reduceAudioAction(_ action: PlayerAction) {
         switch action {
         case .setVolume(let volume):
@@ -227,7 +300,7 @@ private extension PlayerStore {
     }
 }
 
-// MARK: - Private
+// MARK: - Playback Events
 private extension PlayerStore {
     func handle(_ event: PlaybackEvent) {
         switch event {
@@ -247,7 +320,7 @@ private extension PlayerStore {
 
         case .finished(let songId):
             guard songId == state.currentSong?.id else { return }
-            // 自动下一首歌
+            // Automatic navigation also uses the same transition semantics.
             handleQueueTransition(state.queue.moveNext(mode: state.playbackMode))
             playbackCoordinator?.handle(event: event, state: state)
             persistNow()
@@ -258,10 +331,13 @@ private extension PlayerStore {
             state.currentTime = timeInterval.clamped(to: 0...duration)
         }
     }
+}
 
+// MARK: - Persistence
+private extension PlayerStore {
     func persist(after action: PlayerAction) {
         switch action {
-        case .play:
+        case .resume:
             return
 
         case .togglePlayPause where state.playbackState != .paused:
@@ -275,26 +351,19 @@ private extension PlayerStore {
     func persistNow() {
         persistence.save(state)
     }
+}
 
-    func togglePlayPause() {
-        switch state.playbackState {
-        case .stopped:
-            if state.currentSong != nil {
-                state.playbackState = .playing
-            }
-        case .playing:
-            state.playbackState = .paused
-        case .paused:
-            state.playbackState = .playing
-        default:
-            break
-        }
-    }
-
+// MARK: - Queue Transitions
+private extension PlayerStore {
     func handleQueueTransition(_ transition: QueueTransition) {
         switch transition {
-        case .play, .replay:
+        case .play:
+            // A new song always starts from the beginning.
             state.currentTime = 0
+            state.playbackState = .playing
+
+        case .replay:
+            // Replay means the same song was selected; keep its current time.
             state.playbackState = .playing
 
         case .stop:
@@ -305,7 +374,10 @@ private extension PlayerStore {
             break
         }
     }
+}
 
+// MARK: - Helpers
+private extension PlayerStore {
     func queueSongIDs() -> [Song.ID] { state.queue.songs.map(\.id) }
 
     func emitPlaylistAdditionIfNeeded(before previousQueueSongIDs: [Song.ID]) {
