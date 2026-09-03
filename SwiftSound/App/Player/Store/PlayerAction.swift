@@ -8,13 +8,25 @@
 import Foundation
 
 enum PlayerAction {
-    // Selection
-    case playSong(Song)
-    case playQueuedSong(at: Int)
-    case playQueue([Song], startIndex: Int)
+    // Play
+    enum PlayTarget {
+        /// Play one song, adding it to the queue when it is not already present.
+        case song(Song)
+
+        /// Replace the queue with songs and play the song at startIndex.
+        case songs([Song], startIndex: Int)
+
+        /// Load songs from a remote album or playlist source before playing them.
+        case source(PlayableSource)
+
+        /// Play a song at an index in the current queue.
+        case queueIndex(Int)
+    }
+
+    case play(PlayTarget)
 
     // Transport
-    case play
+    case resume
     case pause
     case togglePlayPause
     case next

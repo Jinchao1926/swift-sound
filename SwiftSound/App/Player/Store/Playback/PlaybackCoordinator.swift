@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 final class PlaybackCoordinator {
-    private let songsRespository: SongsRespository
+    private let songPlaybackURLProvider: SongPlaybackURLProviding
     private let audioController: AudioPlaybackControlling
     private let stateProvider: () -> PlayerState?
     private let sendEvent: (PlaybackEvent) -> Void
@@ -18,13 +18,13 @@ final class PlaybackCoordinator {
     private var playbackTask: Task<Void, Never>?
 
     init(
-        songsRespository: SongsRespository = SongsRespository(),
+        songPlaybackURLProvider: SongPlaybackURLProviding = SongsRespository(),
         audioController: AudioPlaybackControlling = AVPlayerAudioController(),
         initialVolume: Double = 1,
         stateProvider: @escaping () -> PlayerState?,
         sendEvent: @escaping (PlaybackEvent) -> Void
     ) {
-        self.songsRespository = songsRespository
+        self.songPlaybackURLProvider = songPlaybackURLProvider
         self.audioController = audioController
         self.stateProvider = stateProvider
         self.sendEvent = sendEvent
@@ -34,10 +34,16 @@ final class PlaybackCoordinator {
 
     func handle(action: PlayerAction, state: PlayerState) {
         switch action {
-        case .playSong, .playQueuedSong, .playQueue, .next, .previous:
+        case .play(.song), .play(.songs), .play(.queueIndex):
+            syncTransport(with: state)
+
+        case .next, .previous:
             syncCurrentTrack(with: state)
 
-        case .play, .pause, .togglePlayPause:
+        case .play(.source):
+            break
+
+        case .resume, .pause, .togglePlayPause:
             syncTransport(with: state)
 
         case .seek(let timeInterval):
@@ -156,13 +162,14 @@ private extension PlaybackCoordinator {
 
         let songId = song.id
         let startTime = state.currentTime
+        let provider = songPlaybackURLProvider
         sendEvent(.loading(songId: songId))
 
-        playbackTask = Task { [weak self] in
+        playbackTask = Task { [weak self, provider] in
             guard let self else { return }
 
             do {
-                guard let url = try await songsRespository.fetchSongPlaybackURL(songId) else {
+                guard let url = try await provider.fetchSongPlaybackURL(songId) else {
                     await MainActor.run {
                         self.sendEvent(.failed(songId: songId, message: "暂时无法获取播放地址"))
                     }

@@ -87,7 +87,7 @@ struct AlbumDetailPage: View {
 private extension AlbumDetailPage {
     func playAllSongs() {
         guard !viewModel.state.songs.isEmpty else { return }
-        playerStore.send(.playQueue(viewModel.state.songs, startIndex: 0))
+        playerStore.send(.play(.songs(viewModel.state.songs, startIndex: 0)))
     }
 }
 

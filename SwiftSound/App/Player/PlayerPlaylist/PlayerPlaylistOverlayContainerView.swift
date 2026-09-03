@@ -20,7 +20,7 @@ struct PlayerPlaylistOverlayContainerView: View {
             playbackState: playerStore.state.playbackState,
             onDismiss: onDismiss,
             onPlay: {
-                playerStore.send(.playQueuedSong(at: $0))
+                playerStore.send(.play(.queueIndex($0)))
             },
             onTogglePlayPause: {
                 playerStore.send(.togglePlayPause)

@@ -31,7 +31,7 @@ struct MusicTableIndexCell: View {
                 .foregroundStyle(Color.textSecondary)
                 .opacity(showsIndex ? 1 : 0)
 
-            Image(systemName: "waveform")
+            Image(systemName: "waveform.mid")
                 .font(.font20)
                 .foregroundStyle(Color.accentPrimary)
                 .frame(width: Layout.iconSize, height: Layout.iconSize)

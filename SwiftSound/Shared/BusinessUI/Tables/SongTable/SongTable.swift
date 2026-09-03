@@ -67,7 +67,7 @@ private extension SongTable {
         switch action {
         case .play:
             guard let startIndex = songs.firstIndex(where: { $0.id == row.id }) else { return }
-            playerStore.send(.playQueue(songs, startIndex: startIndex))
+            playerStore.send(.play(.songs(songs, startIndex: startIndex)))
         case .pause:
             playerStore.send(.pause)
         }

@@ -37,7 +37,6 @@ struct NewMusicPage: View {
 private extension NewMusicPage {
     enum Layout {
         static let bottomInset: CGFloat = 20
-
         static let horizontalInset: CGFloat = 40
     }
 }

@@ -91,7 +91,7 @@ private extension PlaylistDetailPage {
     func playAllSongs() {
         guard let songs = viewModel.state.value?.tracks, !songs.isEmpty else { return }
 
-        playerStore.send(.playQueue(songs, startIndex: 0))
+        playerStore.send(.play(.songs(songs, startIndex: 0)))
     }
 }
 
