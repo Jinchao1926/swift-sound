@@ -26,6 +26,8 @@ enum AppRoute: Identifiable, Hashable, Equatable {
     case playlist(id: Int, secondary: PlaylistRoute = .songs)
     case user(id: Int, secondary: UserRoute = .playlists)
     case mv(id: Int)
+    // Settings
+    case setting
 
     var id: Self { self }
 
