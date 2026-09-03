@@ -2,6 +2,8 @@
 //  UserPlaylistSection.swift
 //  SwiftSound
 //
+//  Created by Jinchao Lin on 2026/9/1.
+//
 
 import SwiftUI
 
@@ -12,12 +14,14 @@ struct UserPlaylistSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Layout.paginationSpacing) {
-            if collection.state.value != nil, collection.state.items.isEmpty {
-                EmptyStateView()
-            } else {
-                playlists(collection.state.items)
-                    .loadingPlaceholder(collection.state.isInitialLoading)
+            Group {
+                if collection.state.value != nil, collection.state.items.isEmpty {
+                    EmptyStateView()
+                } else {
+                    playlists(collection.state.items)
+                }
             }
+            .loadingPlaceholder(collection.state.isInitialLoading)
 
             if collection.pageCount > 1 {
                 PaginationControl(

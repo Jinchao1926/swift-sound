@@ -28,4 +28,10 @@ struct UsersRepository {
         let response = try await apiClient.request(request)
         return response
     }
+
+    func fetchUserRadios(uid: Int) async throws -> UserRadiosResponse {
+        let request = UserRadiosRequest(uid: uid)
+        let response = try await apiClient.request(request)
+        return response
+    }
 }
