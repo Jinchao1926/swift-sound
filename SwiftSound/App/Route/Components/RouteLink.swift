@@ -68,9 +68,10 @@ private struct RouteLinkModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .contentShape(Rectangle())
-            .onTapGesture {
-                navigate(router)
-            }
+            .simultaneousGesture(
+                TapGesture()
+                    .onEnded { navigate(router) }
+            )
             .disabled(!isEnabled)
             .opacity(isEnabled ? 1 : 0.5)
             .pointerStyle(isEnabled ? .link : .default)

@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct TopToolbarView: View {
-    @EnvironmentObject private var router: AppRouter
-
     @State private var searchText = ""
     @State private var isMicroButtonHovering = false
 
@@ -70,7 +68,9 @@ struct TopToolbarView: View {
             loginStatus
 
             IconButton(systemName: "envelope").help("消息中心")
-            IconButton(systemName: "hexagon").help("设置")
+            IconButton(systemName: "hexagon")
+                .routeLink(to: .setting)
+                .help("设置")
             IconButton(systemName: "tshirt").help("换肤")
             IconButton(systemName: "rectangle.on.rectangle").help("mini")
         }

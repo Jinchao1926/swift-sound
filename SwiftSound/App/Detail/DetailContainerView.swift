@@ -35,6 +35,7 @@ struct DetailContainerView: View {
     @ViewBuilder
     private func routeView(_ route: AppRoute) -> some View {
         switch route {
+        // Sidebar routes
         case .featured(let secondary):
             FeaturedPage(route: secondary)
         case .podcast:
@@ -47,10 +48,12 @@ struct DetailContainerView: View {
             PlayedPage()
         case .download:
             DownloadPage()
+        // Others
         case .newMusic(let secondary):
             NewMusicPage(route: secondary)
         case .featuredPlaylist(let category):
             FeaturedPlaylistPage(initialCategory: category)
+        // Details
         case .artistSongs(let id):
             ArtistSongsPage(id: id)
         case .artist(let id, let secondary):
@@ -63,6 +66,9 @@ struct DetailContainerView: View {
             UserDetailPage(id: id, route: secondary)
         case .mv(let id):
             MVDetailPage(id: id)
+        // Settings
+        case .setting:
+            SettingPage()
         }
     }
     // swiftlint:enable cyclomatic_complexity
