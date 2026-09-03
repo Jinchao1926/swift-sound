@@ -62,8 +62,8 @@ struct UserDetailPage: View {
             )
         case .notes:
             UserNotesPage()
-        case .podcasts:
-            UserPodcastsPage()
+        case .radios:
+            UserRadiosPage()
         }
     }
 

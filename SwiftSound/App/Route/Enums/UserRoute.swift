@@ -10,7 +10,7 @@ import Foundation
 enum UserRoute: RouteTabProtocol {
     case playlists
     case notes
-    case podcasts
+    case radios
 
     var title: String {
         switch self {
@@ -18,7 +18,7 @@ enum UserRoute: RouteTabProtocol {
             return "音乐"
         case .notes:
             return "笔记"
-        case .podcasts:
+        case .radios:
             return "播客"
         }
     }
