@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AlbumDetailHeader: View {
-    let album: Album
+    let album: Album?
     let subCount: Int?
     let onPlayAll: () -> Void
 
@@ -16,48 +16,50 @@ struct AlbumDetailHeader: View {
         HStack(spacing: Layout.spacing) {
             VStack(spacing: 0) {
                 recordPeek
-                RemoteImage(url: URL(string: album.picUrl))
+                RemoteImage(url: album?.imageURL)
                     .frame(width: Layout.albumSize, height: Layout.albumSize)
                     .rounded(radius: Layout.albumRadius)
             }
 
-            VStack(alignment: .leading, spacing: 0) {
-                Text(album.name)
-                    .font(.font18)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(Color.textPrimary)
+            if let album {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(album.name)
+                        .font(.font18)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color.textPrimary)
 
-                HStack(spacing: Layout.artistSpacing) {
-                    if let artist = album.artist {
-                        HStack(spacing: Layout.artistSpacing) {
-                            Avatar(url: artist.avatarURL, size: Layout.avatarSize)
+                    HStack(spacing: Layout.artistSpacing) {
+                        if let artist = album.artist {
+                            HStack(spacing: Layout.artistSpacing) {
+                                Avatar(url: artist.avatarURL, size: Layout.avatarSize)
 
-                            Text(artist.name)
-                                .foregroundStyle(Color.textSecondary)
+                                Text(artist.name)
+                                    .foregroundStyle(Color.textSecondary)
+                            }
+                            .routeLink(to: .artist(id: artist.id))
                         }
-                        .routeLink(to: .artist(id: artist.id))
-                    }
 
-                    if let publishTime = album.publishTime {
-                        Text("\(publishTime.formattedMillisecondsYearMonthDay()) 发布")
-                            .foregroundStyle(Color.textTertiary)
+                        if let publishTime = album.publishTime {
+                            Text("\(publishTime.formattedMillisecondsYearMonthDay()) 发布")
+                                .foregroundStyle(Color.textTertiary)
+                        }
+                    }
+                    .font(.font13)
+                    .padding(.top, Layout.artistTopInset)
+
+                    Spacer()
+
+                    HStack(spacing: Layout.buttonSpacing) {
+                        MusicActionButtons.playAll {
+                            onPlayAll()
+                        }
+                        MusicActionButtons.favorite(subscribeTitle) {}
+                        MusicActionButtons.download {}
+                        MusicActionButtons.more {}
                     }
                 }
-                .font(.font13)
-                .padding(.top, Layout.artistTopInset)
-
-                Spacer()
-
-                HStack(spacing: Layout.buttonSpacing) {
-                    MusicActionButtons.playAll {
-                        onPlayAll()
-                    }
-                    MusicActionButtons.favorite(subscribeTitle) {}
-                    MusicActionButtons.download {}
-                    MusicActionButtons.more {}
-                }
+                .padding(.top, Layout.recordVisibleHeight)
             }
-            .padding(.top, Layout.recordVisibleHeight)
 
             Spacer()
         }
