@@ -62,6 +62,10 @@ struct Identify: Decodable {
     let imageDesc: String
 }
 
+extension Identify {
+    var imageURL: URL? { URL(string: imageUrl) }
+}
+
 struct User: Decodable, Identifiable {
     let userId: Int
     let nickname: String

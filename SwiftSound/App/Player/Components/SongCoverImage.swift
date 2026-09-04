@@ -28,7 +28,7 @@ struct SongCoverImage: View {
                 .aspectRatio(contentMode: .fill)
                 .scaleEffect(1.01)
 
-            RemoteImage(url: URL(string: song.album.picUrl))
+            RemoteImage(url: song.album.imageURL)
                 .clipShape(Circle())
                 .padding(metrics.albumInset)
         }

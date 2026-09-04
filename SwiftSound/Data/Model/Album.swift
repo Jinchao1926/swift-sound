@@ -86,6 +86,10 @@ struct Album: Codable, Identifiable {
     let description: String?
 }
 
+extension Album {
+    var imageURL: URL? { URL(string: picUrl) }
+}
+
 /**
  {
      "onSale": false,

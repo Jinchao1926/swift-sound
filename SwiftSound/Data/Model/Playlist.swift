@@ -204,7 +204,7 @@ struct Playlist: Decodable, Identifiable {
 }
 
 extension Playlist {
-    var coverURL: URL? { URL(string: coverImgUrl) }
+    var imageURL: URL? { URL(string: coverImgUrl) }
 }
 
 /**
@@ -286,6 +286,10 @@ struct Toplist: Decodable, Identifiable {
     let tags: [String]
     let updateFrequency: String
     let tracks: [ToplistSong]?
+}
+
+extension Toplist {
+    var imageURL: URL? { URL(string: coverImgUrl) }
 }
 
 struct ToplistSong: Decodable, Identifiable {

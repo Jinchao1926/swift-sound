@@ -26,7 +26,7 @@ struct MVCard: View {
         Color.clear
             .aspectRatio(Layout.coverAspectRatio, contentMode: .fit)
             .overlay {
-                RemoteImage(url: URL(string: mv.imgurl), size: nil)
+                RemoteImage(url: mv.imageURL, size: nil)
             }
             .overlay(alignment: .topTrailing) {
                 VStack(alignment: .trailing) {

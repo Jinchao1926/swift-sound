@@ -29,7 +29,7 @@ struct NewSongCover: View {
     var body: some View {
         HStack(spacing: Layout.contentSpacing) {
             PlayableSongCover(
-                url: URL(string: song.picUrl),
+                url: song.imageURL,
                 controlIcon: controlIcon,
                 isCurrent: isCurrent,
                 isHovering: isHovering

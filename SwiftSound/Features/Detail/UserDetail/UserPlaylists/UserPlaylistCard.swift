@@ -24,7 +24,7 @@ struct UserPlaylistCard: View {
     }
 
     private var playlistCover: some View {
-        RemoteImage(url: playlist.coverURL)
+        RemoteImage(url: playlist.imageURL)
             .aspectRatio(1, contentMode: .fit)
             .frame(maxWidth: .infinity)
             .overlay(alignment: .topTrailing) {

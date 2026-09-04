@@ -15,7 +15,7 @@ struct PlaylistCover: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            RemoteImage(url: playlist.coverURL)
+            RemoteImage(url: playlist.imageURL)
                 .aspectRatio(1, contentMode: .fit)
 
             Color.clear
@@ -41,8 +41,8 @@ struct PlaylistCover: View {
         .rounded()
         .pointerStyle(.link)
         .onHover { isHovering = $0 }
-        .task(id: playlist.coverURL) {
-            await themeColorLoader.load(from: playlist.coverURL)
+        .task(id: playlist.imageURL) {
+            await themeColorLoader.load(from: playlist.imageURL)
         }
         .animation(.easeInOut(duration: 0.18), value: isHovering)
     }

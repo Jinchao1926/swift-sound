@@ -22,7 +22,7 @@ struct PlaylistTableRow: MusicTableRow {
 
     var id: Int { playlist.id }
 
-    var imageURL: URL? { playlist.coverURL }
+    var imageURL: URL? { playlist.imageURL }
 
     var title: String { playlist.name }
 

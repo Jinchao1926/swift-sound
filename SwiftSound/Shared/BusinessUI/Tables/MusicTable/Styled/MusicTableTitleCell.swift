@@ -108,7 +108,7 @@ private enum Layout {
 #Preview {
     VStack {
         MusicTableTitleCell(
-            imageURL: URL(string: Song.preview.album.picUrl),
+            imageURL: Song.preview.album.imageURL,
             title: Song.preview.name,
             titleSuffix: ""
         ) {
@@ -118,7 +118,7 @@ private enum Layout {
         }
 
         MusicTableTitleCell(
-            imageURL: URL(string: Song.preview1.album.picUrl),
+            imageURL: Song.preview1.album.imageURL,
             title: Song.preview1.name,
             titleSuffix: "",
             rowState: .init(isHovering: true, playbackStatus: .currentPlaying)

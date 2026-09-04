@@ -39,7 +39,7 @@ private extension AlbumCard {
     }
 
     var albumCover: some View {
-        RemoteImage(url: URL(string: album.picUrl))
+        RemoteImage(url: album.imageURL)
             .aspectRatio(1, contentMode: .fit)
             .frame(maxWidth: .infinity)
             .playbackOverlay(

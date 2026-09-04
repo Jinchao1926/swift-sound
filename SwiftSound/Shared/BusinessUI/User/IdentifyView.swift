@@ -12,7 +12,7 @@ struct IdentifyView: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            Avatar(url: URL(string: identify.imageUrl), size: Layout.size)
+            Avatar(url: identify.imageURL, size: Layout.size)
             Text(identify.imageDesc)
                 .font(.font12)
                 .foregroundStyle(Color.accentPrimary)

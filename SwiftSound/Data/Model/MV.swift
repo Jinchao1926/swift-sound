@@ -49,6 +49,10 @@ struct MV: Decodable, Identifiable {
     let subed: Bool
 }
 
+extension MV {
+    var imageURL: URL? { URL(string: imgurl) }
+}
+
 /**
  {
      "id": 14236176,

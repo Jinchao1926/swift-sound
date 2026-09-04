@@ -32,7 +32,7 @@ struct RankingCard: View {
     }
 
     var body: some View {
-        RemoteImage(url: URL(string: toplist.coverImgUrl))
+        RemoteImage(url: toplist.imageURL)
             .aspectRatio(1, contentMode: .fit)
             .frame(maxWidth: .infinity)
             .overlay {

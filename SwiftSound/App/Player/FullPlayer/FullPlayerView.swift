@@ -42,7 +42,7 @@ struct FullPlayerView: View {
         .task(id: model.song.id) {
             lyricsStore.loadLyricsIfNeeded(for: model.song.id)
             await themeColorLoader.load(
-                from: URL(string: model.song.album.picUrl),
+                from: model.song.album.imageURL,
                 animation: .easeInOut(duration: 0.24)
             )
         }

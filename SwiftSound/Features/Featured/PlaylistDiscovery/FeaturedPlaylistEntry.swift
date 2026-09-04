@@ -41,8 +41,8 @@ struct FeaturedPlaylistEntry: View {
                 .padding(.vertical, Layout.textVerticalInset)
                 .padding(.horizontal, Layout.textHorizontalInset)
         }
-        .task(id: playlist?.coverURL) {
-            await themeColorLoader.load(from: playlist?.coverURL)
+        .task(id: playlist?.imageURL) {
+            await themeColorLoader.load(from: playlist?.imageURL)
         }
     }
 }
@@ -50,12 +50,12 @@ struct FeaturedPlaylistEntry: View {
 private extension FeaturedPlaylistEntry {
     var playlistCovers: some View {
         ZStack {
-            RemoteImage(url: playlist?.coverURL)
+            RemoteImage(url: playlist?.imageURL)
                 .frame(width: Layout.backgroundImageWidth, height: Layout.backgroundImageHeight)
                 .rounded()
                 .opacity(0.6)
 
-            RemoteImage(url: playlist?.coverURL)
+            RemoteImage(url: playlist?.imageURL)
                 .frame(width: Layout.imageSize, height: Layout.imageSize)
                 .rounded()
         }
