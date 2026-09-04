@@ -23,12 +23,10 @@ struct PlaylistDetailPage: View {
     var body: some View {
         ScrollView {
             VStack(spacing: Layout.spacing) {
-                if let playlist = viewModel.state.value {
-                    PlaylistDetailHeader(
-                        playlist: playlist,
-                        onPlayAll: playAllSongs
-                    )
-                }
+                PlaylistDetailHeader(
+                    playlist: viewModel.state.value,
+                    onPlayAll: playAllSongs
+                )
 
                 RouteTabView(
                     selectedRoute: route,
