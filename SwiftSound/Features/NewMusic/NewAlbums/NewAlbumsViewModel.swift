@@ -22,9 +22,9 @@ final class NewAlbumsViewModel: ObservableObject {
     @Published var selection = TopAlbumsSelection()
     @Published private(set) var state: Loadable<TopAlbums> = .idle
 
-    private let repository: AlbumsRepository
+    private let repository: AlbumsRepositoryProtocol
 
-    init(repository: AlbumsRepository = AlbumsRepository()) {
+    init(repository: AlbumsRepositoryProtocol = AlbumsRepository()) {
         self.repository = repository
     }
 

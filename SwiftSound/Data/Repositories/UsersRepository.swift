@@ -7,7 +7,17 @@
 
 import Foundation
 
-struct UsersRepository {
+protocol UsersRepositoryProtocol {
+    func fetchUserDetail(uid: Int) async throws -> UserDetail
+    func fetchUserPlaylists(uid: Int, offset: Int, limit: Int) async throws -> UserPlaylistsResponse
+    func fetchUserRadios(uid: Int) async throws -> UserRadiosResponse
+}
+
+extension UsersRepositoryProtocol {
+    func fetchUserPlaylists(uid: Int, offset: Int = 0, limit: Int = 24) async throws -> UserPlaylistsResponse { try await fetchUserPlaylists(uid: uid, offset: offset, limit: limit) }
+}
+
+struct UsersRepository: UsersRepositoryProtocol {
     private let apiClient: APIClientProtocol
 
     init(apiClient: APIClientProtocol = APIClient()) {

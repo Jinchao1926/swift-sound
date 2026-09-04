@@ -7,7 +7,24 @@
 
 import Foundation
 
-struct ArtistsRepository {
+protocol ArtistsRepositoryProtocol {
+    func fetchArtistList(query: ArtistListQuery, offset: Int?) async throws -> ArtistListResponse
+    func fetchArtistDetail(id: Int) async throws -> ArtistDetail
+    func fetchArtistDesc(id: Int) async throws -> ArtistDesc
+    func fetchArtistPopularSongs(id: Int) async throws -> [Song]
+    func fetchArtistSongs(id: Int, offset: Int, limit: Int) async throws -> ArtistSongsResponse
+    func fetchArtistAlbums(id: Int, offset: Int, limit: Int) async throws -> ArtistAlbumsResponse
+    func fetchArtistMVs(id: Int, offset: Int, limit: Int) async throws -> ArtistMVsResponse
+}
+
+extension ArtistsRepositoryProtocol {
+    func fetchArtistList(query: ArtistListQuery, offset: Int? = nil) async throws -> ArtistListResponse { try await fetchArtistList(query: query, offset: offset) }
+    func fetchArtistSongs(id: Int, offset: Int = 0, limit: Int = 50) async throws -> ArtistSongsResponse { try await fetchArtistSongs(id: id, offset: offset, limit: limit) }
+    func fetchArtistAlbums(id: Int, offset: Int = 0, limit: Int = 40) async throws -> ArtistAlbumsResponse { try await fetchArtistAlbums(id: id, offset: offset, limit: limit) }
+    func fetchArtistMVs(id: Int, offset: Int = 0, limit: Int = 18) async throws -> ArtistMVsResponse { try await fetchArtistMVs(id: id, offset: offset, limit: limit) }
+}
+
+struct ArtistsRepository: ArtistsRepositoryProtocol {
     private let apiClient: APIClientProtocol
 
     init(apiClient: APIClientProtocol = APIClient()) {

@@ -11,9 +11,9 @@ import Combine
 final class HeroBannerSectionViewModel: ObservableObject {
     @Published private(set) var state: Loadable<[Banner]> = .idle
 
-    private let repository: BannersRepository
+    private let repository: BannersRepositoryProtocol
 
-    init(repository: BannersRepository = BannersRepository()) {
+    init(repository: BannersRepositoryProtocol = BannersRepository()) {
         self.repository = repository
     }
 

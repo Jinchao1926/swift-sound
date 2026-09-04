@@ -16,12 +16,12 @@ final class ArtistDetailViewModel: ObservableObject {
     @Published private(set) var profileState: Loadable<ArtistDesc> = .idle
 
     private let id: Int
-    private let repository: ArtistsRepository
+    private let repository: ArtistsRepositoryProtocol
 
     // MARK: - LifeCycle
     init(
         id: Int,
-        repository: ArtistsRepository = ArtistsRepository()
+        repository: ArtistsRepositoryProtocol = ArtistsRepository()
     ) {
         self.id = id
         self.repository = repository

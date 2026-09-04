@@ -7,7 +7,12 @@
 
 import Foundation
 
-struct MVsRepository {
+protocol MVsRepositoryProtocol {
+    func fetchMVDetail(id: Int) async throws -> MVDetail
+    func fetchMVURL(id: Int) async throws -> String
+}
+
+struct MVsRepository: MVsRepositoryProtocol {
     private let apiClient: APIClientProtocol
 
     init(apiClient: APIClientProtocol = APIClient()) {

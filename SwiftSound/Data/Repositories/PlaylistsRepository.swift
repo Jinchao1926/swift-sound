@@ -7,7 +7,24 @@
 
 import Foundation
 
-struct PlaylistsRepository {
+protocol PlaylistsRepositoryProtocol {
+    func fetchPlaylistCategories() async throws -> [PlaylistCategoryGroup]
+    func fetchTopPlaylists(category: String, offset: Int, limit: Int) async throws -> TopPlaylistsResponse
+    func fetchPlaylistDetail(_ id: Int) async throws -> Playlist
+    func fetchToplists() async throws -> [Toplist]
+    func fetchToplistDetails() async throws -> [Toplist]
+    func fetchFeaturedPlaylistTags() async throws -> [FeaturedPlaylistTag]
+    func fetchFeaturedPlaylists(category: String?, before: Int?, limit: Int) async throws -> FeaturedPlaylistsResponse
+    func fetchPlaylistSubscribers(id: Int, offset: Int, limit: Int) async throws -> PlaylistSubscribersResponse
+}
+
+extension PlaylistsRepositoryProtocol {
+    func fetchTopPlaylists(category: String, offset: Int = 0, limit: Int = 24) async throws -> TopPlaylistsResponse { try await fetchTopPlaylists(category: category, offset: offset, limit: limit) }
+    func fetchFeaturedPlaylists(category: String? = nil, before: Int? = nil, limit: Int = 24) async throws -> FeaturedPlaylistsResponse { try await fetchFeaturedPlaylists(category: category, before: before, limit: limit) }
+    func fetchPlaylistSubscribers(id: Int, offset: Int = 0, limit: Int = 20) async throws -> PlaylistSubscribersResponse { try await fetchPlaylistSubscribers(id: id, offset: offset, limit: limit) }
+}
+
+struct PlaylistsRepository: PlaylistsRepositoryProtocol {
     private let apiClient: APIClientProtocol
 
     init(apiClient: APIClientProtocol = APIClient()) {

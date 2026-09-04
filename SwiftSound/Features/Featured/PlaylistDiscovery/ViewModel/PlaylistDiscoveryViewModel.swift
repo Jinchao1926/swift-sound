@@ -16,7 +16,7 @@ final class PlaylistDiscoveryViewModel: ObservableObject {
     @Published private(set) var featuredTagState: Loadable<[FeaturedPlaylistTag]> = .idle
     @Published private(set) var featuredPlaylistState: Loadable<Playlist> = .idle
 
-    private let repository: PlaylistsRepository
+    private let repository: PlaylistsRepositoryProtocol
     private var featuredPlaylistSelection: PlaylistDiscoverySelection?
 
     var hasFeaturedPlaylist: Bool {
@@ -24,7 +24,7 @@ final class PlaylistDiscoveryViewModel: ObservableObject {
     }
 
     // MARK: - LifeCycle
-    init(repository: PlaylistsRepository = PlaylistsRepository()) {
+    init(repository: PlaylistsRepositoryProtocol = PlaylistsRepository()) {
         self.repository = repository
     }
 

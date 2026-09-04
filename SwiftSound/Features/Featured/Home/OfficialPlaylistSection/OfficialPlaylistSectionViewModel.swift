@@ -11,9 +11,9 @@ import Combine
 final class OfficialPlaylistSectionViewModel: ObservableObject {
     @Published private(set) var state: Loadable<[Playlist]> = .idle
 
-    private let repository: PlaylistsRepository
+    private let repository: PlaylistsRepositoryProtocol
 
-    init(repository: PlaylistsRepository = PlaylistsRepository()) {
+    init(repository: PlaylistsRepositoryProtocol = PlaylistsRepository()) {
         self.repository = repository
     }
 

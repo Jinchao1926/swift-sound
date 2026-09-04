@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct BannersRepository {
+protocol BannersRepositoryProtocol {
+    func fetchBanners() async throws -> [Banner]
+}
+
+struct BannersRepository: BannersRepositoryProtocol {
     private let apiClient: APIClientProtocol
 
     init(apiClient: APIClientProtocol = APIClient()) {

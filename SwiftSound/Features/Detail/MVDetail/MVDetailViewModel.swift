@@ -15,13 +15,13 @@ final class MVDetailViewModel: ObservableObject {
     @Published private(set) var player: AVPlayer?
 
     private let id: Int
-    private let repository: MVsRepository
+    private let repository: MVsRepositoryProtocol
     private var loadedPlayerURL: URL?
 
     // MARK: - LifeCycle
     init(
         id: Int,
-        repository: MVsRepository = MVsRepository()
+        repository: MVsRepositoryProtocol = MVsRepository()
     ) {
         self.id = id
         self.repository = repository

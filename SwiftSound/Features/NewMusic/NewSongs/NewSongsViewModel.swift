@@ -12,9 +12,9 @@ final class NewSongsViewModel: ObservableObject {
     @Published var selectedType: TopSongsType = .all
     @Published private(set) var state: Loadable<[Song]> = .idle
 
-    private let repository: SongsRespository
+    private let repository: SongsRepositoryProtocol
 
-    init(repository: SongsRespository = SongsRespository()) {
+    init(repository: SongsRepositoryProtocol = SongsRespository()) {
         self.repository = repository
     }
 
