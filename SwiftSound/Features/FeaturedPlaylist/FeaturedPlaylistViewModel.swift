@@ -13,13 +13,13 @@ final class FeaturedPlaylistViewModel: ObservableObject {
     @Published var tagState: Loadable<[FeaturedPlaylistTag]> = .idle
     @Published var playlistState: Loadable<Paginated<Playlist>> = .idle
 
-    private let repository: PlaylistsRepository
+    private let repository: PlaylistsRepositoryProtocol
     private let initialCategory: String
     private var nextBefore: Int?
 
     init(
         initialCategory: String,
-        repository: PlaylistsRepository = PlaylistsRepository()
+        repository: PlaylistsRepositoryProtocol = PlaylistsRepository()
     ) {
         self.initialCategory = initialCategory
         self.repository = repository

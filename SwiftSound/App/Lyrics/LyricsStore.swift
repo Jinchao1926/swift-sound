@@ -11,10 +11,10 @@ import Combine
 final class LyricsStore: ObservableObject {
     @Published private var lyricStatesBySongId: [Song.ID: Loadable<[LyricLine]>] = [:]
 
-    private let repository: SongsRespository
+    private let repository: SongsRepositoryProtocol
     private var loadingTasksBySongId: [Song.ID: Task<Void, Never>] = [:]
 
-    init(repository: SongsRespository = SongsRespository()) {
+    init(repository: SongsRepositoryProtocol = SongsRespository()) {
         self.repository = repository
     }
 

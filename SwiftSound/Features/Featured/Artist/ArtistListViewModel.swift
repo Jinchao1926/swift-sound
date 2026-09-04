@@ -18,10 +18,10 @@ final class ArtistListViewModel: ObservableObject {
 
     private var loadedQuery: ArtistListQuery?
     private var loadTask: Task<Void, Never>?
-    private let repository: ArtistsRepository
+    private let repository: ArtistsRepositoryProtocol
 
     // MARK: - LifeCycle
-    init(repository: ArtistsRepository = ArtistsRepository()) {
+    init(repository: ArtistsRepositoryProtocol = ArtistsRepository()) {
         self.repository = repository
     }
 

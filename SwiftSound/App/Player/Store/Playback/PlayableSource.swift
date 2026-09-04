@@ -17,12 +17,12 @@ protocol PlayableSongsProviding {
 }
 
 struct PlayableSongsProvider: PlayableSongsProviding {
-    private let playlistsRepository: PlaylistsRepository
-    private let albumsRepository: AlbumsRepository
+    private let playlistsRepository: any PlaylistsRepositoryProtocol
+    private let albumsRepository: any AlbumsRepositoryProtocol
 
     init(
-        playlistsRepository: PlaylistsRepository = PlaylistsRepository(),
-        albumsRepository: AlbumsRepository = AlbumsRepository()
+        playlistsRepository: PlaylistsRepositoryProtocol = PlaylistsRepository(),
+        albumsRepository: AlbumsRepositoryProtocol = AlbumsRepository()
     ) {
         self.playlistsRepository = playlistsRepository
         self.albumsRepository = albumsRepository

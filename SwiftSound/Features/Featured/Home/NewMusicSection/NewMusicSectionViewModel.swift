@@ -16,9 +16,9 @@ struct NewSongsGroup: Identifiable {
 final class NewMusicSectionViewModel: ObservableObject {
     @Published private(set) var state: Loadable<[NewSongsGroup]> = .idle
 
-    private let repository: SongsRespository
+    private let repository: SongsRepositoryProtocol
 
-    init(repository: SongsRespository = SongsRespository()) {
+    init(repository: SongsRepositoryProtocol = SongsRespository()) {
         self.repository = repository
     }
 

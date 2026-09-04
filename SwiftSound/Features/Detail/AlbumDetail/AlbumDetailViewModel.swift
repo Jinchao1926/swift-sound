@@ -14,12 +14,12 @@ final class AlbumDetailViewModel: ObservableObject {
     @Published var songSearchText = ""
 
     private let id: Int
-    private let repository: AlbumsRepository
+    private let repository: AlbumsRepositoryProtocol
 
     // MARK: - LifeCycle
     init(
         id: Int,
-        repository: AlbumsRepository = AlbumsRepository()
+        repository: AlbumsRepositoryProtocol = AlbumsRepository()
     ) {
         self.id = id
         self.repository = repository

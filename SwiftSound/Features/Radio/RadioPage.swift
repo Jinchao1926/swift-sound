@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct PodcastPage: View {
+struct RadioPage: View {
     var body: some View {
         PlaceholderPage(title: "Podcast")
     }
 }
 
 #Preview {
-    PodcastPage()
+    RadioPage()
 }

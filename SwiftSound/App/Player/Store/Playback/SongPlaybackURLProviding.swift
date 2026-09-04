@@ -11,5 +11,3 @@ protocol SongPlaybackURLProviding {
     /// Resolves the playable media URL for a song.
     func fetchSongPlaybackURL(_ id: Song.ID) async throws -> URL?
 }
-
-extension SongsRespository: SongPlaybackURLProviding {}

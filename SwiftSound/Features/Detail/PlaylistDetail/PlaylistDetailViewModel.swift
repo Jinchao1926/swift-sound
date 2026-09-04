@@ -14,12 +14,12 @@ final class PlaylistDetailViewModel: ObservableObject {
     @Published var songSearchText = ""
 
     private let id: Int
-    private let repository: PlaylistsRepository
+    private let repository: PlaylistsRepositoryProtocol
 
     // MARK: - LifeCycle
     init(
         id: Int,
-        repository: PlaylistsRepository = PlaylistsRepository()
+        repository: PlaylistsRepositoryProtocol = PlaylistsRepository()
     ) {
         self.id = id
         self.repository = repository

@@ -12,10 +12,10 @@ final class ArtistSongsViewModel: ObservableObject {
     @Published private(set) var state: Loadable<Paginated<Song>> = .idle
 
     private let id: Int
-    private let repository: ArtistsRepository
+    private let repository: ArtistsRepositoryProtocol
 
     // MARK: - LifeCycle
-    init(id: Int, repository: ArtistsRepository = ArtistsRepository()) {
+    init(id: Int, repository: ArtistsRepositoryProtocol = ArtistsRepository()) {
         self.id = id
         self.repository = repository
     }

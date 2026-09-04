@@ -23,9 +23,9 @@ final class UserDetailViewModel: ObservableObject {
     }
 
     private let id: Int
-    private let repository: UsersRepository
+    private let repository: UsersRepositoryProtocol
 
-    init(id: Int, repository: UsersRepository = UsersRepository()) {
+    init(id: Int, repository: UsersRepositoryProtocol = UsersRepository()) {
         self.id = id
         self.repository = repository
     }
