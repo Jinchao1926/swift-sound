@@ -14,15 +14,9 @@ struct UserPlaylistSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Layout.paginationSpacing) {
-            Group {
-                if collection.state.value != nil, collection.state.items.isEmpty {
-                    EmptyStateView()
-                } else {
-                    playlists(collection.state.items)
-                }
-            }
-            .loadingPlaceholder(collection.state.isInitialLoading)
-
+            playlists(collection.state.items)
+                .loadable(state: collection.state)
+    
             if collection.pageCount > 1 {
                 PaginationControl(
                     currentPage: Binding(

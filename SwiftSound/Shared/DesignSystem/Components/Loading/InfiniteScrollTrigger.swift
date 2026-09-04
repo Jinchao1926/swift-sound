@@ -24,7 +24,7 @@ struct InfiniteScrollFooter<Page: PaginatedValue>: View {
                     )
 
                 if state.isLoading {
-                    LoadingView()
+                    LoadingIndicatorView()
                 }
             }
             .frame(maxWidth: .infinity)

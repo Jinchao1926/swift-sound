@@ -23,13 +23,11 @@ struct AlbumDetailPage: View {
     var body: some View {
         ScrollView {
             VStack(spacing: Layout.spacing) {
-                if let album = viewModel.state.album {
-                    AlbumDetailHeader(
-                        album: album,
-                        subCount: viewModel.dynamicState.value?.subCount,
-                        onPlayAll: playAllSongs
-                    )
-                }
+                AlbumDetailHeader(
+                    album: viewModel.state.album,
+                    subCount: viewModel.dynamicState.value?.subCount,
+                    onPlayAll: playAllSongs
+                )
 
                 RouteTabView(
                     selectedRoute: route,
@@ -100,6 +98,7 @@ private extension AlbumDetailPage {
 
 #Preview {
     AlbumDetailPage(id: Album.preview.id, route: .songs)
+        .frame(width: 700, height: 600)
         .environmentObject(AppRouter())
         .environmentObject(PlayerStore())
 }

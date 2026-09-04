@@ -33,7 +33,7 @@ struct ArtistSongsPage: View {
                 .padding(.bottom, Layout.actionBottomInset)
 
                 SongTable(songs: viewModel.state.items)
-                    .loadingPlaceholder(viewModel.state.isInitialLoading)
+                    .loadable(state: viewModel.state, retry: viewModel.load)
 
                 InfiniteScrollFooter(state: viewModel.state) {
                     await viewModel.loadMore()
@@ -56,4 +56,5 @@ private enum Layout {
 
 #Preview {
     ArtistSongsPage(id: Artist.preview.id)
+        .environmentObject(PlayerStore())
 }

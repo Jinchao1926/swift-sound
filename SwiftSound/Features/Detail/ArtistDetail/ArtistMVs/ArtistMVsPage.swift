@@ -38,7 +38,7 @@ struct ArtistMVsPage: View {
         }
         .padding(.top, Layout.contentTopInset)
         .frame(maxWidth: .infinity, alignment: .topLeading)
-        .loadingPlaceholder(state.isInitialLoading)
+        .loadable(state: state, retry: load)
         .task {
             await load()
         }

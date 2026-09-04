@@ -21,9 +21,11 @@ protocol PaginatedValue {
     var canLoadMore: Bool { get }
 }
 
-struct Paginated<Element>: PaginatedValue {
+struct Paginated<Element>: PaginatedValue, LoadableValue {
     private(set) var items: [Element]
     private(set) var canLoadMore: Bool
+
+    var isEmpty: Bool { items.isEmpty }
 
     var nextOffset: Int { items.count }
 

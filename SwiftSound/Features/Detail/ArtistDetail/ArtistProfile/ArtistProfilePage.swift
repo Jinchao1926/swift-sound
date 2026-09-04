@@ -34,7 +34,7 @@ struct ArtistProfilePage: View {
         }
         .padding(.vertical, Layout.verticalInset)
         .frame(maxWidth: .infinity, alignment: .topLeading)
-        .loadingPlaceholder(state.isInitialLoading)
+        .loadable(state: state, retry: load)
         .task {
             await load()
         }

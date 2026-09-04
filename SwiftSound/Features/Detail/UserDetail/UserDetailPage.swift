@@ -23,9 +23,7 @@ struct UserDetailPage: View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(alignment: .leading, spacing: Layout.spacing) {
-                    if let detail = viewModel.state.value {
-                        UserDetailHeader(detail: detail)
-                    }
+                    UserDetailHeader(detail: viewModel.state.value)
 
                     RouteTabView(
                         selectedRoute: route,

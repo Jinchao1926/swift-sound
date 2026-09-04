@@ -22,6 +22,12 @@ struct ArtistDesc {
     }
 }
 
+extension ArtistDesc: LoadableValue {
+    var isEmpty: Bool {
+        briefDesc.isEmpty && introduction.isEmpty
+    }
+}
+
 struct ArtistDescResponse: nonisolated Decodable {
     let introduction: [ArtistIntroduction]
     let briefDesc: String

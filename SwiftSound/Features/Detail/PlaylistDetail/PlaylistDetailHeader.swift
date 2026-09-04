@@ -8,54 +8,58 @@
 import SwiftUI
 
 struct PlaylistDetailHeader: View {
-    let playlist: Playlist
+    let playlist: Playlist?
     let onPlayAll: () -> Void
 
     var body: some View {
         HStack(spacing: Layout.spacing) {
-            RemoteImage(url: playlist.imageURL)
+            RemoteImage(url: playlist?.imageURL)
                 .frame(width: Layout.size, height: Layout.size)
                 .rounded(radius: Layout.cornerRadius)
                 .overlay(alignment: .topTrailing) {
-                    PlayCountBadge(count: playlist.playCount)
-                        .padding(Layout.badgeInset)
+                    if let playCount = playlist?.playCount, playCount > 0 {
+                        PlayCountBadge(count: playCount)
+                            .padding(Layout.badgeInset)
+                    }
                 }
 
-            VStack(alignment: .leading, spacing: Layout.detailSpacing) {
-                Text(playlist.name)
-                    .font(.font18)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(Color.textPrimary)
-
-                if let description = playlist.description?.replacingOccurrences(of: "\n", with: "") {
-                    Text(description)
-                        .font(.font14)
-                        .foregroundStyle(Color.textSecondary)
-                }
-
-                HStack(spacing: Layout.creatorSpacing) {
-                    HStack(spacing: Layout.creatorSpacing / 2) {
-                        Avatar(url: playlist.creator.avatarURL, size: Layout.avatarSize)
-
-                        Text(playlist.creator.nickname)
+            if let playlist {
+                VStack(alignment: .leading, spacing: Layout.detailSpacing) {
+                    Text(playlist.name)
+                        .font(.font18)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color.textPrimary)
+                    
+                    if let description = playlist.description?.replacingOccurrences(of: "\n", with: "") {
+                        Text(description)
+                            .font(.font14)
                             .foregroundStyle(Color.textSecondary)
                     }
-                    .routeLink(to: .user(id: playlist.creator.userId))
-
-                    Text("\(playlist.updateTime.formattedMillisecondsYearMonthDay()) 更新")
-                        .foregroundStyle(Color.textTertiary)
-                }
-                .font(.font12)
-
-                Spacer()
-
-                HStack(spacing: Layout.buttonSpacing) {
-                    MusicActionButtons.playAll {
-                        onPlayAll()
+                    
+                    HStack(spacing: Layout.creatorSpacing) {
+                        HStack(spacing: Layout.creatorSpacing / 2) {
+                            Avatar(url: playlist.creator.avatarURL, size: Layout.avatarSize)
+                            
+                            Text(playlist.creator.nickname)
+                                .foregroundStyle(Color.textSecondary)
+                        }
+                        .routeLink(to: .user(id: playlist.creator.userId))
+                        
+                        Text("\(playlist.updateTime.formattedMillisecondsYearMonthDay()) 更新")
+                            .foregroundStyle(Color.textTertiary)
                     }
-                    MusicActionButtons.favorite(playlist.subscribedCount.formattedCount()) {}
-                    MusicActionButtons.download {}
-                    MusicActionButtons.more {}
+                    .font(.font12)
+                    
+                    Spacer()
+                    
+                    HStack(spacing: Layout.buttonSpacing) {
+                        MusicActionButtons.playAll {
+                            onPlayAll()
+                        }
+                        MusicActionButtons.favorite(playlist.subscribedCount.formattedCount()) {}
+                        MusicActionButtons.download {}
+                        MusicActionButtons.more {}
+                    }
                 }
             }
 
