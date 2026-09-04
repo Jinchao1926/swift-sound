@@ -25,7 +25,7 @@ struct UserDetailHeader: View {
                         .font(.font20)
                         .fontWeight(.semibold)
                         .foregroundStyle(Color.textPrimary)
-                    
+
                     identityRow(for: detail)
                     followsRow(for: detail)
                     VStack(alignment: .leading, spacing: Layout.signatureSpacing) {

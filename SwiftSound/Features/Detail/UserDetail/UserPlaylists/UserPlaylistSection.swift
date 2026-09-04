@@ -16,7 +16,7 @@ struct UserPlaylistSection: View {
         VStack(alignment: .leading, spacing: Layout.paginationSpacing) {
             playlists(collection.state.items)
                 .loadable(state: collection.state)
-    
+
             if collection.pageCount > 1 {
                 PaginationControl(
                     currentPage: Binding(

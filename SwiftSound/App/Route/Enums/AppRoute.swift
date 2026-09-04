@@ -11,7 +11,7 @@ import Foundation
 enum AppRoute: Identifiable, Hashable, Equatable {
     // Sidebar routes
     case featured(secondary: FeaturedRoute = .featured)
-    case podcast
+    case radioDiscover
     case follow
     case favorite
     case played
@@ -19,6 +19,8 @@ enum AppRoute: Identifiable, Hashable, Equatable {
     // Others
     case newMusic(secondary: NewMusicRoute = .songs)
     case featuredPlaylist(category: String)
+    case radioCategories
+    case radioCharts
     // Details
     case artist(id: Int, secondary: ArtistRoute = .songs)
     case artistSongs(id: Int)
@@ -26,6 +28,7 @@ enum AppRoute: Identifiable, Hashable, Equatable {
     case playlist(id: Int, secondary: PlaylistRoute = .songs)
     case user(id: Int, secondary: UserRoute = .playlists)
     case mv(id: Int)
+    case radio(id: Int)
     // Settings
     case setting
 
@@ -38,7 +41,8 @@ enum AppRoute: Identifiable, Hashable, Equatable {
              .album(let id, _),
              .playlist(let id, _),
              .user(let id, _),
-             .mv(let id):
+             .mv(let id),
+             .radio(let id):
             return id != 0
         default:
             return true
@@ -49,7 +53,7 @@ enum AppRoute: Identifiable, Hashable, Equatable {
         switch self {
         case .featured:
             return "精选"
-        case .podcast:
+        case .radioDiscover:
             return "播客"
         case .follow:
             return "关注"
@@ -70,7 +74,7 @@ enum AppRoute: Identifiable, Hashable, Equatable {
         switch self {
         case .featured:
             return "music.pages.fill"
-        case .podcast:
+        case .radioDiscover:
             return "dot.radiowaves.left.and.right"
         case .follow:
             return "bubble.fill"
@@ -122,7 +126,7 @@ extension AppRoute {
         switch (self, route) {
         case
             (.featured, .featured),
-            (.podcast, .podcast),
+            (.radio, .radio),
             (.follow, .follow),
             (.favorite, .favorite),
             (.played, .played),
