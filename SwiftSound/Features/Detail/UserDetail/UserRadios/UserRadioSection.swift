@@ -19,18 +19,18 @@ struct UserRadioSection: View {
     private func radios(_ radios: [Radio]) -> some View {
         switch displayMode {
         case .grid:
-            playlistsGrid(radios)
+            radiosGrid(radios)
         case .list:
             // TODO: RadioTable
             EmptyView()
         }
     }
 
-    private func playlistsGrid(_ radios: [Radio]) -> some View {
+    private func radiosGrid(_ radios: [Radio]) -> some View {
         LazyVGrid(
             columns: [
                 GridItem(
-                    .adaptive(minimum: Layout.minCardWidth),
+                    .adaptive(minimum: Layout.minItemWidth),
                     spacing: Layout.columnSpacing,
                     alignment: .top
                 )
@@ -49,7 +49,7 @@ struct UserRadioSection: View {
 
 private extension UserRadioSection {
     enum Layout {
-        static let minCardWidth: CGFloat = 176
+        static let minItemWidth: CGFloat = 176
         static let rowSpacing: CGFloat = 20
         static let columnSpacing: CGFloat = 20
         static let paginationSpacing: CGFloat = 6

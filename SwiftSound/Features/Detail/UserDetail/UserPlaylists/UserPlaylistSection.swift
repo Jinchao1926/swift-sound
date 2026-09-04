@@ -45,7 +45,7 @@ struct UserPlaylistSection: View {
         LazyVGrid(
             columns: [
                 GridItem(
-                    .adaptive(minimum: Layout.minCardWidth),
+                    .adaptive(minimum: Layout.minItemWidth),
                     spacing: Layout.columnSpacing,
                     alignment: .top
                 )
@@ -64,7 +64,7 @@ struct UserPlaylistSection: View {
 
 private extension UserPlaylistSection {
     enum Layout {
-        static let minCardWidth: CGFloat = 176
+        static let minItemWidth: CGFloat = 176
         static let rowSpacing: CGFloat = 20
         static let columnSpacing: CGFloat = 20
         static let paginationSpacing: CGFloat = 6

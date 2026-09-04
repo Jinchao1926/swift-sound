@@ -57,7 +57,11 @@ private extension RankingSectionView {
     var officialCards: some View {
         LazyVGrid(
             columns: [
-                GridItem(.adaptive(minimum: Layout.officialMinWidth), spacing: Layout.cardSpacing)
+                GridItem(
+                    .adaptive(minimum: Layout.officialMinWidth),
+                    spacing: Layout.cardSpacing,
+                    alignment: .top
+                )
             ],
             alignment: .leading,
             spacing: Layout.cardSpacing

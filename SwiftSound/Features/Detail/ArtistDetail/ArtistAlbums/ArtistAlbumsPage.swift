@@ -14,28 +14,18 @@ struct ArtistAlbumsPage: View {
     let onPlayAlbum: (Album.ID) -> Void
 
     var body: some View {
-        LazyVGrid(
-            columns: [
-                GridItem(
-                    .adaptive(minimum: Layout.minCardWidth),
-                    spacing: Layout.rowSpacing,
-                    alignment: .top
-                )
-            ],
-            alignment: .leading,
-            spacing: Layout.columnSpacing
+        PaginatedGridView(
+            state: state,
+            minItemWidth: Layout.minItemWidth,
+            columnSpacing: Layout.columnSpacing,
+            rowSpacing: Layout.rowSpacing,
+            loadMore: loadMore
         ) {
-            Section {
-                ForEach(state.items) { album in
-                    AlbumCard(album: album) {
-                        onPlayAlbum(album.id)
-                    }
-                    .routeLink(to: .album(id: album.id))
+            ForEach(state.items) { album in
+                AlbumCard(album: album) {
+                    onPlayAlbum(album.id)
                 }
-            } footer: {
-                InfiniteScrollFooter(state: state) {
-                    await loadMore()
-                }
+                .routeLink(to: .album(id: album.id))
             }
         }
         .padding(.top, Layout.contentTopInset)
@@ -49,7 +39,7 @@ struct ArtistAlbumsPage: View {
 
 private extension ArtistAlbumsPage {
     enum Layout {
-        static let minCardWidth: CGFloat = 176
+        static let minItemWidth: CGFloat = 176
         static let rowSpacing: CGFloat = 20
         static let columnSpacing: CGFloat = 20
         static let contentTopInset: CGFloat = 20

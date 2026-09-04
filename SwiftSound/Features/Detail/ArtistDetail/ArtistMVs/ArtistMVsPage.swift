@@ -13,27 +13,17 @@ struct ArtistMVsPage: View {
     let loadMore: () async -> Void
 
     var body: some View {
-        LazyVGrid(
-            columns: [
-                GridItem(
-                    .adaptive(minimum: Layout.minCardWidth),
-                    spacing: Layout.rowSpacing,
-                    alignment: .top
-                )
-            ],
-            alignment: .leading,
-            spacing: Layout.columnSpacing
+        PaginatedGridView(
+            state: state,
+            minItemWidth: Layout.minItemWidth,
+            columnSpacing: Layout.columnSpacing,
+            rowSpacing: Layout.rowSpacing,
+            loadMore: loadMore
         ) {
-            Section {
-                ForEach(state.items) { mv in
-                    MVCard(mv: mv)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .routeLink(to: .mv(id: mv.id))
-                }
-            } footer: {
-                InfiniteScrollFooter(state: state) {
-                    await loadMore()
-                }
+            ForEach(state.items) { mv in
+                MVCard(mv: mv)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .routeLink(to: .mv(id: mv.id))
             }
         }
         .padding(.top, Layout.contentTopInset)
@@ -47,7 +37,7 @@ struct ArtistMVsPage: View {
 
 private extension ArtistMVsPage {
     enum Layout {
-        static let minCardWidth: CGFloat = 240
+        static let minItemWidth: CGFloat = 240
         static let rowSpacing: CGFloat = 20
         static let columnSpacing: CGFloat = 20
         static let contentTopInset: CGFloat = 5

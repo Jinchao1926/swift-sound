@@ -17,33 +17,23 @@ struct PlaylistDiscoveryPage: View {
                 selection: $viewModel.selection
             )
 
-            LazyVGrid(
-                columns: [
-                    GridItem(
-                        .adaptive(minimum: Layout.minCardWidth),
-                        spacing: Layout.rowSpacing,
-                        alignment: .top
-                    )
-                ],
-                alignment: .leading,
-                spacing: Layout.columnSpacing
+            PaginatedGridView(
+                state: viewModel.playlistState,
+                minItemWidth: Layout.minItemWidth,
+                columnSpacing: Layout.columnSpacing,
+                rowSpacing: Layout.rowSpacing,
+                loadMore: viewModel.loadMorePlaylists
             ) {
-                Section {
-                    if viewModel.hasFeaturedPlaylist {
-                        FeaturedPlaylistEntry(playlist: viewModel.featuredPlaylistState.value)
-                            .routeLink(to: .featuredPlaylist(category: viewModel.selection.id))
-                    }
+                if viewModel.hasFeaturedPlaylist {
+                    FeaturedPlaylistEntry(playlist: viewModel.featuredPlaylistState.value)
+                        .routeLink(to: .featuredPlaylist(category: viewModel.selection.id))
+                }
 
-                    ForEach(viewModel.playlistState.items) {
-                        PlaylistDiscoveryCard(playlist: $0) {
-                            // ...
-                        }
-                        .routeLink(to: .playlist(id: $0.id))
+                ForEach(viewModel.playlistState.items) {
+                    PlaylistDiscoveryCard(playlist: $0) {
+                        // ...
                     }
-                } footer: {
-                    InfiniteScrollFooter(state: viewModel.playlistState) {
-                        await viewModel.loadMorePlaylists()
-                    }
+                    .routeLink(to: .playlist(id: $0.id))
                 }
             }
             .loadingPlaceholder(viewModel.playlistState.isInitialLoading)
@@ -65,9 +55,9 @@ private extension PlaylistDiscoveryPage {
         static let horizontalInset: CGFloat = 40
         static let contentSpacing: CGFloat = 25
 
-        static let minCardWidth: CGFloat = 115
-        static let rowSpacing: CGFloat = 15
+        static let minItemWidth: CGFloat = 115
         static let columnSpacing: CGFloat = 15
+        static let rowSpacing: CGFloat = 15
     }
 }
 

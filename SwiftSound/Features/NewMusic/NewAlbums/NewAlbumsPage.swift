@@ -81,13 +81,13 @@ private extension NewAlbumsPage {
         LazyVGrid(
             columns: [
                 GridItem(
-                    .adaptive(minimum: Layout.minCardWidth),
-                    spacing: Layout.rowSpacing,
+                    .adaptive(minimum: Layout.minItemWidth),
+                    spacing: Layout.columnSpacing,
                     alignment: .top
                 )
             ],
             alignment: .leading,
-            spacing: Layout.columnSpacing
+            spacing: Layout.rowSpacing
         ) {
             ForEach(albums) { album in
                 AlbumCard(album: album) {
@@ -107,9 +107,9 @@ private extension NewAlbumsPage {
         static let capsulePadding: CGFloat = 14
         static let horizontalInset: CGFloat = 40
 
-        static let minCardWidth: CGFloat = 176
-        static let rowSpacing: CGFloat = 20
+        static let minItemWidth: CGFloat = 176
         static let columnSpacing: CGFloat = 20
+        static let rowSpacing: CGFloat = 20
     }
 }
 

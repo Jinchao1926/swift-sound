@@ -13,26 +13,16 @@ struct PlaylistSubscribersPage: View {
     let loadMore: () async -> Void
 
     var body: some View {
-        LazyVGrid(
-            columns: [
-                GridItem(
-                    .adaptive(minimum: Layout.minCardWidth),
-                    spacing: Layout.rowSpacing,
-                    alignment: .top
-                )
-            ],
-            alignment: .leading,
-            spacing: Layout.columnSpacing
+        PaginatedGridView(
+            state: state,
+            minItemWidth: Layout.minItemWidth,
+            columnSpacing: Layout.columnSpacing,
+            rowSpacing: Layout.rowSpacing,
+            loadMore: loadMore
         ) {
-            Section {
-                ForEach(state.items) {
-                    SubscriberCard(user: $0)
-                        .routeLink(to: .user(id: $0.id))
-                }
-            } footer: {
-                InfiniteScrollFooter(state: state) {
-                    await loadMore()
-                }
+            ForEach(state.items) {
+                SubscriberCard(user: $0)
+                    .routeLink(to: .user(id: $0.id))
             }
         }
         .padding(.top, Layout.contentTopInset)
@@ -46,7 +36,7 @@ struct PlaylistSubscribersPage: View {
 
 private extension PlaylistSubscribersPage {
     enum Layout {
-        static let minCardWidth: CGFloat = 176
+        static let minItemWidth: CGFloat = 176
         static let rowSpacing: CGFloat = 20
         static let columnSpacing: CGFloat = 20
         static let contentTopInset: CGFloat = 10
