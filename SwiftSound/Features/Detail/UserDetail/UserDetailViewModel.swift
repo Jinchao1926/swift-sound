@@ -10,8 +10,11 @@ import Combine
 
 final class UserDetailViewModel: ObservableObject {
     @Published private(set) var playlistSelection = PlaylistSelection()
+    @Published private(set) var radioDisplayMode = DisplayMode.grid
 
     @Published private(set) var state: Loadable<UserDetail> = .idle
+    @Published private(set) var radioState: Loadable<Paginated<Radio>> = .idle
+    @Published private(set) var radioCount: Int?
     @Published private var createdPlaylists = PlaylistCollection()
     @Published private var favoritePlaylists = PlaylistCollection()
 
@@ -27,6 +30,7 @@ final class UserDetailViewModel: ObservableObject {
         self.repository = repository
     }
 
+    // MARK: - Detail
     func load() async {
         guard !state.isLoadedOrLoading else { return }
         state = .loading()
@@ -42,6 +46,26 @@ final class UserDetailViewModel: ObservableObject {
         await loadPlaylistPage(1)
     }
 
+    // MARK: - Detail
+    func loadRadios() async {
+        guard !radioState.isLoadedOrLoading else { return }
+        radioState = .loading()
+
+        do {
+            let response = try await repository.fetchUserRadios(uid: id)
+            radioCount = response.count
+            radioState = .loaded(Paginated(response))
+        } catch {
+            radioState = .failed(error)
+        }
+    }
+
+    func updateRadioDisplayMode(_ displayMode: DisplayMode) {
+        guard displayMode != radioDisplayMode else { return }
+        radioDisplayMode = displayMode
+    }
+
+    // MARK: - Playlists
     func updatePlaylistSelection(_ action: PlaylistSelection.Action) async {
         switch action {
         case .tab(let tab):

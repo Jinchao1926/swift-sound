@@ -21,30 +21,16 @@ enum PlaylistTab: CaseIterable, Hashable, Identifiable {
     }
 }
 
-enum PlaylistDisplayMode: CaseIterable, Hashable, Identifiable {
-    case grid
-    case list
-
-    var id: Self { self }
-
-    var imageName: String {
-        switch self {
-        case .grid: "square.grid.2x2"
-        case .list: "list.bullet"
-        }
-    }
-}
-
 struct PlaylistSelection: Equatable {
     enum Action {
         case tab(PlaylistTab)
-        case displayMode(PlaylistDisplayMode)
+        case displayMode(DisplayMode)
     }
 
     private(set) var tab = PlaylistTab.created
-    private var displayModesByTab: [PlaylistTab: PlaylistDisplayMode] = [:]
+    private var displayModesByTab: [PlaylistTab: DisplayMode] = [:]
 
-    var displayMode: PlaylistDisplayMode {
+    var displayMode: DisplayMode {
         displayModesByTab[tab] ?? .grid
     }
 
@@ -81,17 +67,8 @@ struct UserPlaylistTabView: View {
 
             Spacer()
 
-            HStack(spacing: Layout.iconSpacing) {
-                ForEach(PlaylistDisplayMode.allCases) { displayMode in
-                    IconButton(
-                        systemName: displayMode.imageName,
-                        font: .font16,
-                        isSelected: displayMode == selection.displayMode,
-                        action: {
-                            onAction(.displayMode(displayMode))
-                        }
-                    )
-                }
+            DisplayModePicker(selection: selection.displayMode) {
+                onAction(.displayMode($0))
             }
         }
     }
@@ -100,7 +77,6 @@ struct UserPlaylistTabView: View {
 private extension UserPlaylistTabView {
     enum Layout {
         static let tabSpacing: CGFloat = 20
-        static let iconSpacing: CGFloat = 8
     }
 }
 
