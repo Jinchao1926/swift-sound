@@ -88,6 +88,7 @@ struct Album: Codable, Identifiable {
 
 extension Album {
     var imageURL: URL? { URL(string: picUrl) }
+    var hasMultipleArtists: Bool { artists?.count ?? 0 > 1 }
 }
 
 /**
