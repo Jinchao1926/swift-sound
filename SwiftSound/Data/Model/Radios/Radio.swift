@@ -151,9 +151,9 @@ struct Radio: Decodable, Identifiable {
     let categoryId: Int
     let category: String
     let secondCategory: String
-    let lastProgramId: Int
-    let lastProgramName: String
-    let lastProgramCreateTime: Int
+    let lastProgramId: Int?
+    let lastProgramName: String?
+    let lastProgramCreateTime: Int?
     let programCount: Int
     let subCount: Int
     let playCount: Int

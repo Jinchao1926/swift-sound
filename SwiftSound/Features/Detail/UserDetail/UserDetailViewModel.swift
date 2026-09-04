@@ -105,7 +105,7 @@ final class UserDetailViewModel: ObservableObject {
 
         do {
             let pageValue = try await fetchPlaylists(tab, page: page, createdCount: createdCount)
-            collection.store(pageValue, page: page)
+            collection.store(pageValue.items.isEmpty ? Paginated() : pageValue, page: page)
         } catch {
             collection.currentPage = loadedPage
             collection.state = previousPage.map { .loaded($0) } ?? .failed(error)
