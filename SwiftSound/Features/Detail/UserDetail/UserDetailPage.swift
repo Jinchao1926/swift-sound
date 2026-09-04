@@ -46,6 +46,9 @@ struct UserDetailPage: View {
             .task {
                 await viewModel.load()
             }
+            .task {
+                await viewModel.loadRadios()
+            }
         }
     }
 
@@ -63,7 +66,7 @@ struct UserDetailPage: View {
         case .notes:
             UserNotesPage()
         case .radios:
-            UserRadiosPage()
+            UserRadiosPage(viewModel: viewModel)
         }
     }
 
@@ -71,6 +74,8 @@ struct UserDetailPage: View {
         switch route {
         case .notes:
             return viewModel.state.value?.profile.eventCount?.formatted()
+        case .radios:
+            return viewModel.radioCount?.formatted()
         default:
             return nil
         }

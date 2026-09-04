@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UserPlaylistSection: View {
     let collection: UserDetailViewModel.PlaylistCollection
-    let displayMode: PlaylistDisplayMode
+    let displayMode: DisplayMode
     let onPageChange: (Int) -> Void
 
     var body: some View {

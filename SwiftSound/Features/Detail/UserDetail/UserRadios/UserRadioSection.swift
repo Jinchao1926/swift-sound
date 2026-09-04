@@ -8,8 +8,7 @@ import SwiftUI
 
 struct UserRadioSection: View {
     let state: Loadable<Paginated<Radio>>
-    let displayMode: PlaylistDisplayMode
-    let onPageChange: (Int) -> Void
+    let displayMode: DisplayMode
 
     var body: some View {
         VStack(alignment: .leading, spacing: Layout.paginationSpacing) {
@@ -30,8 +29,8 @@ struct UserRadioSection: View {
         case .grid:
             playlistsGrid(radios)
         case .list:
+            // TODO: RadioTable
             EmptyView()
-//            PlaylistTable(playlists: playlists)
         }
     }
 
@@ -47,8 +46,8 @@ struct UserRadioSection: View {
             alignment: .leading,
             spacing: Layout.rowSpacing
         ) {
-            ForEach(radios) { playlist in
-//                UserPlaylistCard(playlist: playlist) {}
+            ForEach(radios) { radio in
+                UserRadioCard(radio: radio) {}
 //                    .routeLink(to: .playlist(id: playlist.id))
             }
         }

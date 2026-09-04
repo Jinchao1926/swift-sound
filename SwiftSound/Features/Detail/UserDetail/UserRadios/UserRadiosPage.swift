@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct UserRadiosPage: View {
+    @ObservedObject var viewModel: UserDetailViewModel
+
     var body: some View {
         VStack(alignment: .leading, spacing: Layout.tabContentSpacing) {
             HStack(spacing: 0) {
@@ -17,28 +19,21 @@ struct UserRadiosPage: View {
 
                 Spacer()
 
-                HStack(spacing: Layout.iconSpacing) {
-                    ForEach(PlaylistDisplayMode.allCases) { displayMode in
-                        IconButton(
-                            systemName: displayMode.imageName,
-                            font: .font16,
-                            isSelected: displayMode == selection.displayMode,
-                            action: {
-                                onAction(.displayMode(displayMode))
-                            }
-                        )
-                    }
+                DisplayModePicker(selection: viewModel.radioDisplayMode) {
+                    viewModel.updateRadioDisplayMode($0)
                 }
             }
-            
+
             UserRadioSection(
-                collection: viewModel.selectedPlaylists,
-                displayMode: viewModel.playlistSelection.displayMode,
-                onPageChange: load
+                state: viewModel.radioState,
+                displayMode: viewModel.radioDisplayMode
             )
         }
         .padding(.top, Layout.contentTopInset)
         .padding(.bottom, Layout.contentBottomInset)
+        .task {
+            await viewModel.loadRadios()
+        }
     }
 }
 
@@ -47,10 +42,13 @@ private extension UserRadiosPage {
         static let contentTopInset: CGFloat = 10
         static let contentBottomInset: CGFloat = 40
         static let tabContentSpacing: CGFloat = 24
-        static let iconSpacing: CGFloat = 8
     }
 }
 
 #Preview {
-    UserRadiosPage()
+    ScrollView {
+        UserRadiosPage(viewModel: UserDetailViewModel(id: User.official.userId))
+    }
+    .frame(minWidth: 600, minHeight: 600)
+    .padding()
 }
