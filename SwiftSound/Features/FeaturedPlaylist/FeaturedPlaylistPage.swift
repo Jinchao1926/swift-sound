@@ -29,28 +29,18 @@ struct FeaturedPlaylistPage: View {
                     moreCategoryButton
                 }
 
-                LazyVGrid(
-                    columns: [
-                        GridItem(
-                            .adaptive(minimum: Layout.minCardWidth),
-                            spacing: Layout.gridRowSpacing,
-                            alignment: .top
-                        )
-                    ],
-                    alignment: .leading,
-                    spacing: Layout.gridColumnSpacing
+                PaginatedGridView(
+                    state: viewModel.playlistState,
+                    minItemWidth: Layout.minItemWidth,
+                    columnSpacing: Layout.columnSpacing,
+                    rowSpacing: Layout.rowSpacing,
+                    loadMore: viewModel.loadMorePlaylists
                 ) {
-                    Section {
-                        ForEach(viewModel.playlistState.items) {
-                            FeaturedPlaylistCard(playlist: $0) {
-                                // ...
-                            }
-                            .routeLink(to: .playlist(id: $0.id))
+                    ForEach(viewModel.playlistState.items) {
+                        FeaturedPlaylistCard(playlist: $0) {
+                            // ...
                         }
-                    } footer: {
-                        InfiniteScrollFooter(state: viewModel.playlistState) {
-                            await viewModel.loadMorePlaylists()
-                        }
+                        .routeLink(to: .playlist(id: $0.id))
                     }
                 }
                 .loadingPlaceholder(viewModel.playlistState.isInitialLoading)
@@ -99,9 +89,9 @@ private extension FeaturedPlaylistPage {
         static let horizontalInset: CGFloat = 40
         static let moreInset: CGFloat = 16
 
-        static let minCardWidth: CGFloat = 178
-        static let gridRowSpacing: CGFloat = 20
-        static let gridColumnSpacing: CGFloat = 20
+        static let minItemWidth: CGFloat = 178
+        static let columnSpacing: CGFloat = 20
+        static let rowSpacing: CGFloat = 20
     }
 }
 

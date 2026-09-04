@@ -19,27 +19,17 @@ struct ArtistListPage: View {
                 onInitialSelect: viewModel.selectInitial
             )
 
-            LazyVGrid(
-                columns: [
-                    GridItem(
-                        .adaptive(minimum: Layout.minCardWidth),
-                        spacing: Layout.rowSpacing,
-                        alignment: .top
-                    )
-                ],
-                alignment: .leading,
-                spacing: Layout.columnSpacing
+            PaginatedGridView(
+                state: viewModel.state,
+                minItemWidth: Layout.minItemWidth,
+                columnSpacing: Layout.columnSpacing,
+                rowSpacing: Layout.rowSpacing,
+                loadMore: viewModel.loadMore
             ) {
-                Section {
-                    ForEach(viewModel.state.items) { artist in
-                        ArtistCard(artist: artist)
-                            .frame(maxWidth: .infinity)
-                            .routeLink(to: .artist(id: artist.id))
-                    }
-                } footer: {
-                    InfiniteScrollFooter(state: viewModel.state) {
-                        await viewModel.loadMore()
-                    }
+                ForEach(viewModel.state.items) { artist in
+                    ArtistCard(artist: artist)
+                        .frame(maxWidth: .infinity)
+                        .routeLink(to: .artist(id: artist.id))
                 }
             }
             .padding(.top, Layout.contentTopInset)
@@ -55,9 +45,9 @@ struct ArtistListPage: View {
 
 private extension ArtistListPage {
     enum Layout {
-        static let minCardWidth: CGFloat = 176
-        static let rowSpacing: CGFloat = 20
+        static let minItemWidth: CGFloat = 176
         static let columnSpacing: CGFloat = 20
+        static let rowSpacing: CGFloat = 20
 
         static let contentTopInset: CGFloat = 20
         static let horizontalInset: CGFloat = 40

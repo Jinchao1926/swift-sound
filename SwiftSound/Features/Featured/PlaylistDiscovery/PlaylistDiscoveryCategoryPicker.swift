@@ -56,12 +56,12 @@ struct PlaylistDiscoveryCategoryPicker: View {
             columns: Array(
                 repeating: GridItem(
                     .fixed(Layout.categoryWidth),
-                    spacing: Layout.categoryRowSpacing
+                    spacing: Layout.categoryColumnSpacing
                 ),
                 count: Layout.categoryColumnCount
             ),
             alignment: .leading,
-            spacing: Layout.categoryColumnSpacing
+            spacing: Layout.categoryRowSpacing
         ) {
             ForEach(group.subs) { category in
                 SelectableCapsule(
@@ -86,8 +86,8 @@ private extension PlaylistDiscoveryCategoryPicker {
 
         static let categoryColumnCount = 6
         static let categoryWidth: CGFloat = 80
-        static let categoryRowSpacing: CGFloat = 12
-        static let categoryColumnSpacing: CGFloat = 16
+        static let categoryColumnSpacing: CGFloat = 12
+        static let categoryRowSpacing: CGFloat = 16
     }
 }
 
