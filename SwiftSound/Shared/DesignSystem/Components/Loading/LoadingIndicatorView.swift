@@ -1,5 +1,5 @@
 //
-//  LoadingView.swift
+//  LoadingIndicatorView.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/8/10.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LoadingView: View {
+struct LoadingIndicatorView: View {
     var body: some View {
         HStack {
             Spacer()
@@ -21,5 +21,5 @@ struct LoadingView: View {
 }
 
 #Preview {
-    LoadingView()
+    LoadingIndicatorView()
 }

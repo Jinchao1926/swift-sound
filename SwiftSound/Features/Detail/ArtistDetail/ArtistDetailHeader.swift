@@ -8,37 +8,38 @@
 import SwiftUI
 
 struct ArtistDetailHeader: View {
-    let detail: ArtistDetail
+    let detail: ArtistDetail?
     let onPlayAll: () -> Void
 
     var body: some View {
         HStack(spacing: Layout.headerSpacing) {
-            Avatar(url: detail.artist.avatarURL, size: Layout.avatarSize)
+            Avatar(url: detail?.artist.avatarURL, size: Layout.avatarSize)
 
-            VStack(alignment: .leading, spacing: 0) {
-                Text(detail.artist.name)
-                    .font(.font18)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(Color.textPrimary)
+            if let detail {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(detail.artist.name)
+                        .font(.font18)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color.textPrimary)
 
-                HStack(spacing: Layout.detailSpacing) {
-                    SeparatedText(detail.artist.aliases)
+                    HStack(spacing: Layout.detailSpacing) {
+                        SeparatedText(detail.artist.aliases)
 
-                    if let user = detail.user {
-                        Text("个人页 >")
-                            .foregroundStyle(Color.textSecondary)
-                            .routeLink(to: .user(id: user.userId))
+                        if let user = detail.user {
+                            Text("个人页 >")
+                                .foregroundStyle(Color.textSecondary)
+                                .routeLink(to: .user(id: user.userId))
+                        }
                     }
-                }
-                .padding(.top, Layout.detailTopInset)
-                .padding(.bottom, Layout.detailBottomInset)
+                    .padding(.top, Layout.detailTopInset)
+                    .padding(.bottom, Layout.detailBottomInset)
 
-                HStack(spacing: Layout.actionSpacing) {
-                    MusicActionButtons.playAll {
-                        onPlayAll()
+                    HStack(spacing: Layout.actionSpacing) {
+                        MusicActionButtons.playAll {
+                            onPlayAll()
+                        }
+                        MusicActionButtons.follow {}
                     }
-
-                    MusicActionButtons.follow {}
                 }
             }
 
@@ -59,8 +60,12 @@ private extension ArtistDetailHeader {
 }
 
 #Preview {
-    ArtistDetailHeader(
-        detail: ArtistDetail(artist: .preview, user: nil),
-        onPlayAll: {}
-    )
+    VStack {
+        ArtistDetailHeader(
+            detail: ArtistDetail(artist: .preview, user: nil),
+            onPlayAll: {}
+        )
+
+        ArtistDetailHeader(detail: nil, onPlayAll: {})
+    }
 }

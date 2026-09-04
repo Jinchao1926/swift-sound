@@ -35,7 +35,7 @@ extension View {
 
     func loadingPlaceholder(_ isLoading: Bool) -> some View {
         loadingPlaceholder(isLoading) {
-            LoadingView()
+            LoadingIndicatorView()
         }
     }
 }

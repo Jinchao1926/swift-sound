@@ -7,6 +7,14 @@
 
 import Foundation
 
+// MARK: - LoadableValue
+protocol LoadableValue {
+    var isEmpty: Bool { get }
+}
+
+extension Array: LoadableValue {}
+
+// MARK: - Loadable
 enum Loadable<Value> {
     case idle
     case loading(Value? = nil)
@@ -68,6 +76,12 @@ extension Loadable {
         case .idle, .failed:
             return false
         }
+    }
+}
+
+extension Loadable where Value: LoadableValue {
+    var isValueEmpty: Bool {
+        value?.isEmpty ?? false
     }
 }
 

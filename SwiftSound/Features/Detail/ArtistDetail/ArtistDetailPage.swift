@@ -23,12 +23,10 @@ struct ArtistDetailPage: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Layout.spacing) {
-                if let detail = viewModel.state.value {
-                    ArtistDetailHeader(
-                        detail: detail,
-                        onPlayAll: playAllSongs
-                    )
-                }
+                ArtistDetailHeader(
+                    detail: viewModel.state.value,
+                    onPlayAll: playAllSongs
+                )
 
                 RouteTabView(
                     selectedRoute: route,
@@ -111,6 +109,7 @@ private extension ArtistDetailPage {
 
 #Preview {
     ArtistDetailPage(id: Artist.preview.id, route: .songs)
+        .frame(width: 800, height: 600)
         .environmentObject(AppRouter())
         .environmentObject(PlayerStore())
 }

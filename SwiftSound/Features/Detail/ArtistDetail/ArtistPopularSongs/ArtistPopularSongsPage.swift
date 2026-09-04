@@ -20,14 +20,12 @@ struct ArtistPopularSongsPage: View {
                 variant: .large
             )
 
-            if let songs = state.value {
-                SongTable(songs: songs)
-                    .padding(.top, Layout.tableTopMargin)
-            }
+            SongTable(songs: state.value ?? [])
+                .padding(.top, Layout.tableTopInset)
         }
-        .padding(.bottom, Layout.bottomMargin)
+        .padding(.bottom, Layout.bottomInset)
         .frame(maxWidth: .infinity, alignment: .topLeading)
-        .loadingPlaceholder(state.isInitialLoading)
+        .loadable(state: state, retry: load)
         .task {
             await load()
         }
@@ -36,8 +34,8 @@ struct ArtistPopularSongsPage: View {
 
 private extension ArtistPopularSongsPage {
     enum Layout {
-        static let bottomMargin: CGFloat = 20
-        static let tableTopMargin: CGFloat = 12
+        static let bottomInset: CGFloat = 20
+        static let tableTopInset: CGFloat = 12
     }
 }
 
