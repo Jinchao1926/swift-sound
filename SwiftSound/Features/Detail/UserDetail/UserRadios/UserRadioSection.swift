@@ -11,16 +11,8 @@ struct UserRadioSection: View {
     let displayMode: DisplayMode
 
     var body: some View {
-        VStack(alignment: .leading, spacing: Layout.paginationSpacing) {
-            Group {
-                if state.value != nil, state.items.isEmpty {
-                    EmptyStateView()
-                } else {
-                    radios(state.items)
-                }
-            }
-            .loadingPlaceholder(state.isInitialLoading)
-        }
+        radios(state.items)
+            .loadable(state: state)
     }
 
     @ViewBuilder

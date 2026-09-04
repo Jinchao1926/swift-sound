@@ -13,35 +13,36 @@ struct UserDetailHeader: View {
         let number: Int
     }
 
-    let detail: UserDetail
-    var user: User { detail.profile }
+    let detail: UserDetail?
 
     var body: some View {
         HStack(alignment: .top, spacing: Layout.headerSpacing) {
-            Avatar(url: user.avatarURL, size: Layout.avatarSize)
+            Avatar(url: detail?.profile.avatarURL, size: Layout.avatarSize)
 
-            VStack(alignment: .leading, spacing: Layout.detailSpacing) {
-                Text(user.nickname)
-                    .font(.font20)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(Color.textPrimary)
-
-                identityRow
-                followsRow
-                VStack(alignment: .leading, spacing: Layout.signatureSpacing) {
-                    signatureRow
-                    locationRow
+            if let detail {
+                VStack(alignment: .leading, spacing: Layout.detailSpacing) {
+                    Text(detail.profile.nickname)
+                        .font(.font20)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color.textPrimary)
+                    
+                    identityRow(for: detail)
+                    followsRow(for: detail)
+                    VStack(alignment: .leading, spacing: Layout.signatureSpacing) {
+                        signatureRow(for: detail)
+                        locationRow(for: detail)
+                    }
+                    actionRow(for: detail)
                 }
-                actionRow
             }
 
             Spacer()
         }
     }
 
-    private var identityRow: some View {
+    private func identityRow(for detail: UserDetail) -> some View {
         HStack(spacing: Layout.identitySpacing) {
-            if user.isVIP {
+            if detail.profile.isVIP {
                 VIPLevelView()
             }
 
@@ -50,15 +51,15 @@ struct UserDetailHeader: View {
             }
 
             LevelView(level: detail.level)
-            GenderView(gender: user.gender)
+            GenderView(gender: detail.profile.gender)
         }
     }
 
     @ViewBuilder
-    private var followsRow: some View {
+    private func followsRow(for detail: UserDetail) -> some View {
         let follows = [
-            UserFollows(title: "关注", number: user.follows ?? 0),
-            UserFollows(title: "粉丝", number: user.followeds ?? 0)
+            UserFollows(title: "关注", number: detail.profile.follows ?? 0),
+            UserFollows(title: "粉丝", number: detail.profile.followeds ?? 0)
         ].filter { $0.number > 0 }
 
         if !follows.isEmpty {
@@ -79,8 +80,8 @@ struct UserDetailHeader: View {
     }
 
     @ViewBuilder
-    private var signatureRow: some View {
-        if let signature = user.signature, !signature.isEmpty {
+    private func signatureRow(for detail: UserDetail) -> some View {
+        if let signature = detail.profile.signature, !signature.isEmpty {
             Text("简介：\(signature)")
                 .font(.font13)
                 .foregroundStyle(Color.textSecondary)
@@ -88,10 +89,10 @@ struct UserDetailHeader: View {
     }
 
     @ViewBuilder
-    private var locationRow: some View {
+    private func locationRow(for detail: UserDetail) -> some View {
         if let region = UserRegionFormatter.location(
-            provinceCode: user.province,
-            cityCode: user.city
+            provinceCode: detail.profile.province,
+            cityCode: detail.profile.city
         ) {
             Text("地区：\(region)")
                 .font(.font13)
@@ -100,7 +101,7 @@ struct UserDetailHeader: View {
     }
 
     @ViewBuilder
-    private var actionRow: some View {
+    private func actionRow(for detail: UserDetail) -> some View {
         let artistID = detail.profile.artistId
 
         HStack(spacing: Layout.actionSpacing) {
