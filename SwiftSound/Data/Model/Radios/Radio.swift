@@ -164,5 +164,5 @@ struct Radio: Decodable, Identifiable {
 }
 
 extension Radio {
-    var coverURL: URL? { URL(string: picUrl) }
+    var imageURL: URL? { URL(string: picUrl) }
 }

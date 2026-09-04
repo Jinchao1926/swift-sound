@@ -56,7 +56,7 @@ private extension OfficialRankingCard {
         ZStack(alignment: .topLeading) {
             stackedRemoteImage(offset: Layout.imageLayerOffset * 2, opacity: 0.2)
             stackedRemoteImage(offset: Layout.imageLayerOffset, opacity: 0.4)
-            RemoteImage(url: coverImageURL)
+            RemoteImage(url: toplist.imageURL)
                 .frame(width: Layout.imageSize, height: Layout.imageSize)
                 .playbackOverlay(
                     configuration: .init(
@@ -76,7 +76,7 @@ private extension OfficialRankingCard {
     }
 
     func stackedRemoteImage(offset: CGFloat, opacity: Double) -> some View {
-        RemoteImage(url: coverImageURL)
+        RemoteImage(url: toplist.imageURL)
             .frame(width: Layout.imageSize, height: Layout.imageSize)
             .frame(
                 width: Layout.imageSize,
@@ -91,10 +91,6 @@ private extension OfficialRankingCard {
 }
 
 private extension OfficialRankingCard {
-    var coverImageURL: URL? {
-        URL(string: toplist.coverImgUrl)
-    }
-
     func trackContent(for track: ToplistSong) -> AttributedString {
         var content = AttributedString(track.first)
         content.foregroundColor = Color.textPrimary

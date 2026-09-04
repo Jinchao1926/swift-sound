@@ -24,7 +24,7 @@ struct UserRadioCard: View {
     }
 
     private var radioCover: some View {
-        RemoteImage(url: radio.coverURL)
+        RemoteImage(url: radio.imageURL)
             .aspectRatio(1, contentMode: .fit)
             .frame(maxWidth: .infinity)
             .overlay(alignment: .topTrailing) {

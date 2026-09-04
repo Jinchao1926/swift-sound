@@ -19,15 +19,16 @@ import Foundation
  }
 */
 /** 轮播图 */
-struct Banner: Decodable {
+struct Banner: Decodable, Identifiable {
     let targetId: Int
     let imageUrl: String
     let targetType: Int
     let typeTitle: String
     let url: String
+
+    var id: String { imageUrl }
 }
 
-// MARK: - Identifiable
-extension Banner: Identifiable {
-    var id: String { imageUrl }
+extension Banner {
+    var imageURL: URL? { URL(string: imageUrl) }
 }

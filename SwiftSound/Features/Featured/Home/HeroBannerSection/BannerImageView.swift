@@ -11,7 +11,7 @@ struct BannerImageView: View {
     let banner: Banner
 
     var body: some View {
-        RemoteImage(url: URL(string: banner.imageUrl), size: nil)
+        RemoteImage(url: banner.imageURL, size: nil)
             .aspectRatio(Layout.aspectRatio, contentMode: .fit)
             .frame(maxWidth: .infinity)
             .overlay(alignment: .bottomTrailing) {

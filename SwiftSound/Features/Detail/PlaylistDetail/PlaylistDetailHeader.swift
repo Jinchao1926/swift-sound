@@ -13,7 +13,7 @@ struct PlaylistDetailHeader: View {
 
     var body: some View {
         HStack(spacing: Layout.spacing) {
-            RemoteImage(url: playlist.coverURL)
+            RemoteImage(url: playlist.imageURL)
                 .frame(width: Layout.size, height: Layout.size)
                 .rounded(radius: Layout.cornerRadius)
                 .overlay(alignment: .topTrailing) {

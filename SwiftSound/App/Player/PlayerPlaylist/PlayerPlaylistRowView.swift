@@ -38,7 +38,7 @@ struct PlayerPlaylistRowView: View {
     }
 
     private var coverImage: some View {
-        RemoteImage(url: URL(string: song.album.picUrl))
+        RemoteImage(url: song.album.imageURL)
             .frame(width: Layout.coverSize, height: Layout.coverSize)
             .playbackOverlay(
                 configuration: .init(
