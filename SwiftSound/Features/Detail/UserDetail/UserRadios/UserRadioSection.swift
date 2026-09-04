@@ -40,7 +40,7 @@ struct UserRadioSection: View {
         ) {
             ForEach(radios) { radio in
                 UserRadioCard(radio: radio) {}
-//                    .routeLink(to: .playlist(id: playlist.id))
+                    .routeLink(to: .radio(id: radio.id))
             }
         }
         .frame(maxWidth: .infinity, alignment: .topLeading)

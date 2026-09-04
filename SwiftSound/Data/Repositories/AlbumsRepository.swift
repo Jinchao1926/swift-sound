@@ -8,13 +8,24 @@
 import Foundation
 
 protocol AlbumsRepositoryProtocol {
-    func fetchTopAlbums(area: TopAlbumsArea, type: TopAlbumsType, year: Int?, month: Int?) async throws -> TopAlbums
+    func fetchTopAlbums(
+        area: TopAlbumsArea,
+        type: TopAlbumsType,
+        year: Int?,
+        month: Int?
+    ) async throws -> TopAlbums
+
     func fetchAlbumDetail(id: Int) async throws -> AlbumDetail
     func fetchAlbumDetailDynamic(id: Int) async throws -> AlbumDetailDynamic
 }
 
 extension AlbumsRepositoryProtocol {
-    func fetchTopAlbums(area: TopAlbumsArea = .all, type: TopAlbumsType = .new, year: Int? = nil, month: Int? = nil) async throws -> TopAlbums {
+    func fetchTopAlbums(
+        area: TopAlbumsArea = .all,
+        type: TopAlbumsType = .new,
+        year: Int? = nil,
+        month: Int? = nil
+    ) async throws -> TopAlbums {
         try await fetchTopAlbums(area: area, type: type, year: year, month: month)
     }
 }

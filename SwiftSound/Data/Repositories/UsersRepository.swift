@@ -14,7 +14,9 @@ protocol UsersRepositoryProtocol {
 }
 
 extension UsersRepositoryProtocol {
-    func fetchUserPlaylists(uid: Int, offset: Int = 0, limit: Int = 24) async throws -> UserPlaylistsResponse { try await fetchUserPlaylists(uid: uid, offset: offset, limit: limit) }
+    func fetchUserPlaylists(uid: Int, offset: Int = 0, limit: Int = 24) async throws -> UserPlaylistsResponse {
+        try await fetchUserPlaylists(uid: uid, offset: offset, limit: limit)
+    }
 }
 
 struct UsersRepository: UsersRepositoryProtocol {

@@ -29,29 +29,29 @@ struct PlaylistDetailHeader: View {
                         .font(.font18)
                         .fontWeight(.semibold)
                         .foregroundStyle(Color.textPrimary)
-                    
+
                     if let description = playlist.description?.replacingOccurrences(of: "\n", with: "") {
                         Text(description)
                             .font(.font14)
                             .foregroundStyle(Color.textSecondary)
                     }
-                    
+
                     HStack(spacing: Layout.creatorSpacing) {
                         HStack(spacing: Layout.creatorSpacing / 2) {
                             Avatar(url: playlist.creator.avatarURL, size: Layout.avatarSize)
-                            
+
                             Text(playlist.creator.nickname)
                                 .foregroundStyle(Color.textSecondary)
                         }
                         .routeLink(to: .user(id: playlist.creator.userId))
-                        
+
                         Text("\(playlist.updateTime.formattedMillisecondsYearMonthDay()) 更新")
                             .foregroundStyle(Color.textTertiary)
                     }
                     .font(.font12)
-                    
+
                     Spacer()
-                    
+
                     HStack(spacing: Layout.buttonSpacing) {
                         MusicActionButtons.playAll {
                             onPlayAll()

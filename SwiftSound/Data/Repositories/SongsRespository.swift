@@ -11,12 +11,15 @@ protocol SongsRepositoryProtocol: SongPlaybackURLProviding {
     func fetchNewSongs(offset: Int, limit: Int) async throws -> [NewSong]
     func fetchTopSongs(type: TopSongsType) async throws -> [Song]
     func fetchSongDetail(_ id: Int) async throws -> Song?
+
     func fetchSongPlaybackURL(_ id: Int) async throws -> URL?
     func fetchLyric(_ id: Int) async throws -> [LyricLine]
 }
 
 extension SongsRepositoryProtocol {
-    func fetchNewSongs(offset: Int = 0, limit: Int = 12) async throws -> [NewSong] { try await fetchNewSongs(offset: offset, limit: limit) }
+    func fetchNewSongs(offset: Int = 0, limit: Int = 12) async throws -> [NewSong] {
+        try await fetchNewSongs(offset: offset, limit: limit)
+    }
 }
 
 struct SongsRespository: SongsRepositoryProtocol {

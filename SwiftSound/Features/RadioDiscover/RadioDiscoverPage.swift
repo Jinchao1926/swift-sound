@@ -1,5 +1,5 @@
 //
-//  PodcastPage.swift
+//  RadioDiscoverPage.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/6/11.
@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct RadioPage: View {
+struct RadioDiscoverPage: View {
     var body: some View {
-        PlaceholderPage(title: "Podcast")
+        PlaceholderPage(title: "RadioPage")
     }
 }
 
 #Preview {
-    RadioPage()
+    RadioDiscoverPage()
 }

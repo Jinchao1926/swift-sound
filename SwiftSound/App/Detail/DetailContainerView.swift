@@ -38,8 +38,8 @@ struct DetailContainerView: View {
         // Sidebar routes
         case .featured(let secondary):
             FeaturedPage(route: secondary)
-        case .podcast:
-            PodcastPage()
+        case .radioDiscover:
+            RadioDiscoverPage()
         case .follow:
             FollowPage()
         case .favorite:
@@ -53,6 +53,10 @@ struct DetailContainerView: View {
             NewMusicPage(route: secondary)
         case .featuredPlaylist(let category):
             FeaturedPlaylistPage(initialCategory: category)
+        case .radioCharts:
+            RadioChartsPage()
+        case .radioCategories:
+            RadioCategoriesPage()
         // Details
         case .artistSongs(let id):
             ArtistSongsPage(id: id)
@@ -66,6 +70,8 @@ struct DetailContainerView: View {
             UserDetailPage(id: id, route: secondary)
         case .mv(let id):
             MVDetailPage(id: id)
+        case .radio(let id):
+            RadioDetailPage(id: id)
         // Settings
         case .setting:
             SettingPage()
