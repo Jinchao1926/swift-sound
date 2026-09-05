@@ -38,7 +38,7 @@ import Foundation
 },*/
 
 /** 电台分类 */
-struct RadioCategory {
+struct RadioCategory: Decodable, Identifiable {
     let id: Int
     let name: String
     let picWebUrl: String
