@@ -19,7 +19,7 @@ enum AppRoute: Identifiable, Hashable, Equatable {
     // Others
     case newMusic(secondary: NewMusicRoute = .songs)
     case featuredPlaylist(category: String)
-    case radioCategories
+    case radioCategories(id: Int)
     case radioCharts
     // Details
     case artist(id: Int, secondary: ArtistRoute = .songs)

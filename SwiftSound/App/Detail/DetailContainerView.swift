@@ -55,8 +55,8 @@ struct DetailContainerView: View {
             FeaturedPlaylistPage(initialCategory: category)
         case .radioCharts:
             RadioChartsPage()
-        case .radioCategories:
-            RadioCategoriesPage()
+        case .radioCategories(let id):
+            RadioCategoriesPage(id: id)
         // Details
         case .artistSongs(let id):
             ArtistSongsPage(id: id)

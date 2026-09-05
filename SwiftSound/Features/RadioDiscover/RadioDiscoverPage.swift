@@ -8,11 +8,31 @@
 import SwiftUI
 
 struct RadioDiscoverPage: View {
+    @StateObject private var viewModel = RadioDiscoverViewModel()
+
     var body: some View {
-        PlaceholderPage(title: "RadioPage")
+        ScrollView {
+            VStack(spacing: 0) {
+                RadioCategoriesPicker(categories: viewModel.state.value ?? [])
+                    .loadable(state: viewModel.state)
+            }
+        }
+        .padding(.horizontal, Layout.horizontalInset)
+        .padding(.bottom, Layout.verticalInset)
+        .task {
+            await viewModel.loadRadioCategories()
+        }
+    }
+}
+
+private extension RadioDiscoverPage {
+    enum Layout {
+        static let verticalInset: CGFloat = 30
+        static let horizontalInset: CGFloat = 40
     }
 }
 
 #Preview {
     RadioDiscoverPage()
+        .environmentObject(AppRouter())
 }

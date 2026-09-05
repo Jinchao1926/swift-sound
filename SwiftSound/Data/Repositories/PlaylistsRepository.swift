@@ -34,7 +34,11 @@ extension PlaylistsRepositoryProtocol {
         try await fetchFeaturedPlaylists(category: category, before: before, limit: limit)
     }
 
-    func fetchPlaylistSubscribers(id: Int, offset: Int = 0, limit: Int = 20) async throws -> PlaylistSubscribersResponse {
+    func fetchPlaylistSubscribers(
+        id: Int,
+        offset: Int = 0,
+        limit: Int = 20
+    ) async throws -> PlaylistSubscribersResponse {
         try await fetchPlaylistSubscribers(id: id, offset: offset, limit: limit)
     }
 }
