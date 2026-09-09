@@ -10,19 +10,28 @@ import SwiftUI
 struct IdentifyView: View {
     let identify: Identify
 
+    @StateObject private var themeColorLoader = ThemeColorLoader()
+    private var themeColor: Color {
+        themeColorLoader.color ?? .accentPrimary
+    }
+
     var body: some View {
         HStack(spacing: 0) {
-            Avatar(url: identify.imageURL, size: Layout.size)
+            RemoteImage(url: identify.imageURL)
+                .frame(width: Layout.size, height: Layout.size)
             Text(identify.imageDesc)
                 .font(.font12)
-                .foregroundStyle(Color.accentPrimary)
+                .foregroundStyle(themeColor)
                 .padding(.horizontal, Layout.padding)
         }
         .background(
             Capsule(style: .continuous)
-                .stroke(Color.accentPrimary.opacity(0.1), lineWidth: 1)
-                .fill(Color.accentPrimary.opacity(0.08))
+                .stroke(themeColor.opacity(0.1), lineWidth: 1)
+                .fill(themeColor.opacity(0.35))
         )
+        .task(id: identify.id) {
+            await themeColorLoader.load(from: identify.imageURL)
+        }
     }
 }
 
@@ -34,6 +43,12 @@ private extension IdentifyView {
 }
 
 #Preview {
-    IdentifyView(identify: .preview)
-        .padding()
+    VStack(alignment: .leading) {
+        IdentifyView(identify: .preview)
+        IdentifyView(identify: .preview1)
+        IdentifyView(identify: .preview2)
+        IdentifyView(identify: .preview3)
+        IdentifyView(identify: .preview4)
+    }
+    .padding()
 }
