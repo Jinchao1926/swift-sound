@@ -53,16 +53,18 @@ enum Gender: Int, Decodable {
 }
 
 struct AvatarDetail: Decodable {
-    let identityLevel: Int
+    let identityLevel: Int?
     let identityIconUrl: String
 }
 extension AvatarDetail {
     var avatarURL: URL? { URL(string: identityIconUrl) }
 }
 
-struct Identify: Decodable {
+struct Identify: Decodable, Identifiable {
     let imageUrl: String
     let imageDesc: String
+
+    var id: String { imageDesc }
 }
 
 extension Identify {

@@ -50,7 +50,9 @@ struct UserDetailHeader: View {
                 IdentifyView(identify: identify)
             }
 
-            LevelView(level: detail.level)
+            if detail.level > 0 {
+                LevelView(level: detail.level)
+            }
             GenderView(gender: detail.profile.gender)
         }
     }
@@ -71,7 +73,7 @@ struct UserDetailHeader: View {
                             .frame(width: 1, height: Layout.separatorHeight)
                     }
 
-                    Text("\(follow.title) \(follow.number)")
+                    Text("\(follow.title) \(follow.number.formattedCount(threshold: .hundredThousand))")
                 }
             }
             .font(.font15.weight(.semibold))

@@ -70,6 +70,26 @@ extension Identify {
         imageUrl: "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png",
         imageDesc: "原创歌手薛之谦"
     )
+
+    static let preview1 = Identify(
+        imageUrl: "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4874132307/4499/f228/d867/da64b9725e125943ad4e14e4c72d0884.png",
+        imageDesc: "网易音乐人、歌手"
+    )
+
+    static let preview2 = Identify(
+        imageUrl: "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4761340168/ccce/35dd/ab2d/1a7c8ee0f6bb1fc2760cbb570dfee34f.png",
+        imageDesc: "声音达人"
+    )
+
+    static let preview3 = Identify(
+        imageUrl: "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/11231824940/04ea/70e2/d8d6/c6266e898b0c546a477e978c1bd9fdb2.png",
+        imageDesc: "高级合伙人"
+    )
+
+    static let preview4 = Identify(
+        imageUrl: "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/59679338493/06e3/631a/4c59/7e34d8deb3c3401f32d1f9579a8f1e0a.png",
+        imageDesc: "AI音乐人、歌手"
+    )
 }
 // swiftlint:enable line_length
 #endif
