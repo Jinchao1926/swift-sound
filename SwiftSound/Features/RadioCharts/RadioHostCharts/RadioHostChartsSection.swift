@@ -22,6 +22,12 @@ struct RadioHostChartsSection: View {
                     }
                 }
             }
+
+            RadioHostTable(hosts: viewModel.state.items)
+                .loadable(state: viewModel.state)
+        }
+        .task(id: viewModel.selectedType) {
+            await viewModel.load()
         }
     }
 }

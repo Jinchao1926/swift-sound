@@ -92,5 +92,6 @@ struct MusicTableIndexCell: View {
         MusicTableIndexCell(index: 4, rowState: .init(playbackStatus: .currentPlaying)) {}
         MusicTableIndexCell(index: 5, rowState: .init(isHovering: true, playbackStatus: .currentPlaying)) {}
     }
+    .background(Color.surfacePrimary)
     .padding()
 }
