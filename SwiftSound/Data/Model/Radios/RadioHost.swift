@@ -29,7 +29,7 @@ import Foundation
      "roomNo": 0
  },
  */
-struct RadioHost: Decodable, Identifiable {
+struct RadioHost: Decodable, Identifiable, RankingInfoProviding {
     let id: Int
     let rank: Int
     let lastRank: Int
@@ -37,4 +37,10 @@ struct RadioHost: Decodable, Identifiable {
     let nickName: String
     let avatarUrl: String
     let avatarDetail: AvatarDetail?
+    let userType: Int
+    let userFollowedCount: Int
+}
+
+extension RadioHost {
+    var imageURL: URL? { URL(string: avatarUrl) }
 }

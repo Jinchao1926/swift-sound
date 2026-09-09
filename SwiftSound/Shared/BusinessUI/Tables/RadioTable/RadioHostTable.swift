@@ -39,7 +39,10 @@ private extension RadioHostTable {
             width: .fixed(Layout.indexWidth),
             alignment: .center,
             content: { row, context in
-                RadioHostIndexCell(index: context.rowNumber)
+                RadioHostIndexCell(
+                    index: context.rowNumber,
+                    rankingInfo: row.host
+                )
             }
         )
     }
@@ -53,8 +56,11 @@ private extension RadioHostTable {
             content: { row, _ in
                 RadioHostTableTitleCell(
                     imageURL: row.imageURL,
-                    title: row.title
+                    title: row.title,
+                    rankingInfo: row.host,
+                    avatarDetail: row.avatarDetail
                 )
+                .routeLink(to: .user(id: row.id))
             }
         )
     }
@@ -79,7 +85,7 @@ private extension RadioHostTable {
     enum Layout {
         static let indexWidth: CGFloat = 54
         static let titleMinWidth: CGFloat = 160
-        static let followedCountWidth: CGFloat = 70
+        static let followedCountWidth: CGFloat = 85
     }
 }
 

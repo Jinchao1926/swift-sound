@@ -17,5 +17,9 @@ struct RadioHostTableRow: Identifiable {
 
     var title: String { host.nickName }
 
-    var followedCount: String { "\(host.userFollowedCount.formattedCount())人" }
+    var avatarDetail: AvatarDetail? { host.avatarDetail }
+
+    var followedCount: String {
+        "\(host.userFollowedCount.formattedCount(threshold: .hundredThousand))人"
+    }
 }
