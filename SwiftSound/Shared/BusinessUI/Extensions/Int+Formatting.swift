@@ -7,16 +7,33 @@
 
 import Foundation
 
-extension Int {
-    func formattedCount() -> String {
+enum CountAbbreviationThreshold {
+    case tenThousand
+    case hundredThousand
+
+    fileprivate var wanThreshold: Int {
         switch self {
-        case 100_000_000...:
-            return formattedCount(divisor: 100_000_000, suffix: "亿")
-        case 10_000..<100_000_000:
-            return formattedCount(divisor: 10_000, suffix: "万")
-        default:
-            return "\(self)"
+        case .tenThousand:
+            return 10_000
+        case .hundredThousand:
+            return 100_000
         }
+    }
+
+    fileprivate var yiThreshold: Int { wanThreshold * 10_000 }
+}
+
+extension Int {
+    func formattedCount(threshold: CountAbbreviationThreshold = .tenThousand) -> String {
+        if self >= threshold.yiThreshold {
+            return formattedCount(divisor: 100_000_000, suffix: "亿")
+        }
+
+        if self >= threshold.wanThreshold {
+            return formattedCount(divisor: 10_000, suffix: "万")
+        }
+
+        return "\(self)"
     }
 
     func formattedSongCount() -> String { "\(self)首" }

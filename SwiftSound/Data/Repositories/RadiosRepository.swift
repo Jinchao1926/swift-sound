@@ -9,6 +9,10 @@ import Foundation
 
 protocol RadiosRepositoryProtocol {
     func fetchRadioCategories() async throws -> [RadioCategory]
+
+    func fetchRadioHostChartsDaily() async throws -> [RadioHost]
+    func fetchRadioHostChartsNewComer() async throws -> [RadioHost]
+    func fetchRadioHostChartsPopular() async throws -> [RadioHost]
 }
 
 struct RadiosRepository: RadiosRepositoryProtocol {
@@ -18,8 +22,25 @@ struct RadiosRepository: RadiosRepositoryProtocol {
         self.apiClient = apiClient
     }
 
+    // MARK: - Categories
     func fetchRadioCategories() async throws -> [RadioCategory] {
         let response = try await apiClient.request(RadioCategoriesRequest())
         return response.categories
+    }
+
+    // MARK: - Hosts
+    func fetchRadioHostChartsDaily() async throws -> [RadioHost] {
+        let response = try await apiClient.request(RadioHostChartsDailyRequest())
+        return response.data.list
+    }
+
+    func fetchRadioHostChartsNewComer() async throws -> [RadioHost] {
+        let response = try await apiClient.request(RadioHostChartsNewComerRequest())
+        return response.data.list
+    }
+
+    func fetchRadioHostChartsPopular() async throws -> [RadioHost] {
+        let response = try await apiClient.request(RadioHostChartsPopularRequest())
+        return response.data.list
     }
 }

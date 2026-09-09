@@ -56,6 +56,9 @@ struct AvatarDetail: Decodable {
     let identityLevel: Int
     let identityIconUrl: String
 }
+extension AvatarDetail {
+    var avatarURL: URL? { URL(string: identityIconUrl) }
+}
 
 struct Identify: Decodable {
     let imageUrl: String
