@@ -1,0 +1,28 @@
+{
+    "code": 200,
+    "msg": null,
+    "data": {
+        "total": 2,
+        "updateTime": 1788926714578,
+        "list": [
+            {
+                "id": 988499285,
+                "rank": 1,
+                "lastRank": 1,
+                "score": 37079050,
+                "name": "猫小九历险记 | 大型奇幻冒险剧",
+                "picUrl": "https://p2.music.126.net/2KSJp7HiDk6QxlK6SNlSQw==/109951173848182608.jpg",
+                "creatorName": "奇喵君故事"
+            },
+            {
+                "id": 1490425014,
+                "rank": 2,
+                "lastRank": 2,
+                "score": 16129809,
+                "name": "猫平安逆袭传奇",
+                "picUrl": "https://p2.music.126.net/1MWpSltvOmn2JhLtHCzVng==/109951173692301307.jpg",
+                "creatorName": "小盟盟听书"
+            }
+        ]
+    }
+}

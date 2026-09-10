@@ -10,7 +10,7 @@ import Foundation
 struct RadioHostCharts: Decodable {
     let total: Int
     let updateTime: Int
-    let list: [RadioHost]
+    let list: [RadioHostChart]
 }
 
 struct RadioHostChartsResponse: nonisolated Decodable {

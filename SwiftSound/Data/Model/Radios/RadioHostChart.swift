@@ -1,5 +1,5 @@
 //
-//  RadioHost.swift
+//  RadioHostChart.swift
 //  SwiftSound
 //
 //  Created by Jinchao Lin on 2026/9/9.
@@ -29,7 +29,7 @@ import Foundation
      "roomNo": 0
  },
  */
-struct RadioHost: Decodable, Identifiable, RankingInfoProviding {
+struct RadioHostChart: Decodable, Identifiable, RankingInfoProviding {
     let id: Int
     let rank: Int
     let lastRank: Int
@@ -41,6 +41,6 @@ struct RadioHost: Decodable, Identifiable, RankingInfoProviding {
     let userFollowedCount: Int
 }
 
-extension RadioHost {
+extension RadioHostChart {
     var imageURL: URL? { URL(string: avatarUrl) }
 }

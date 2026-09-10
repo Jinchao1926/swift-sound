@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct RadioHostTableRow: Identifiable {
-    let host: RadioHost
+    let host: RadioHostChart
 
     var id: Int { host.id }
 

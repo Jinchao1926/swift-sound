@@ -141,7 +141,7 @@ struct RadioCategory: Decodable, Identifiable {
     "rcmdtext": "《新说唱2025》选手强势入驻中",
     "lastUpdateProgramName": "邓典果DDG：哈圈OG驾到！洗牌or被洗牌？ | 新说唱打歌季 EP03"
 }*/
-struct Radio: Decodable, Identifiable {
+struct Radio: Decodable, RadioProviding {
     let id: Int
     let name: String
     let rcmdtext: String?
@@ -154,15 +154,14 @@ struct Radio: Decodable, Identifiable {
     let lastProgramId: Int?
     let lastProgramName: String?
     let lastProgramCreateTime: Int?
-    let programCount: Int
-    let subCount: Int
-    let playCount: Int
+    let programCount: Int?
+    let subCount: Int?
+    let playCount: Int?
     let shareCount: Int?
     let likedCount: Int?
     let commentCount: Int?
     let dj: User
-}
 
-extension Radio {
-    var imageURL: URL? { URL(string: picUrl) }
+    var creatorID: Int? { dj.userId }
+    var creatorName: String { dj.nickname }
 }

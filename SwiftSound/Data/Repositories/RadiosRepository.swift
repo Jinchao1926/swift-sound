@@ -8,11 +8,18 @@
 import Foundation
 
 protocol RadiosRepositoryProtocol {
+    // MARK: - Categories
     func fetchRadioCategories() async throws -> [RadioCategory]
 
-    func fetchRadioHostChartsDaily() async throws -> [RadioHost]
-    func fetchRadioHostChartsNewComer() async throws -> [RadioHost]
-    func fetchRadioHostChartsPopular() async throws -> [RadioHost]
+    // MARK: - Hosts
+    func fetchRadioHostChartsDaily() async throws -> [RadioHostChart]
+    func fetchRadioHostChartsNewComer() async throws -> [RadioHostChart]
+    func fetchRadioHostChartsPopular() async throws -> [RadioHostChart]
+
+    // MARK: - Radios
+    func fetchRadioChartsPopular() async throws -> [RadioChart]
+    func fetchRadioChartsNewComer() async throws -> [RadioChart]
+    func fetchRadioChartsPaid() async throws -> [RadioPaidChart]
 }
 
 struct RadiosRepository: RadiosRepositoryProtocol {
@@ -29,18 +36,34 @@ struct RadiosRepository: RadiosRepositoryProtocol {
     }
 
     // MARK: - Hosts
-    func fetchRadioHostChartsDaily() async throws -> [RadioHost] {
+    func fetchRadioHostChartsDaily() async throws -> [RadioHostChart] {
         let response = try await apiClient.request(RadioHostChartsDailyRequest())
         return response.data.list
     }
 
-    func fetchRadioHostChartsNewComer() async throws -> [RadioHost] {
+    func fetchRadioHostChartsNewComer() async throws -> [RadioHostChart] {
         let response = try await apiClient.request(RadioHostChartsNewComerRequest())
         return response.data.list
     }
 
-    func fetchRadioHostChartsPopular() async throws -> [RadioHost] {
+    func fetchRadioHostChartsPopular() async throws -> [RadioHostChart] {
         let response = try await apiClient.request(RadioHostChartsPopularRequest())
+        return response.data.list
+    }
+
+    // MARK: - Radios
+    func fetchRadioChartsPopular() async throws -> [RadioChart] {
+        let response = try await apiClient.request(RadioChartsRequest(type: .hot))
+        return response.toplist
+    }
+
+    func fetchRadioChartsNewComer() async throws -> [RadioChart] {
+        let response = try await apiClient.request(RadioChartsRequest(type: .new))
+        return response.toplist
+    }
+
+    func fetchRadioChartsPaid() async throws -> [RadioPaidChart] {
+        let response = try await apiClient.request(RadioChartsPaidRequest())
         return response.data.list
     }
 }
