@@ -13,9 +13,9 @@ final class RadioHostChartsViewModel: ObservableObject {
             state = cachedStates[selectedType] ?? .idle
         }
     }
-    @Published private(set) var state: Loadable<[RadioHost]> = .idle
+    @Published private(set) var state: Loadable<[RadioHostChart]> = .idle
 
-    private var cachedStates: [RadioHostChartType: Loadable<[RadioHost]>] = [:]
+    private var cachedStates: [RadioHostChartType: Loadable<[RadioHostChart]>] = [:]
     private let repository: RadiosRepositoryProtocol
 
     init(repository: RadiosRepositoryProtocol = RadiosRepository()) {
@@ -48,7 +48,7 @@ final class RadioHostChartsViewModel: ObservableObject {
 }
 
 private extension RadioHostChartsViewModel {
-    func fetchHosts(for type: RadioHostChartType) async throws -> [RadioHost] {
+    func fetchHosts(for type: RadioHostChartType) async throws -> [RadioHostChart] {
         switch type {
         case .daily:
             try await repository.fetchRadioHostChartsDaily()

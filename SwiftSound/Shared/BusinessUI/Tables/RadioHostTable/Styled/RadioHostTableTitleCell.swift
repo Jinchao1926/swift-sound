@@ -47,17 +47,17 @@ private enum Layout {
 #Preview {
     VStack {
         RadioHostTableTitleCell(
-            imageURL: RadioHost.preview.imageURL,
-            title: RadioHost.preview.nickName,
-            rankingInfo: RadioHost.preview,
-            avatarDetail: RadioHost.preview.avatarDetail
+            imageURL: RadioHostChart.preview.imageURL,
+            title: RadioHostChart.preview.nickName,
+            rankingInfo: RadioHostChart.preview,
+            avatarDetail: RadioHostChart.preview.avatarDetail
         )
 
         RadioHostTableTitleCell(
-            imageURL: RadioHost.preview1.imageURL,
-            title: RadioHost.preview1.nickName,
-            rankingInfo: RadioHost.preview1,
-            avatarDetail: RadioHost.preview1.avatarDetail
+            imageURL: RadioHostChart.preview1.imageURL,
+            title: RadioHostChart.preview1.nickName,
+            rankingInfo: RadioHostChart.preview1,
+            avatarDetail: RadioHostChart.preview1.avatarDetail
         )
     }
     .padding()

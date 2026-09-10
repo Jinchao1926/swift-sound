@@ -9,8 +9,8 @@ import Foundation
 
 #if DEBUG
 // swiftlint:disable line_length
-extension RadioHost {
-    static let preview = RadioHost(
+extension RadioHostChart {
+    static let preview = RadioHostChart(
         id: 45218094,
         rank: 1,
         lastRank: -1,
@@ -25,7 +25,7 @@ extension RadioHost {
         userFollowedCount: 191641
     )
 
-    static let preview1 = RadioHost(
+    static let preview1 = RadioHostChart(
         id: 287921940,
         rank: 2,
         lastRank: -1,

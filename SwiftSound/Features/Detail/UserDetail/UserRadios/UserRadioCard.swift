@@ -28,8 +28,8 @@ struct UserRadioCard: View {
             .aspectRatio(1, contentMode: .fit)
             .frame(maxWidth: .infinity)
             .overlay(alignment: .topTrailing) {
-                if radio.playCount > 0 {
-                    PlayCountBadge(count: radio.playCount, fontSize: 14)
+                if let playCount = radio.playCount, playCount > 0 {
+                    PlayCountBadge(count: playCount, fontSize: 14)
                         .padding(Layout.coverOverlayInset)
                 }
             }

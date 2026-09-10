@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RadioHostTable: View {
-    let hosts: [RadioHost]
+    let hosts: [RadioHostChart]
 
     var body: some View {
         DataTable(

@@ -22,6 +22,12 @@ struct RadioPodcastChartsSection: View {
                     }
                 }
             }
+
+            RadioTable(radios: viewModel.state.items)
+                .loadable(state: viewModel.state)
+        }
+        .task(id: viewModel.selectedType) {
+            await viewModel.load()
         }
     }
 }
