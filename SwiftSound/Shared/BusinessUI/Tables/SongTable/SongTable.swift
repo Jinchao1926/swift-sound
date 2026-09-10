@@ -73,12 +73,13 @@ private extension SongTable {
         }
     }
 
-    func handleTitleAction(_ action: SongTableAction, song: Song) {
+    func handleTitleAction(_ action: MusicTableRowAction, song: Song) {
         switch action {
         case .addToPlaylist:
             playerStore.send(.appendToQueue(song))
-
         case .download, .comment, .more:
+            break
+        default:
             break
         }
     }

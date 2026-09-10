@@ -10,7 +10,7 @@ import SwiftUI
 struct PlaylistTableTitleCell: View {
     let row: PlaylistTableRow
     let rowState: MusicTableRowState
-    let onAction: (PlaylistTableAction) -> Void
+    let onAction: (MusicTableRowAction) -> Void
 
     var body: some View {
         MusicTableTitleCell(
@@ -19,7 +19,7 @@ struct PlaylistTableTitleCell: View {
             rowState: rowState
         ) {
             MusicTableActionView(
-                items: PlaylistTableAction.items,
+                items: [.subscribe, .more],
                 onAction: onAction
             )
         }

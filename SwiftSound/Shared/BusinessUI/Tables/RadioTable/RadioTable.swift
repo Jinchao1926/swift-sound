@@ -65,9 +65,11 @@ private extension RadioTable {
 //        }
     }
 
-    func handleTitleAction(_ action: PlaylistTableAction, radio: any RadioProviding) {
+    func handleTitleAction(_ action: MusicTableRowAction, radio: any RadioProviding) {
         switch action {
-        case .favorite, .more:
+        case .subscribe, .more:
+            break
+        default:
             break
         }
     }
