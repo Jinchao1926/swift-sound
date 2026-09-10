@@ -154,14 +154,20 @@ struct Radio: Decodable, RadioProviding {
     let lastProgramId: Int?
     let lastProgramName: String?
     let lastProgramCreateTime: Int?
-    let programCount: Int?
-    let subCount: Int?
-    let playCount: Int?
+    let programCount: Int
+    let subCount: Int
+    let playCount: Int
     let shareCount: Int?
     let likedCount: Int?
     let commentCount: Int?
     let dj: User
+}
 
+extension Radio {
     var creatorID: Int? { dj.userId }
     var creatorName: String { dj.nickname }
+    
+    func getRecommendText() -> String? { rcmdtext }
+    func getProgramCount() -> Int? { programCount }
+    func getPlayCount() -> Int? { playCount }
 }

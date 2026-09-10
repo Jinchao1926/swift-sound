@@ -7,17 +7,49 @@
 
 import SwiftUI
 
-struct MusicTableActionItem<Action: Hashable>: Identifiable {
-    let action: Action
-    let systemName: String
-    let title: String
+enum MusicTableRowAction: Hashable, Identifiable {
+    case subscribe
+    case download
+    case addToPlaylist
+    case comment
+    case more
 
-    var id: Action { action }
+    var id: Self { self }
+
+    var systemName: String {
+        switch self {
+        case .subscribe:
+            "plus.square"
+        case .download:
+            "arrow.down.circle"
+        case .addToPlaylist:
+            "plus.square"
+        case .comment:
+            "text.bubble"
+        case .more:
+            "ellipsis"
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .subscribe:
+            "收藏"
+        case .download:
+            "下载"
+        case .addToPlaylist:
+            "收藏"
+        case .comment:
+            "评论"
+        case .more:
+            "更多"
+        }
+    }
 }
 
-struct MusicTableActionView<Action: Hashable>: View {
-    let items: [MusicTableActionItem<Action>]
-    let onAction: (Action) -> Void
+struct MusicTableActionView: View {
+    let items: [MusicTableRowAction]
+    let onAction: (MusicTableRowAction) -> Void
 
     var body: some View {
         HStack(spacing: Layout.actionSpacing) {
@@ -27,7 +59,7 @@ struct MusicTableActionView<Action: Hashable>: View {
                     font: .font16,
                     size: Layout.actionSize
                 ) {
-                    onAction(item.action)
+                    onAction(item)
                 }
                 .help(item.title)
                 .accessibilityLabel(item.title)

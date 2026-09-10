@@ -23,11 +23,11 @@ struct RadioTableRow: MusicTableRow {
     var id: Int { radio.id }
     var imageURL: URL? { radio.imageURL }
     var title: String { radio.name }
-    var subtitle: String? { radio.rcmdtext }
+    var subtitle: String? { radio.getRecommendText() }
 
     var creatorID: Int? { radio.creatorID }
     var creatorName: String { radio.creatorName }
 
-    var programCount: String? { radio.programCount?.formattedCount() }
-    var playCount: String? { radio.playCount?.formattedCount() }
+    var programCount: String? { radio.getProgramCount()?.formattedCount() }
+    var playCount: String? { radio.getPlayCount()?.formattedCount() }
 }

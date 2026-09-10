@@ -17,15 +17,21 @@ struct RadioChart: Decodable, RadioProviding, RankingInfoProviding {
     let categoryId: Int
     let category: String
     let programCount: Int?
-    let subCount: Int?
-    let playCount: Int?
+    let subCount: Int
+    let playCount: Int
     let dj: User
     let lastRank: Int
     let rank: Int
     let score: Int
+}
 
+extension RadioChart {
     var creatorID: Int? { dj.userId }
     var creatorName: String { dj.nickname }
+
+    func getRecommendText() -> String? { rcmdtext }
+    func getProgramCount() -> Int? { programCount }
+    func getPlayCount() -> Int? { playCount }
 }
 
 // MARK: - RadioPaidChart
@@ -38,12 +44,12 @@ struct RadioPaidChart: Decodable, RadioProviding, RankingInfoProviding {
     let rank: Int
     let score: Int
 }
+
 extension RadioPaidChart {
-    var rcmdtext: String? { nil }
-    var programCount: Int? { nil }
-    var subCount: Int? { nil }
-    var playCount: Int? { nil }
     var creatorID: Int? { nil }
+    func getRecommendText() -> String? { nil }
+    func getProgramCount() -> Int? { nil }
+    func getPlayCount() -> Int? { nil }
 }
 
 extension RadioPaidChart {

@@ -54,9 +54,11 @@ private extension PlaylistTable {
         }
     }
 
-    func handleTitleAction(_ action: PlaylistTableAction, playlist: Playlist) {
+    func handleTitleAction(_ action: MusicTableRowAction, playlist: Playlist) {
         switch action {
-        case .favorite, .more:
+        case .subscribe, .more:
+            break
+        default:
             break
         }
     }
