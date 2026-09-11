@@ -31,6 +31,47 @@ extension Radio {
         commentCount: nil,
         dj: .official
     )
+
+    static let preview1 = Radio(
+        id: 793386477,
+        name: "我想治愈你｜温柔晚安电台",
+        rcmdtext: "用最温柔的声音为你讲睡前情话",
+        picUrl: "https://p2.music.126.net/w_iwuVQOQBxwltgxrp4Vlg==/109951173191013974.jpg",
+        desc: "百万人喜欢听的温柔御姐音~ 每晚伴你入眠~（喜欢记得:收藏 评论 转发和留言噢~~~）",
+        createTime: 1561393821511,
+        categoryId: 3,
+        category: "情感",
+        secondCategory: "情感故事",
+        lastProgramId: 3718933070,
+        lastProgramName: "【R&B岁月鸟瞰】全局视角聊聊华语R&B发展历程",
+        lastProgramCreateTime: 1786971600000,
+        programCount: 2,
+        subCount: 8241,
+        playCount: 0,
+        shareCount: 30,
+        likedCount: 0,
+        commentCount: 301,
+        dj: .init(
+            userId: 330227947,
+            nickname: "夏治愈428",
+            gender: .female,
+            avatarUrl: "http://p1.music.126.net/bQqTofOZzTW500C69oIzvA==/109951172522315457.jpg",
+            avatarDetail: .init(
+                identityLevel: 3,
+                identityIconUrl: "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4761340168/ccce/35dd/ab2d/1a7c8ee0f6bb1fc2760cbb570dfee34f.png"
+            ),
+            description: "",
+            signature: "温柔治愈女声  资深电台主播  商业🌍：xwt3156628248",
+            vipType: 11,
+            province: 440000,
+            city: 440300,
+            followeds: nil,
+            follows: nil,
+            playlistCount: nil,
+            eventCount: nil,
+            artistId: nil
+        )
+    )
 }
 // swiftlint:enable line_length
 

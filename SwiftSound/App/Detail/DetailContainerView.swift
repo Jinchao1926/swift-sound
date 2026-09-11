@@ -70,8 +70,8 @@ struct DetailContainerView: View {
             UserDetailPage(id: id, route: secondary)
         case .mv(let id):
             MVDetailPage(id: id)
-        case .radio(let id):
-            RadioDetailPage(id: id)
+        case .radio(let id, let secondary):
+            RadioDetailPage(id: id, route: secondary)
         // Settings
         case .setting:
             SettingPage()
