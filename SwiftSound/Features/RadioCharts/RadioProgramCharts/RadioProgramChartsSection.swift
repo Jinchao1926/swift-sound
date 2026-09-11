@@ -22,6 +22,19 @@ struct RadioProgramChartsSection: View {
                     }
                 }
             }
+            .padding(.horizontal, Layout.horizontalInset)
+
+            ScrollView {
+                ProgramTable(programs: viewModel.state.items.compactMap { $0.program })
+                    .loadable(state: viewModel.state)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, Layout.horizontalInset)
+                    .padding(.bottom, Layout.bottomInset)
+            }
+            .scrollIndicatorOverlay()
+        }
+        .task(id: viewModel.selectedType) {
+            await viewModel.load()
         }
     }
 }
@@ -30,6 +43,8 @@ private extension RadioProgramChartsSection {
     enum Layout {
         static let filterSpacing: CGFloat = 12
         static let spacing: CGFloat = 20
+        static let bottomInset: CGFloat = 30
+        static let horizontalInset: CGFloat = 40
     }
 }
 

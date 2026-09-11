@@ -160,12 +160,12 @@ struct Radio: Decodable, RadioProviding {
     let shareCount: Int?
     let likedCount: Int?
     let commentCount: Int?
-    let dj: User
+    let dj: User?
 }
 
 extension Radio {
-    var creatorID: Int? { dj.userId }
-    var creatorName: String { dj.nickname }
+    var creatorID: Int? { dj?.userId }
+    var creatorName: String { dj?.nickname ?? "" }
 
     func getRecommendText() -> String? { rcmdtext }
     func getProgramCount() -> Int? { programCount }

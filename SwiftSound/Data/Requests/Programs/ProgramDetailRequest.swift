@@ -8,7 +8,7 @@
 import Foundation
 
 struct ProgramDetailResponse: nonisolated Decodable {
-    let program: Program
+    let program: ProgramDetail
     let code: Int
 }
 
