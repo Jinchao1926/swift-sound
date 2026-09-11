@@ -24,6 +24,7 @@ struct RadioTableRow: MusicTableRow {
     var imageURL: URL? { radio.imageURL }
     var title: String { radio.name }
     var subtitle: String? { radio.getRecommendText() }
+    var rankingInfo: (any RankingInfoProviding)? { radio as? any RankingInfoProviding }
 
     var creatorID: Int? { radio.creatorID }
     var creatorName: String { radio.creatorName }

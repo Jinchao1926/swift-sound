@@ -7,13 +7,18 @@
 
 import SwiftUI
 
-protocol MusicTableRow: Identifiable {
-    var playbackStatus: MusicTablePlaybackStatus { get }
-}
-
 enum MusicTablePlaybackAction {
     case play
     case pause
+}
+
+protocol MusicTableRow: Identifiable {
+    var playbackStatus: MusicTablePlaybackStatus { get }
+    var rankingInfo: (any RankingInfoProviding)? { get }
+}
+
+extension MusicTableRow {
+    var rankingInfo: (any RankingInfoProviding)? { nil }
 }
 
 struct MusicTable<Row: MusicTableRow>: View where Row.ID: Hashable {
@@ -54,11 +59,10 @@ private extension MusicTable {
             content: { row, context in
                 MusicTableIndexCell(
                     index: context.rowNumber,
-                    rowState: row.rowState(in: context)
+                    rowState: row.rowState(in: context),
+                    rankingInfo: row.rankingInfo
                 ) {
-                    let action: MusicTablePlaybackAction = row.playbackStatus.isPlaying
-                    ? .pause
-                    : .play
+                    let action: MusicTablePlaybackAction = row.playbackStatus.isPlaying ? .pause : .play
                     onPlaybackAction(action, row)
                 }
             }

@@ -33,4 +33,18 @@ extension Radio {
     )
 }
 // swiftlint:enable line_length
+
+struct RankingPreview: RankingInfoProviding {
+    var id: Int
+    var lastRank: Int
+    var rank: Int
+    var score: Int
+}
+
+extension RankingPreview {
+    static let new = RankingPreview(id: 1, lastRank: -1, rank: 1, score: 0)
+    static let down = RankingPreview(id: 2, lastRank: 1, rank: 2, score: 0)
+    static let up = RankingPreview(id: 3, lastRank: 4, rank: 2, score: 0)
+    static let unchange = RankingPreview(id: 4, lastRank: 3, rank: 3, score: 0)
+}
 #endif

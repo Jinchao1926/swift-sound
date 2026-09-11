@@ -166,7 +166,7 @@ struct Radio: Decodable, RadioProviding {
 extension Radio {
     var creatorID: Int? { dj.userId }
     var creatorName: String { dj.nickname }
-    
+
     func getRecommendText() -> String? { rcmdtext }
     func getProgramCount() -> Int? { programCount }
     func getPlayCount() -> Int? { playCount }
