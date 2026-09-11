@@ -2,7 +2,7 @@
 //  RadioTable.swift
 //  SwiftSound
 //
-//  Created by Jinchao Lin on 2026/9109.
+//  Created by Jinchao Lin on 2026/9/10.
 //
 
 import SwiftUI
@@ -77,21 +77,6 @@ private extension RadioTable {
 
 // MARK: - Columns
 private extension RadioTable {
-//    var indexColumn: DataTableColumn<RadioTableRow> {
-//        DataTableColumn(
-//            id: "index",
-//            title: "#",
-//            width: .fixed(Layout.indexWidth),
-//            alignment: .center,
-//            content: { row, context in
-//                RadioHostIndexCell(
-//                    index: context.rowNumber,
-//                    rankingInfo: row.host
-//                )
-//            }
-//        )
-//    }
-
     var titleColumn: DataTableColumn<RadioTableRow> {
         DataTableColumn(
             id: "title",
@@ -163,7 +148,6 @@ private extension RadioTable {
 // MARK: - Layout
 private extension RadioTable {
     enum Layout {
-        static let indexWidth: CGFloat = 54
         static let titleMinWidth: CGFloat = 160
         static let creatorWidth: CGFloat = 120
         static let programCountWidth: CGFloat = 100

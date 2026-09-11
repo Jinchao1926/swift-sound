@@ -15,9 +15,9 @@ final class RadioChartsViewModel: ObservableObject {
     let podcastViewModel: RadioPodcastChartsViewModel
     let hostViewModel: RadioHostChartsViewModel
 
-    init(repository: RadiosRepositoryProtocol = RadiosRepository()) {
-        programViewModel = RadioProgramChartsViewModel(repository: repository)
-        podcastViewModel = RadioPodcastChartsViewModel(repository: repository)
-        hostViewModel = RadioHostChartsViewModel(repository: repository)
+    init() {
+        programViewModel = RadioProgramChartsViewModel()
+        podcastViewModel = RadioPodcastChartsViewModel()
+        hostViewModel = RadioHostChartsViewModel()
     }
 }

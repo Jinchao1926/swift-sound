@@ -22,9 +22,16 @@ struct RadioHostChartsSection: View {
                     }
                 }
             }
+            .padding(.horizontal, Layout.horizontalInset)
 
-            RadioHostTable(hosts: viewModel.state.items)
-                .loadable(state: viewModel.state)
+            ScrollView {
+                RadioHostTable(hosts: viewModel.state.items)
+                    .loadable(state: viewModel.state)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, Layout.horizontalInset)
+                    .padding(.bottom, Layout.bottomInset)
+            }
+            .scrollIndicatorOverlay()
         }
         .task(id: viewModel.selectedType) {
             await viewModel.load()
@@ -36,6 +43,8 @@ private extension RadioHostChartsSection {
     enum Layout {
         static let spacing: CGFloat = 12
         static let sectionSpacing: CGFloat = 20
+        static let bottomInset: CGFloat = 30
+        static let horizontalInset: CGFloat = 40
     }
 }
 

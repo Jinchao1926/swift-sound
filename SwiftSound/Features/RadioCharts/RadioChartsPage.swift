@@ -21,13 +21,8 @@ struct RadioChartsPage: View {
             }
             .padding(.horizontal, Layout.horizontalInset)
 
-            ScrollView {
-                content
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, Layout.horizontalInset)
-                    .padding(.bottom, Layout.bottomInset)
-            }
-            .scrollIndicatorOverlay()
+            content
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
         .padding(.top, Layout.topInset)
     }
@@ -48,7 +43,6 @@ struct RadioChartsPage: View {
 private extension RadioChartsPage {
     enum Layout {
         static let topInset: CGFloat = 8
-        static let bottomInset: CGFloat = 30
         static let horizontalInset: CGFloat = 40
         static let sectionSpacing: CGFloat = 20
     }
