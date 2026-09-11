@@ -28,7 +28,7 @@ enum AppRoute: Identifiable, Hashable, Equatable {
     case playlist(id: Int, secondary: PlaylistRoute = .songs)
     case user(id: Int, secondary: UserRoute = .playlists)
     case mv(id: Int)
-    case radio(id: Int)
+    case radio(id: Int, secondary: RadioRoute = .programs)
     // Settings
     case setting
 
@@ -42,7 +42,7 @@ enum AppRoute: Identifiable, Hashable, Equatable {
              .playlist(let id, _),
              .user(let id, _),
              .mv(let id),
-             .radio(let id):
+             .radio(let id, _):
             return id != 0
         default:
             return true
@@ -109,6 +109,8 @@ extension AppRoute {
             return .playlist(id: id)
         case .user(let id, _):
             return .user(id: id)
+        case .radio(let id, _):
+            return .radio(id: id)
         default:
             return self
         }

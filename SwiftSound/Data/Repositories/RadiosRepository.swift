@@ -20,6 +20,9 @@ protocol RadiosRepositoryProtocol {
     func fetchRadioChartsPopular() async throws -> [RadioChart]
     func fetchRadioChartsNewComer() async throws -> [RadioChart]
     func fetchRadioChartsPaid() async throws -> [RadioPaidChart]
+
+    // MARK: - Radio Detail
+    func fetchRadioDetail(id: Int) async throws -> Radio
 }
 
 struct RadiosRepository: RadiosRepositoryProtocol {
@@ -65,5 +68,11 @@ struct RadiosRepository: RadiosRepositoryProtocol {
     func fetchRadioChartsPaid() async throws -> [RadioPaidChart] {
         let response = try await apiClient.request(RadioChartsPaidRequest())
         return response.data.list
+    }
+
+    // MARK: - Radio Detail
+    func fetchRadioDetail(id: Int) async throws -> Radio {
+        let response = try await apiClient.request(RadioDetailRequest(id: id))
+        return response.data
     }
 }
