@@ -14,7 +14,7 @@ protocol RadioProviding: Identifiable {
     var picUrl: String { get }
     var creatorID: Int? { get }
     var creatorName: String { get }
-    
+
     func getRecommendText() -> String?
     func getProgramCount() -> Int?
     func getPlayCount() -> Int?
