@@ -29,6 +29,7 @@ struct ProgramTableRow: MusicTableRow {
     var radio: Radio { program.radio }
 
     var playCount: String { program.listenerCount.formattedCount(threshold: .tenThousand) }
+    var updateDateText: String { program.createTime.formattedMillisecondsYearMonthDay() }
     var durationText: String {
         let seconds = max(program.duration / 1000, 0)
         return String(format: "%02d:%02d", seconds / 60, seconds % 60)

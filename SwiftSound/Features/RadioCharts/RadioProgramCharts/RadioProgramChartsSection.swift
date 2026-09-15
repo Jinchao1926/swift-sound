@@ -25,7 +25,7 @@ struct RadioProgramChartsSection: View {
             .padding(.horizontal, Layout.horizontalInset)
 
             ScrollView {
-                ProgramTable(programs: viewModel.state.items.compactMap { $0.program })
+                ProgramChartTable(charts: viewModel.state.items)
                     .loadable(state: viewModel.state)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, Layout.horizontalInset)

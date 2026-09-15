@@ -30,6 +30,7 @@ struct DataTableColumn<Row>: Identifiable {
     let alignment: Alignment
     let visibility: DataTableColumnVisibility
     let sortComparator: ((Row, Row) -> ComparisonResult)?
+    let onSort: ((DataTableSortOrder?) -> Void)?
     let content: (Row, DataTableRowContext) -> AnyView
 
     init<Content: View>(
@@ -39,6 +40,7 @@ struct DataTableColumn<Row>: Identifiable {
         alignment: Alignment = .leading,
         visibility: DataTableColumnVisibility = .always,
         sortComparator: ((Row, Row) -> ComparisonResult)? = nil,
+        onSort: ((DataTableSortOrder?) -> Void)? = nil,
         @ViewBuilder content: @escaping (Row, DataTableRowContext) -> Content
     ) {
         self.id = id
@@ -47,10 +49,11 @@ struct DataTableColumn<Row>: Identifiable {
         self.alignment = alignment
         self.visibility = visibility
         self.sortComparator = sortComparator
+        self.onSort = onSort
         self.content = { row, context in AnyView(content(row, context)) }
     }
 
-    var isSortable: Bool { sortComparator != nil }
+    var isSortable: Bool { sortComparator != nil || onSort != nil }
 
     func isVisible(context: DataTableRowContext) -> Bool {
         switch visibility {

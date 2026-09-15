@@ -29,6 +29,7 @@ struct DataTableSortState {
             order = nil
         }
     }
+
 }
 
 enum DataTableSortOrder {

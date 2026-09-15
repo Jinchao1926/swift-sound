@@ -10,14 +10,15 @@ import Combine
 
 final class RadioDetailViewModel: ObservableObject {
     @Published private(set) var state: Loadable<Radio> = .idle
-    @Published var songSearchText = ""
 
     private let id: Int
     private let repository: RadiosRepositoryProtocol
+    let programsViewModel: RadioProgramsViewModel
 
     init(id: Int, repository: RadiosRepositoryProtocol = RadiosRepository()) {
         self.id = id
         self.repository = repository
+        self.programsViewModel = RadioProgramsViewModel(id: id, repository: repository)
     }
 
     func load() async {
