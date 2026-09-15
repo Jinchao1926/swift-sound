@@ -23,6 +23,18 @@ protocol RadiosRepositoryProtocol {
 
     // MARK: - Radio Detail
     func fetchRadioDetail(id: Int) async throws -> Radio
+    func fetchRadioPrograms(id: Int, offset: Int, limit: Int, asc: Bool) async throws -> RadioProgramsResponse
+}
+
+extension RadiosRepositoryProtocol {
+    func fetchRadioPrograms(
+        id: Int,
+        offset: Int = 0,
+        limit: Int = 100,
+        asc: Bool = false
+    ) async throws -> RadioProgramsResponse {
+        try await fetchRadioPrograms(id: id, offset: offset, limit: limit, asc: asc)
+    }
 }
 
 struct RadiosRepository: RadiosRepositoryProtocol {
@@ -74,5 +86,16 @@ struct RadiosRepository: RadiosRepositoryProtocol {
     func fetchRadioDetail(id: Int) async throws -> Radio {
         let response = try await apiClient.request(RadioDetailRequest(id: id))
         return response.data
+    }
+
+    func fetchRadioPrograms(
+        id: Int,
+        offset: Int = 0,
+        limit: Int = 100,
+        asc: Bool = false
+    ) async throws -> RadioProgramsResponse {
+        try await apiClient.request(
+            RadioProgramsRequest(id: id, offset: offset, limit: limit, asc: asc)
+        )
     }
 }

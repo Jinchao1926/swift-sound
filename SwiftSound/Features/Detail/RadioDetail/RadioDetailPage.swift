@@ -41,6 +41,7 @@ struct RadioDetailPage: View {
                 content(for: route)
             }
             .padding(.horizontal, Layout.horizontalInset)
+            .padding(.bottom, Layout.bottomInset)
         }
         .scrollIndicatorOverlay()
         .task {
@@ -52,7 +53,7 @@ struct RadioDetailPage: View {
     private func content(for route: RadioRoute) -> some View {
         switch route {
         case .programs:
-            RadioProgramsPage()
+            RadioProgramsPage(viewModel: viewModel.programsViewModel)
         case .comments:
             RadioCommentsPage()
         }
@@ -61,7 +62,12 @@ struct RadioDetailPage: View {
     @ViewBuilder
     private func tabTrailingSlot(for route: RadioRoute) -> some View {
         if route == .programs {
-            SearchBar(text: $viewModel.songSearchText)
+            SearchBar(
+                text: Binding(
+                    get: { viewModel.programsViewModel.searchText },
+                    set: { viewModel.programsViewModel.searchText = $0 }
+                )
+            )
         }
     }
 
@@ -79,6 +85,7 @@ private extension RadioDetailPage {
     enum Layout {
         static let spacing: CGFloat = 10
         static let horizontalInset: CGFloat = 40
+        static let bottomInset: CGFloat = 40
     }
 }
 

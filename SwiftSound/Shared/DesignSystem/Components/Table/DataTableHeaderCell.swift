@@ -18,6 +18,7 @@ struct DataTableHeaderCell<Row: Identifiable>: View {
         Button {
             guard column.isSortable else { return }
             sortState.cycle(columnID: column.id)
+            column.onSort?(sortState.order)
         } label: {
             headerContent
             .font(.font13)
