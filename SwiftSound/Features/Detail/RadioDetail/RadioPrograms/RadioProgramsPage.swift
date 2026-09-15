@@ -15,10 +15,10 @@ struct RadioProgramsPage: View {
             ProgramTable(
                 programs: viewModel.programs,
                 onSortChange: { ascending in
-                    Task { await viewModel.updateSort(ascending: ascending) }
+                    Task { await viewModel.updateSort(asc: ascending) }
                 }
             )
-                .loadable(state: viewModel.state)
+            .loadable(state: viewModel.state)
 
             if viewModel.pageCount > 1 {
                 PaginationControl(
@@ -45,7 +45,6 @@ private extension RadioProgramsPage {
         static let paginationSpacing: CGFloat = 6
     }
 }
-
 
 #Preview {
     RadioProgramsPage(viewModel: RadioProgramsViewModel(id: Radio.preview1.id))

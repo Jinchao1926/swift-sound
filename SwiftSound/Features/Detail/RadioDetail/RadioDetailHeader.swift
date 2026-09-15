@@ -10,7 +10,7 @@ import SwiftUI
 struct RadioDetailHeader: View {
     let radio: Radio?
     let onPlayAll: () -> Void
-    
+
     var body: some View {
         HStack(spacing: Layout.spacing) {
             RemoteImage(url: radio?.imageURL)

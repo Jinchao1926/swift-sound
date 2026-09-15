@@ -62,7 +62,7 @@ final class RadioProgramsViewModel: ObservableObject {
         let previousPage = currentPage
         let previousValue = state.value
         currentPage = page
-        state = .loading(previousValue)
+        state = .loading()
 
         do {
             let response = try await repository.fetchRadioPrograms(
@@ -81,9 +81,9 @@ final class RadioProgramsViewModel: ObservableObject {
         }
     }
 
-    func updateSort(ascending: Bool) async {
-        guard ascending != self.ascending else { return }
-        self.ascending = ascending
+    func updateSort(asc: Bool) async {
+        guard asc != ascending else { return }
+        ascending = asc
         pages.removeAll()
         currentPage = 1
         state = .idle

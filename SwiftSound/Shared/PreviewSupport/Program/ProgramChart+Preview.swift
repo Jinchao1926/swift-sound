@@ -8,7 +8,6 @@
 import Foundation
 
 #if DEBUG
-// swiftlint:disable line_length
 extension ProgramChart {
     static let preview = ProgramChart(
         program: .preview,
@@ -18,5 +17,4 @@ extension ProgramChart {
         score: 0
     )
 }
-// swiftlint:enable line_length
 #endif
